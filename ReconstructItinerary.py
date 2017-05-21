@@ -32,7 +32,8 @@ class Solution(object):
     def findItinerary(self, tickets):
         targets = collections.defaultdict(list)
         for a, b in sorted(tickets)[::-1]:
-            targets[a] += b,
+            #targets[a] += b,
+            targets[a].append(b)
         for t in targets:
             print t, targets[t]
         route = []
