@@ -18,6 +18,12 @@ X O X X
 from queue import Queue
 
 class Solution(object):
+    
+#    def isvalid(self, i, j, board, processed, target):
+#        if i>=0 and i<len(board) and j>=0 and j<len(board[0]):
+#            print 'isvalid: ', i, j, board[i][j], processed[i][j] 
+#        return i>=0 and i<len(board) and j>=0 and j<len(board[0]) and board[i][j] == target and (not processed[i][j])
+        
     def solve(self, board, x, y, replacement):
         """
         :type board: List[List[str]]
@@ -25,24 +31,28 @@ class Solution(object):
         """
         if not board or not board[0]:
             return
-        process = [False]*len(board[0])
-        processed = [process]*len(board)
-        def isvalid(x, y, target):
-            return x>=0 and x<len(board) and y>=0 and y<len(board[0]) and board[x][y] == target and not processed[x][y] 
+        process = [False for l in board[0]]
+        processed = [process[:] for l in board]        
         row = [ -1, -1, -1,  0, 0,  1, 1, 1]
         col = [ -1,  0,  1, -1, 1, -1, 0, 1]
-        q = Queue(len(board)*len(board[0]))    
-        print 'queue size: ', len(board)*len(board[0])
+        q = Queue(len(board)*len(board[0]))           
         target = board[x][y]
         q.enqueue((x,y))
+        print 'target = ', target        
+        processed[x][y] = True        
         while(not q.isEmpty()):
-            (x1, y1) = q.dequeue()
-            processed[x1][y1] = True
+            (x1, y1) = q.dequeue()            
             board[x1][y1] = replacement
             for r,c in zip(row,col):
-                print r,c,len(q)
-                if isvalid(x1+r,y1+c,target):
-                    q.enqueue((x1+r,y1+c))
+                #print r,c,len(q)
+                #if isvalid(self, x1+r,y1+c, board, processed, target):                    
+                i=x1+r
+                j=y1+c
+                if i>=0 and i<len(board) and j>=0 and j<len(board[0]) and board[i][j] == target and (not processed[i][j]):        
+                    q.enqueue((i,j))
+                   # print r,c, i, j, board[i][j], processed[i][j], len(q)
+                    processed[i][j] = True
+                    
         return
 
 if __name__ == "__main__":
