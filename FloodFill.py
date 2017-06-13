@@ -23,8 +23,10 @@ class Solution(object):
 #        if i>=0 and i<len(board) and j>=0 and j<len(board[0]):
 #            print 'isvalid: ', i, j, board[i][j], processed[i][j] 
 #        return i>=0 and i<len(board) and j>=0 and j<len(board[0]) and board[i][j] == target and (not processed[i][j])
+    row = [ -1, -1, -1,  0, 0,  1, 1, 1]
+    col = [ -1,  0,  1, -1, 1, -1, 0, 1]
         
-    def solve(self, board, x, y, replacement):
+    def BFS(self, board, x, y, replacement):
         """
         :type board: List[List[str]]
         :rtype: void Do not return anything, modify board in-place instead.
@@ -33,8 +35,6 @@ class Solution(object):
             return
         process = [False for l in board[0]]
         processed = [process[:] for l in board]        
-        row = [ -1, -1, -1,  0, 0,  1, 1, 1]
-        col = [ -1,  0,  1, -1, 1, -1, 0, 1]
         q = Queue(len(board)*len(board[0]))           
         target = board[x][y]
         q.enqueue((x,y))
@@ -43,7 +43,7 @@ class Solution(object):
         while(not q.isEmpty()):
             (x1, y1) = q.dequeue()            
             board[x1][y1] = replacement
-            for r,c in zip(row,col):
+            for r,c in zip(self.row, self.col):
                 #print r,c,len(q)
                 #if isvalid(self, x1+r,y1+c, board, processed, target):                    
                 i=x1+r
@@ -53,6 +53,15 @@ class Solution(object):
                    # print r,c, i, j, board[i][j], processed[i][j], len(q)
                     processed[i][j] = True
                     
+        return
+
+    def DFS(self, board, x, y, target, replacement):
+        board[x][y] = replacement
+        for r,c in zip(self.row, self.col):
+            i=x+r
+            j=y+c
+            if i>=0 and i<len(board) and j>=0 and j<len(board[0]) and board[i][j] == target:        
+                self.DFS(board, i, j, target, replacement)
         return
 
 if __name__ == "__main__":
@@ -70,7 +79,8 @@ if __name__ == "__main__":
     ]
     for l in board:
         print l
-    Solution().solve(board, 3, 9, 'C')
+    #Solution().BFS(board, 3, 9, 'C')
+    Solution().DFS(board, 3, 9, 'X', 'C')
     print '============================='
     for l in board:
         print l
