@@ -63,6 +63,21 @@ class Solution(object):
             if i>=0 and i<len(board) and j>=0 and j<len(board[0]) and board[i][j] == target:        
                 self.DFS(board, i, j, target, replacement)
         return
+    
+    def DFSIter(self, board, x, y, target, replacement):
+        stack = []
+        #board[x][y] = replacement
+        stack.append((x,y))
+        while stack:
+            (x1, y1)=stack.pop() 
+            board[x1][y1] = replacement
+            for r,c in zip(self.row, self.col):
+                i=x1+r
+                j=y1+c
+                if i>=0 and i<len(board) and j>=0 and j<len(board[0]) and board[i][j] == target:        
+                    stack.append((i,j))
+        return        
+        
 
 if __name__ == "__main__":
     board = [
@@ -80,7 +95,8 @@ if __name__ == "__main__":
     for l in board:
         print l
     #Solution().BFS(board, 3, 9, 'C')
-    Solution().DFS(board, 3, 9, 'X', 'C')
+    #Solution().DFS(board, 3, 9, 'X', 'C')
+    Solution().DFSIter(board, 3, 9, 'X', 'C')
     print '============================='
     for l in board:
         print l
