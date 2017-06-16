@@ -16,7 +16,24 @@ class Solution(object):
         """
         if not height:
             return 0
+        lh = []
+        rh = []
+        lmax = 0
+        for h in height:
+            if h>=lmax:
+                lmax=h
+            lh.append(lmax)
+        lmax = 0
+        for h in reversed(height):
+            if h>=lmax:
+                lmax=h
+            rh.append(lmax)
+        rh.reverse()        
+        water = 0
+        for h, l, r in zip(height, lh, rh):
+            water = water + min(l, r)-h          
+        return water
 
 
 if __name__ == "__main__":
-    assert Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) == 6
+    print Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
