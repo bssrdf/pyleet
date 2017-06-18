@@ -33,7 +33,31 @@ class Solution(object):
         for h, l, r in zip(height, lh, rh):
             water = water + min(l, r)-h          
         return water
-
+        
+    def trap_o1space(self, height):
+        if not height:
+            return 0
+        leftMax = rightMax = 0
+        left = 0
+        right = len(height)-1
+        water = 0        
+        while left < right:
+            if leftMax < height[left]:
+                leftMax = height[left]
+            if rightMax < height[right]:
+                rightMax = height[right]
+            if leftMax < rightMax:
+                water = water + leftMax-height[left]
+                left = left + 1
+            else:
+                water = water + rightMax-height[right]
+                right = right - 1
+            print left, right, leftMax, rightMax, water
+        return water
+        
 
 if __name__ == "__main__":
-    print Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+#    print Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+    #print Solution().trap_o1space([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+    #print Solution().trap([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+    print Solution().trap_o1space([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
