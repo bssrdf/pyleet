@@ -12,20 +12,18 @@ class Solution:
         :type word2: str
         :rtype: int
         """
-        distance=sys.maxint
+        distance=len(words)
         idx1=idx2=-1
         for i,w in enumerate(words):
             if w==word1:
                 idx1=i
-                if idx2 != -1:
-                    distance = min(distance, abs(idx1-idx2))
             if w==word2:
-                idx2 = i
-                if idx1 != -1:
-                    distance = min(distance, abs(idx2-idx1))
+                idx2 = i                
+            if idx2 != -1 and idx1 != -1:
+                distance = min(distance, abs(idx1-idx2))
         return distance
 
 if __name__ == "__main__":
     words = ["practice", "makes", "perfect", "coding", "makes"]
     print Solution().shortestDistance(words, "practice", "coding")
-
+    print Solution().shortestDistance(words, "makes", "coding")
