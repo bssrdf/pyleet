@@ -24,12 +24,25 @@ class Solution:
         :param num: array
         :return: a list of lists of length 3, [[val1,val2,val3]]
         """
-        d1 = defaultdict(list)
-        d2 = {}
+        d1 = defaultdict(list)      
         for i, n in enumerate(num):
-            d1[n].append(i)
-        print d1
+            d1[n].append(i)        
+        res = []
+        for i, n in enumerate(num):
+            target = -1*n
+            for j, m in enumerate(num):
+                if (target - m) in d1:
+                    #if len(d1[target-m]) == 1:
+                    if d1[target-m][0] != j and j != i and d1[target-m][0] != i:
+                        c=[n, m, target-m]
+                        #print target, c
+                        c.sort()
+                        if c not in res:
+                            res.append(c)
+                    
+        return res
+
 
 if __name__ == "__main__":
-    #print Solution().threeSum([-1, 0, 1, 2, -1, -4])
-    Solution().threeSum([-1, 0, 1, 2, -1, -4])
+    #print Solution().threeSum([-1, 0, 1, 2, 3, -4])
+    print Solution().threeSum([-1, 0, 1, 2, -1, -4])
