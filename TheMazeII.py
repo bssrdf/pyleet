@@ -11,38 +11,51 @@ Created on Sun Jun 18 00:45:51 2017
 
 @author: merli
 """
-from queue import Queue
+#from queue import Queue
+from collections import deque
+from collections import defaultdict
 import sys
 
 class Solution(object):               
-    
-    def findShortestWay(self, maze, ball, hole):             
-        m,n = len(maze),len(maze[0])
-        visited = [[False for _ in xrange(n)] for _ in xrange(m)]
-        for i in xrange(m):
-            for j in xrange(n):
-                if maze[i][j] == 0:
-                    xy={}
-                    up, down, left, right = i, i, j, j
-                    while up > 0 and maze[up-1][j] != 1:
-                        up -= 1
-                    while down < len(maze)-1 and maze[down+1][j] != 1:
-                        down += 1
-                    while left > 0 and maze[i][left-1] != 1:
-                        left -= 1
-                    while right < len(maze[0])-1 and maze[i][right+1] != 1:
-                        right += 1
-                    xy['u'] = (up, j)
-                    xy['d'] = (down, j)        
-                    xy['l'] = (i, left)
-                    xy['r'] = (i, right)
-                    dmap[(i,j)] = xy
-        q = Queue(m*n) 
-        q.enqueue((ball,0,''))
-        #while not q.isEmpty():
-         #   p=q.dequeue()
             
-        return ' '
+
+    def findShortestWay(self, maze, ball, hole):
+        """
+        :type maze: List[List[int]]
+        :type ball: List[int]
+        :type hole: List[int]
+        :rtype: str
+        """
+        ball, hole = tuple(ball), tuple(hole)
+        dmap = defaultdict(lambda: defaultdict(int))
+        w, h = len(maze), len(maze[0])
+        for dir in 'dlru': dmap[hole][dir] = hole
+        for x in range(w):
+            for y in range(h):
+                if maze[x][y] or (x, y) == hole: continue
+                dmap[(x, y)]['u'] = dmap[(x - 1, y)]['u'] if x > 0 and dmap[(x - 1, y)]['u'] else (x, y)
+                dmap[(x, y)]['l'] = dmap[(x, y - 1)]['l'] if y > 0 and dmap[(x, y - 1)]['l'] else (x, y)
+        print dmap[ball]['l'],dmap[ball]['u'] 
+        for x in range(w - 1, -1, -1):
+            for y in range(h - 1, -1, -1):
+                if maze[x][y] or (x, y) == hole: continue
+                dmap[(x, y)]['d'] = dmap[(x + 1, y)]['d'] if x < w - 1 and dmap[(x + 1, y)]['d'] else (x, y)
+                dmap[(x, y)]['r'] = dmap[(x, y + 1)]['r'] if y < h - 1 and dmap[(x, y + 1)]['r'] else (x, y)
+        print dmap[ball]['r'],dmap[ball]['d'] 
+        bmap = {ball : (0, '')}
+        distance = lambda pa, pb: abs(pa[0] - pb[0]) + abs(pa[1] - pb[1])
+        queue = deque([(ball, 0, '')])
+        while queue:
+            front, dist, path = queue.popleft()
+            for dir in 'dlru':
+                if dir not in dmap[front]: continue
+                np = dmap[front][dir]
+                ndist = dist + distance(front, np)
+                npath = path + dir
+                if np not in bmap or (ndist, npath) < bmap[np]:
+                    bmap[np] = (ndist, npath)
+                    queue.append((np, ndist, npath))
+        return bmap[hole][1] if hole in bmap else 'impossible'    
         
     def findShortestWayDFS(self, maze, ball, hole):    
         m,n = len(maze),len(maze[0])
@@ -78,8 +91,8 @@ if __name__=="__main__":
            [0, 1, 0, 0, 1],
            [0, 1, 0, 0, 0],
           ]          
-    #print Solution().findShortestWay(maze, (4,3), (0,1))
-    print Solution().findShortestWayDFS(maze, (4,3), (0,1))
+    print Solution().findShortestWay(maze, (4,3), (0,1))
+    #print Solution().findShortestWayDFS(maze, (4,3), (0,1))
     #if Solution().hasPath(maze, (0,4), (4,4)):
     #if Solution().hasPath(maze, (0,4), (3,2)):
     #if Solution().hasPathBFS(maze, (0,4), (3,2)):
