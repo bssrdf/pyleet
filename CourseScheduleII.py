@@ -58,10 +58,30 @@ class Solution:
             if not dfs(x):
                 return []
         return seq[::-1]
-
-
-
+        
+    def canFinishUsingQueue(self, numCourses, prerequisites):      
+        courses = collections.defaultdict(list)
+        visited = [0 for _ in xrange(numCourses)]
+        indeg = [0 for _ in xrange(numCourses)]
+        for a, b in prerequisites:
+            courses[b].append(a)
+            indeg[a] += 1
+        print indeg
+        seq = []
+        for i in xrange(numCourses):
+            if indeg[i] == 0:
+                seq.append(i)
+        i = 0
+        while i<len(seq):
+            for c in courses[i]:
+                indeg[c] -= 1
+                if indeg[c] == 0:
+                    seq.append(c)
+            i += 1              
+        return seq
 
 if __name__ == "__main__":
     #assert Solution().canFinish(2, [[1, 0], [0, 1]]) is False
-    print Solution().canFinish(4, [[1,0],[2,0],[3,1],[3,2]])
+#    print Solution().canFinish(4, [[1,0],[2,0],[3,1],[3,2]])
+    #print Solution().canFinishUsingQueue(4, [[1,0],[2,0],[3,1],[3,2]])
+    print Solution().canFinishUsingQueue(2, [[1, 0], [0, 1]])
