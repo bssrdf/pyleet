@@ -24,7 +24,7 @@ class Solution(object):
                 dfs(i + 1, j) if i < M - 1 and val > matrix[i + 1][j] else 0,
                 dfs(i, j - 1) if j and val > matrix[i][j - 1] else 0,
                 dfs(i, j + 1) if j < N - 1 and val > matrix[i][j + 1] else 0)
-                return dp[i][j]
+            return dp[i][j]
         return max(dfs(x, y) for x in range(M) for y in range(N))
         
         
