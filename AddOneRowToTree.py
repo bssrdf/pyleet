@@ -37,8 +37,9 @@ class Solution(object):
             return nr
         else:
             q=deque()
-            q.append((root,1))
-            while q:
+            depth = 1
+            q.append((root, depth))            
+            while q and depth < d:
                 (node, depth) = q.popleft()
                 if node.left:
                     q.append((node.left, depth+1))
