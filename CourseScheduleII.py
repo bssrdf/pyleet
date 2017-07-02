@@ -72,16 +72,18 @@ class Solution:
             if indeg[i] == 0:
                 seq.append(i)
         i = 0
+        print 'seq = ', len(seq)
         while i<len(seq):
             for c in courses[i]:
                 indeg[c] -= 1
                 if indeg[c] == 0:
                     seq.append(c)
+            print i, 'seq = ', len(seq)
             i += 1              
         return seq
 
 if __name__ == "__main__":
     #assert Solution().canFinish(2, [[1, 0], [0, 1]]) is False
 #    print Solution().canFinish(4, [[1,0],[2,0],[3,1],[3,2]])
-    #print Solution().canFinishUsingQueue(4, [[1,0],[2,0],[3,1],[3,2]])
-    print Solution().canFinishUsingQueue(2, [[1, 0], [0, 1]])
+    print Solution().canFinishUsingQueue(4, [[1,0],[2,0],[3,1],[3,2]])
+    #print Solution().canFinishUsingQueue(2, [[1, 0], [0, 1]])
