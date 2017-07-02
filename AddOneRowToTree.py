@@ -14,6 +14,26 @@ class TreeNode(object):
         self.right = None
 
 class Solution(object):
+    
+    def addOneRowSP(self, root, v, d):
+        dummy, dummy.left = TreeNode(None), root
+        row = [dummy]
+        #for _ in range(d - 1):
+         #   row = [kid for node in row for kid in (node.left, node.right) if kid]
+        for _ in range(d-1):
+            row1 = []
+            for node in row:
+                for kid in (node.left, node.right):
+                    if kid:
+                        print kid.val                        
+                        row1.append(kid)
+            row = row1
+        print row
+        for node in row:
+            node.left, node.left.left = TreeNode(v), node.left
+            node.right, node.right.right = TreeNode(v), node.right
+        return dummy.left    
+    
     def maxDepth(self, root):
         """
         :type root: TreeNode
@@ -63,5 +83,6 @@ if __name__ == "__main__":
     root.right.left = TreeNode(5)
     root.left.left = TreeNode(3)
     print Solution().maxDepth(root)
-    newtree = Solution().addOneRow(root, 1, 3)
+    #newtree = Solution().addOneRow(root, 1, 3)
+    newtree = Solution().addOneRowSP(root, 1, 3)
     print Solution().maxDepth(newtree)
