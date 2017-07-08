@@ -4,6 +4,7 @@ Created on Tue Jul 04 20:52:33 2017
 
 @author: merli
 """
+import sys
 
 class Solution:
     
@@ -27,6 +28,24 @@ class Solution:
         print allCoins[::-1] 
         return minCoins[change]
         
-if __name__ == "__main__":
-    #print Solution().threeSum([-1, 0, 1, 2, 3, -4])
+    def dpMakeChangeTopDown(self, coinValueList, change):
+        minCoins = [-1]*(change+1)
+        q = self.helper(coinValueList, change, minCoins)        
+        print minCoins
+        return q
+        
+    def helper(self, cList, ch, mins):
+        if mins[ch] >= 0:
+            return mins[ch]
+        if ch == 0:
+            q = 0
+        else:
+            q = sys.maxint
+            for j in [c for c in cList if c <= ch]:
+                q = min(q, 1+self.helper(cList, ch-j, mins))
+        mins[ch] = q        
+        return q
+        
+if __name__ == "__main__":    
     print Solution().dpMakeChange([1, 5, 10, 25], 63)
+    print Solution().dpMakeChangeTopDown([1, 5, 10, 25], 63)
