@@ -19,7 +19,7 @@
 # All words have the same length.
 # All words contain only lowercase alphabetic characters.
 #
-import collections 
+from collections import deque
 # BFS
 class Solution:
     # @param start, a string
@@ -28,7 +28,7 @@ class Solution:
     # @return an integer
     def ladderLength(self, beginWord, endWord, wordList):
         wordList.add(endWord)
-        queue = collections.deque([[beginWord, 1]])
+        queue = deque([[beginWord, 1]])
         while queue:
             word, length = queue.popleft()
             print word, length
@@ -41,8 +41,39 @@ class Solution:
                         wordList.remove(next_word)
                         queue.append([next_word, length + 1])
         return 0
-       
+        
+    def ladderLengthPrep(self, beginWord, endWord, wordList):
+        
+        def construct_dict(word_list):
+            d = {}
+            for word in word_list:
+                for i in range(len(word)):
+                    s = word[:i] + "_" + word[i+1:]
+                    d[s] = d.get(s, []) + [word]
+            return d
+            
+        def bfs_words(begin, end, dict_words):
+            queue, visited = deque([(begin, 1)]), set()
+            while queue:
+                word, steps = queue.popleft()
+                if word not in visited:
+                    visited.add(word)
+                    if word == end:
+                        return steps
+                    for i in range(len(word)):
+                        s = word[:i] + "_" + word[i+1:]
+                        neigh_words = dict_words.get(s, [])
+                        for neigh in neigh_words:
+                            if neigh not in visited:
+                                queue.append((neigh, steps + 1))
+            return 0
+        
+        d = construct_dict(wordList | set([beginWord, endWord]))
+        print d
+        return bfs_words(beginWord, endWord, d)
+      
 
 if __name__ == "__main__":
     print Solution().ladderLength("hit", "cog", set(["hot", "dot", "dog", "lot", "lof", "cof"]))
     #print Solution().ladderLength("hit", "cog", set(["hot", "dot", "dog", "lot", "log", "cog"]))
+    print Solution().ladderLengthPrep("hit", "cog", set(["hot", "dot", "dog", "lot", "lof", "cof"]))
