@@ -1,0 +1,88 @@
+"""
+Given an unsorted array of integers, find the length of longest increasing subsequence.
+
+For example,
+Given [10, 9, 2, 5, 3, 7, 101, 18],
+The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4. Note that there may be more than one
+LIS combination, it is only necessary for you to return the length.
+
+Your algorithm should run in O(n2) complexity.
+
+Follow up: Could you improve it to O(n log n) time complexity?
+"""
+import bisect
+
+__author__ = 'Daniel'
+
+
+class Solution(object):
+    def lengthOfLIS_nlogn(self, A):
+        if not A:
+            return 0
+            '''
+        def binary_search(L, a):
+            if len(L) == 1:
+                if L[0] < a:
+                    return 0
+                else:
+                    return -1
+            l = 0
+            r = len(L)-1
+            while l < r:
+                mid = (l + r) / 2
+                if L[mid] < a and L[mid+1] > a:
+                    return mid
+                else :
+         '''           
+                    
+        bis=[]        
+        for a in A:        
+
+                #ind = binary_search(bis, a)
+            ind = bisect.bisect_left(bis, a)            
+            if ind == len(bis):
+                bis.append(a)
+            else:
+                if bis:
+                    bis.pop(ind)
+                bis.insert(ind, a)
+            print a, ind, bis
+        #print bis
+        return len(bis)
+                    
+            
+
+    def lengthOfLIS_dp(self, A):
+        """
+        dp
+
+        let F[i] be the LIS length ends at A[i]
+        F[i] = max(F[j]+1 for all j < i if A[i] > A[j])
+
+        avoid max() arg is an empty sequence
+
+        O(n^2)
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not A:
+            return 0
+        F=[1]*len(A)        
+        maxa = 1
+        for i in range(1, len(A)):
+            for j in range(i):
+                if A[i] > A[j] and F[i] < 1+F[j]:
+                    F[i] = 1+F[j]
+                #else:
+                 #   F[i] = 1
+            maxa = max(maxa, F[i])
+        print F
+        return maxa       
+
+if __name__ == "__main__":
+    assert Solution().lengthOfLIS_dp([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    assert Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]) == 6
+    assert Solution().lengthOfLIS_dp([2, 4, 6, 8, 10, 1]) == 5    
+    assert Solution().lengthOfLIS_nlogn([2, 4, 6, 8, 10, 1]) == 5    
+    
