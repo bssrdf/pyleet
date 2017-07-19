@@ -15,40 +15,66 @@ import bisect
 __author__ = 'Daniel'
 
 
-class Solution(object):
+class Solution(object):    
+    
+    
+    def binary_search_corr(self, L, a):
+        l = -1
+        r = len(L)
+        print l, r
+        while r-l > 1:
+            m = l+(r-l)/2
+            if L[m] >= a:
+                r = m
+            else:
+                l = m
+            print l, r, m
+        return r        
+        
+        
     def lengthOfLIS_nlogn(self, A):
         if not A:
-            return 0
-            '''
-        def binary_search(L, a):
-            if len(L) == 1:
-                if L[0] < a:
-                    return 0
+            return 0         
+            
+        def binary_search(L, T, l, r, a):
+        
+            while r-l > 1:
+                m = l+(r-l)/2
+                if L[T[m]] >= a:
+                    r = m
                 else:
-                    return -1
-            l = 0
-            r = len(L)-1
-            while l < r:
-                mid = (l + r) / 2
-                if L[mid] < a and L[mid+1] > a:
-                    return mid
-                else :
-         '''           
+                    l = m                
+            return r         
                     
-        bis=[]        
-        for a in A:        
+        bis=[0]*len(A)        
+        prev = [-1]*len(A)
+        ll = 1
+        for i in range(1, len(A)):       
 
                 #ind = binary_search(bis, a)
-            ind = bisect.bisect_left(bis, a)            
-            if ind == len(bis):
-                bis.append(a)
-            else:
-                if bis:
-                    bis.pop(ind)
-                bis.insert(ind, a)
-            print a, ind, bis
+            if A[i] < A[bis[0]]:
+                bis[0] = i # new smallest value
+            elif A[i] > A[bis[ll-1]]:
+                prev[i] = bis[ll-1]
+                bis[ll] = i
+                ll +=1
+            else:                
+                ind = binary_search(A, bis, -1, ll, A[i])            
+                prev[i] = bis[ind-1]
+                bis[ind] = i
+        for i in bis[:ll]:
+            print A[i]
+        print '******************************'
+        print prev
+        print '******************************'
+        i = bis[ll-1]
+        while i>=0:
+            print A[i]
+            i = prev[i]
+                
+           # print a, ind, bis
         #print bis
-        return len(bis)
+        return ll
                     
             
 
@@ -76,13 +102,16 @@ class Solution(object):
                 #else:
                  #   F[i] = 1
             maxa = max(maxa, F[i])
-        print F
+        #print F
         return maxa       
 
 if __name__ == "__main__":
-    assert Solution().lengthOfLIS_dp([10, 9, 2, 5, 3, 7, 101, 18]) == 4
-    assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    #assert Solution().lengthOfLIS_dp([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    #assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
     assert Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]) == 6
-    assert Solution().lengthOfLIS_dp([2, 4, 6, 8, 10, 1]) == 5    
-    assert Solution().lengthOfLIS_nlogn([2, 4, 6, 8, 10, 1]) == 5    
-    
+    #assert Solution().lengthOfLIS_dp([2, 4, 6, 8, 10, 1]) == 5    
+    #assert Solution().lengthOfLIS_nlogn([2, 4, 6, 8, 10, 1]) == 5    
+    L = [2, 4, 6, 9, 11, 15]
+    a = 8
+    #print Solution().binary_search_corr(L, a)
+    #print bisect.bisect_left(L, a)   
