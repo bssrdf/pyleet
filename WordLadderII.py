@@ -39,8 +39,14 @@ class Solution(object):
         def construct_paths(source, dest, tree):
             if source == dest: 
                 return [[source]]
-            return [[source] + path for succ in tree[source]
-                                    for path in construct_paths(succ, dest, tree)]
+            #return [[source] + path for succ in tree[source]
+             #                       for path in construct_paths(succ, dest, tree)]
+            allpaths=[]    
+            for succ in tree[source]:
+                for path in construct_paths(succ, dest, tree):
+                    allpaths.append([source] + path)
+            return allpaths
+                
 
         def add_path(tree, word, neigh, is_forw):
             if is_forw: tree[word]  += neigh,
@@ -71,7 +77,7 @@ class Solution(object):
         #tree, path, paths = collections.defaultdict(list), [begin], []
         tree = collections.defaultdict(list)
         is_found = bfs_level(set([begin]), set([end]), tree, True, words_list)
-        #print tree
+        print tree
         # note: after bidirectional BFS meets in the middle, tree contains only
         # shortest paths; the longer ones have not yet been explored.        
         return construct_paths(begin, end, tree)
