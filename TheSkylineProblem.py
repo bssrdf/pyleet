@@ -52,6 +52,65 @@ Event = namedtuple('Event', 'starts ends')
 
 
 class Solution:
+    
+    def recurSkyline(self, buildings, l, r):
+        assert l <= r
+        if l == r:
+            return [[buildings[l][0],buildings[l][2]], [buildings[l][1],0]]
+        else:
+            mid = l + (r-l)/2
+            
+            return self.merge(self.recurSkyline(buildings, l, mid), 
+                              self.recurSkyline(buildings, mid+1, r))
+            
+    def merge(self, lsky, rsky):
+        res = []
+        l, r = 0, 0  
+        curh = 0
+        curl,curr = 0,0
+        while l < len(lsky) and r < len(rsky):          
+          
+            if lsky[l][0] < rsky[r][0]:
+                curl = lsky[l][1]
+                maxh = max(curl, curr)
+                if maxh != curh:                    
+                    curh = maxh
+                    res.append([lsky[l][0], curh])                                
+                l += 1
+            elif lsky[l][0] > rsky[r][0]:
+                curr = rsky[r][1]
+                maxh = max(curl, curr)
+                if maxh != curh:               
+                    curh = maxh
+                    res.append([rsky[r][0], curh])                
+                r += 1       
+            else:
+                curl = lsky[l][1]
+                curr = rsky[r][1]
+                maxh = max(curl, curr)
+                if maxh != curh:               
+                    curh = maxh
+                    res.append([rsky[r][0], curh])                
+                l += 1
+                r += 1
+                
+        if l == len(lsky):
+            while r < len(rsky):
+                res.append([rsky[r][0], rsky[r][1]])  
+                r += 1
+        if r == len(rsky):
+            while l < len(lsky):
+                res.append([lsky[l][0], lsky[l][1]])          
+                l += 1
+        #print res
+        return res
+        
+    def getSkylineDC(self, buildings):    
+        if not buildings:
+            return []
+        return self.recurSkyline(buildings, 0, len(buildings)-1)
+        
+    
     def getSkyline(self, buildings):
         """
         Sweep line
@@ -75,10 +134,10 @@ class Solution:
         # Process events in order by x-coordinate.
         for x, event in sorted(events.items()):  # sort the dictionary by key
             for building in event.starts:
-                print 'starts ', x, building
+               # print 'starts ', x, building
                 heapq.heappush(heap_h, building)
             for building in event.ends:
-                print 'ends ',  x, building
+               # print 'ends ',  x, building
                 building.deleted = True
 
             # Pop any finished buildings from the top of the heap.
@@ -89,7 +148,7 @@ class Solution:
             # Top of heap (if any) is the highest standing building, so
             # its height is the current height of the skyline.
             new_h = heap_h[0].h if heap_h else 0
-            print x, new_h, cur_h 
+            #print x, new_h, cur_h 
 
             if new_h != cur_h:
                 cur_h = new_h
@@ -99,5 +158,9 @@ class Solution:
 
 
 if __name__ == "__main__":
-    assert Solution().getSkyline([[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]) == \
-           [[2, 10], [3, 15], [7, 12], [12, 0], [15, 10], [20, 8], [24, 0]]
+    #assert Solution().getSkyline([[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]) == \
+     #      [[2, 10], [3, 15], [7, 12], [12, 0], [15, 10], [20, 8], [24, 0]]
+    #assert Solution().getSkylineDC([[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]) == \
+     #      [[2, 10], [3, 15], [7, 12], [12, 0], [15, 10], [20, 8], [24, 0]]
+    print Solution().getSkylineDC([[1,2,1],[1,2,2],[1,2,3]]) 
+           
