@@ -13,7 +13,7 @@ class Solution:
         :param num: a list of integer
         :return: a list of lists of integers
         """
-        result = []
+        result = []        
         self.dfs(num, [], result)
         return result
         
@@ -21,10 +21,11 @@ class Solution:
         if not seq:
             res.append(current)
             return
-        print seq
-        for i,v in enumerate(seq):
+        #print seq
+        for i,v in enumerate(seq):            
             self.dfs(seq[:i]+seq[i+1:], current+[v], res)         
                 
    
 if __name__=="__main__":
     print Solution().permute([1, 2, 3, 4])
+    
