@@ -25,6 +25,19 @@ class Interval(object):
 import sys
 
 class Solution(object):
+    def insertSP(self, intervals, newInterval):
+        s, e = newInterval.start, newInterval.end
+        left, right = [], []
+        for i in intervals:
+            if i.end < s:
+              left += i,
+            elif i.start > e:
+               right += i,
+            else:
+                s = min(s, i.start)
+                e = max(e, i.end)
+        return left + [Interval(s, e)] + right
+
     def insert(self, intervals, newInterval):
         """
             :type intervals: List[Interval]
@@ -56,5 +69,6 @@ class Solution(object):
 if __name__ == "__main__":
     intervals = Solution().insert([Interval(2, 6), Interval(8, 10), Interval(15, 18)], Interval(0, 1))
     #intervals = Solution().insert([Interval(1, 3), Interval(8, 10), Interval(15, 18)], Interval(7, 9))
+    intervals = Solution().insertSP([Interval(2, 6), Interval(8, 10), Interval(15, 18)], Interval(0, 1))
     for interval in intervals:
         print(interval)
