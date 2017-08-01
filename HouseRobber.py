@@ -5,6 +5,21 @@ Given a list of non-negative integers representing the amount of money of each h
 '''
 
 class Solution(object):
+    def robDP(self, nums):
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        
+        F0 = nums[0]
+        F1 = max(nums[0], nums[1])
+        F2 = max(F0, F1)
+        for i in range(2, len(nums)):
+            F2 = max(nums[i]+F0, F1)         
+            F0 = F1
+            F1 = F2
+        return F2
+    
     def rob(self, nums):
         """
         :type nums: List[int]
@@ -25,3 +40,4 @@ class Solution(object):
 
 if __name__ == "__main__":
     assert Solution().rob([1, 2, 3, 4, 5, 6, 7]) == 16
+    assert Solution().robDP([1, 2, 3, 4, 5, 6, 7]) == 16
