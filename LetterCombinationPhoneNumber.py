@@ -27,6 +27,22 @@ class Solution(object):
             else:
                 res.append(a)
         return res
+
+    def letterCombinationsBFS(self, digits):
+
+        res = []
+        if not digits:
+            return res
+        res.append("")
+        for c in digits:
+            tempres = []
+            for a in self.mapping[c]:
+                for b in res:
+                    tempres.append(b+a)
+            res =  tempres
+        print res
+        return res
         
 if __name__ == "__main__":
-    assert Solution().letterCombinations("23") == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+    Solution().letterCombinations("23") == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+    Solution().letterCombinationsBFS("234") == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
