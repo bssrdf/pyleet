@@ -21,20 +21,27 @@ alerting the police.
 '''
 
 class Solution(object):
+    
+    
+    def helper(self, nums, lo, hi):
+        inc,exl=0,0
+        for j in range(lo, hi):
+            i=inc
+            e=exl
+            inc = e+nums[j]
+            exl = max(i,e)
+        return max(inc,exl)
+    
     def rob(self, nums):
-        if not nums:
-            return 0
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
         if len(nums) == 1:
             return nums[0]
-        
-        F0 = nums[0]
-        F1 = max(nums[0], nums[1])
-        F2 = max(F0, F1)
-        for i in range(2, len(nums)):
-            F2 = max(nums[i]+F0, F1)         
-            F0 = F1
-            F1 = F2
-        return F2
+        return max(self.helper(nums, 0, len(nums)-1),  
+                   self.helper(nums, 1, len(nums)))
+   
     
    
 
