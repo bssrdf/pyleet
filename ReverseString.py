@@ -15,15 +15,15 @@ class Solution(object):
         r = len(s)-1
         ss = list(s)
         while l <= r:
-            if  (s[l] in string.uppercase or s[l] in string.lowercase ) and (s[r] in string.uppercase or s[r] in string.lowercase ):
+            if  s[l] in string.ascii_letters and s[r] in string.ascii_letters:
                 t = ss[l]
                 ss[l] = ss[r]
                 ss[r] = t
                 l += 1
                 r -= 1
-            elif s[l] in string.uppercase or s[l] in string.lowercase:
+            elif s[l] in string.ascii_letters:
                 r -= 1
-            elif s[r] in string.uppercase or s[r] in string.lowercase:
+            elif s[r] in string.ascii_letters:
                 l += 1
             else:
                 l += 1

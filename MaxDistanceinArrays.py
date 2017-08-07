@@ -14,9 +14,9 @@ class Solution(object):
         res, curMin, curMax = 0, 10000, -10000
         for arr in arrays:
             res = max(res, arr[-1]-curMin, curMax-arr[0])
-            print res, arr[-1]-curMin, curMax-arr[0]
+            #print res, arr[-1]-curMin, curMax-arr[0]
             curMin, curMax = min(curMin, arr[0]), max(curMax, arr[-1])
-            print curMin, curMax
+            #print curMin, curMax
         return res            
         
 if __name__=="__main__":
