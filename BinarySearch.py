@@ -19,25 +19,28 @@ class Solution(object):
     
     
     def binary_search_corr(self, L, a):
-        l = -1
+        #l = -1
+        l = 0
         r = len(L)
     #    print l, r
-        while r-l > 1:
+        #while r-l > 1:
+        while l<r:
             m = l+(r-l)/2
             if L[m] >= a:
                 r = m
             else:
-                l = m
+                #l = m
+                l = m+1
 #            print l, r, m
         return r        
-        
-        
-                    
             
 
-
+import sys
 if __name__ == "__main__":
     L = [2, 4, 6, 9, 11, 15]
-    a = 0
-    print Solution().binary_search_corr(L, a)
-    print bisect.bisect_left(L, a)   
+    #a = sys.argv[1]
+    A = [0, 3, 5, 8, 9, 12, 15, 20]
+    #print Solution().binary_search_corr(L, a)
+    #print bisect.bisect_left(L, a)   
+    for a in A:
+        assert Solution().binary_search_corr(L, a) == bisect.bisect_left(L, a)   
