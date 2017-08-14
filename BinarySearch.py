@@ -18,7 +18,7 @@ __author__ = 'Daniel'
 class Solution(object):    
     
     
-    def binary_search_corr(self, L, a):
+    def bisect_diy(self, L, a):
         #l = -1
         l = 0
         r = len(L)
@@ -32,7 +32,25 @@ class Solution(object):
                 #l = m
                 l = m+1
 #            print l, r, m
-        return r        
+        return r  
+    
+    def binary_search(self, L, a):
+        #l = -1
+        l = 0
+        r = len(L)-1
+    #    print l, r
+        #while r-l > 1:
+        while l<r:
+            m = l+(r-l)/2
+            if L[m] > a:
+                r = m
+            elif L[m] < a:
+                #l = m
+                l = m+1
+            else:
+                return m
+#            print l, r, m
+        return -1
             
 
 import sys
@@ -43,4 +61,6 @@ if __name__ == "__main__":
     #print Solution().binary_search_corr(L, a)
     #print bisect.bisect_left(L, a)   
     for a in A:
-        assert Solution().binary_search_corr(L, a) == bisect.bisect_left(L, a)   
+        assert Solution().bisect_diy(L, a) == bisect.bisect_left(L, a)   
+    for a in A:
+        print Solution().binary_search(L, a)

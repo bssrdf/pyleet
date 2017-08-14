@@ -16,7 +16,7 @@ class Solution(object):
             return 0
         sums = [0]*len(nums)
         sums[0] = nums[0]
-        res = -sys.maxint
+        res = sums[0]
         for i in range(1, len(nums)):
             sums[i] = sums[i-1]+nums[i] if sums[i-1] > 0 else nums[i]
             res = max(sums[i], res)
