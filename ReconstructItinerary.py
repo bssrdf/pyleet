@@ -34,14 +34,14 @@ class Solution(object):
         for a, b in sorted(tickets)[::-1]:
             #targets[a] += b,
             targets[a].append(b)
-        for t in targets:
-            print t, targets[t]
+       # for t in targets:
+       #     print t, targets[t]
         route = []
         def visit(airport):            
             while targets[airport]:
                 visit(targets[airport].pop())
             route.append(airport)
-            print route
+         #   print route
         visit('JFK')
         return route[::-1]       
             

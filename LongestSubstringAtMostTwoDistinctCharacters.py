@@ -15,7 +15,7 @@ For example, Given S = “eceba”, T is "ece" which its length is 3.
 class Solution(object):
     def longestsubString(self, S):
         i, j, maxLen=0, -1, 0
-        # Use sliding window: maintain two pointers i, k
+        # Use sliding window: maintain two pointers i, j
         for k in range(1, len(S)):
             if S[k] == S[k-1]:
                 continue
@@ -46,7 +46,7 @@ class Solution(object):
                     else:
                         del hmap[S[i]]
                     i += 1
-            print i, k, maxLen
+            print i, k, maxLen, len(hmap)
         maxLen = max(maxLen, len(S)-i)
         return maxLen
                     
