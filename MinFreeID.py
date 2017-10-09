@@ -18,6 +18,8 @@ class Solution(object):
                 ids[left] = ids[right]
                 ids[right] = t
                 left += 1
+            print ids
+        print '*************************'
         if left == m+1:
             l = m+1
         else:
@@ -29,7 +31,7 @@ class Solution(object):
         
 
 if __name__ == "__main__":
-    L = [18, 4, 8, 9, 16, 1, 14, 7, 19, 3, 0, 5, 2, 11, 6]
-    #L = [10, 4, 8, 9, 1, 7, 3, 0, 5, 2, 11, 6]
-    print L
+    #L = [18, 4, 8, 9, 16, 1, 14, 7, 19, 3, 0, 5, 2, 11, 6]
+    L = [10, 4, 8, 9, 1, 7, 3, 0, 5, 2, 11, 6]
+    print len(L)
     print Solution().MinFreeID(L)
