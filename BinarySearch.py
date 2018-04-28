@@ -25,7 +25,7 @@ class Solution(object):
     #    print l, r
         #while r-l > 1:
         while l<r:
-            m = l+(r-l)/2
+            m = l+(r-l)//2
             if L[m] >= a:
                 r = m
             else:
@@ -34,22 +34,34 @@ class Solution(object):
 #            print l, r, m
         return r  
     
-    def binary_search(self, L, a):
-        #l = -1
+    def bisect_diynew(self, L, a):        
         l = 0
         r = len(L)-1
-    #    print l, r
-        #while r-l > 1:
-        while l<r:
-            m = l+(r-l)/2
+  
+        while l<=r:
+            m = l+(r-l)//2
             if L[m] > a:
-                r = m
-            elif L[m] < a:
-                #l = m
+                r = m-1
+            elif L[m] < a:                
                 l = m+1
             else:
                 return m
-#            print l, r, m
+       # print(l, r, m)
+        return l
+    
+    def binary_search(self, L, a):        
+        l = 0
+        r = len(L)-1
+  
+        while l<=r:
+            m = l+(r-l)//2
+            if L[m] > a:
+                r = m-1
+            elif L[m] < a:                
+                l = m+1
+            else:
+                return m
+       # print(l, r, m)
         return -1
             
 
@@ -61,6 +73,6 @@ if __name__ == "__main__":
     #print Solution().binary_search_corr(L, a)
     #print bisect.bisect_left(L, a)   
     for a in A:
-        assert Solution().bisect_diy(L, a) == bisect.bisect_left(L, a)   
+        assert Solution().bisect_diynew(L, a) == bisect.bisect_left(L, a)   
     for a in A:
-        print Solution().binary_search(L, a)
+        print(Solution().binary_search(L, a))
