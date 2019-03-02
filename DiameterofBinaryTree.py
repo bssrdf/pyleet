@@ -38,5 +38,5 @@ if __name__ == "__main__":
     root.right.right = TreeNode(8)
     root.left.left = TreeNode(3)
     root.left.left.left = TreeNode(6)    
-    print Solution().diameterOfBinaryTree(root)
+    print(Solution().diameterOfBinaryTree(root))
     
