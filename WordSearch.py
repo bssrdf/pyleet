@@ -3,7 +3,9 @@
 Created on Sat Aug 12 17:58:20 2017
 Given a 2D board and a word, find if the word exists in the grid.
 
-The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" 
+cells are those horizontally or vertically neighboring. The same letter cell may not be 
+used more than once.
 
 For example,
 Given board =
@@ -31,8 +33,8 @@ class Solution(object):
         """
         if not board:
             return False
-        for i in xrange(len(board)):
-            for j in xrange(len(board[0])):
+        for i in range(len(board)):
+            for j in range(len(board[0])):
                 if self.dfs(board, i, j, word):
                     return True
         return False
@@ -61,4 +63,4 @@ if __name__ == "__main__":
 #    print Solution().exist(board, "SEE")
 #    print Solution().exist(board, "ABCB")
 #    print Solution().exist(board, "AA")
-    print Solution().exist(board, "ABCESEEEFS")
+    print(Solution().exist(board, "ABCESEEEFS"))

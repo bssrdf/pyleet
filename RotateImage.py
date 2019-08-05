@@ -23,14 +23,31 @@ class Solution(object):
                 matrix[n-j-1][i] = matrix[n-i-1][n-j-1]
                 matrix[n-i-1][n-j-1] = matrix[j][n-i-1]
                 matrix[j][n-i-1] = tmp
+
+    def rotate2(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: None Do not return anything, modify matrix in-place instead.
+        """
+        n = len(matrix)
+        for i in range(n):
+            for j in range(i+1, n):
+                # transpose
+                tmp = matrix[i][j]
+                matrix[i][j] = matrix[j][i]
+                matrix[j][i] = tmp
+            matrix[i].reverse() 
                 
         
 
 if __name__ == "__main__":
     #assert Solution().rotate([[1, 2, 3], [8, 9, 4], [7, 6, 5]]) == [[7, 8, 1], [6, 9, 2], [5, 4, 3]]
     a = [[1, 2, 3], [8, 9, 4], [7, 6, 5]]
-    Solution().rotate(a)
-    print(a)
+    for l in a:
+       print(l)
+    Solution().rotate2(a)
+    for l in a:
+       print(l)
     b = [[7, 8, 1], [6, 9, 2], [5, 4, 3]]
-    print(b)
+    #print(b)
     assert a==b
