@@ -10,7 +10,21 @@ class TreeNode(object):
         self.val = x
         self.left = None
         self.right = None
-
+        
+    def __str__(self):
+        return str(self.val)
+    
+def traverse(root):
+    current_level = [root]
+    while current_level:
+        print(' '.join(str(node) for node in current_level))
+        next_level = list()
+        for n in current_level:
+            if n.left:
+                next_level.append(n.left)
+            if n.right:
+                next_level.append(n.right)
+            current_level = next_level
 
 class Solution(object):
     def lowestCommonAncestor(self, root, p, q):
@@ -38,5 +52,6 @@ if __name__ == "__main__":
     root.left.left = TreeNode(3)
     root.left.left.left = TreeNode(6)    
     q = root.left.left.left 
-    print Solution().lowestCommonAncestor(root,p,q).val
+    traverse(root)
+    print(Solution().lowestCommonAncestor(root,p,q).val)
     

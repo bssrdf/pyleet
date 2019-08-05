@@ -63,6 +63,21 @@ class Solution(object):
                 return m
        # print(l, r, m)
         return -1
+    
+    def binary_search_pos(self, L, a):        
+        l = 0
+        r = len(L)
+  
+        while l != r:
+            m = l+(r-l)//2
+            if L[m] < a:
+                l = m+1
+            else:
+                r = m
+        return l
+       # print(l, r, m)
+        
+    
             
 
 import sys
@@ -74,5 +89,6 @@ if __name__ == "__main__":
     #print bisect.bisect_left(L, a)   
     for a in A:
         assert Solution().bisect_diynew(L, a) == bisect.bisect_left(L, a)   
-    for a in A:
-        print(Solution().binary_search(L, a))
+    #for a in A:
+      #  print(Solution().binary_search(L, a))
+    print(Solution().binary_search_pos(L, 10))

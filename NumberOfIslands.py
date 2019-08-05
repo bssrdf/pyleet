@@ -50,7 +50,33 @@ class Solution(object):
                                 q.append((x1,y1))
                                 processed[x1][y1] = True
         return nums
+
+    def numIslandsDFS(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        m, n = len(grid), len(grid[0])
+        num = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    num += 1
+                    self.dfs(grid, i, j)
+        return num
+    
+    def dfs(self, grid, i, j):
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 0:
+            return
+        if grid[i][j] == '1':
+            grid[i][j] = '0'
+            self.dfs(grid, i+1, j) 
+            self.dfs(grid, i-1, j) 
+            self.dfs(grid, i, j+1) 
+            self.dfs(grid, i, j-1)
+        return 
         
+
     def numIslandsUF(self, grid):
         """
         :type grid: List[List[str]]
@@ -102,3 +128,7 @@ if __name__ == "__main__":
                                     ['1', '1', '0', '0', '0'],
                                     ['0', '0', '1', '0', '0'],
                                     ['0', '0', '0', '1', '1']]) == 3
+    print(Solution().numIslandsDFS([['1', '1', '0', '0', '0'],
+                                    ['1', '1', '0', '0', '0'],
+                                    ['0', '0', '1', '0', '0'],
+                                    ['0', '0', '0', '1', '1']])) # == 3                                    

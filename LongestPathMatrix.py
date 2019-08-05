@@ -35,4 +35,4 @@ if __name__ == "__main__":
      [6,6,8],
      [2,1,1]
       ]
-    print Solution().longestIncreasingPath(matrix)
+    print(Solution().longestIncreasingPath(matrix))

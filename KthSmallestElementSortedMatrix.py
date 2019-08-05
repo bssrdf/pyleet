@@ -43,7 +43,7 @@ class Solution(object):
             if j + 1 < n and not visited[i][j + 1]:
                 visited[i][j + 1] = True
                 heapq.heappush(q, (matrix[i][j + 1], i, j + 1))
-            print q
+          #  print q
         return ans
     
     def kthSmallest(self, matrix, k):
@@ -57,7 +57,7 @@ class Solution(object):
         while lo <= hi:
             mid = (lo + hi)/2
             loc = self.countLower(matrix, mid)
-            print mid, loc
+            print(mid, loc)
             if loc >= k:
                 hi = mid - 1
             else:
@@ -66,6 +66,7 @@ class Solution(object):
 
     def countLower(self, matrix, num):
         i, j = len(matrix)-1, 0
+        print(i,j)
         cnt = 0
         while i>=0 and j<len(matrix[0]):
             if matrix[i][j] <= num:
@@ -73,7 +74,7 @@ class Solution(object):
                 j += 1
             else:
                 i -= 1
-            print i, j, cnt
+            print(i, j, cnt)
         return cnt
 
 if __name__ == "__main__":
@@ -84,5 +85,5 @@ if __name__ == "__main__":
     ]
     k = 8
     #print Solution().kthSmallest(matrix, k)
-    #Solution().countLower(matrix, 8)
-    print Solution().kthSmallestHeap(matrix, k)
+    print(Solution().countLower(matrix, 14))
+    #print(Solution().kthSmallestHeap(matrix, k))
