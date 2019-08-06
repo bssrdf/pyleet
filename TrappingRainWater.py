@@ -52,12 +52,28 @@ class Solution(object):
             else:
                 water = water + rightMax-height[right]
                 right = right - 1
-            print left, right, leftMax, rightMax, water
+            print(left, right, leftMax, rightMax, water)
         return water
+
+    def trap_stack(self, height):
+             st = []
+             res = 0
+             i = 0
+             while i < len(height):
+                if not st or height[i] <= height[st[-1]]:
+                   st.append(i)
+                   i += 1
+                else:
+                   t = st.pop()
+                   if not st:
+                      continue
+                   res += (min(height[i], height[st[-1]])-height[t])*(i-st[-1]-1)
+             return res
         
 
 if __name__ == "__main__":
 #    print Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
     #print Solution().trap_o1space([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
     #print Solution().trap([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
-    print Solution().trap_o1space([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+   # print(Solution().trap_o1space([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
+    print(Solution().trap_stack([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
