@@ -64,6 +64,17 @@ class Solution(object):
             start, end = end + 1, maxend
         return step    
      
+    def jump2(self, nums):
+       res = last = cur = 0
+       for i in range(len(nums)-1):
+          if i > last:
+             last = cur
+             res += 1
+             if cur >= len(nums)-1:
+                break
+          cur = max(cur, i+nums[i])
+          print i, cur, res 
+       return res
         
         
         
@@ -72,5 +83,6 @@ if __name__ == "__main__":
     A=[ [2,3,1,1,4]
       ]
     for a in A:
-        print Solution().jump(a)
-        print Solution().jumpAC(a)
+        #print Solution().jump(a)
+        #print Solution().jumpAC(a)
+        print Solution().jump2(a)
