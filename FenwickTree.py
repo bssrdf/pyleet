@@ -27,8 +27,8 @@ class FenwickTree(object):
     
 if __name__ == "__main__":
     n = 7
-    print bin(n)
-    print FenwickTree(10).lowbit(n)
+    #print bin(n)
+    #print FenwickTree(10).lowbit(n)
 
 
  
