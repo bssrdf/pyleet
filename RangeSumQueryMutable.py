@@ -121,9 +121,66 @@ class NumArray(object):
                 return rangeSum(root.left, i, mid) + rangeSum(root.right, mid+1, j)
         
         return rangeSum(self.root, i, j)
+
+
+# implementation using Fenwick tree
+class NumArrayBIT(object):
+
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        """
+        self.BIT = [0]*(len(nums)+1)
+        self.size = len(nums)
+        self.nums = nums
+        for i,n in enumerate(nums):
+            self.add(i, n)
+
+    def update(self, i, val):
+        self.add(i, val-self.nums[i])
+        self.nums[i] = val
+
+    def add(self, i, val):
+        """
+        :type i: int
+        :type val: int
+        :rtype: None
+        """
+        j = i + 1                
+        while j <= self.size:
+            self.BIT[j] += val
+            j += j & (-j)
+
+    def query(self, n):
+        sum = 0
+        while n > 0:
+            sum += self.BIT[n]
+            n -= n & (-n)
+        return sum
+        
+
+    def sumRange(self, i, j):
+        """
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+        #print(self.query(j+1))
+        #print(self.query(i))
+        return self.query(j+1) - self.query(i)   
+
                 
 if __name__ == "__main__":
   numA = NumArray([3, 1, 7, 8, 5, 10, 2])
-  print numA.sumRange(2,5)
+  print(numA.sumRange(2,5))
+  numC = NumArrayBIT([3, 1, 7, 8, 5, 10, 2])
+  print(numC.sumRange(2,5))
+
+  numB = NumArrayBIT([1, 3, 5])
+  print(numB.sumRange(0,2))
+  numB.update(1,2)
+  print(numB.sumRange(0,2))
   
+
+
   
