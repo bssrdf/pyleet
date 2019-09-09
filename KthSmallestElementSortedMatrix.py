@@ -80,10 +80,9 @@ class Solution(object):
 if __name__ == "__main__":
     matrix = [
         [1, 5, 9],
-        [10, 11, 13],
-        [12, 13, 15]
+        [10, 14, 18],
+        [12, 17, 21]
     ]
     k = 8
     #print Solution().kthSmallest(matrix, k)
-    print(Solution().countLower(matrix, 14))
     #print(Solution().kthSmallestHeap(matrix, k))

@@ -7,7 +7,7 @@ You need to return the number of important reverse pairs in the given array.
 Example1:
 
 Input: [1,3,2,3,1]
-Output: 2
+Output: 2 
 Example2:
 
 Input: [2,4,3,5,1]
@@ -23,7 +23,43 @@ from collections import deque
 
 class Solution(object):    
 
+    def reversePairsBIT(self, nums):
 
+        res = 0
+        copy = sorted(nums)
+        bit = [0] * (len(nums) + 1)        
+
+        def search(i):
+            sum = 0
+            while i < len(bit):
+                sum += bit[i]
+                i += i & (-i)
+            return sum
+
+        def insert(i):
+            while i > 0:
+                bit[i] += 1
+                i -= i & (-i)
+
+        def index(a, val):
+            l, r = 0, len(a)-1
+            while l <= r:
+                m = l + (r-l)//2
+                if a[m] >= val:
+                    r = m-1
+                else:
+                    l = m+1
+            return l+1
+
+        for ele in nums:
+            c = index(copy, 2*ele+1) 
+            a = search(c)
+            res += a
+            b = index(copy, ele)
+            insert(b)
+            print(ele, res, a, b, c, bit)
+        return res
+        
     def reversePairs(self, nums):
         count = [0]
         def merge(nums):
@@ -48,3 +84,4 @@ class Solution(object):
 
 print(Solution().reversePairs([1,3,2,3,1]))
 print(Solution().reversePairs([2,4,3,5,1]))
+print(Solution().reversePairsBIT([2,4,3,5,1]))
