@@ -68,7 +68,11 @@ class Solution(object):
                    if not st:
                       continue
                    res += (min(height[i], height[st[-1]])-height[t])*(i-st[-1]-1)
+<<<<<<< HEAD
                 print st, res
+=======
+                print(st, res)
+>>>>>>> 116cc6699e6d001cb6a62f0e62a7074353734518
              return res
         
 
@@ -77,4 +81,10 @@ if __name__ == "__main__":
     #print Solution().trap_o1space([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
     #print Solution().trap([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
    # print(Solution().trap_o1space([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
+<<<<<<< HEAD
     print Solution().trap_stack([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+=======
+    #print(Solution().trap_stack([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
+
+    print(Solution().trap_stack([0, 5, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4, 5, 6])) #== 6
+>>>>>>> 116cc6699e6d001cb6a62f0e62a7074353734518
