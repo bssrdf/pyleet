@@ -25,6 +25,11 @@ class Solution(object):
 
     def reversePairsBIT(self, nums):
 
+        '''
+         here BIT is not used for storing prefix sums
+
+        '''
+
         res = 0
         copy = sorted(nums)
         bit = [0] * (len(nums) + 1)        
@@ -50,7 +55,10 @@ class Solution(object):
                 else:
                     l = m+1
             return l+1
-
+        # for every number i of the array, search BIT for the presence
+        # of elements that is 2*i+1 or bigger; the only possible elements
+        # already in BIT are to the left of i, since until now, only those
+        # have been inserted into BIT
         for ele in nums:
             c = index(copy, 2*ele+1) 
             a = search(c)
