@@ -77,3 +77,13 @@ class LRUCache:
         self.tail.prev = node
         node.prev = p
         node.next = self.tail
+
+cache = LRUCache(2)
+
+cache.set(1,1)
+cache.set(2,2)
+print(cache.get(1))
+cache.set(3,3)
+print(cache.get(2))
+
+
