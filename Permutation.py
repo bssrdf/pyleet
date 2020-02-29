@@ -23,7 +23,28 @@ class Solution:
             return
         #print seq
         for i,v in enumerate(seq):            
-            self.dfs(seq[:i]+seq[i+1:], current+[v], res)         
+            self.dfs(seq[:i]+seq[i+1:], current+[v], res)        
+
+    def A_n_k(self, a, n, k, depth, used, curr, ans):
+      if depth == k: #end condition
+         print curr
+         ans.append(curr[:]) # use deepcopy because curr is tracking all partial solution, it eventually become []
+         return
+ 
+      for i in range(n):
+        if not used[i]:
+      # generate the next solution from curr
+          curr.append(a[i])
+          used[i] = True
+      #print(curr)
+      # move to the next solution
+          self.A_n_k(a, n, k, depth+1, used, curr, ans)
+     
+      #backtrack to previous partial state
+          curr.pop()
+      #print('backtrack: ', curr)
+          used[i] = False
+      return 
                 
    
 if __name__=="__main__":
