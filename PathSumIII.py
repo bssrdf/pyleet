@@ -24,6 +24,9 @@ class TreeNode(object):
 
 
 class Solution(object):
+
+    result = 0
+
     def pathSum(self, root, sum):
         """
         :type root: TreeNode
@@ -42,7 +45,27 @@ class Solution(object):
                self.dfs(root.left, target - root.val) + \
                self.dfs(root.right, target - root.val)
 
+    def pathSumOpt(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: List[List[int]]
+        """
+        self.result = 0
+        self.helper(root, sum, 0, {0:1})
+        return self.result 
 
+    def helper(self, root, target, so_far, cache):
+        if root:
+            complement = so_far + root.val - target
+            if complement in cache:
+                self.result += cache[complement]
+            cache.setdefault(so_far+root.val, 0)
+            cache[so_far+root.val] += 1
+            self.helper(root.left, target, so_far+root.val, cache) 
+            self.helper(root.right, target, so_far+root.val, cache) 
+            cache[so_far+root.val] -= 1
+        return
 
 node1 = TreeNode(10)
 node2 = TreeNode(5)
@@ -65,6 +88,7 @@ node10.right = node7
 node4.right = node8
 
 print(Solution().pathSum(node1, 8))
+print(Solution().pathSumOpt(node1, 8))
 
 
 
