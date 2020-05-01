@@ -87,8 +87,13 @@ if __name__ == "__main__":
     A = [0, 3, 5, 8, 9, 12, 15, 20]
     #print Solution().binary_search_corr(L, a)
     #print bisect.bisect_left(L, a)   
-    for a in A:
-        assert Solution().bisect_diynew(L, a) == bisect.bisect_left(L, a)   
+    print(bisect.bisect_left(L, 9))
+    print(bisect.bisect(L, 9))
+
+    #for a in A:
+        #assert Solution().bisect_diynew(L, a) == bisect.bisect_left(L, a)   
+        #assert Solution().binary_search_pos(L, a) == bisect.bisect_left(L, a)   
+     #   assert Solution().binary_search_pos(L, a) == bisect.bisect(L, a)   
     #for a in A:
       #  print(Solution().binary_search(L, a))
-    print(Solution().binary_search_pos(L, 10))
+   # print(Solution().binary_search_pos(L, 10))
