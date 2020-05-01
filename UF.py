@@ -1,7 +1,7 @@
 class UF:
   
     def __init__(self, n):    
-        self.count = n   #记录连通分量个数
+        self.nums = n   #记录连通分量个数
         self.parent = [i for i in range(n)] # 存储若干棵树
         self.size = [1] * n # 记录树的“重量”
         
@@ -22,7 +22,7 @@ class UF:
             self.parent[rootP] = rootQ
             self.size[rootQ] += self.size[rootP]
         
-        self.count -= 1
+        self.nums -= 1
     
 
     # 判断 p 和 q 是否互相连通 
@@ -42,4 +42,9 @@ class UF:
         return x
 
     def count(self):
-        return self.count
+        return self.nums
+
+
+
+
+
