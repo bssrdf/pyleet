@@ -37,14 +37,15 @@ class Solution(object):
     
     def dfs(self, nums, start, path, result):
 
-        result.append(path)     
+        result.append(path[:])     
         
         for i in range(start, len(nums)):       
 
         # We set the start to `i+1` because one element could
         # only be used once
-            self.dfs(nums, i+1, path + [nums[i]], 
+            path.append(nums[i])
+            self.dfs(nums, i+1, path, 
                            result)
+            path.pop()
 
 print(Solution().subsets([1,2,3]))
-print(Solution().subsets([1,2,2]))
