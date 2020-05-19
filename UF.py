@@ -2,8 +2,8 @@ class UF:
   
     def __init__(self, n):    
         self.nums = n   #记录连通分量个数
-        self.parent = [i for i in range(n)] # 存储若干棵树
-        self.size = [1] * n # 记录树的“重量”
+        self.parent = [i for i in range(n+1)] # 存储若干棵树
+        self.size = [1] * (n+1) # 记录树的“重量”
         
     
 
