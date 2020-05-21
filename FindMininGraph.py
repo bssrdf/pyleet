@@ -2,15 +2,16 @@ import collections
 
 class Solution(object):
 
-    def dfs(self, v, vmin):
-        
+    #def dfs(self, v, vmin):
+    def dfs(self, v):
         self.visited.add(v)
        
-        res = vmin 
+        res = v 
 
         for w in self.adjList[v]:
             if w not in self.visited:
-                res = min(res, self.dfs(w, min(w, res)))
+                #res = min(res, self.dfs(w, min(w, res)))
+                res = min(res, self.dfs(w))
                  
         return res
 
@@ -32,7 +33,8 @@ class Solution(object):
         self.visited = set()
         self.on_the_path = set()
 
-        return self.dfs(r, r)
+        #return self.dfs(r, r)
+        return self.dfs(r)
         
 
 
