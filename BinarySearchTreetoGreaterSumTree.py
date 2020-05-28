@@ -12,8 +12,19 @@ class Solution(object):
         :type root: TreeNode
         :rtype: TreeNode
         """
-        return None
+        def dfs(root, rsum):
+            if root is None:
+                return 0                 
+            dfs(root.right, rsum)
+            rsum[0] += root.val
+            root.val = rsum[0]
+            dfs(root.left, rsum)
+            return
+        dfs(root, [0])
+        return root
 
 if __name__ == "__main__":
    root = constructBinaryTree([4,1,6,0,2,5,7,null,null,null,3,null,null,null,8])    
    print(root.val) 
+   Solution().bstToGst(root)
+   print(root.left.right.right.val)
