@@ -4,25 +4,32 @@ class TreeNode(object):
          self.left = left
          self.right = right
 
-def constructBinaryTree(arr, root, i, n):
+null = None  
+
+def constructBinaryTree(arr):
+    root = None
+    root = insertLevelOrder(arr, root, 0, len(arr))
+    return root
+
+def insertLevelOrder(arr, root, i, n):
 
     # Base case for recursion  
-    if i < n: 
-        if not arr[i]:
+    
+    if i < n:
+      
+        if arr[i] is None:
             return None
-        #if i == 3:
-         #   print('None')
-        print(arr[i])
+       
         temp = TreeNode(arr[i])  
         root = temp  
   
         # insert left child  
-        root.left = constructBinaryTree(arr, root.left, 
-                                     2 * i + 1, n)  
+        root.left = insertLevelOrder(arr, root.left, 
+                                     2*i+1, n)  
   
         # insert right child  
-        root.right = constructBinaryTree(arr, root.right, 
-                                      2 * i + 2, n) 
+        root.right = insertLevelOrder(arr, root.right, 
+                                      2*i+2, n) 
     return root 
   
 def inOrder(root): 
@@ -38,11 +45,11 @@ def preOrder(root):
         preOrder(root.right)  
 
 if __name__ == "__main__":
-    null = None    
+      
     arr = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
-    root = None
-    root = constructBinaryTree(arr, root, 0, len(arr))
-    preOrder(root)
+    
+    root = constructBinaryTree(arr)
+    inOrder(root)
        
 
 

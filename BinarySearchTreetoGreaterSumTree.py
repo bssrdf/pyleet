@@ -4,10 +4,16 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from BinaryTree import (TreeNode, constructBinaryTree, null) 
+
 class Solution(object):
     def bstToGst(self, root):
         """
         :type root: TreeNode
         :rtype: TreeNode
         """
-        
+        return None
+
+if __name__ == "__main__":
+   root = constructBinaryTree([4,1,6,0,2,5,7,null,null,null,3,null,null,null,8])    
+   print(root.val) 
