@@ -14,7 +14,7 @@ class Solution(object):
         """
         def dfs(root, rsum):
             if root is None:
-                return 0                 
+                return                
             dfs(root.right, rsum)
             rsum[0] += root.val
             root.val = rsum[0]
