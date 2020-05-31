@@ -32,7 +32,7 @@ class Solution(object):
         
         MOD = 10**9 + 7
         prior_case = [1] * 10                                     
-        current_case = [1] * 10                                   
+        current_case = [0] * 10                                   
         current_num_hops = 1            
         while current_num_hops <= N-1:
             current_case = [0] * 10                               
@@ -45,7 +45,7 @@ class Solution(object):
             prior_case = current_case                             
                                                               
                 
-        return sum(current_case) % MOD
+        return sum(prior_case) % MOD
 
 if __name__ == "__main__":
     N = 10
