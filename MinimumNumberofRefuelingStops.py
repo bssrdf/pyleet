@@ -60,25 +60,28 @@ class Solution(object):
         :type target: int
         :type startFuel: int
         :type stations: List[List[int]]
-        :rtype: int
+        :rtype: int        
         """
         n = len(stations)
+        # the recursive function F[i], the farthest location we can get to 
+        # using i refueling stops. This is motivated by the fact that we 
+        # want the smallest i for which F[i] >= target.
         F = [0] * (n+1)
         F[0] = startFuel
         for i, (loc, cap) in enumerate(stations):
+            # once arriving at a station, update all prior F[i]'s which
+            # could reach the current station location. this means some
+            # prior F[i]'s could skip all the way to the current one, hence
+            # reducing the # of refuelings 
             for t in range(i, -1, -1):
-                if i == 3:
-                    print('A', t, F[t], F[t+1])
                 if F[t] >= loc:
                     F[t+1] = max(F[t+1], F[t] + cap) 
-                if i == 3:
-                    print('B', t, F[t], F[t+1])
         for i,d in enumerate(F):
             if d >= target:
                 return i
         return -1
 if __name__ == "__main__":
-    print(Solution().minRefuelStops(100, 10, [[10,60],[20,30],[30,30],[60,40]]))
+    print(Solution().minRefuelStops(100, 100, [[10,60],[20,30],[30,30],[60,40]]))
     
     
             
