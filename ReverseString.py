@@ -6,6 +6,18 @@ __author__ = 'Daniel'
 import string
 
 class Solution(object):
+
+    def reverseStringList(self, s):
+        """
+        :type s: List[str]
+        :rtype: None Do not return anything, modify s in-place instead.
+        """
+        if not s:
+            return
+        c=s.pop()
+        self.reverseStringList(s)
+        s.insert(0,c)
+
     def reverseString(self, s):
         """
         :type s: str
@@ -32,5 +44,8 @@ class Solution(object):
 
 
 if __name__ == "__main__":
-    print Solution().reverseString('he!ll%o')
+    print(Solution().reverseString('he!ll%o'))
+    S= ["h","e","l","l","o"]
+    Solution().reverseStringList(S)
+    print(S)
 

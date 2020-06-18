@@ -14,8 +14,6 @@ class Solution(object):
                  
         return res
 
-
-
     def findMinimum(self, edges, r):
         """
         :type edges: List[List[int]], int
@@ -31,7 +29,6 @@ class Solution(object):
             w, v = e[0], e[1]
             self.adjList[w].append(v)
             self.adjList[v].append(w)
-            
         
         self.visited = set()
        

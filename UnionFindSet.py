@@ -1,14 +1,16 @@
 class UnionFindSet:
-    def __init__(self, items):
+    def __init__(self, items=None, n=None):
+        if items is None:
+            items = range(n)
         self._nums = len(items)
         self._parents = {}
         self._ranks = {}
         for t in items:
-            self.find(t)
+            self._parents.setdefault(t, t)            
             self._ranks[t] = 1
-        
+          
     def find(self, u):
-        self._parents.setdefault(u, u)       
+        #self._parents.setdefault(u, u)       
         while u != self._parents[u]:
             self._parents[u] = self._parents[self._parents[u]]
             u = self._parents[u]
@@ -42,7 +44,8 @@ class UnionFindSet:
 
 
 if __name__ == "__main__":
-    uf = UnionFindSet(range(10))
+    uf = UnionFindSet(items=range(10))
+    #uf = UnionFindSet(n=10)
     uf.union(1, 5)
     uf.union(2, 7)
     uf.union(4, 2)
