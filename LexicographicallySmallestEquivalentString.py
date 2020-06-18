@@ -15,7 +15,7 @@ class Solution(object):
         if rootP == rootQ:
             return
 
-        # 小树接到大树下面，较平衡
+        
         if rootP < rootQ:
             self.parent[rootQ] = rootP
           
