@@ -93,3 +93,4 @@ class Solution(object):
 print(Solution().reversePairs([1,3,2,3,1]))
 print(Solution().reversePairs([2,4,3,5,1]))
 print(Solution().reversePairsBIT([2,4,3,5,1]))
+print(Solution().reversePairsBIT([5,7,9,4,2,15,8]))
