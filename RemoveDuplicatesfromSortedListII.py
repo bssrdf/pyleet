@@ -29,11 +29,10 @@ class Solution(object):
         node.next = head
         res = node
         pre = node
-        while pre.next is not None:
-            cur = pre.next
-            value = cur.val
+        while pre.next:
+            cur = pre.next            
             dup = 0
-            while cur.next is not None and cur.next.val == value:
+            while cur.next and cur.next.val == cur.val:
                 dup += 1
                 cur = cur.next
             if dup > 0:
