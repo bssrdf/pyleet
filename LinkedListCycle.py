@@ -39,7 +39,7 @@ if __name__ == "__main__":
     d.next = e
     e.next = b
     if Solution().hasCycle(a):
-        print 'list has cycle'
+        print('list has cycle')
     else:
-        print 'list has no cycle'
+        print('list has no cycle')
 

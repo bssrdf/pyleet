@@ -24,41 +24,32 @@ class Solution:
         :type nums: list[int]
         :rtype int
         """
-        candidates = []
-        candidate1 = 0
-        candidate2 = 1
-        tally1 = tally2 = 1
-        for i in range(2, len(nums)):
-            if nums[i] == nums[candidate1]:
-                tally1 += 1
-            elif nums[i] == nums[candidate2]:
-                tally2 += 1
+        if not nums:
+            return []
+        # initially set candidates to two different numbers    
+        count1, count2, candidate1, candidate2 = 0, 0, 0, 1
+        for n in nums:
+            # if we get the same number as either candidate, increment the counter 
+            if n == candidate1:
+                count1 += 1
+            elif n == candidate2:
+                count2 += 1
+            # if either counter becomes zero, reset it to 1 for a new candidate     
+            elif count1 == 0:
+                candidate1, count1 = n, 1
+            elif count2 == 0:
+                candidate2, count2 = n, 1
+            # if the given # is differnt from either candidate, decrement both counters
             else:
-                if tally1 > 0:
-                    tally1 -= 1
-                    if tally1 == 0:
-                        candidate1 = i
-                        tally1 = 1
-                elif tally2 > 0:
-                    tally2 -= 1
-                    if tally2==0:
-                        candidate2 = i
-                        tally2 = 1
-        tally1 = tally2 = 0
-        for i in nums:
-            if i == nums[candidate1]:
-                tally1 += 1
-            if i == nums[candidate2]:
-                tally2 += 1
-        if tally1 > len(nums)/3:
-            candidates.append(nums[candidate1])
-        if tally2 > len(nums)/3:
-            candidates.append(nums[candidate2])
-        return candidates 
+                count1, count2 = count1 - 1, count2 - 1
+        # finally check both candidates to see if they are truly majority    
+        return [n for n in (candidate1, candidate2)
+                if nums.count(n) > len(nums) // 3]
 
 if __name__=="__main__":
     #assert Solution().majorityElement([1, 2, 2, 3, 3, 3, 3]) == 3
     #assert Solution().majorityElement([3, 3, 3, 3, 1, 1, 2]) == 3
     #assert Solution().majorityElementMoore([1, 2, 2, 3, 3, 3, 3]) == 3
-    print Solution().majorityElementMoore([3, 3, 3, 1, 1, 1, 2]) 
-    print Solution().majorityElementMoore([3, 3, 3, 1, 5, 8, 2]) 
+    #print(Solution().majorityElementMoore([3, 3, 3, 1, 1, 1, 2]))
+    #print(Solution().majorityElementMoore([3, 3, 3, 1, 5, 8, 2])) 
+    print(Solution().majorityElementMoore([1,2,1,1,1,3,3,4,3,3,3,4,4,4]))

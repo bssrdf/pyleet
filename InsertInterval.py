@@ -65,10 +65,39 @@ class Solution(object):
 
         return res
 
+    def insertNew(self, intervals, newInterval):
+        """
+        :type intervals: List[List[int]]
+        :type newInterval: List[int]
+        :rtype: List[List[int]]
+        """
+        res = []
+        i = 0
+        while i < len(intervals):
+            iv = intervals[i]
+            if iv[0] > newInterval[1]:
+                break
+            elif iv[1] < newInterval[0]:
+                res.append(iv[:])
+            else:
+                newInterval[0] = min(newInterval[0], iv[0])
+                newInterval[1] = max(newInterval[1], iv[1])
+            i += 1            
+        #print(i)
+        if i <= len(intervals):
+            res.append(newInterval[:])
+            while i < len(intervals):
+                res.append(intervals[i][:])
+                i += 1
+        return res
+
+
 
 if __name__ == "__main__":
-    intervals = Solution().insert([Interval(2, 6), Interval(8, 10), Interval(15, 18)], Interval(0, 1))
+    #intervals = Solution().insert([Interval(2, 6), Interval(8, 10), Interval(15, 18)], Interval(0, 1))
     #intervals = Solution().insert([Interval(1, 3), Interval(8, 10), Interval(15, 18)], Interval(7, 9))
-    intervals = Solution().insertSP([Interval(2, 6), Interval(8, 10), Interval(15, 18)], Interval(0, 1))
-    for interval in intervals:
-        print(interval)
+    #intervals = Solution().insertSP([Interval(2, 6), Interval(8, 10), Interval(15, 18)], Interval(0, 1))
+    #for interval in intervals:
+    #    print(interval)
+    print(Solution().insertNew([[1,2],[3,5],[6,7],[8,10],[12,16]],[4,8]))
+    print(Solution().insertNew([[1,2],[3,5],[6,7],[8,10],[12,16]],[20,24]))

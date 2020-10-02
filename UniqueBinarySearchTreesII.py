@@ -70,8 +70,7 @@ class Solution(object):
             ans.append(root)
              
            
-            node = st.right
-            path = [st.val]
+            node = st.right            
             lev = 1
             while node:    
                 root = copy(st)

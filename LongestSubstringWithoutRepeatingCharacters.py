@@ -2,7 +2,8 @@
 """
 Created on Sun Jul 30 20:14:31 2017
 
-Given a string, find the length of the longest substring without repeating characters.
+Given a string, find the length of the longest substring without repeating 
+characters.
 
 Examples:
 

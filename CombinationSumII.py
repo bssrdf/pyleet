@@ -68,4 +68,4 @@ class Solution(object):
             self.dfs(nums, i+1, path + [nums[i]], 
                            result, target - nums[i])
 
-print(Solution().combinationSum2([10,1,2,7,6,1,5], 8))
+print(Solution().combinationSum2([10,1,2,1,7,6,1,5], 8))

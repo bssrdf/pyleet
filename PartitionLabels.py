@@ -21,6 +21,17 @@ class Solution(object):
         :type S: str
         :rtype: List[int]
         """
+
+        '''
+        Figure out the rightmost index first and use it to denote the start
+        of the next section.
+
+        Reset the left pointer at the start of each new section.
+
+        Store the difference of right and left pointers + 1 as in the 
+        result for each section.
+
+        '''
         book={}
         for i,s in enumerate(S):
             book[s] = i
@@ -34,7 +45,7 @@ class Solution(object):
                 lo = hi + 1
         return res
         
-
-print(Solution().partitionLabels("ababcbacadefegdehijhklij"))
+if __name__ == "__main__":
+    print(Solution().partitionLabels("ababcbacadefegdehijhklij"))
 
         

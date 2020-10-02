@@ -25,4 +25,4 @@ if __name__=="__main__":
     [0,5],
     [1,2,3]
     ]
-    print Solution().maxDistance(nms)
+    print(Solution().maxDistance(nms))

@@ -15,6 +15,7 @@ If there are multiple such windows, you are guaranteed that there will always be
 
 from collections import defaultdict
 import collections
+import sys
 
 class Solution(object):
     def minWindow(self, s, t):
@@ -23,29 +24,39 @@ class Solution(object):
         :type t: str
         :rtype: str
         """
-        MAX_INT = 2147483647
+        MAX_INT = sys.maxsize
         start = end = 0
         char_need = defaultdict(int)    # the count of char needed by current window, negative means current window has it but not needs it
+        #char_need = {}
         count_need = len(t)             # count of chars not in current window but in t
         min_length = MAX_INT
         min_start = 0
-        print 'length s :', len(s)
+        #print('length s :', len(s))
         for i in t:
+           # if i in char_need:
             char_need[i] += 1           # current window needs all char in t
+            #else:
+            #    char_need[i] = 1  
         while end < len(s):
             if char_need[s[end]] > 0:
                 count_need -= 1
-            char_need[s[end]] -= 1      # current window contains s[end] now, so does not need it any more
+            char_need[s[end]] -= 1 # current window contains s[end] now, 
+                                  # so does not need it any more;
+                                  # char_need[s[end]] could become negative
             end += 1
-            print end, count_need, char_need
+            print(end, s[end-1], count_need, char_need)
+            # shrink the window only when all chars in T are still present in
+            # the window: dictated by count_need=0
             while count_need == 0:
                 if min_length > end - start:
                     min_length = end - start
                     min_start = start
+                #if s[start] in char_need:
                 char_need[s[start]] += 1    # current window does not contain s[start] any more
                 if char_need[s[start]] > 0: # when some count in char_need is positive, it means there is char in t but not current window
                     count_need += 1
                 start += 1
+            print(start, end, min_start, min_length)
         return "" if min_length == MAX_INT else s[min_start:min_start + min_length]
         
 
@@ -75,4 +86,4 @@ class Solution(object):
 
 if __name__ == "__main__":
    assert Solution().minWindow("ADOBECODEBANC", "ABC") == "BANC"
-   print Solution().minWindowAC("ADOBECODEBANC", "ABCC") 
+   #print(Solution().minWindowAC("ADOBECODEBANC", "ABCC"))
