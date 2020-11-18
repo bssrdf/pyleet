@@ -15,8 +15,8 @@ class Solution:
         """
         result = []        
         used = [False] * len(num)
-     #   self.dfs(num, [], result)
-        self.A_n_k(num, len(num), len(num), 0, used, [], result)
+        self.dfs(num, [], result)
+     #   self.A_n_k(num, len(num), len(num), 0, used, [], result)
         return result
         
     def dfs(self, seq, current, res):        
@@ -29,7 +29,7 @@ class Solution:
 
     def A_n_k(self, a, n, k, depth, used, curr, ans):
       if depth == k: #end condition
-         print curr
+         #print curr
          ans.append(curr[:]) # use deepcopy because curr is tracking all partial solution, it eventually become []
          return
  
@@ -47,10 +47,10 @@ class Solution:
       #print('backtrack: ', curr)
           used[i] = False
       return 
-                
+    '''              
     def A_n_k(self, a, n, k, depth, used, curr, ans):
       if depth == k: #end condition
-         print curr
+        # print curr
          ans.append(curr[:]) # use deepcopy because curr is tracking all partial solution, it eventually become []
          return
   
@@ -68,7 +68,8 @@ class Solution:
       #print('backtrack: ', curr)
           used[i] = False
       return
+      '''
    
 if __name__=="__main__":
-    print Solution().permute([1, 2, 3])
+    print(Solution().permute([1, 2, 3]))
     

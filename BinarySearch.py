@@ -64,18 +64,39 @@ class Solution(object):
        # print(l, r, m)
         return -1
     
-    def binary_search_pos(self, L, a):        
+    def lower_bound(self, L, a):   
+        '''
+        find first number not smaller than a
+        variation: return r-1 if we are looking for
+        the last number less than a
+        '''     
         l = 0
         r = len(L)
   
-        while l != r:
+        while l < r:
             m = l+(r-l)//2
             if L[m] < a:
                 l = m+1
             else:
-                r = m
-        return l
-       # print(l, r, m)
+                r = m                
+        return r
+
+    def upper_bound(self, L, a):   
+        '''
+        find first number larger than a
+        variation: return r-1 if we are looking for
+        the last number not larger than a
+        '''     
+        l = 0
+        r = len(L)
+  
+        while l < r:
+            m = l+(r-l)//2
+            if L[m] <= a:
+                l = m+1
+            else:
+                r = m                
+        return r   
         
     
             

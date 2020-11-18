@@ -38,6 +38,10 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
+        """
+        For reference for this solution, see
+        https://leetcode.com/problems/find-the-duplicate-number/discuss/72846/My-easy-understood-solution-with-O(n)-time-and-O(1)-space-without-modifying-the-array.-With-clear-explanation.
+        """
         slow, fast, t = nums[0], nums[nums[0]], 0
         #count = 0
         while True: 

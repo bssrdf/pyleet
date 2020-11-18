@@ -1,4 +1,10 @@
 '''
+-Medium-
+
+*DFS*
+*Hierholzer’s algorithm*
+*Euler Path*
+
 Given a list of airline tickets represented by pairs of departure and arrival 
 airports [from, to], reconstruct the itinerary in order. All of the tickets 
 belong to a man who departs from JFK. Thus, the itinerary must begin with JFK.
@@ -29,6 +35,7 @@ Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","
 #import graph
 import collections
 from collections import deque
+import heapq
 
 class Solution(object):
     def ReconIter(self, tickets): 
@@ -74,20 +81,68 @@ class Solution(object):
         path = ["JFK"]
         dfs("JFK", path, len(tickets) + 1)
         return path    
-       
+
+    def findItineraryPQ(self, tickets):
+        '''
+        :type tickets: List[List[str]]
+        :rtype: List[str]
+
+        This is to find an Eulerian path in a directed graph. Thus, start 
+        from “JFK”, we can apply the Hierholzer’s algorithm to find a Eulerian 
+        path in the graph which is a valid reconstruction.
+
+        Hierholzer’s algorithm is as follows:
+
+        Choose any starting vertex v, and follow a trail of edges from that 
+        vertex until returning to v. It is not possible to get stuck at any 
+        vertex other than v, because the even degree of all vertices ensures 
+        that, when the trail enters another vertex w there must be an unused 
+        edge leaving w. The tour formed in this way is a closed tour, but 
+        may not cover all the vertices and edges of the initial graph.
+
+        As long as there exists a vertex u that belongs to the current tour 
+        but that has adjacent edges not part of the tour, start another trail 
+        from u, following unused edges until returning to u, and join the tour 
+        formed in this way to the previous tour.
+
+        By using a data structure such as a doubly linked list to maintain 
+        the set of unused edges incident to each vertex, to maintain the 
+        list of vertices on the current tour that have unused edges, and to 
+        maintain the tour itself, the individual operations of the algorithm 
+        (finding unused edges exiting each vertex, finding a new starting 
+        vertex for a tour, and connecting two tours that share a vertex) may 
+        be performed in constant time each, so the overall algorithm takes 
+        linear time, O(E).
+
+        First, we go DFS from JFK until we get stuck. Then, we construct 
+        path backwards. When walking backwards through the DFS path, if a 
+        node has outgoing path, then perform DFS there, which is guaranteed 
+        to return to the starting node, forming a cycle. Then the cycle 
+        is merged into the main DFS path.        
+
+        '''
+        targets = collections.defaultdict(list)
+        for a, b in tickets:            
+            heapq.heappush(targets[a], b)       
+        route = deque()
+        def visit(airport):            
+            while targets[airport]:
+                # When we perform DFS, we choose the outgoing edge 
+                # with the lowest lexical order, as guranteed by the pq
+                visit(heapq.heappop(targets[airport]))
+            route.appendleft(airport)         
+        visit('JFK')
+        return list(route)
+
     def findItinerary(self, tickets):
         targets = collections.defaultdict(list)
-        for a, b in sorted(tickets)[::-1]:
-            #targets[a] += b,
-            targets[a].append(b)
-       # for t in targets:
-       #     print t, targets[t]
+        for a, b in sorted(tickets)[::-1]:            
+            targets[a].append(b)       
         route = []
         def visit(airport):            
             while targets[airport]:
                 visit(targets[airport].pop())
-            route.append(airport)
-         #   print route
+            route.append(airport)         
         visit('JFK')
         return route[::-1]       
             
@@ -97,7 +152,8 @@ if __name__=="__main__":
     #tickets=[["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
     #tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
     #tickets = [("JFK","SFO"),("JFK","ATL"),("SFO","ATL"),("ATL","JFK"),("ATL","SFO")]
-    #tickets=[("MUC", "LHR"), ("JFK", "MUC"), ("SFO", "SJC"), ("LHR", "SFO")]
-    tickets= [["JFK","KUL"],["JFK","NRT"], ["NRT","JFK"]]
-    print(Solution().ReconIter(tickets))
-    #print(Solution().findItinerary(tickets))
+    tickets=[("MUC", "LHR"), ("JFK", "MUC"), ("SFO", "SJC"), ("LHR", "SFO")]
+    #tickets= [["JFK","KUL"],["JFK","NRT"], ["NRT","JFK"]]
+    #print(Solution().ReconIter(tickets))
+    print(Solution().findItinerary(tickets))
+    print(Solution().findItineraryPQ(tickets))

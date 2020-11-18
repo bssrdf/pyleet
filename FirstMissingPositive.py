@@ -45,5 +45,5 @@ if __name__ == "__main__":
     #print(Solution().firstMissingPositive([1,2,0]))
     #print(Solution().firstMissingPositive([7,8,9,11,12]))
     #print(Solution().firstMissingPositive([1]))
-    print(Solution().firstMissingPositive([3,-1,23,7,21,12,8,9
-    18,21,-1,16,1,13,-3,22,23,13,7,14,3,6,4,-3]))
+    print(Solution().firstMissingPositive([3,-1,23,7,21,12,8,9,
+                                   18,21,-1,16,1,13,-3,22,23,13,7,14,3,6,4,-3]))

@@ -64,7 +64,7 @@ class Solution(object):
         if k == 0:
             return nums
 # Defining Deque and result list
-        deq = deque()
+        dq = deque()
         result = []
         
 # First traversing through K in the nums and only adding maximum value's index to the deque.
@@ -73,14 +73,11 @@ class Solution(object):
 # and if new valus is less, we don't need it
 
         for i in range(k):
-            while len(deq) != 0:
-                if nums[i] > nums[deq[-1]]:
-                    deq.pop()
-                else:
-                    break
-
-            deq.append(i)
-        print(deq)
+            while dq and nums[dq[-1]] < nums[i]:
+                dq.pop()            
+            dq.append(i)
+            
+        #print(deq)
             
 # Here we will have deque with index of maximum element for the first subsequence of length k.
 	
@@ -91,21 +88,16 @@ class Solution(object):
 # 4. Append i at the end of the deque  (Not: 3rd and 4th steps are similar to previous for loop)
  
         for i in range(k, len(nums)):
-            result.append(nums[deq[0]])
+            result.append(nums[dq[0]])
+            if dq[0] < i - k + 1:
+                dq.popleft()
+            while dq and nums[dq[-1]] < nums[i]:
+                dq.pop()            
+            dq.append(i)
             
-            if deq[0] < i - k + 1:
-                deq.popleft()
-            
-            while len(deq) != 0:
-                if nums[i] > nums[deq[-1]]:
-                    deq.pop()
-                else:
-                    break
-            
-            deq.append(i)
         
 #Adding the maximum for last subsequence
-        result.append(nums[deq[0]])
+        result.append(nums[dq[0]])
         
         return result
 

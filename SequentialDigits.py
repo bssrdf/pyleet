@@ -39,8 +39,8 @@ class Solution(object):
             for i in range(0, len(digits)-k+1):
                 num = int(digits[i:i+k])
                 if low <= num <= high:
-                    ans.append(num)              
-            
+                    ans.append(num)            
+           
         return ans        
 
 if __name__ == "__main__":

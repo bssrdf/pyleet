@@ -22,7 +22,9 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         
-        The transition relation is constructed by the following four equations. Actually, sell2 is the only state we record for iterations. The others are intermediate states.
+        The transition relation is constructed by the following four equations. 
+        Actually, sell2 is the only state we record for iterations. The others are 
+        intermediate states.
 
          buy1 and *sell1 *are for the first transaction
 

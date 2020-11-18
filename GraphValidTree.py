@@ -1,4 +1,11 @@
 """
+$$$
+-Medium-
+
+*DFS*
+*Union Find*
+
+
 Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge 
 is a pair of nodes), write a function to check whether these edges make up a valid tree.
 
@@ -43,15 +50,20 @@ class Solution(object):
         visited = [False]*n
         if not self.dfs(graph, 0, -1, visited):
             return False
+        # check to see if every node has been visited    
         for v in visited:
             if not v:
-                print 'not connected'
+                print('not connected')
                 return False
         return True
-
+    # Note about why we need to have 'pre' and the decision
+    # if x != pre
+    # we have an undirected graph so if x->y then y->x
+    # when traversing with DFS, we'd like to skip the immediate
+    # predecessesor, i.e., depth first 
     def dfs(self, V, v, pre, visited):
         if visited[v]:
-            print 'cycle found: ', v, ' has been visited before'
+            print('cycle found: ', v, ' has been visited before')
             return False
         visited[v] = True
         for x in V[v]:
@@ -75,7 +87,7 @@ class Solution(object):
             if x == y:
                 return False
             roots[x] = y
-        print roots
+        #print roots
             
         return len(edges) == n-1
         
@@ -91,6 +103,6 @@ if __name__ == "__main__":
     edges = [[0,x] for x in range(1,N)]  
     #edges = [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]
     #edges = [[0, 1], [1, 2], [2, 3],  [1, 4]]
-    print Solution().validTree(N, edges)
+    print(Solution().validTree(N, edges))
     #print Solution().validTreeUF(5, edges)
     #print Solution().validTreeUF(N, edges)

@@ -1,7 +1,4 @@
-'''
 
-
-'''
 
 '''
 The n-queens puzzle is the problem of placing n queens on an n×n 
@@ -9,12 +6,28 @@ chessboard such that no two queens attack each other.
 
 '''
 
+'''
+Given an integer n, return the number of distinct solutions to the 
+n-queens puzzle.
+
+'''
 class Solution(object):
     def solveNQueens(self, n):
         """
         :type n: int
         :rtype: List[List[str]]
         """
+
+        '''
+
+      don't need to actually place the queen,
+      instead, for each row, try to place without violation on
+      col/ diagonal1/ diagnol2.
+      trick: to detect whether 2 positions sit on the same diagnol:
+      if delta(col, row) equals, same diagnol1;
+      if sum(col, row) equals, same diagnal2.
+
+        '''
         
         occupiedCols = set()
         occupiedDiag1s = set()
@@ -38,8 +51,7 @@ class Solution(object):
                     backtrack(row+1)
                     occupiedCols.remove(j)
                     occupiedDiag1s.remove(row-j)
-                    occupiedDiag2s.remove(row+j)
-            #return count
+                    occupiedDiag2s.remove(row+j)            
             return
                 
         backtrack(0)

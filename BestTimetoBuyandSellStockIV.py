@@ -45,7 +45,7 @@ class Solution(object):
            dp[i][k] = max(dp[i-1][k], price[i]-price[j]+dp[j-1][k-1] for j < i)
         With a small tweak of the function, instead of looking for 
         max(prices[i]-prices[j]+dp[j-1,k-1]), we can look for 
-        min(prices[j]-dp[j-1,k-1]), so that we can store this value along with 
+        max(dp[j-1,k-1]-prices[j], for j in [0,i-1]), so that we can store this value along with 
         the outer iteration
 
         '''
@@ -56,8 +56,7 @@ class Solution(object):
             for i in range(1,len(prices)):
                 ret += max(0,prices[i]-prices[i-1])
             return ret
-        dp = [[0 for _ in range(k+1)] for _ in range(len(prices))] 
-        #low = [prices[0] for _ in range(k+1)]
+        dp = [[0 for _ in range(k+1)] for _ in range(len(prices))]         
         for kk in range(1,k+1):               
             tmpMax = -prices[0]
             for i in range(1,len(prices)):                            

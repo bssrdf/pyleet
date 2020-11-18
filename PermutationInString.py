@@ -32,8 +32,7 @@ class Solution(object):
         :rtype: bool
         """
         start = end = 0
-        char_need = defaultdict(int)    # the count of char needed by current window, negative means current window has it but not needs it
-        #char_need = {}
+        char_need = defaultdict(int)    # the count of char needed by current window, negative means current window has it but not needs it        
         count_need = len(s1)             # count of chars not in current window but in t               
         
         for i in s1:           
@@ -51,8 +50,7 @@ class Solution(object):
             # the window: dictated by count_need=0
             while count_need == 0:
                 if end-start == len(s1):
-                    return True
-                #if s[start] in char_need:
+                    return True                
                 char_need[s2[start]] += 1    # current window does not contain s[start] any more
                 if char_need[s2[start]] > 0: # when some count in char_need is positive, it means there is char in t but not current window
                     count_need += 1

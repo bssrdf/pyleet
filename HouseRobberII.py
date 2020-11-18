@@ -19,6 +19,7 @@ house, determine the maximum amount of money you can rob tonight without
 alerting the police.
 
 '''
+from typing import List
 
 class Solution(object):
     
@@ -32,7 +33,7 @@ class Solution(object):
             exl = max(i,e)
         return max(inc,exl)
     
-    def rob(self, nums):
+    def rob(self, nums: List[int]) -> int:
         """
         :type nums: List[int]
         :rtype: int

@@ -1,4 +1,7 @@
 '''
+
+*Morris Traversal*
+
 Two elements of a binary search tree (BST) are swapped by mistake.
 
 Recover the tree without changing its structure.
@@ -51,6 +54,13 @@ class Solution(object):
         :type root: TreeNode
         :rtype: None Do not return anything, modify root in-place instead.
         """
+        '''
+        For Morris traversal, see 
+        https://www.cnblogs.com/AnnieKim/archive/2013/06/15/morristraversal.html   
+     
+        '''
+
+
         x, y, pny = None, None, None
         pre = None
         while root:
@@ -76,7 +86,7 @@ class Solution(object):
                         x = pre
                 pre = root
                 root = root.right
-        print('x,y: ',x.val, y.val)
+        #print('x,y: ',x.val, y.val)
         x.val, y.val = y.val, x.val
 
 

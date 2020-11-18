@@ -60,18 +60,18 @@ class Solution:
             return False
 
         def dfs(root,path):            
-            if root not in g:
+            if root not in g: # arrives at a dead end, return
                 return root == destination                
 
             path.add(root)
             for n in g[root]:
-                # if n already in path, there is a cycle so return false                 
+                # if n already in path, there is a cycle so return false      
+                # if continuing this path leads to an end which is not the target, 
+                # also return false; this means not all paths leads to destination           
                 if n in path or not dfs(n,path):
                     return False
             path.remove(root)   
             return True
-
-
         return dfs(source,set())
 
 if __name__ == "__main__":

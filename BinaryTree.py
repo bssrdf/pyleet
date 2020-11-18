@@ -36,21 +36,27 @@ def inOrder(root):
     if root != None: 
         inOrder(root.left)  
         print(root.val, end=" ")  
-        inOrder(root.right)  
+        inOrder(root.right)
+    
 
 def preOrder(root): 
     if root != None: 
         print(root.val, end=" ")  
         preOrder(root.left)        
         preOrder(root.right)  
+    
 
 if __name__ == "__main__":
       
-    arr = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
+    #arr = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
     
-    root = constructBinaryTree(arr)
+    #root = constructBinaryTree(arr)
+    #inOrder(root)
+
+    root = constructBinaryTree([6,2,7,1,4,null,9,null, null, 3,5, null, null, 8, null])    
+    
     inOrder(root)
-       
+    preOrder(root)
 
 
         

@@ -29,5 +29,25 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
+        ans = [0]
+        ln = []
+        def decimal(l):
+            m = len(l)
+            n = 0            
+            for i in range(m):
+                if l[i] == 1:
+                    n += 1 << (m-i-1)
+            return n
+        def dfs(root):
+            ln.append(root.val)
+            if root.left is None and root.right is None:
+               ans[0] += decimal(ln)                    
+            if root.left:                
+                dfs(root.left)
+            if root.right:
+                dfs(root.right)
+            ln.pop()
+        dfs(root)
+        return ans[0]
 
         

@@ -38,20 +38,27 @@ class Solution(object):
         if not height:
             return 0
         leftMax = rightMax = 0
-        left = 0
-        right = len(height)-1
+        left, right = 0, len(height)-1        
         water = 0        
         while left < right:
             if leftMax < height[left]:
                 leftMax = height[left]
             if rightMax < height[right]:
                 rightMax = height[right]
+            # the if/else below chooses the smaller one
+            # b.w. leftMax and rightMax and used it to compute 
+            # the water level                
             if leftMax < rightMax:
-                water = water + leftMax-height[left]
-                left = left + 1
+                # rightMax may not be the maximum to the right of left pointer
+                # but it doesn't matter because we need min(leftMax, rightMax).
+                # let's say h[j] is the true maximum to the right of left pointer
+                # and h[j] > rightMax and j < right. We won't pick h[j] because
+                # leftMax < rightMax < h[j]
+                water += leftMax-height[left]
+                left += 1
             else:
-                water = water + rightMax-height[right]
-                right = right - 1
+                water += rightMax-height[right]
+                right -= 1
             print(left, right, leftMax, rightMax, water)
         return water
 
@@ -68,23 +75,17 @@ class Solution(object):
                    if not st:
                       continue
                    res += (min(height[i], height[st[-1]])-height[t])*(i-st[-1]-1)
-<<<<<<< HEAD
-                print st, res
-=======
-                print(st, res)
->>>>>>> 116cc6699e6d001cb6a62f0e62a7074353734518
+#                print(st, res)
              return res
         
 
 if __name__ == "__main__":
 #    print Solution().trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
-    #print Solution().trap_o1space([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
+    print(Solution().trap_o1space([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
     #print Solution().trap([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
    # print(Solution().trap_o1space([0, 3, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
-<<<<<<< HEAD
-    print Solution().trap_stack([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]) #== 6
-=======
+    #print(Solution().trap_stack([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
     #print(Solution().trap_stack([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])) #== 6
 
-    print(Solution().trap_stack([0, 5, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4, 5, 6])) #== 6
->>>>>>> 116cc6699e6d001cb6a62f0e62a7074353734518
+    #print(Solution().trap_stack([0, 5, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4, 5, 6])) #== 6
+

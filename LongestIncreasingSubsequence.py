@@ -1,5 +1,6 @@
 """
-Given an unsorted array of integers, find the length of longest increasing subsequence.
+Given an unsorted array of integers, find the length of longest increasing 
+subsequence.
 
 For example,
 Given [10, 9, 2, 5, 3, 7, 101, 18],
@@ -17,59 +18,66 @@ __author__ = 'Daniel'
 
 class Solution(object):    
     
-    
     def binary_search_corr(self, L, a):
         l = -1
         r = len(L)
-        print l, r
+        print(l, r)
         while r-l > 1:
             m = l+(r-l)/2
             if L[m] >= a:
                 r = m
             else:
                 l = m
-            print l, r, m
+            print(l, r, m)
         return r        
         
         
     def lengthOfLIS_nlogn(self, A):
         if not A:
             return 0         
-            
-        def binary_search(L, T, l, r, a):
+        # bis[k] : the index the best increasing sequence of length k end at            
+        bis=[0]*len(A)        
+        prev = [-1]*len(A)
+        ll = 1
         
+        def bisect_diy(l, r, a):    
+            while l<r:
+                m = l+(r-l)//2
+                if A[bis[m]] >= a:
+                    r = m
+                else:
+                    l = m+1
+            return r  
+
+        def binary_search(l, r, a):        
             while r-l > 1:
-                m = l+(r-l)/2
-                if L[T[m]] >= a:
+                m = l+(r-l)//2
+                if A[bis[m]] >= a:
                     r = m
                 else:
                     l = m                
             return r         
-                    
-        bis=[0]*len(A)        
-        prev = [-1]*len(A)
-        ll = 1
         for i in range(1, len(A)):       
-
-                #ind = binary_search(bis, a)
             if A[i] < A[bis[0]]:
                 bis[0] = i # new smallest value
-            elif A[i] > A[bis[ll-1]]:
+            elif A[i] > A[bis[ll-1]]: # A[i] can extend the LIS found so far
                 prev[i] = bis[ll-1]
-                bis[ll] = i
-                ll +=1
+                bis[ll] = i # after the extension the longest IS ends at i  
+                ll +=1 # after the extension the longest length is ll  
             else:                
-                ind = binary_search(A, bis, -1, ll, A[i])            
-                prev[i] = bis[ind-1]
-                bis[ind] = i
+                #j = binary_search(-1, ll, A[i]) # find a location j in [0, ll]                          
+                j = bisect_diy(0, ll, A[i]) # find a location j in [0, ll]                          
+                prev[i] = bis[j-1]   # such that A[bis[j-1]] < A[i] < A[bis[j]]
+                bis[j] = i  # replace bis[j] with i, indicating we have found a
+                            # better bis[j] ending with A[i]                           
         for i in bis[:ll]:
-            print A[i]
-        print '******************************'
-        print prev
-        print '******************************'
+            print(A[i])
+        print('******************************')
+        print(prev)
+        print('******************************')
         i = bis[ll-1]
         while i>=0:
-            print A[i]
+            print(A[i])
             i = prev[i]
                 
            # print a, ind, bis
@@ -107,8 +115,9 @@ class Solution(object):
 
 if __name__ == "__main__":
     #assert Solution().lengthOfLIS_dp([10, 9, 2, 5, 3, 7, 101, 18]) == 4
-    #assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
-    assert Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]) == 6
+    assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    #assert Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14,
+    #                                     1, 9, 5, 13, 3, 11, 7, 15]) == 6
     #assert Solution().lengthOfLIS_dp([2, 4, 6, 8, 10, 1]) == 5    
     #assert Solution().lengthOfLIS_nlogn([2, 4, 6, 8, 10, 1]) == 5    
     L = [2, 4, 6, 9, 11, 15]

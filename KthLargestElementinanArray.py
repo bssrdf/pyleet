@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """
+-Medium-
+
 Find the kth largest element in an unsorted array. Note that it is the kth 
 largest element in the sorted order, not the kth distinct element.
 
@@ -50,8 +52,8 @@ class Solution:
                 return select(p, q-1, k)
             else:
                 return select(q+1, r, k-i)
-
-        return select(0, len(nums)-1, len(nums)-k+1)   
+        n = len(nums)    
+        return select(0, n-1, n-k+1)   
 
 
 

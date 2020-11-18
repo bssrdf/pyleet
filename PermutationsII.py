@@ -1,5 +1,6 @@
 """
-Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+Given a collection of numbers that might contain duplicates, return all 
+possible unique permutations.
 
 For example,
 [1,1,2] have the following unique permutations:
@@ -51,4 +52,5 @@ class Solution:
             self.dfs(nums[:ind]+nums[ind+1:], current+[val], result)
 
 if __name__=="__main__":
-    print Solution().permuteUnique([1, 1, 2])
+    print(Solution().permuteUnique([1, 1, 2]))
+    print(Solution().permuteUnique([1, 3, 2]))

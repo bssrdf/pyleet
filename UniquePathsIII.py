@@ -48,6 +48,11 @@ class Solution(object):
         :type grid: List[List[int]]
         :rtype: int
         """
+
+        '''
+        The solution to this problem shows a way to walk along a path that includes
+        all cells exactly once that satify certain conditions. 
+        '''
         res = [0]
         # here empty initialized to 1 to account for the start
         m, n, empty = len(grid), len(grid[0]), 1
@@ -58,8 +63,7 @@ class Solution(object):
                 res[0] += empty == 0
                 return 
             grid[x][y] = -2 # trick done on grid for backtracing 
-            # explore in all 4 directions; each one could be a unique path
-            # 
+            # explore in all 4 directions; each one could be a unique path             
             dfs(x+1, y, empty-1)
             dfs(x-1, y, empty-1)
             dfs(x, y+1, empty-1)

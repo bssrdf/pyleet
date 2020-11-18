@@ -110,7 +110,7 @@ class Solution(object):
         mat = [['' for _ in range(n)] for _ in range(n)]    
         res = []        
         # helper function fills in the mat array layer by layer 
-        # each layer is represented by (i,i), (i,i-1..n) and
+        # each layer is represented by (i,i), (i,i+1..n) and
         # (i+1..n,i)
         def helper(i):
             if i == n:                       
