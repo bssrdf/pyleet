@@ -1,4 +1,10 @@
 '''
+-Medium-
+
+*Sliding Window*
+
+
+
 Given two strings s1 and s2, write a function to return true if s2 contains 
 the permutation of s1. In other words, one of the first string's permutations 
 is the substring of the second string.
@@ -25,6 +31,40 @@ The length of both given strings is in range [1, 10,000].
 from collections import defaultdict
 
 class Solution(object):
+
+    def checkInclusionFramework(self, s1, s2):
+        '''
+        use the sliding window framework
+        ''' 
+        need   = defaultdict(int)
+        window = defaultdict(int)        
+        for c in s1: need[c] += 1
+        left, right = 0,  0
+        valid = 0
+        while right < len(s2):
+            # c 是将移入窗口的字符
+            c = s2[right]
+            # 右移窗口
+            right += 1
+            # 进行窗口内数据的一系列更新
+            if c in need:
+                window[c] += 1
+                if window[c] == need[c]:
+                    valid += 1 
+            # 判断左侧窗口是否要收缩
+            while right-left >= len(s1): 
+                if valid == len(need):
+                   return True
+                d = s2[left]
+                # 左移窗口
+                left += 1 
+                # 进行窗口内数据的一系列更新
+                if d in need:
+                    if window[d] == need[d]:
+                        valid -= 1
+                    window[d] -= 1        
+        return False
+
     def checkInclusion(self, s1, s2):
         """
         :type s1: str
@@ -62,3 +102,5 @@ class Solution(object):
 if __name__ == "__main__":
    print(Solution().checkInclusion("ab", "eidbaooo"))
    print(Solution().checkInclusion("ab", "eidboaoo"))
+   print(Solution().checkInclusionFramework("ab", "eidbaooo"))
+   print(Solution().checkInclusionFramework("ab", "eidboaoo"))

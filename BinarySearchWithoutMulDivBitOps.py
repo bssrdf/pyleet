@@ -13,22 +13,23 @@ class Solution(object):
         powers = [0, 1]
         next_power = powers[-1] + powers[-1] 
         while next_power < len(arr): 
-            powers.append(next_power) 
+            powers.append(next_power) ``
             next_power = powers[-1] + powers[-1] 
-        i, j, power_index = 0, len(arr) - 1, len(powers) - 1 
-        while i < j: 
-            while i + powers[power_index] >= len(arr): 
+        print(powers)
+        left, right, power_index = 0, len(arr) - 1, len(powers) - 1 
+        while left < right: 
+            while left + powers[power_index] >= len(arr): 
                 power_index -= 1 
-            mid = i + powers[power_index] 
+            mid = left + powers[power_index] 
             if arr[mid] == n: 
                 return mid 
             if arr[mid] < n: 
-                i = mid + 1 
+                left = mid + 1 
             else: 
-                j = mid 
+                right = mid 
             power_index -= 1 
-        if i < len(arr) and arr[i] == n: 
-            return i 
+        if left < len(arr) and arr[left] == n: 
+            return left
         return -1
 
 if __name__ == "__main__":

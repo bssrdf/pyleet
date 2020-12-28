@@ -3,6 +3,7 @@
 -Medium-
 
 *DP*
+*Knapsack*
 
 You are given an array of binary strings strs and two integers m and n.
 

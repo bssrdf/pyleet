@@ -24,7 +24,7 @@ class Solution(object):
                 maxLen = max(k-i, maxLen)
                 i = j+1            
             j = k-1
-            print i, j, k, maxLen
+            print(i, j, k, maxLen)
         #print j, i, maxLen
         return max(len(S)-i, maxLen)
 
@@ -46,7 +46,7 @@ class Solution(object):
                     else:
                         del hmap[S[i]]
                     i += 1
-            print i, k, maxLen, len(hmap)
+            print(i, k, maxLen, len(hmap))
         maxLen = max(maxLen, len(S)-i)
         return maxLen
                     

@@ -48,6 +48,7 @@ class Solution(object):
                         res = max(res, i-start+1)
                     else:
                         res = max(res, i-st[-1])
+        #print('start',start)
         return res
 
 
@@ -66,3 +67,4 @@ if __name__ == "__main__":
     print(Solution().longestValidParentheses(""))
     #'''
     print(Solution().longestValidParentheses("()(()"))
+    print(Solution().longestValidParentheses("(((())"))

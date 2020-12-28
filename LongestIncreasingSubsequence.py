@@ -4,8 +4,9 @@ subsequence.
 
 For example,
 Given [10, 9, 2, 5, 3, 7, 101, 18],
-The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4. Note that there may be more than one
-LIS combination, it is only necessary for you to return the length.
+The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4. 
+Note that there may be more than one LIS combination, it is only necessary 
+for you to return the length.
 
 Your algorithm should run in O(n2) complexity.
 
@@ -35,11 +36,6 @@ class Solution(object):
     def lengthOfLIS_nlogn(self, A):
         if not A:
             return 0         
-        # bis[k] : the index the best increasing sequence of length k end at            
-        bis=[0]*len(A)        
-        prev = [-1]*len(A)
-        ll = 1
-        
         def bisect_diy(l, r, a):    
             while l<r:
                 m = l+(r-l)//2
@@ -48,15 +44,11 @@ class Solution(object):
                 else:
                     l = m+1
             return r  
-
-        def binary_search(l, r, a):        
-            while r-l > 1:
-                m = l+(r-l)//2
-                if A[bis[m]] >= a:
-                    r = m
-                else:
-                    l = m                
-            return r         
+        # bis[k] : the index the best increasing sequence of length k ends at            
+        # k = 0, ll-1
+        bis=[0]*len(A)        
+        prev = [-1]*len(A)
+        ll = 1 # length of LIS, which is 1 initially for len(A)=1
         for i in range(1, len(A)):       
             if A[i] < A[bis[0]]:
                 bis[0] = i # new smallest value
@@ -64,9 +56,8 @@ class Solution(object):
                 prev[i] = bis[ll-1]
                 bis[ll] = i # after the extension the longest IS ends at i  
                 ll +=1 # after the extension the longest length is ll  
-            else:                
-                #j = binary_search(-1, ll, A[i]) # find a location j in [0, ll]                          
-                j = bisect_diy(0, ll, A[i]) # find a location j in [0, ll]                          
+            else:                                
+                j = bisect_diy(0, ll, A[i]) # find a location j in [0, ll)                          
                 prev[i] = bis[j-1]   # such that A[bis[j-1]] < A[i] < A[bis[j]]
                 bis[j] = i  # replace bis[j] with i, indicating we have found a
                             # better bis[j] ending with A[i]                           
@@ -104,13 +95,13 @@ class Solution(object):
         F=[1]*len(A)        
         maxa = 1
         for i in range(1, len(A)):
+            # starting from index i, traverse back until index 0,
+            # if A[i] > any given number A[j], we have a potential 
+            # new LIS with length F[j]+1, update F[i] and the result
             for j in range(i):
                 if A[i] > A[j] and F[i] < 1+F[j]:
                     F[i] = 1+F[j]
-                #else:
-                 #   F[i] = 1
             maxa = max(maxa, F[i])
-        #print F
         return maxa       
 
 if __name__ == "__main__":

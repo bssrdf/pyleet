@@ -68,4 +68,4 @@ if __name__ == "__main__":
     words = ["practice", "makes", "perfect", "coding", "makes", "study", "makes"]
     #print Solution().shortestDistance(words, "practice", "coding")
     #print Solution().shortestDistance(words, "makes", "coding")
-    print Solution().shortestDistanceEqual(words, "makes", "makes")
+    print(Solution().shortestDistanceEqual(words, "makes", "makes"))

@@ -1,14 +1,18 @@
 '''
-You are driving a vehicle that has capacity empty seats initially available for passengers.  The vehicle only drives east (ie. it cannot turn around and drive west.)
+-Medium-
 
-Given a list of trips, trip[i] = [num_passengers, start_location, end_location] contains 
-information about the i-th trip: the number of passengers that must be picked up, and the 
-locations to pick them up and drop them off.  The locations are given as the number of 
-kilometers due east from your vehicle's initial location.
+You are driving a vehicle that has capacity empty seats initially available 
+for passengers.  The vehicle only drives east (ie. it cannot turn around 
+and drive west.)
 
-Return true if and only if it is possible to pick up and drop off all passengers for all 
-the given trips. 
+Given a list of trips, trip[i] = [num_passengers, start_location, end_location] 
+contains information about the i-th trip: the number of passengers that must 
+be picked up, and the locations to pick them up and drop them off.  The locations 
+are given as the number of kilometers due east from your vehicle's initial 
+location.
 
+Return true if and only if it is possible to pick up and drop off all passengers 
+for all the given trips. 
  
 
 Example 1:
@@ -42,6 +46,19 @@ trips[i].length == 3
 from collections import defaultdict
 
 class Solution(object):
+
+    def carPoolingDiffArray(self, trips, capacity):
+        N  =  1001
+        df = [0]*(N+1)
+        for np, sp, ep in trips:
+            df[sp] += np
+            df[ep] -= np #这个地方不能加1，考虑同一站既有上车又有下车（题目说了先下后上）
+        sm = 0        
+        for i in range(N+1):            
+            sm += df[i]
+            if sm > capacity: return False
+        return True
+             
     
     def carPooling(self, trips, capacity):
         """
@@ -90,13 +107,19 @@ class Solution(object):
 
 
 if __name__ == "__main__":
-    '''
     print(Solution().carPooling([[2,1,5],[3,3,7]], 4))
     print(Solution().carPooling([[2,1,5],[3,3,7]], 5))
     print(Solution().carPooling([[2,1,5],[3,5,7]], 3))
     print(Solution().carPooling([[3,2,7],[3,7,9],[8,3,9]], 11))
-    print(Solution().carPooling([[5,4,7],[7,4,8],[4,1,8]], 17))
-    
+    print(Solution().carPooling([[5,4,7],[7,4,8],[4,1,8]], 17))   
     print(Solution().carPooling([[9,3,4],[9,1,7],[4,2,4],[7,4,5]], 23))
-    '''
     print(Solution().carPooling([[3,5,9],[4,2,5],[3,4,6],[9,1,4],[5,6,8],[5,4,6]], 14))
+    print("------------------------")
+    print(Solution().carPoolingDiffArray([[2,1,5],[3,3,7]], 4))
+    print(Solution().carPoolingDiffArray([[2,1,5],[3,3,7]], 5))
+    print(Solution().carPoolingDiffArray([[2,1,5],[3,5,7]], 3))
+    print(Solution().carPoolingDiffArray([[3,2,7],[3,7,9],[8,3,9]], 11))
+    print(Solution().carPoolingDiffArray([[5,4,7],[7,4,8],[4,1,8]], 17))   
+    print(Solution().carPoolingDiffArray([[9,3,4],[9,1,7],[4,2,4],[7,4,5]], 23))
+    print(Solution().carPoolingDiffArray([[3,5,9],[4,2,5],[3,4,6],[9,1,4],
+                                   [5,6,8],[5,4,6]], 14))

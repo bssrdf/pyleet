@@ -1,4 +1,6 @@
 '''
+-Hard-
+
 A Range Module is a module that tracks ranges of numbers. Your task is to 
 design and implement the following interfaces in an efficient manner.
 
@@ -112,8 +114,108 @@ class RangeModule:
 		
         return start == end and start % 2 == 1
 
+from sortedcontainers import SortedDict, SortedList
+
+class RangeModule2:
+
+    def __init__(self):
+        self.track = SortedDict()
+
+    def __str__(self):
+        return str(self.track)
+
+    def find(self, left, right):
+        sl = SortedList(self.track.keys())
+        l = sl.bisect_left(left)
+        r = sl.bisect_left(right)
+        if l > 0:
+            l -= 1
+            if self.track[sl[l]] < left:
+                l += 1 
+        if l == r:
+            return (left, right)
+        else:            
+            i = min(sl[l], left)  
+            if r == len(sl): r -= 1            
+            j = max(self.track[sl[r]], right)
+            for it in list(sl.irange(sl[l], sl[r])):
+                self.track.pop(it)
+            return (i, j)
+
+    def addRange(self, left, right):        
+        i, j = self.find(left, right)
+        self.track[i] = j        
+
+    def removeRange(self, left, right):
+        i, j = self.find(left, right)
+        if left > i: self.track[i] = left
+        if right < j: self.track[right] = j
+        
+		
+    def queryRange(self, left, right):
+        sl = SortedList(self.track.keys())
+        l = sl.bisect_right(left)
+        print('l = ', l)
+        return self.track[sl[l-1]] >= right
+
+class RangeModule3:
+
+    def __init__(self):
+        self.root = SegNode(0,10**9,False)
+
+    def update(self, cur, left, right, state):
+        
+        if cur.l >= left and cur.r <= right:
+            cur.state = state
+            cur.left, cur.right = None, None
+            return state
+        if cur.l >= right or cur.r <= left:
+            return cur.state
+        if not cur.left:
+            mid = (cur.l+cur.r)//2
+            cur.left = SegNode(cur.l,mid,cur.state)
+            cur.right = SegNode(mid,cur.r,cur.state)
+        sl = self.update(cur.left,left,right,state)
+        sr = self.update(cur.right,left,right,state)
+        cur.state = (sl and sr)
+        return cur.state
+
+    def query(self, cur, left, right):
+        # print(cur,left,right)
+        if cur.l >= right or cur.r <= left:
+            return True
+        if (cur.l >= left and cur.r <= right) or not cur.left:
+            return cur.state
+        
+        res = self.query(cur.left,left,right) and self.query(cur.right,left,right)
+        # print(cur,left,right,res)
+        return res
+
+
+
+    def addRange(self, left, right):
+        self.update(self.root,left,right,True)
+        
+
+    def queryRange(self, left, right):
+        return self.query(self.root,left,right)
+        
+
+    def removeRange(self, left, right):
+        self.update(self.root,left,right,False)
+
+
+class SegNode:
+
+    def __init__(self,l,r,state):
+        self.l, self.r, self.state = l, r, state
+        self.left, self.right = None, None
+        
+    def __repr__(self):
+        return ' '.join(map(str,[self.l,self.r,self.state]))
 
 if __name__ == "__main__":
+    '''
     rn = RangeModule()
     rn.addRange(10, 20)
     rn.addRange(24, 30)
@@ -121,3 +223,17 @@ if __name__ == "__main__":
     rn.addRange(14, 27)
     #rn.removeRange(14, 16)
     print(rn)
+    '''
+    rn = RangeModule2()
+    rn.addRange(10, 20)
+    print(rn)
+    rn.removeRange(14, 16)
+    print(rn)
+    print(rn.queryRange(10,14))
+    print(rn.queryRange(13,15))
+    print(rn.queryRange(16,17))
+    #rn.addRange(24, 30)
+    #print(rn)
+    #rn.addRange(14, 27)
+    
+   # print(rn)

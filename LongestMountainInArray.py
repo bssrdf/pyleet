@@ -37,6 +37,29 @@ Can you solve it in O(1) space?
 '''
 
 class Solution(object):
+    def longestMountainTLE(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        """
+        although this solution is more clear, but can not pass AC (TLE) 
+
+        """
+        if not A: return 0        
+        res, n = 0, len(A)
+        for i in range(n):
+            j = i
+            while j+1 < n and A[j+1] > A[j]:
+                j += 1
+            k = j
+            while k+1 < n and A[k+1] < A[k]:
+                k += 1
+            if j > i and k > j:  
+                res = max(res, k-i+1)
+        return res
+
+
     def longestMountain(self, A):
         """
         :type A: List[int]
@@ -69,3 +92,9 @@ if __name__ == "__main__":
     print(Solution().longestMountain([2,1,4,7,3,2,5]))
     print(Solution().longestMountain([2,2,2,1]))
     print(Solution().longestMountain([1,2,4,10,7,4,2]))
+    print(Solution().longestMountainTLE([2,1,4,7,3,2,5]))
+    print(Solution().longestMountainTLE([2,2,2,1]))
+    print(Solution().longestMountainTLE([1,2,4,10,7,4,2]))
+    mount = [i for i in range(9999, -1, -1)]
+    print(Solution().longestMountain(mount))
+    print(Solution().longestMountainTLE(mount))

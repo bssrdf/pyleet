@@ -1,4 +1,8 @@
 '''
+-Medium-
+
+*Monotonic Queue*
+
 Given a circular array (the next element of the last element is the first element of 
 the array), print the Next Greater Number for every element. The Next Greater Number 
 of a number x is the first greater number to its traversing-order next in the array, 

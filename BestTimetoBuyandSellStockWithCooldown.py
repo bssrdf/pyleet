@@ -1,4 +1,7 @@
 '''
+-Medium-
+
+
 Say you have an array for which the ith element is the price of a given stock on day i.
 
 Design an algorithm to find the maximum profit. You may complete as many 
@@ -52,7 +55,8 @@ class Solution(object):
         n = len(prices)
         buy = [0] * (n+1)
         sell = [0] *(n+1)
-        buy[1] = -prices[0]
+        buy[1] = -prices[0] # first day is buy, profit is -prices[0]
+                            # first day can not sell, profit is 0
         for i in range(2, n+1):
             price = prices[i-1]
             buy[i] = max(sell[i-2]-price, buy[i-1])

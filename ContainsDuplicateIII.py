@@ -1,4 +1,9 @@
 '''
+-Medium-
+
+*Sort*
+*OrderedMap*
+
 Given an array of integers, find out whether there are two distinct indices 
 i and j in the array such that the absolute difference between nums[i] and
 nums[j] is at most t and the absolute difference between i and j is at 
@@ -23,8 +28,32 @@ Output: false
 
 '''
 
+from sortedcontainers import SortedDict
 
 class Solution(object):
+
+    def containsNearbyAlmostDuplicateOrderMap(self, nums, k, t):
+        """
+        :type nums: List[int]
+        :type k: int
+        :type t: int
+        :rtype: bool
+        """
+        m = SortedDict()
+        j = 0
+        for i in range(len(nums)):
+            if i - j > k: 
+                m.pop(nums[j])
+                j += 1
+            a = m.bisect_left(nums[i] - t)            
+            keys = m.keys()
+            if a < len(m) and abs(keys[a] - nums[i]) <= t: 
+                return True                
+            m[nums[i]] = i
+        return False
+
+        
+
     def containsNearbyAlmostDuplicate(self, nums, k, t):
         """
         :type nums: List[int]
@@ -62,4 +91,7 @@ class Solution(object):
         return False
 
 if __name__ == "__main__":
-    print(Solution().containsNearbyAlmostDuplicate([1,5,9,13,1,5,9], 3, 3))
+    #print(Solution().containsNearbyAlmostDuplicate([1,5,9,13,1,5,9], 3, 3))
+    print(Solution().containsNearbyAlmostDuplicateOrderMap([1,5,9,1,5,9], 2, 3))
+    print(Solution().containsNearbyAlmostDuplicateOrderMap([1,0,1,1], 1, 2))
+    print(Solution().containsNearbyAlmostDuplicateOrderMap([1,2,3,1], 3, 0))

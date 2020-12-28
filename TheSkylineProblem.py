@@ -18,8 +18,8 @@ uniquely defines a skyline. A key point is the left endpoint of a horizontal lin
 where the rightmost building ends, is merely used to mark the termination of the skyline, and always has zero height.
 Also, the ground in between any two adjacent buildings should be considered part of the skyline contour.
 
-For instance, the skyline in Figure B should be represented as:[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24,
-0] ].
+For instance, the skyline in Figure B should be represented as:
+[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24,0] ].
 
 Notes:
 
@@ -34,7 +34,9 @@ __author__ = 'Daniel'
 from collections import defaultdict, namedtuple
 import heapq
 
+from functools import total_ordering
 
+@total_ordering
 class Building(object):
     def __init__(self, h):
         self.h = h
@@ -45,6 +47,16 @@ class Building(object):
         # Reverse order by height to get max-heap
         assert isinstance(other, Building)
         return other.h - self.h
+    def __eq__(self, other):
+        return self.h == other.h
+    def __ne__(self, other):
+        return not (self == other)
+    def __lt__(self, other):        
+        assert isinstance(other, Building)
+        # Reverse order by height to get max-heap
+        return self.h > other.h
+    def __repr__(self):
+        return "%s" % (self.h)
 
 # An event represents the buildings that start and end at a particular
 # x-coordinate.
@@ -58,7 +70,7 @@ class Solution:
         if l == r:
             return [[buildings[l][0],buildings[l][2]], [buildings[l][1],0]]
         else:
-            mid = l + (r-l)/2
+            mid = l + (r-l)//2
             
             return self.merge(self.recurSkyline(buildings, l, mid), 
                               self.recurSkyline(buildings, mid+1, r))
@@ -130,17 +142,20 @@ class Solution:
         heap_h = []  # Heap of buildings currently standing.
         cur_h = 0  # current max height of standing buildings. the current skyline
         ret = []
-        #print events
         # Process events in order by x-coordinate.
-        for x, event in sorted(events.items()):  # sort the dictionary by key
+        for x, event in sorted(events.items(), key=lambda x: x[0]):  # sort the dictionary by key
+            #print('key = ', x)
             for building in event.starts:
                # print 'starts ', x, building
                 heapq.heappush(heap_h, building)
             for building in event.ends:
                # print 'ends ',  x, building
+               # mark the building to be deleted
                 building.deleted = True
 
             # Pop any finished buildings from the top of the heap.
+            # if a building ends at this location, its height cannot 
+            # be part of the skyline any more
             # To avoid using multiset - lazy deletion.
             while heap_h and heap_h[0].deleted:
                 heapq.heappop(heap_h)
@@ -148,7 +163,8 @@ class Solution:
             # Top of heap (if any) is the highest standing building, so
             # its height is the current height of the skyline.
             new_h = heap_h[0].h if heap_h else 0
-            #print x, new_h, cur_h 
+            #print(x, new_h, cur_h) 
+            #print(heap_h)
 
             if new_h != cur_h:
                 cur_h = new_h
@@ -160,7 +176,9 @@ class Solution:
 if __name__ == "__main__":
     #assert Solution().getSkyline([[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]) == \
      #      [[2, 10], [3, 15], [7, 12], [12, 0], [15, 10], [20, 8], [24, 0]]
-    #assert Solution().getSkylineDC([[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]) == \
-     #      [[2, 10], [3, 15], [7, 12], [12, 0], [15, 10], [20, 8], [24, 0]]
-    print Solution().getSkylineDC([[1,2,1],[1,2,2],[1,2,3]]) 
+    assert Solution().getSkylineDC([[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]) == \
+          [[2, 10], [3, 15], [7, 12], [12, 0], [15, 10], [20, 8], [24, 0]]
+    print(Solution().getSkylineDC([[1,2,1],[1,2,2],[1,2,3]]))
+    print(Solution().getSkyline([[2, 9, 10], [3, 7, 15], [5, 12, 12], 
+                                  [15, 20, 10], [19, 24, 8]]))
            

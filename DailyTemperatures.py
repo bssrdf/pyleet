@@ -1,4 +1,8 @@
 '''
+-Medium-
+
+*Monotonic Queue*
+
 Given a list of daily temperatures T, return a list such that, for each day in the 
 input, tells you how many days you would have to wait until a warmer temperature. 
 If there is no future day for which this is possible, put 0 instead.
@@ -12,6 +16,17 @@ will be an integer in the range [30, 100].
 '''
 
 class Solution(object):
+    
+    def dailyTemperaturesFast(self, T):
+        ans = [0] * len(T)
+        stack = []
+        for i, t in enumerate(T):
+           while stack and T[stack[-1]] < t:
+              cur = stack.pop()
+              ans[cur] = i - cur
+           stack.append(i)
+        return ans
+
     def dailyTemperatures(self, T):
         """
         :type T: List[int]

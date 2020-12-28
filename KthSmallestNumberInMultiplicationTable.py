@@ -48,9 +48,7 @@ class Solution(object):
             mid = l + (r-l)//2
             cnt = 0
             for i in range(1,m+1):
-                cnt += n if mid > n*i else mid // i
-             #   print(i, cnt)
-            #print(l, r, m, cnt)
+                cnt += n if mid > n*i else mid // i          
             if cnt < k:
                 l = mid+1
             else:

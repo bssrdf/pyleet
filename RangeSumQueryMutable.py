@@ -3,6 +3,32 @@
 Created on Fri Jul 21 00:10:01 2017
 
 @author: merli
+
+-Medium-
+
+Given an integer array nums, find the sum of the elements between indices 
+i and j (i ≤ j), inclusive.
+
+The update(i, val) function modifies nums by updating the element at index 
+i to val.
+
+Example:
+
+Given nums = [1, 3, 5]
+
+sumRange(0, 2) -> 9
+update(1, 2)
+sumRange(0, 2) -> 8
+ 
+
+Constraints:
+
+The array is only modifiable by the update function.
+You may assume the number of calls to update and sumRange function is 
+distributed evenly.
+0 <= i <= j <= nums.length - 1
+Accepted
+
 """
 
 """
@@ -137,6 +163,7 @@ class NumArrayBIT(object):
             self.add(i, n)
 
     def update(self, i, val):
+        # only add the difference between the new val and the old one
         self.add(i, val-self.nums[i])
         self.nums[i] = val
 
@@ -152,11 +179,11 @@ class NumArrayBIT(object):
             j += j & (-j)
 
     def query(self, n):
-        sum = 0
+        sums = 0
         while n > 0:
-            sum += self.BIT[n]
+            sums += self.BIT[n]
             n -= n & (-n)
-        return sum
+        return sums
         
 
     def sumRange(self, i, j):
@@ -165,8 +192,6 @@ class NumArrayBIT(object):
         :type j: int
         :rtype: int
         """
-        #print(self.query(j+1))
-        #print(self.query(i))
         return self.query(j+1) - self.query(i)   
 
                 

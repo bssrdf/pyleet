@@ -1,4 +1,8 @@
 '''
+-Medium-
+
+*Sliding Window*
+
 Given a string s and a non-empty string p, find all the start indices of p's 
 anagrams in s.
 
@@ -35,6 +39,46 @@ The substring with start index = 2 is "ab", which is an anagram of "ab".
 from collections import defaultdict
 
 class Solution(object):
+
+    def findAnagramsFramework(self, s, p):
+        '''
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+
+        use the sliding window framework
+        ''' 
+        need   = defaultdict(int)
+        window = defaultdict(int)        
+        for c in p: need[c] += 1
+        left, right = 0,  0
+        valid = 0
+        res = []
+        while right < len(s):
+            # c 是将移入窗口的字符
+            c = s[right]
+            # 右移窗口
+            right += 1
+            # 进行窗口内数据的一系列更新
+            if c in need:
+                window[c] += 1
+                if window[c] == need[c]:
+                    valid += 1 
+            # 判断左侧窗口是否要收缩
+            while right-left >= len(p): 
+                # 当窗口符合条件时，把起始索引加入 res
+                if valid == len(need):
+                    res.append(left)                    
+                d = s[left]
+                # 左移窗口
+                left += 1 
+                # 进行窗口内数据的一系列更新
+                if d in need:
+                    if window[d] == need[d]:
+                        valid -= 1
+                    window[d] -= 1        
+        return res
+
     def findAnagrams(self, s, p):
         """
         :type s: str
@@ -71,3 +115,5 @@ class Solution(object):
 if __name__ == "__main__":
    print(Solution().findAnagrams("cbaebabacd","abc"))
    print(Solution().findAnagrams("abab","ab"))
+   print(Solution().findAnagramsFramework("cbaebabacd","abc"))
+   print(Solution().findAnagramsFramework("abab","ab"))

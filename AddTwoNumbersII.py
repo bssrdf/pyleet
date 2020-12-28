@@ -51,17 +51,14 @@ class Solution(object):
         while s1 and s2:
             num = s1.pop()+s2.pop()+b
             node, b = increment(num, last)            
-            #node = ListNode(num, last)
             last = node
         while s1:
             num = s1.pop()+b
             node, b = increment(num, last)                        
-            #node = ListNode(num, last)
             last = node
         while s2:
             num = s2.pop()+b
             node, b = increment(num, last)                        
-            #node = ListNode(num, last)
             last = node
         if b > 0:
            node = ListNode(b, last)

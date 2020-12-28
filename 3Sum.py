@@ -1,5 +1,6 @@
 """
-Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the
+Given an array S of n integers, are there elements a, b, c in S such that 
+a + b + c = 0? Find all unique triplets in the
 array which gives the sum of zero.
 
 Note:
@@ -45,4 +46,4 @@ class Solution:
 
 if __name__ == "__main__":
     #print Solution().threeSum([-1, 0, 1, 2, 3, -4])
-    print Solution().threeSum([-1, 0, 1, 2, -1, -4])
+    print(Solution().threeSum([-1, 0, 1, 2, -1, -4]))

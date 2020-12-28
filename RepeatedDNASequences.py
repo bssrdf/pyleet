@@ -32,6 +32,11 @@ class Solution(object):
         :type s: str
         :rtype: List[str]
         """
+
+        """
+        这里可以用两位来表示一个字符，00 表示A，01 表示C，10 表示G，11 表示T，
+        那么总共需要 20 位就可以表示十个字符流
+        """
         if len(s) < 11:
             return []
         char2bit = {'A':0, 'C':1, 'G':2, 'T':3}       

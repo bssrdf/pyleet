@@ -1,6 +1,8 @@
 
 '''
 
+-Medium-
+
 You are given a binary tree in which each node contains an integer value.
 
 Find the number of paths that sum to a given value.
@@ -11,6 +13,21 @@ go downwards (traveling only from parent nodes to child nodes).
 The tree has no more than 1,000 nodes and the values are in the range 
 -1,000,000 to 1,000,000.
 
+root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+Return 3. The paths that sum to 8 are:
+
+1.  5 -> 3
+2.  5 -> 2 -> 1
+3. -3 -> 11
 
 
 '''
@@ -35,7 +52,9 @@ class Solution(object):
         """
         if not root:
             return 0
-        return self.dfs(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)    
+        return self.dfs(root, sum) +  \
+               self.pathSum(root.left, sum) + \
+               self.pathSum(root.right, sum)    
         
     
     def dfs(self, root, target):
@@ -54,17 +73,23 @@ class Solution(object):
         self.result = 0
         self.helper(root, sum, 0, {0:1})
         return self.result 
-
-    def helper(self, root, target, so_far, cache):
+    '''
+    compute prefix sum starting from root down to a particular node
+    along this path, if there is a sum = target, it can be detected
+    by checking whether (prefixSum+node.val - target) is in the cache
+    '''
+    def helper(self, root, target, preSum, cache):
         if root:
-            complement = so_far + root.val - target
+            curVal = preSum + root.val
+            complement = curVal - target
             if complement in cache:
+                print(root.val, curVal, complement, target, cache)
                 self.result += cache[complement]
-            cache.setdefault(so_far+root.val, 0)
-            cache[so_far+root.val] += 1
-            self.helper(root.left, target, so_far+root.val, cache) 
-            self.helper(root.right, target, so_far+root.val, cache) 
-            cache[so_far+root.val] -= 1
+            cache.setdefault(curVal, 0)
+            cache[curVal] += 1
+            self.helper(root.left,  target, curVal, cache) 
+            self.helper(root.right, target, curVal, cache) 
+            cache[curVal] -= 1
         return
 
 node1 = TreeNode(10)

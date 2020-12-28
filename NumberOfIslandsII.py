@@ -46,7 +46,8 @@ We return the result as an array: [1, 1, 2, 3]
 
 Challenge:
 
-Can you do it in time complexity O(k log mn), where k is the length of the positions?
+Can you do it in time complexity O(k log mn), where k is the length of the 
+positions?
 
 
 '''
@@ -62,15 +63,19 @@ class Solution(object):
         """
         
         roots = [-1]*(m*n)
+        res = []
         cnt = 0
         dirs = [(-1,0), (0,-1), (1,0), (0,1)]
         for i,j in positions:                            
             idx = i*n+j
+            if roots[idx] != -1:
+                res.append(cnt)
+                continue
             roots[idx] = idx
             cnt += 1
             for r,c in dirs:
                 i1,j1=i+r,j+c
-                if i1<0 or i1>=n or j1<0 or j1>=m:
+                if i1<0 or i1>=m or j1<0 or j1>=n:
                     continue
                 
                 idx1 = n*i1+j1
@@ -79,7 +84,8 @@ class Solution(object):
                     if x != y:
                         roots[x] = y
                         cnt -= 1
-        return cnt
+            res.append(cnt)
+        return res
         
     def find(self, roots, i):
         # this while loop is called "qiuck union";
@@ -93,5 +99,5 @@ class Solution(object):
 
 if __name__ == "__main__":
     positions = [[0,0],[0,1],[1,2],[2,1]]
-    positions = [[0,0],[0,2],[0,1],[1,1]]
-    print Solution().numIslands(3, 3, positions)
+    #positions = [[0,0],[0,2],[0,1],[1,1]]
+    print(Solution().numIslands(3, 3, positions))

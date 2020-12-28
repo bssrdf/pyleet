@@ -1,4 +1,8 @@
 '''
+-Medium-
+
+*Reservoir sampling*
+
 Given an array of integers with possible duplicates, randomly output the index of a 
 given target number. You can assume that the given target number must exist in the 
 array.

@@ -77,12 +77,8 @@ class Solution(object):
                    cnt += 1
                 else: 
                    sm += n
-                #if target == 14:
-                #    print('A', n, cnt, sm)
             cnt += 1
-         #   print('canSplit: ', cnt, target, m)
             return cnt <= m
-        
         l = 1
         r = 0
         for i in weights:
@@ -94,8 +90,6 @@ class Solution(object):
                 r = mid 
             else:
                 l = mid+1
-           # print(l,r,mid)
-       # print(l,r)
         if canShip(D, l): return l
         else: return r
 
