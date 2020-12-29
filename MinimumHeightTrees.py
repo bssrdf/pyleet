@@ -1,6 +1,8 @@
 '''
 -Medium-
 
+*Topological Sort*
+
 A tree is an undirected graph in which any two vertices are connected by 
 exactly one path. In other words, any connected graph without simple cycles 
 is a tree.
@@ -78,12 +80,14 @@ class Solution(object):
         build_graph(edges)
         init_nodes()
         while True:
+            # layer by layer, remove leaf nodes
+            # sort of like source removal method 
+            # used for topological sorting
             next_nodes = []
-            for node in nodes:
-                children = graph[node]
-                for child in children:                    
+            for node in nodes:                
+                for child in graph[node]:                    
                     graph[child].remove(node)
-                    if len(graph[child])==1:                       
+                    if len(graph[child])==1: # child becomes leaf node                       
                        next_nodes.append(child)                                   
             if len(next_nodes)==0:    
                 return nodes
