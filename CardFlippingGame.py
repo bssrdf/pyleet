@@ -1,6 +1,8 @@
 '''
 -Medium-
 
+*Hash Set*
+
 On a table are N cards, with a positive integer printed on the front and back of 
 each card (possibly different).
 
