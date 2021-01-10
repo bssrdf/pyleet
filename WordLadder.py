@@ -27,18 +27,19 @@ class Solution:
     # @param dict, a set of string
     # @return an integer
     def ladderLength(self, beginWord, endWord, wordList):
-        wordList.add(endWord)
+
+        wordLists = set(wordList)        
         queue = deque([[beginWord, 1]])
         while queue:
             word, length = queue.popleft()
-            print word, length
+            #print word, length
             if word == endWord:
                 return length
             for i in range(len(word)):
                 for c in 'abcdefghijklmnopqrstuvwxyz':
                     next_word = word[:i] + c + word[i+1:]
-                    if next_word in wordList:
-                        wordList.remove(next_word)
+                    if next_word in wordLists:
+                        wordLists.remove(next_word)
                         queue.append([next_word, length + 1])
         return 0
         
@@ -69,11 +70,11 @@ class Solution:
             return 0
         
         d = construct_dict(wordList | set([beginWord, endWord]))
-        print d
+        #print d
         return bfs_words(beginWord, endWord, d)
       
 
 if __name__ == "__main__":
-    print Solution().ladderLength("hit", "cog", set(["hot", "dot", "dog", "lot", "lof", "cof"]))
+    print(Solution().ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "lof", "cof"]))
     #print Solution().ladderLength("hit", "cog", set(["hot", "dot", "dog", "lot", "log", "cog"]))
-    print Solution().ladderLengthPrep("hit", "cog", set(["hot", "dot", "dog", "lot", "lof", "cof"]))
+    #print Solution().ladderLengthPrep("hit", "cog", set(["hot", "dot", "dog", "lot", "lof", "cof"]))

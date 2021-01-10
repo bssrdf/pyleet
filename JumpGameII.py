@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Created on Sat Aug 12 21:32:36 2017
+
+-Hard-
+
+*Greedy*
 
 Given an array of non-negative integers, you are initially positioned at the 
 first index of the array.
@@ -59,14 +62,24 @@ class Solution(object):
         return step    
      
     def jump1(self, nums):
+        '''
+        此题的核心方法是利用贪婪算法 Greedy 的思想来解，想想为什么呢？ 为了较快的
+        跳到末尾，想知道每一步能跳的范围，这里贪婪并不是要在能跳的范围中选跳力最远
+        的那个位置，因为这样选下来不一定是最优解，这么一说感觉又有点不像贪婪算法了。
+        其实这里贪的是一个能到达的最远范围，遍历当前跳跃能到的所有位置，然后根据该
+        位置上的跳力来预测下一步能跳到的最远距离，贪出一个最远的范围，一旦当这个范
+        围到达末尾时，当前所用的步数一定是最小步数
+        '''
         res, n,  cur, i = 0, len(nums), 0, 0
         while cur < n - 1:
             res += 1
             pre = cur
-            while i <= pre:         
+            while i <= pre:   
+                # greedily expand the jump range      
                 cur = max(cur, i + nums[i])
                 i += 1
-            if pre == cur:
+            # cur is the furthest pos we can jump to from last range (.. pre]
+            if pre == cur: # we can not jump further
                 return -1
         return res
 

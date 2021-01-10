@@ -154,6 +154,7 @@ class TreeNode(object):
 
             # increase layer index
             gen += 1
+        print('\n')
 
 null = None  
 

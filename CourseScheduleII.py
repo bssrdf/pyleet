@@ -90,24 +90,25 @@ class Solution:
         courses = collections.defaultdict(list)        
         indeg = [0] * numCourses
         for a, b in prerequisites:
+            # note the order: a depends on b
+            # a source does not depend on any other 
             courses[b].append(a)
-            indeg[a] += 1
-        print(indeg)
+            indeg[a] += 1        
         seq = []
         for i in range(numCourses):
+            # sources have indeg = 0
             if indeg[i] == 0:
                 seq.append(i)
-        i = 0
-        print('seq = ', len(seq), seq)
-        while i<len(seq):
-            for c in courses[seq[i]]:
-                print(c, indeg[c])
+        i = 0        
+        while i<len(seq):            
+            for c in courses[seq[i]]: # for each source seq[i], 
+                                      # check the courses that depends on it                    
+                # reduce its indeg, i.e., delete the edge source->c                      
                 indeg[c] -= 1
-                if indeg[c] == 0:
-                    seq.append(c)
-            print(i, 'seq = ', len(seq))
+                if indeg[c] == 0: # c becomes a source
+                    seq.append(c)            
             i += 1              
-        return seq
+        return [] if len(seq) < numCourses else seq
 
 if __name__ == "__main__":
     #assert Solution().canFinish(2, [[1, 0], [0, 1]]) is False

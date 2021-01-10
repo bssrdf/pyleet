@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Jul 30 20:14:31 2017
+-Medium-
+
+*Sliding Window*
+
 
 Given a string, find the length of the longest substring without repeating 
 characters.
@@ -43,6 +47,7 @@ duplicate characters start with index i. If we do this for all i, we get our ans
 @author: merli
 """
 import string
+from collections import defaultdict
 
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
@@ -61,8 +66,32 @@ class Solution(object):
             charPos[c] = i
             maxl = max(maxl, i-sb+1)            
         return maxl
+
+
+    def lengthOfLongestSubstringTemplate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s: return 0
+        charPos = defaultdict(int)
+        n, left, right = len(s), 0, 0
+        maxl = 0
+        while right < n:
+            c = s[right]                    
+            right += 1
+            charPos[c] += 1
+            while charPos[c] > 1: # found a repeated character in the window
+                d = s[left]
+                left += 1        # shrink the left 
+                charPos[d] -= 1  # until repeated character becomes unique again   
+            # [left, right) is the window without repeated characters.    
+            # we can update result now
+            maxl = max(maxl, right-left)            
+        return maxl
         
 if __name__ == "__main__":
     assert Solution().lengthOfLongestSubstring("abcabcbb") == 3
     assert Solution().lengthOfLongestSubstring("bbbbbb") == 1
-    
+    assert Solution().lengthOfLongestSubstringTemplate("abcabcbb") == 3
+    assert Solution().lengthOfLongestSubstringTemplate("bbbbbb") == 1

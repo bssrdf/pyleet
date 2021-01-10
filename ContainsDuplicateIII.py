@@ -42,9 +42,13 @@ class Solution(object):
         m = SortedDict()
         j = 0
         for i in range(len(nums)):
+            # only need to consider index range [i-k, i]
             if i - j > k: 
                 m.pop(nums[j])
                 j += 1
+            # abs(nums[i]-nums[j]) <= t --> nums[i] - t < nums[j]
+            # if nums[j] < nums[i]-t, abs(nums[i]-nums[j]) <= t won't hold
+            # search for an index where nums[a] first >= nums[i]-t
             a = m.bisect_left(nums[i] - t)            
             keys = m.keys()
             if a < len(m) and abs(keys[a] - nums[i]) <= t: 

@@ -15,8 +15,9 @@ class Solution:
         """
         result = []        
         used = [False] * len(num)
-        self.dfs(num, [], result)
-     #   self.A_n_k(num, len(num), len(num), 0, used, [], result)
+    #    self.dfs(num, [], result)
+    #    self.A_n_k(num, len(num), len(num), 0, used, [], result)
+        self.A_n_k(num, len(num), len(num), 0, used, [], result)
         return result
         
     def dfs(self, seq, current, res):        
@@ -71,5 +72,5 @@ class Solution:
       '''
    
 if __name__=="__main__":
-    print(Solution().permute([1, 2, 3]))
+    print(Solution().permute([1, 2, 3, 4, 5]))
     

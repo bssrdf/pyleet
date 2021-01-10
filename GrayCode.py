@@ -46,12 +46,21 @@ class Solution(object):
         """
         参考维基百科上关于格雷码的性质，有一条是说镜面排列的，n位元的格雷码可以从n-1位元的
         格雷码以上下镜射后加上新位元的方式快速的得到
+        0  0  -> 00    00   -> 000    
+        1  1  -> 01    01   -> 001
+           1  -> 11    11   -> 011
+           0  -> 10    10   -> 010
+                       10   -> 110
+                       11   -> 111
+                       01   -> 101
+                       00   -> 100
+ 
         """
         res = [0]
         for i in range(n):
             size = len(res)
             for j in range(size-1, -1, -1):
-                res.append(res[j] | (1 << i))            
+                res.append(res[j] | (1 << i))                                    
         return res
 
 

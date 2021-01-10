@@ -63,6 +63,22 @@ class Solution(object):
                 return m
        # print(l, r, m)
         return -1
+
+    def binarysearch(self, L, a):        
+        l = 0 # left close
+        r = len(L) # right open
+  
+        while l<r:
+            m = l+(r-l)//2
+            if L[m] == a:
+                return m
+            elif L[m] > a:
+                r = m
+            elif L[m] < a:                
+                l = m+1
+            
+       # print(l, r, m)
+        return -1
     
     def lower_bound(self, L, a):   
         '''
@@ -107,9 +123,11 @@ if __name__ == "__main__":
     #a = sys.argv[1]
     A = [0, 3, 5, 8, 9, 12, 15, 20]
     #print Solution().binary_search_corr(L, a)
+    print(Solution().binary_search(L, 9))
+    print(Solution().binarysearch(L, 9))
     #print bisect.bisect_left(L, a)   
-    print(bisect.bisect_left(L, 9))
-    print(bisect.bisect(L, 9))
+    #print(bisect.bisect_left(L, 9))
+    #print(bisect.bisect(L, 9))
 
     #for a in A:
         #assert Solution().bisect_diynew(L, a) == bisect.bisect_left(L, a)   

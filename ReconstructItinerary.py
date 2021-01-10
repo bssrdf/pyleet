@@ -150,9 +150,9 @@ class Solution(object):
 if __name__=="__main__":
 
     #tickets=[["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]
-    #tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+    tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
     #tickets = [("JFK","SFO"),("JFK","ATL"),("SFO","ATL"),("ATL","JFK"),("ATL","SFO")]
-    tickets=[("MUC", "LHR"), ("JFK", "MUC"), ("SFO", "SJC"), ("LHR", "SFO")]
+    #tickets=[("MUC", "LHR"), ("JFK", "MUC"), ("SFO", "SJC"), ("LHR", "SFO")]
     #tickets= [["JFK","KUL"],["JFK","NRT"], ["NRT","JFK"]]
     #print(Solution().ReconIter(tickets))
     print(Solution().findItinerary(tickets))

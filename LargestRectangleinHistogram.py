@@ -1,4 +1,10 @@
 '''
+-Hard-
+
+*Stack*
+
+*Monotonic Queue*
+
 Given n non-negative integers representing the histogram's bar height where 
 the width of each bar is 1, find the area of largest rectangle in the 
 histogram.
@@ -59,6 +65,48 @@ class Solution(object):
             maxArea = max(maxArea, heights[i]*(lessFromRight[i]-lessFromLeft[i]-1))
         return maxArea
   
+    def largestRectangleAreaMonoQueue(self, heights):
+        '''
+        For any bar i the maximum rectangle is of width r - l - 1 where 
+        r - is the first coordinate of the bar to the right with 
+             height h[r] < h[i]; if no such exists, set to len(heights)
+        l - is the first coordinate of the bar to the left with height 
+             h[l] < h[i]; if no such exists, set to -1
+
+        So for any i coordinate we can easily find the rectangle formed
+        using the ith bar as 
+           h[i]*width = h[i]*(r-l-1)        
+        '''
+
+        if not heights: 
+          return 0
+        n = len(heights)
+        # rationale for setting -1 and n:
+        # consider a bar with minimum height hmin
+        # the rectangle it can form has height hmin 
+        # lessFromLeft will be -1 and 
+        # lessFromRight will be n for this bard
+        # hence the width = (n - (-1)) - 1 = n, i.e., 
+        # the width of the whole histogram
+        lessFromLeft = [-1] * n
+        lessFromRight = [n] * n        
+        stack = []    
+        for i,v in enumerate(heights):
+            while stack and heights[stack[-1]] >= v: # right is from the popping out
+                lessFromRight[stack.pop()] = i
+            if stack:  #left is from the pushing in
+                # after popping above, what is left at the stack top is the
+                # first smaller h than heights[i]
+                lessFromLeft[i] = stack[-1]
+            stack.append(i)  
+        
+        print(lessFromLeft)
+        print(lessFromRight)
+        maxArea = 0
+        for i in range(n):
+            maxArea = max(maxArea, heights[i]*(lessFromRight[i]-lessFromLeft[i]-1))
+            print(i, maxArea)
+        return maxArea
 
     def largestRectangleAreaStack(self, heights):
         """
@@ -86,8 +134,8 @@ class Solution(object):
         return maxArea
 
 
-
-
 print(Solution().largestRectangleArea([2,1,5,6,2,3]))
+print(Solution().largestRectangleAreaMonoQueue([2,1,5,6,2,3]))
+print(Solution().largestRectangleAreaMonoQueue([2,2,5,6,2,3]))
 print(Solution().largestRectangleAreaStack([2,1,5,6,2,3]))
 #print(Solution().largestRectangleArea([6, 2, 5, 4, 5, 1, 6]))

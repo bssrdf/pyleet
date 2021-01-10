@@ -73,6 +73,57 @@ class ExamRoom(object):
         self.spots.add(idx)
         return idx
 
+    def leave(self, p):
+        """
+        :type p: int
+        :rtype: None
+        """
+        self.spots.discard(p)
+
+class ExamRoom2(object):
+
+    def __init__(self, N):
+        """
+        :type N: int
+        """
+        self.n = N
+        self.startMap = {}
+        self.endMap = {}
+        def distance(s):
+            x, y = s    
+            if x == -1: return y
+            if y == N:  return N - 1 - x
+            # 中点和端点之间的长度
+            return (y - x) // 2
+        self.spots = SortedSet([(-1, N)], key=lambda seg: (distance(seg), -seg[0]))        
+    
+    def addSeg(self, seg):
+        self.spots.add(seg)
+        self.startMap[seg[0]] = seg
+        self.endMap[seg[1]] = seg
+
+    def removeSeg(self, seg):
+        self.spots.remove(seg)
+        self.startMap.pop(seg[0],None)
+        self.endMap.pop(seg[1], None)
+
+    def seat(self):
+        """
+        :rtype: int
+        """
+        x, y = self.spots[-1]
+        if x == -1:
+            seat = 0
+        elif y == self.n:
+            seat = self.n-1
+        else:
+            seat = x + (y-x)//2
+        left = (x, seat)
+        right = (seat, y)
+        self.removeSeg((x,y))
+        self.addSeg(left)
+        self.addSeg(right)
+        return seat   
         
 
     def leave(self, p):
@@ -80,12 +131,25 @@ class ExamRoom(object):
         :type p: int
         :rtype: None
         """
-        self.spots.discard(p)
+        right = self.startMap[p]
+        left = self.endMap[p]
+        merged = (left[0], right[1])
+        self.removeSeg(left)
+        self.removeSeg(right)
+        self.addSeg(merged)
         
 
 if __name__ == "__main__":
 # Your ExamRoom object will be instantiated and called as such:
     obj = ExamRoom(10)
+    print(obj.seat())
+    print(obj.seat())
+    print(obj.seat())
+    print(obj.seat())
+    obj.leave(4)
+    print(obj.seat())
+
+    obj = ExamRoom2(10)
     print(obj.seat())
     print(obj.seat())
     print(obj.seat())

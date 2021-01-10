@@ -38,15 +38,47 @@ class Vector2D:
         :type vec2d: list[list[int]]
         :type: None
         """
-        self.vec2d = vec2d
-        self.i = 0
-        self.j = 0
+        
+        self.main_iter = None
+        self.main_next = None
+        self.sub_iter = None
+        self.sub_next = None
+
+        if not vec2d:
+            return
+
+        self.main_iter = iter(vec2d)
+        self.main_next = next(self.main_iter, None)
+
+        while self.main_next is not None and not self.sub_iter:
+            if len(self.main_next) > 0:
+                self.sub_iter = iter(self.main_next)
+
+            self.main_next = next(self.main_iter, None)
+
+        if self.sub_iter:
+            self.sub_next = next(self.sub_iter, None)
 
     def next(self):
         """
 
         :rtype: int
         """
+        val = self.sub_next
+
+        self.sub_next = next(self.sub_iter, None)
+        if self.sub_next is None:
+            while self.main_next is not None:
+                if len(self.main_next) > 0:
+                    self.sub_iter = iter(self.main_next)
+                    break
+
+                self.main_next = next(self.main_iter, None)
+
+            self.main_next = next(self.main_iter, None)
+            self.sub_next = next(self.sub_iter, None)
+
+        return val
        
 
     def hasNext(self):
@@ -55,4 +87,15 @@ class Vector2D:
         :rtype: bool
         """
         # update
-       
+        return self.sub_next is not None
+
+if __name__ == "__main__":
+    v2d = [
+  [1,2],
+  [3],
+  [4,5,6]
+]
+    vec2d, v = Vector2D(v2d), []
+    while vec2d.hasNext(): 
+        v.append(vec2d.next())
+    print(v)

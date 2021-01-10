@@ -50,6 +50,11 @@ class Solution(object):
         :type B: List[int]
         :rtype: int
         """
+        """
+        Greedy strategy: to find the minimum rotations, start from the 
+        most frequent value and the next ...
+        use priority queue to store (freq, value) pairs
+        """
         n = len(A)
         res = sys.maxsize
         def stats(L):
@@ -74,10 +79,10 @@ class Solution(object):
             match = True
             for i in range(n):
                 if C[i] == m: continue
-                if D[i] == m: 
-                    count += 1                        
-                else:
-                    match = False
+                if D[i] == m:   # we can rotate to get the vlaue
+                    count += 1  # so increment the counter                      
+                else:     # we cannot get this value by rotating the other domino
+                    match = False # have to abandon this value and try the next one
                     break
             if match:
                 res = min(res, count)
