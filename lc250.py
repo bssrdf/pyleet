@@ -10,7 +10,7 @@ with open('LC250.txt','r') as infile, open('LC250.md','w') as outfile:
         fields = line.split()
         #newfields ='- []'+'  '+fields[0]+'  '+''.join(fields[1:-1])+'\n' 
         prob_name = ''.join(fields[1:-1])
-        if prob_name.lower in flist:
+        if prob_name.lower() in flist:
             newfields ='- :heavy_check_mark: '+'  '+fields[0]+'  '+prob_name+'\n' 
         else:
             newfields ='- :heavy_multiplication_x: '+'  '+fields[0]+'  '+prob_name+'\n' 
