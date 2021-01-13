@@ -71,6 +71,8 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         self.result = 0
+        # cache initialized to {0:1} so it can work in cases
+        # when there is only one root node, and its val = sum
         self.helper(root, sum, 0, {0:1})
         return self.result 
     '''
@@ -89,7 +91,7 @@ class Solution(object):
             cache[curVal] += 1
             self.helper(root.left,  target, curVal, cache) 
             self.helper(root.right, target, curVal, cache) 
-            cache[curVal] -= 1
+            cache[curVal] -= 1 # backtracking
         return
 
 node1 = TreeNode(10)
