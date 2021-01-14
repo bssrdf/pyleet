@@ -3,17 +3,21 @@ import os
 
 _, _, filenames = next(os.walk('./'))
 flist = [f.split('.')[0] for f in filenames if f.endswith('.py')]   
-print(flist[:10])
 flist = set((f.lower() for f in flist))
+finished = 0
 with open('LC250.txt','r') as infile, open('LC250.md','w') as outfile:
     for line in infile.readlines():
-        fields = line.split()
-        #newfields ='- []'+'  '+fields[0]+'  '+''.join(fields[1:-1])+'\n' 
+        fields = line.split()        
         prob_name = ''.join(fields[1:-1])
         if prob_name.lower() in flist:
-            newfields ='- :heavy_check_mark: '+'  '+fields[0]+'  '+prob_name+'\n' 
+            finished += 1
+            mark = ':heavy_check_mark:'
         else:
-            newfields ='- :heavy_multiplication_x: '+'  '+fields[0]+'  '+prob_name+'\n' 
-        #print(len(fields)) 
+            mark = ':heavy_multiplication_x:'
+        newfields ='- '+mark+'  '+fields[0]+'  '+prob_name+'\n' 
         outfile.write(newfields)
-
+summary = "\n##**%d** have been finished with **%d** left" %(finished, 250-finished)
+with open('LC250.md','a') as outfile:
+    outfile.write("\n---")
+    outfile.write(summary)
+print(summary)
