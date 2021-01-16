@@ -1,6 +1,10 @@
 '''
 -Medium-
 
+*Prefix Sum*
+
+*Hash Table*
+
 Given an array nums and a target value k, find the maximum length of a 
 subarray that sums to k. If there isn't one, return 0 instead.
 
@@ -30,6 +34,13 @@ class Solution(object):
         :type s: int
         :type nums: List[int]
         :rtype: int
+        """
+        """
+        Note:
+        this question is different from sliding window problem which we use 
+        two pointers to solve
+        sliding window: all elements > 0 && find range >=s
+        this problem: find exactly value ---> hash map
         """
         n = len(nums)       
         dic = {}
