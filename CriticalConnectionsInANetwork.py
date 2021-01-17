@@ -47,17 +47,22 @@ class Solution(object):
             for i in g[w]:
                 if i == v: continue                    
                 if pre[i] == -1:
-                    dfs((w,i))                    
-                low[w] = min(low[w], low[i])
-                # low[i] >= pre[w]+1 indicates no back edge to
-                # w's ancesters; otherwise, low[i] will be 
-                # < pre[w]+1 since back edge makes low[i] smaller 
-                if low[i] > pre[w]: 
-                    print(low[i], pre[w]+1, (w,i))                       
-                    ans.append([w,i])                
+                    dfs((w,i))          
+                    # low[i] > pre[w] indicates no back edge to
+                    # w's ancesters; otherwise, low[i] will be 
+                    # < pre[w]+1 since back edge makes low[i] smaller           
+                    if low[i] > pre[w]: 
+                    #print(low[i], pre[w]+1, (w,i))                       
+                        ans.append([w,i])                
+                    low[w] = min(low[w], low[i]) # low[i] might be an ancestor of w
+                else: # if i was already discovered means that we found an ancestor
+                    low[w] = min(low[w], pre[i]) # finds the ancestor with the least 
+                                                 # discovery time
+               
+                
         dfs((-1,0))
-        print(low)
-        print(pre)
+        #print(low)
+        #print(pre)
         return ans
  
 
