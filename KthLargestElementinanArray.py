@@ -2,6 +2,9 @@
 """
 -Medium-
 
+*Divide & Conquer*
+*Priority Queue*
+
 Find the kth largest element in an unsorted array. Note that it is the kth 
 largest element in the sorted order, not the kth distinct element.
 
@@ -20,8 +23,7 @@ class Solution:
     def findKthLargest(self, nums, k):
         """
         Algorithm:
-        * Partial quick sort average O(n), worst case O(n^2)
-        * Heap O(n lg k), kth largest element is the smallest one in the k-size heap.
+        * Partial quick sort average O(n), worst case O(n^2)        
 
         :rtype: int
         """
@@ -56,7 +58,26 @@ class Solution:
         return select(0, n-1, n-k+1)   
 
 
+    def findKthLargestPQ(self, nums, k):
+        """
+        Algorithm:
+        * Heap O(n lg k), kth largest element is the smallest one in the 
+        k-size min-heap.
+
+        :rtype: int
+        """
+        n = len(nums)
+        pq = []
+        for i in range(k):
+            heapq.heappush(pq, nums[i])        
+        for i in range(k, n):
+            heapq.heappush(pq, nums[i])
+            heapq.heappop(pq)
+        return pq[0]
+
+
 
 if __name__ == "__main__":
     print(Solution().findKthLargest([3, 2, 1, 5, 6, 4], 2))
+    print(Solution().findKthLargestPQ([3, 2, 1, 5, 6, 4], 2))
 
