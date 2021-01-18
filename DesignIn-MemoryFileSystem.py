@@ -1,4 +1,7 @@
 '''
+-Hard-
+*Trie*
+
 Design an in-memory file system to simulate the following functions:
 
 ls: Given a path in string format. If it is a file path, return a list that 
