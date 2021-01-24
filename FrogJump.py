@@ -50,7 +50,7 @@ class Solution(object):
         self.positionAndCanJump = {}
         stonePositions = set(stones)
         # curStep initized to 0 so the first stone can be handled in a general way
-        return self.DFS(stonePositions, stones[-1], 0, 0)
+        return self.DFS(stonePositions, stones[-1], stones[0], 0)
     
     def DFS(self, stonePositions, lastPosition, curPosition, curStep):
     
