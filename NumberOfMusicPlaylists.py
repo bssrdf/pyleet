@@ -82,6 +82,21 @@ class Solution(object):
                     dp[i][j] =(dp[i][j] + dp[i-1][j]*(j-K) % M ) % M
         return dp[L][N]
 
+    def numMusicPlaylistsMemo(self, N, L, K):
+        MOD = 10**9+7
+        memo = {}
+        def dp(n,l):
+            if n==0 and l == 0: return 1
+            if n==0 or l == 0: return 0
+            if (n,l) in memo: return memo[(n,l)]
+            memo[(n,l)] = (dp(n-1, l-1)*(N-(n-1)) + 
+                          (dp(n,l-1)*(n-K) if n > K else 0)) % MOD
+            return memo[(n,l)] 
+        return dp(N,L)
+         
+
+
 
 if __name__ == "__main__":
     print(Solution().numMusicPlaylists(3,3,1))
+    print(Solution().numMusicPlaylistsMemo(3,3,1))
