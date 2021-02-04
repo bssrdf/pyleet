@@ -23,6 +23,7 @@ def step_avg_time(session, step, time_start):
     #for new session, no change
     if not last_session:
         sessionDict[session] = [step, time_start]
+        stepCountDict[step] = stepCountDict.get(step,0) + 1
         return outputDict
 
     time_spend = time_start - last_session[1]
@@ -34,7 +35,8 @@ def step_avg_time(session, step, time_start):
     #update the sessionDict
     sessionDict[session] = [step, time_start]
     #update stepCountDict
-    stepCountDict[last_step] = stepCountDict[last_step] + 1
+    print('laststep', last_step)
+    stepCountDict[last_step] = stepCountDict.get(last_step,0) + 1
     return outputDict
  
 #call the function
