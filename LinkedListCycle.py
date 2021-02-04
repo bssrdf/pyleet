@@ -16,15 +16,13 @@ class Solution(object):
     def hasCycle(self, head):
         slow = head
         fast = head
-        while fast.next:
+        while fast and fast.next:
             slow = slow.next
-            if fast.next != None:
-                fast = fast.next.next
-            else:
-                return False
+            fast = fast.next.next
             if slow == fast:
                 return True
         return False
+        
 
 
 if __name__ == "__main__":
