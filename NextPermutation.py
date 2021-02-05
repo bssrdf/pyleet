@@ -49,8 +49,7 @@ class Solution(object):
         if i >= 0:
             while nums[j] <= nums[i]: j -= 1
             nums[i], nums[j] = nums[j], nums[i]
-        i += 1
-        j = n-1
+        i, j = i+1, n-1
         while i <= j:
             nums[i], nums[j] = nums[j], nums[i]
             i += 1
