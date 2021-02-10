@@ -1,5 +1,5 @@
 '''
--Easy-
+-Medium-
 
 This problem was asked by Square.
 
@@ -31,10 +31,8 @@ class BiasedCoin(object):
               toss1 == 0 and toss2 == 0:
             toss1 = self.toss_biased()
             toss2 = self.toss_biased()
-        if toss1 == 1:
-            return 1
-        elif toss2 == 1:
-            return 0
+        return 1 if toss1 == 1 else 0
+            
 
 if __name__ == '__main__':   
     coin = BiasedCoin(0.6)
