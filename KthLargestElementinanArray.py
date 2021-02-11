@@ -44,6 +44,7 @@ class Solution:
             return partition(p, r)     
 
         def select(p, r, k):
+            # returns kth smallest
             if p == r:
                 return nums[p]
             q = random_partition(p, r)

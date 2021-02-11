@@ -51,7 +51,7 @@ class Solution(object):
         :rtype: int
         """
         if not nums: return 0
-        res, cur = 0,  0
+        res = 0
         m = {}
         q = deque([nums[0] // 10])
         for num in nums:

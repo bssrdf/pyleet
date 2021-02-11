@@ -61,8 +61,7 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        au = 'aeiou'
-        m = len(au)
+        m = 5
         memo = [[-1 for _ in range(n)] for _ in range(m)]        
         def helper(k, start):
             if k == n:                

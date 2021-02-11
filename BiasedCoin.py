@@ -36,7 +36,7 @@ class BiasedCoin(object):
 
 if __name__ == '__main__':   
     coin = BiasedCoin(0.6)
-    N = 10000
+    N = 100000
     head = 0
     for i in range(N):
         toss = coin.toss_biased()

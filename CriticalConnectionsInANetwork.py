@@ -45,7 +45,8 @@ class Solution(object):
             low[w] = pre[w]
             cnt[0] += 1
             for i in g[w]:
-                if i == v: continue                    
+                if i == v: continue # we don't want to go back through the same path.
+                                    # if we go back is because we found another way back                   
                 if pre[i] == -1:
                     dfs((w,i))          
                     # low[i] > pre[w] indicates no back edge to

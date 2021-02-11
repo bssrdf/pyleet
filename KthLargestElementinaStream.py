@@ -51,20 +51,20 @@ class KthLargest(object):
         :type k: int
         :type nums: List[int]
         """
-        self.k = k         
-        self.nums = nums[:k]
+        self.k = k
+        self.nums = nums[:k]         
         heapq.heapify(self.nums)
         for i in range(k, len(nums)):
             heapq.heappush(self.nums, nums[i])
             heapq.heappop(self.nums)
-        print(self.nums)
     def add(self, val):
         """
         :type val: int
         :rtype: int
         """        
         heapq.heappush(self.nums, val)
-        heapq.heappop(self.nums)
+        if len(self.nums) > self.k:
+            heapq.heappop(self.nums)
         return self.nums[0]
 
 

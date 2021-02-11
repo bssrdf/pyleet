@@ -42,7 +42,9 @@ class PeekingIterator(object):
         """
         if not self._value: 
             return self.itor.next()
-        return self._value
+        res = self._value
+        self._value = None
+        return res
         
 
     def hasNext(self):

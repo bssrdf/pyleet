@@ -48,7 +48,6 @@ class Solution(object):
         for i in range(n):
             for j in range(m):
                 d[i - j].append(mat[i][j])
-        print(d.keys())
         for k in d:
             d[k].sort(reverse=1)
         for i in range(n):

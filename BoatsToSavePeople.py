@@ -1,5 +1,7 @@
 '''
 -Medium-
+*Greedy*
+
 
 The i-th person has weight people[i], and each boat can carry a maximum weight 
 of limit.
