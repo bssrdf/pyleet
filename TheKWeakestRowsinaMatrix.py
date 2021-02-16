@@ -79,10 +79,6 @@ class Solution(object):
             res.append(i)
         return res
             
-            
-
-        return []
-        
 if __name__ == "__main__":
     mat = [[1,1,0,0,0],
  [1,1,1,1,0],
