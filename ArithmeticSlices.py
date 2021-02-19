@@ -39,6 +39,11 @@ class Solution(object):
         :type A: List[int]
         :rtype: int
         """
+        """
+        一维dp数组，其中dp[i]表示，到i位置为止的算数切片的个数，那么我们从第三个数字开始遍历，
+        如果当前数字和之前两个数字构成算数切片，那么我们更新dp[i]为dp[i-1]+1，然后res累加上
+        dp[i]的值即可：
+        """
         res, n = 0,  len(A)
         '''
         dp = [0] * n
