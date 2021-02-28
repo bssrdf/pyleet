@@ -13,7 +13,7 @@ class Solution(object):
         powers = [0, 1]
         next_power = powers[-1] + powers[-1] 
         while next_power < len(arr): 
-            powers.append(next_power) ``
+            powers.append(next_power)
             next_power = powers[-1] + powers[-1] 
         print(powers)
         left, right, power_index = 0, len(arr) - 1, len(powers) - 1 

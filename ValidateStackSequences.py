@@ -38,6 +38,16 @@ class Solution(object):
         :type popped: List[int]
         :rtype: bool
         """
+        stack = []
+        j = 0
+        for i in pushed:
+            stack.append(i)
+            while stack and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+        return True if not stack else False
+              
     
 if __name__ == "__main__":
     print(Solution().validateStackSequences([1,2,3,4,5], [4,5,3,2,1]))
+    print(Solution().validateStackSequences([1,2,3,4,5], [4,3,5,1,2]))
