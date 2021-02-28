@@ -1,6 +1,9 @@
 '''
 -Hard-
 
+*Stack*
+*Hash Table*
+
 Implement FreqStack, a class which simulates the operation of a stack-like 
 data structure.
 
