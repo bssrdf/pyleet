@@ -1,4 +1,6 @@
 '''
+-Medium-
+*Auxillary Array*
 
 Given an array nums of n integers where n > 1,  return an array output such 
 that output[i] is equal to the product of all the elements of nums except 
@@ -22,6 +24,22 @@ analysis.)
 '''
 
 class Solution(object):
+
+    def productExceptSelfO1Space(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        N = len(nums)        
+        ans = [1] * N
+        for i in range(1, N):
+            ans[i] = nums[i-1] * ans[i-1]
+        right = 1
+        for i in range(N-1, -1, -1):
+            ans[i] *= right 
+            right = right * nums[i]
+        return ans
+
     def productExceptSelf(self, nums):
         """
         :type nums: List[int]
@@ -42,3 +60,4 @@ class Solution(object):
 
 if __name__ == '__main__':
     print(Solution().productExceptSelf([1,2,3,4]))
+    print(Solution().productExceptSelfO1Space([1,2,3,4]))
