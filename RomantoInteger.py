@@ -20,29 +20,13 @@ class Solution(object):
             if s[i] == 'I':
                 res += m[s[i]]
                 i -= 1
-            elif s[i] in 'VXLCDM':
+            else:
                 if i-1 >= 0 and s[i-1] == m1[s[i]]:
                     res += m[s[i]] - m[s[i-1]]
                     i -= 2
                 else:
                     res += m[s[i]]
                     i -= 1
-            '''
-            elif s[i] in 'LC':
-                if i-1 >= 0 and s[i-1] in 'X':
-                    res += m[s[i]] - m[s[i-1]]
-                    i -= 2
-                else:
-                    res += m[s[i]]
-                    i -= 1
-            elif s[i] in 'DM':
-                if i-1 >= 0 and s[i-1] in 'C':
-                    res += m[s[i]] - m[s[i-1]]
-                    i -= 2
-                else:
-                    res += m[s[i]]
-                    i -= 1
-            '''
         return res
     
 if __name__ == "__main__":

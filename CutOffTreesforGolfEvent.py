@@ -69,7 +69,6 @@ class Solution(object):
                 if forest[i][j] > 1:
                     targets.append((forest[i][j],i,j))
         targets.sort()
-        #print(targets)
         dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         def helper(start, tree):
             q = deque([(start,0)])

@@ -48,8 +48,6 @@ class Solution(object):
                     if l2 > r2: return True
                 r1 -= 1
             return False
-        #for t in d:
-        #    print(s, t, match(s, t))                 
         d.sort(key=lambda x: (-len(x),x))
         for t in d:
             if match(s, t): return t
