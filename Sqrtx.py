@@ -42,10 +42,11 @@ class Solution(object):
             if mid2 == x: return mid
             elif mid2 > x: right = mid
             else: left = mid+1
+            print(left, right, mid)    
         return left-1
 
 
 
 
 if __name__ == "__main__":
-    print(Solution().mySqrt(20))
+    print(Solution().mySqrt(15))
