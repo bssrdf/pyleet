@@ -14,6 +14,8 @@ with open('LC250.txt','r') as infile, open('LC250.md','a') as outfile:
     for line in infile.readlines():
         fields = line.split()        
         prob_name = ''.join(fields[1:-1])
+        prob_name = prob_name.replace('(','')
+        prob_name = prob_name.replace(')','')
         if prob_name.lower() in flist:
             finished += 1
             mark = ':heavy_check_mark:'
