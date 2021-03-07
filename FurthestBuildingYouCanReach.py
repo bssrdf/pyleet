@@ -55,15 +55,33 @@ import heapq
 
 class Solution(object):
     def furthestBuildingAC(self, heights, bricks, ladders):
+        """
+        :type heights: List[int]
+        :type bricks: int
+        :type ladders: int
+        :rtype: int
+        """
+        """
+        You'll have to do a set of jumps, and choose for each one whether 
+        to do it using a rope or bricks. It's always optimal to use ropes 
+        in the largest jumps.
+
+        """
         A = heights
         heap = []
+        """
+        Iterate on the buildings, maintaining the largest r jumps and the 
+        sum of the remaining ones so far, and stop whenever this sum exceeds b.
+        """
         for i in range(len(A) - 1):
             d = A[i + 1] - A[i]
             if d > 0:
                 heapq.heappush(heap, d)
-            if len(heap) > ladders:
+            if len(heap) > ladders: # the heap can holds the number 
+                                    # of items <= ladders 
+                # once encounter more, pop the smallest and use bricks on it                    
                 bricks -= heapq.heappop(heap)
-            if bricks < 0:
+            if bricks < 0: # if not enough bricks, stop 
                 return i
         return len(A) - 1
 
