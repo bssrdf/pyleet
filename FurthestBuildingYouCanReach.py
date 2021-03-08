@@ -54,7 +54,7 @@ Constraints:
 import heapq
 
 class Solution(object):
-    def furthestBuildingAC(self, heights, bricks, ladders):
+    def furthestBuilding(self, heights, bricks, ladders):
         """
         :type heights: List[int]
         :type bricks: int
