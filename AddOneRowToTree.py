@@ -3,6 +3,70 @@
 Created on Fri Jun 30 00:24:20 2017
 
 @author: merli
+
+-Medium-
+*Recursion*
+*DFS*
+
+
+Given the root of a binary tree, then value v and depth d, you need to add a row 
+of nodes with value v at the given depth d. The root node is at depth 1.
+
+The adding rule is: given a positive integer depth d, for each NOT null tree nodes 
+N in depth d-1, create two tree nodes with value v as N's left subtree root and 
+right subtree root. And N's original left subtree should be the left subtree of 
+the new left subtree root, its original right subtree should be the right subtree 
+of the new right subtree root. If depth d is 1 that means there is no depth d-1 at 
+all, then create a tree node with value v as the new root of the whole original tree, 
+and the original tree is the new root's left subtree.
+
+Example 1:
+Input: 
+A binary tree as following:
+       4
+     /   \
+    2     6
+   / \   / 
+  3   1 5   
+
+v = 1
+
+d = 2
+
+Output: 
+       4
+      / \
+     1   1
+    /     \
+   2       6
+  / \     / 
+ 3   1   5   
+
+Example 2:
+Input: 
+A binary tree as following:
+      4
+     /   
+    2    
+   / \   
+  3   1    
+
+v = 1
+
+d = 3
+
+Output: 
+      4
+     /   
+    2
+   / \    
+  1   1
+ /     \  
+3       1
+Note:
+The given d is in range [1, maximum depth of the given tree + 1].
+The given binary tree has at least one tree node.
+
 """
 from collections import deque
 
@@ -25,10 +89,8 @@ class Solution(object):
             for node in row:
                 for kid in (node.left, node.right):
                     if kid:
-                        print kid.val                        
                         row1.append(kid)
             row = row1
-        print row
         for node in row:
             node.left, node.left.left = TreeNode(v), node.left
             node.right, node.right.right = TreeNode(v), node.right
@@ -73,7 +135,33 @@ class Solution(object):
                     node.left = nl
                     node.right = nr                    
             return root
-        #print root.left.left.val      
+        #print root.left.left.val 
+
+    def addOneRowDFS(self, root, v, d):
+        """
+        :type root: TreeNode
+        :type v: int
+        :type d: int
+        :rtype: TreeNode
+        """     
+        def helper(node, depth):
+            if not node: return
+            if depth == d-1:
+                orig_left = node.left
+                orig_right = node.right
+                node.left = TreeNode(v)
+                node.right = TreeNode(v)
+                node.left.left = orig_left
+                node.right.right = orig_right
+                return
+            helper(node.left, depth+1)
+            helper(node.right, depth+1)
+        if d == 1: 
+            node = TreeNode(v)
+            node.left = root
+            return node
+        helper(root, 1)
+        return root    
                 
 if __name__ == "__main__":
     root=TreeNode(4)
@@ -82,7 +170,8 @@ if __name__ == "__main__":
     root.right = TreeNode(6)
     root.right.left = TreeNode(5)
     root.left.left = TreeNode(3)
-    print Solution().maxDepth(root)
+    print(Solution().maxDepth(root))
     #newtree = Solution().addOneRow(root, 1, 3)
-    newtree = Solution().addOneRowSP(root, 1, 3)
-    print Solution().maxDepth(newtree)
+    #newtree = Solution().addOneRowSP(root, 1, 3)
+    newtree = Solution().addOneRowDFS(root, 1, 3)
+    print(Solution().maxDepth(newtree))
