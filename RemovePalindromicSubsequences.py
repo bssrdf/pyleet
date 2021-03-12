@@ -52,7 +52,7 @@ class Solution(object):
         """
         if not s: return 0
         elif s == s[::-1]: return 1
-        # remove all a's and followed by all b's
+        # remove all a's and followed by all b's, or vice versa
         # subsequences composed of only one type of letter are always 
         # palindrome strings
         else: return 2

@@ -128,6 +128,7 @@ class RandomizedSetAC(object):
         if val in self.m:
             nid = self.m[val]
             if nid < len(self.arr)-1:
+                self.m[self.arr[-1]] = nid 
                 self.arr[nid], self.arr[-1] = self.arr[-1], self.arr[nid]
             self.m.pop(val)   
             self.arr.pop()

@@ -1,4 +1,8 @@
 """
+-Medium-
+
+*Two Pointers*
+
 Given an array S of n integers, are there elements a, b, c in S such that 
 a + b + c = 0? Find all unique triplets in the
 array which gives the sum of zero.
@@ -43,7 +47,60 @@ class Solution:
                     
         return res
 
+    def threeSumTwoPointersSlow(self, nums):
+        """
+        Hash
+        O(n^2)
+        :param num: array
+        :return: a list of lists of length 3, [[val1,val2,val3]]
+        """
+        nums.sort()
+        print(nums)
+        res = set()
+        for k in range(1, len(nums)-1):
+            left, right = 0, len(nums)-1
+            while left < k and right >= k+1:
+                num = nums[left] + nums[k] + nums[right]
+                if num == 0: 
+                   res.add((nums[left], nums[k], nums[right]))
+                   left += 1
+                   right -= 1
+                elif num < 0: left += 1
+                else: right -= 1 
+        return [list(x) for x in res]
+
+    def threeSumTwoPointersFast(self, nums):
+        """
+        Hash
+        O(n^2)
+        :param num: array
+        :return: a list of lists of length 3, [[val1,val2,val3]]
+        """
+        nums.sort()
+        if not nums or nums[0] > 0 or nums[-1] < 0: return []
+        res = []
+        for k in range(len(nums)-2):
+            if nums[k] > 0: break
+            if k > 0 and nums[k] == nums[k-1]: continue
+            target, i, j = -1*nums[k], k+1, len(nums)-1
+            while i < j:                
+                if nums[i]+nums[j] == target: 
+                   res.append([nums[k], nums[i], nums[j]])
+                   while i < j and nums[i] == nums[i+1]: i += 1
+                   while i < j and nums[j] == nums[j-1]: j -= 1
+                   i += 1
+                   j -= 1
+                elif nums[i]+nums[j] < target: i += 1
+                else: j -= 1 
+        return res
+        
+
 
 if __name__ == "__main__":
-    #print Solution().threeSum([-1, 0, 1, 2, 3, -4])
     print(Solution().threeSum([-1, 0, 1, 2, -1, -4]))
+    print(Solution().threeSumTwoPointersFast([-1, 0, 1, 2, -1, -4]))
+    print(Solution().threeSumTwoPointersFast([]))
+    print(Solution().threeSumTwoPointersFast([0]))
+    print(Solution().threeSumTwoPointersSlow([3,0,-2,-1,1,2]))
+    print(Solution().threeSumTwoPointersFast([3,0,-2,-1,1,2]))
+

@@ -59,7 +59,6 @@ class Solution(object):
         :type root: TreeNode
         :rtype: bool
         """
-        self.res = False  
         m = defaultdict(int)
         def helper(node):
             if not node: return 0                        
