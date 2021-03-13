@@ -30,6 +30,7 @@ Could you solve it in O(nk) runtime?
 
 class Solution(object):
     def minCost(self, costs):
+        if not costs: return 0
         n = len(costs)
         m = len(costs[0])
         dp = [[0 for _ in range(m)] for _ in range(n+1)]        
@@ -41,12 +42,11 @@ class Solution(object):
                     dp[i][k] = s2 + costs[i-1][k]
                 else:
                     dp[i][k] = s1 + costs[i-1][k]
-                if dp[i][k] < t1: 
-                    t2 = t1 
-                    t1 = dp[i][k] 
-                elif dp[i][k] < t2 and dp[i][k] != t1: 
+                if dp[i][k] <= t1: 
+                    t2, t1 = t1, dp[i][k] 
+                elif dp[i][k] < t2: 
                     t2 = dp[i][k]
-            s1,s2 = t1, t2
+            s1,s2 = t1, t2            
         return s1
 
 
@@ -55,3 +55,4 @@ class Solution(object):
 if __name__ == "__main__":
     print(Solution().minCost([[1,5,3],[2,9,4]]))
     print(Solution().minCost([[17,2,17],[16,16,5],[14,3,19]]))
+    print(Solution().minCost([[3,5,3],[6,17,6],[7,13,18],[9,10,18]]))
