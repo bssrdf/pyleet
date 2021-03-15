@@ -80,10 +80,10 @@ class Solution(object):
                     t += w
             return days+1 <= D
         l, r = max(weights), sum(weights)
-        while l <= r:
+        while l < r:
             mid = l + (r-l)//2
             if canShip(mid):
-                r = mid - 1
+                r = mid
             else:
                 l = mid + 1
         return l
