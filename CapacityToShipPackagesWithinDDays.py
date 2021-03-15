@@ -62,6 +62,32 @@ Constraints:
 import sys
 
 class Solution(object):
+
+
+    def shipWithinDaysAC(self, weights, D):
+        """
+        :type weights: List[int]
+        :type D: int
+        :rtype: int
+        """
+        def canShip(m):
+            t, days = 0, 0
+            for w in weights:
+                if t + w > m:
+                    days += 1
+                    t = w
+                else:
+                    t += w
+            return days+1 <= D
+        l, r = max(weights), sum(weights)
+        while l <= r:
+            mid = l + (r-l)//2
+            if canShip(mid):
+                r = mid - 1
+            else:
+                l = mid + 1
+        return l
+
     def shipWithinDays(self, weights, D):
         """
         :type weights: List[int]
@@ -97,3 +123,6 @@ if __name__ == "__main__":
     print(Solution().shipWithinDays([1,2,3,4,5,6,7,8,9,10], 5))
     print(Solution().shipWithinDays([3,2,2,4,1,4], 3))
     print(Solution().shipWithinDays([1,2,3,1,1], 4))
+    print(Solution().shipWithinDaysAC([1,2,3,4,5,6,7,8,9,10], 5))
+    print(Solution().shipWithinDaysAC([3,2,2,4,1,4], 3))
+    print(Solution().shipWithinDaysAC([1,2,3,1,1], 4))

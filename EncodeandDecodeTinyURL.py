@@ -33,9 +33,9 @@ class Codec:
             return "http://tinyurl.com/" + self.long2short[longUrl]
         idx = 0
         randStr = ''
-        for _ in range(6): randStr += self.dict[random.randint(0,61)]
+        for _ in range(6): randStr += self.dict[random.randint(0,len(self.dict)-1)]
         while randStr in self.short2long:
-            randStr[idx] = self.dict[random.randint(0,61)]
+            randStr[idx] = self.dict[random.randint(0,len(self.dict)-1)]
             idx = (idx + 1) % 5
         self.short2long[randStr] = longUrl
         self.long2short[longUrl] = randStr
