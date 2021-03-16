@@ -42,6 +42,7 @@ class Solution(object):
         """
         ban = set(banned)
         words = re.findall(r'\w+', paragraph.lower())
+        print(words)
         return collections.Counter(w for w in words if w not in ban).most_common(1)[0][0]
         
 

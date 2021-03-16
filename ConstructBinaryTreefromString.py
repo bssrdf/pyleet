@@ -1,4 +1,7 @@
 '''
+
+-Medium-
+
 You need to construct a binary tree from a string consisting of parenthesis and integers.
 
 The whole input represents a binary tree. It contains an integer followed by zero, one or 
@@ -31,15 +34,15 @@ class TreeNode(object):
 
 class Solution(object):
     def str2tree(self, s):
+        # 22%
         if not s:
             return None
-        #print(s)
         found = s.find('(')
         if found == -1:
             return TreeNode(int(s))
         root = TreeNode(int(s[:found])) 
         start, cnt = found, 0
-        for i in range(start, len(s)):
+        for i in range(found, len(s)):
             if s[i] == '(':
                 cnt += 1
             elif s[i] == ')':
@@ -52,17 +55,18 @@ class Solution(object):
         return root
 
     def str2treeWithStack(self, s):
+        # 88%
         if not s:
             return None
         st = []
-        for i in range(len(s)):
+        i = 0
+        while i < len(s):
             j = i
             if s[i] == ')':
                 st.pop()
-            if ord(s[i]) >= ord('0') and ord(s[i]) <= ord('9') or ord(s[i]) == ord('-'):
+            if ord(s[i]) >= ord('0') and ord(s[i]) <= ord('9') or s[i] == '-':
                 while ord(s[i+1]) >= ord('0') and ord(s[i+1]) <= ord('9'):
                     i += 1
-                #print(j, i, s[j:i])
                 cur = TreeNode(int(s[j:i+1]))
                 if st:
                     t = st[-1]
@@ -71,12 +75,17 @@ class Solution(object):
                     else:
                         t.right = cur
                 st.append(cur)
+            i += 1
         return st[-1]
 
 
 
 #node = Solution().str2tree("4(2(3)(1))(6(5))")
 node = Solution().str2treeWithStack("4(2(3)(1))(6(5))")
+print(node.val)
+node = Solution().str2tree("-4(2(3)(1))(6(5))")
+print(node.val)
+node = Solution().str2treeWithStack("-4(2(3)(1))(6(5))")
 print(node.val)
 
 
