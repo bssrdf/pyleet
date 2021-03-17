@@ -69,30 +69,25 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
-        # 15.6%
+        # 47%
         sm = [0]
         for i in nums:
             sm.append(sm[-1]+i)
-        m, ij = {0:-1}, []
+        m, right, res =  {0:-1}, -1, 0
         for i, n in enumerate(sm[1:]):
-            if n-target in m:
-                ij.append((m[n-target]+1, i))
-            m[n] = i
-        i, res = 0, 0
-        while i < len(ij):
-            j = i+1
-            while j < len(ij) and ij[i][1] >= ij[j][0]:
-                j += 1
-            i = j
-            res += 1
+            t = n - target
+            if t in m:
+                if right <= m[t]:
+                    right = i 
+                    res += 1
+            m[n] = i        
         return res
 
 if __name__ == "__main__":
-    '''
+    
     print(Solution().maxNonOverlapping([-1,3,5,1,4,2,-9], 6))
     print(Solution().maxNonOverlapping([1,1,1,1,1], 2))
     print(Solution().maxNonOverlapping([-2,6,6,3,5,4,1,2,8], 10))
     print(Solution().maxNonOverlapping([0,0,0], 0))
-    print(Solution().maxNonOverlapping([2,2,3,-2,2,-3,3,-2,1,3], 2))
-    '''
+    print(Solution().maxNonOverlapping([2,2,3,-2,2,-3,3,-2,1,3], 2))    
     print(Solution().maxNonOverlappingOnepass([2,2,3,-2,2,-3,3,-2,1,3], 2))

@@ -20,6 +20,7 @@ Explanation: transactions = [buy, sell, cooldown, buy, sell]
 
 
 '''
+import sys
 
 class Solution(object):
     def maxProfit(self, prices):
@@ -62,9 +63,30 @@ class Solution(object):
             buy[i] = max(sell[i-2]-price, buy[i-1])
             sell[i] = max(buy[i-1]+price, sell[i-1])
         return sell[n]
+
+    def maxProfitFramework(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+        dp[i][1] = max(dp[i-1][1], dp[i-2][0] - prices[i])
+        """
+        n = len(prices)
+        dp_i_0, dp_i_1 = 0, -sys.maxsize
+        dp_pre_0 = 0 # 代表 dp[i-2][0]
+        for i in range(n):
+            temp = dp_i_0
+            dp_i_0 = max(dp_i_0, dp_i_1 + prices[i])
+            dp_i_1 = max(dp_i_1, dp_pre_0 - prices[i])
+            dp_pre_0 = temp
+        return dp_i_0
+
+
+
 if __name__ == "__main__":
     s=Solution()
     print(s.maxProfit([1,2,3,0,2]))
+    print(s.maxProfitFramework([1,2,3,0,2]))
     
 
         
