@@ -3,6 +3,7 @@
 
 *Math*
 *GCD*
+*Binary Search*
 
 Write a program to find the n-th ugly number.
 
@@ -49,21 +50,22 @@ class Solution(object):
         :rtype: int
         """
         def gcd(x, y):
-            return x if y == 0 else gcd(y, x % y)
-        lo = 1
-        hi = 2 * 10**9        
-        ab = a * b / gcd(a, b)
-        bc = b * c / gcd(b, c)
-        ac = a * c / gcd(a, c)
-        abc = a * bc /gcd(a, bc)
+            return x if y == 0 else gcd(y, x % y)        
+        lo, hi = 1, 2 * 10**9        
+        ab = a * b // gcd(a, b)
+        bc = b * c // gcd(b, c)
+        ac = a * c // gcd(a, c)
+        abc = a * bc // gcd(a, bc)
+        def enough(mid):
+            cnt = mid//a + mid//b + mid//c - mid//ab - mid//bc - mid//ac + mid//abc
+            return cnt >= n
         while lo < hi:
             mid = lo + (hi - lo)//2
-            cnt = mid//a + mid//b + mid//c - mid//ab - mid//bc - mid//ac + mid//abc
-            if cnt < n: 
-                lo = mid + 1
+            if enough(mid): 
+                hi = mid
             else:
 			   # the condition: F(N) >= k
-                hi = mid
+               lo = mid + 1 
         return lo
         
 if __name__ == "__main__":

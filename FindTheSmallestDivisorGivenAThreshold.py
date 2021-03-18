@@ -45,19 +45,16 @@ class Solution(object):
         :type threshold: int
         :rtype: int
         """
-        mx = 0
-        for i in nums:            
-            if mx < i: mx = i
         def divsum(denom):
             sm = 0
             for i in nums:
                 sm += math.ceil(i/denom)
             return sm
-        l, r =  max(1, mx//threshold), mx
-        while l <= r:
+        l, r = 1, max(nums)
+        while l < r:
             m = l + (r-l)//2          
             if divsum(m) <= threshold:
-                r = m-1
+                r = m
             else:    
                 l = m+1
         return l

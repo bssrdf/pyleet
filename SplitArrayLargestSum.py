@@ -67,7 +67,35 @@ class Solution(object):
         if canSplit(l): return l
         else: return r
 
+    def splitArrayBetterCode(self, nums, m):
+        """
+        :type nums: List[int]
+        :type m: int
+        :rtype: int
+        """
+        def canSplit(target):
+            sm, cnt = 0, 1
+            for n in nums:
+                sm += n
+                if sm > target:
+                   sm = n
+                   cnt += 1
+                if cnt > m: return False
+            return True 
+        l, r = max(nums), sum(nums)
+        while l < r:
+            mid = l + (r-l)//2
+            if canSplit(mid):
+                r = mid 
+            else:
+                l = mid+1
+        return l
+        
+
 if __name__ == "__main__":
     print(Solution().splitArray([7,2,5,10,8], 2))
     print(Solution().splitArray([1,2,3,4,5],  2))
     print(Solution().splitArray([1,4,4], 3))
+    print(Solution().splitArrayBetterCode([7,2,5,10,8], 2))
+    print(Solution().splitArrayBetterCode([1,2,3,4,5],  2))
+    print(Solution().splitArrayBetterCode([1,4,4], 3))
