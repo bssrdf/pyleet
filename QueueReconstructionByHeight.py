@@ -39,7 +39,7 @@ Output: [[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]
 Constraints:
 
 1 <= people.length <= 2000
-0 <= hi <= 106
+0 <= hi <= 10^6
 0 <= ki < people.length
 It is guaranteed that the queue can be reconstructed.
 
@@ -94,9 +94,10 @@ class Solution(object):
             if p[1] != i:
                 people.pop(i)
                 people.insert(p[1], p)
+         #   print(people)
         return people
 
 if __name__ == "__main__":
-    #print(Solution().reconstructQueue([[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]))
+    print(Solution().reconstructQueue([[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]))
     #print(Solution().reconstructQueue([[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]))
-    print(Solution().reconstructQueueFast([[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]))
+    #print(Solution().reconstructQueueFast([[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]))
