@@ -1,4 +1,6 @@
 '''
+-Hard-
+
 Given an unsorted integer array, find the smallest missing positive 
 integer.
 
@@ -37,6 +39,27 @@ class Solution(object):
             if num != i+1:
                 return i+1
         return n+1        
+
+    def firstMissingPositiveEasyUnderstand(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.append(0)
+        n = len(nums)
+        print(n)
+        print(nums)
+        for i in range(len(nums)): #delete those useless elements
+            if nums[i]<0 or nums[i]>=n:
+                nums[i]=0
+        print(nums)
+        for i in range(len(nums)): #use the index as the hash to record the frequency of each number
+            nums[nums[i]%n]+=n
+        print(nums)
+        for i in range(1,len(nums)):
+            if nums[i]//n==0:
+                return i
+        return n
         
 
 
@@ -45,5 +68,7 @@ if __name__ == "__main__":
     #print(Solution().firstMissingPositive([1,2,0]))
     #print(Solution().firstMissingPositive([7,8,9,11,12]))
     #print(Solution().firstMissingPositive([1]))
-    print(Solution().firstMissingPositive([3,-1,23,7,21,12,8,9,
+    #print(Solution().firstMissingPositive([3,-1,23,7,21,12,8,9,
+    #                               18,21,-1,16,1,13,-3,22,23,13,7,14,3,6,4,-3]))
+    print(Solution().firstMissingPositiveEasyUnderstand([3,-1,23,7,21,12,8,9,
                                    18,21,-1,16,1,13,-3,22,23,13,7,14,3,6,4,-3]))
