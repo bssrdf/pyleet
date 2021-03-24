@@ -104,10 +104,31 @@ class Solution(object):
                     dp[i][j] = dp[i][j - 2] or ((s[i - 1] == p[j - 2]  
                                                 or p[j - 2] == '.') 
                                                 and dp[i-1][j])
-                    
+        for i in range(m+1):
+            print(dp[i])               
         return dp[m][n]
         
 if __name__ == "__main__":
-    print(Solution().isMatch("aab", "c*a*b"))
-    print(Solution().isMatch("aaa","ab*a*c*a"))
-    print(Solution().isMatch("","b*c*"))
+    #print(Solution().isMatch("aab", "c*a*b"))
+    '''
+          c * a *  
+        0 1 2 3 4 
+      0 y n y n y 
+    a 1 n n n y y 
+    a 2 n n n n y 
+    a 3 n n n n y
+    a 4 n n n n y
+    '''
+    print(Solution().isMatch("aaaa", "c*a*"))
+    '''
+          c * a *  
+        0 1 2 3 4 
+      0 y n y n y 
+    b 1 n n n n n 
+    a 2 n n n n n 
+    a 3 n n n n n
+    a 4 n n n n n
+    '''
+    print(Solution().isMatch("baaa", "c*a*"))
+    #print(Solution().isMatch("aaa","ab*a*c*a"))
+    #print(Solution().isMatch("","b*c*"))
