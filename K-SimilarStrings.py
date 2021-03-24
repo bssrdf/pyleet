@@ -1,6 +1,7 @@
 '''
 
 -Hard-
+*BFS*
 
 Strings s1 and s2 are k-similar (for some non-negative integer k) if we can swap the 
 positions of two letters in s1 exactly k times so that the resulting string equals s2.
@@ -51,9 +52,16 @@ class Solution(object):
             s, steps = queue.popleft()
             if s == s2: return steps
             i = 0
+            # find the first index where s differs from s2
+            # we'd like to swap s[i] with s[j] where j > i such that s gets closer to s2 
             while s[i] == s2[i]: i += 1            
             for j in range(i+1,len(s)):
+                # if s[j] is the same as s2[j], we don't want to change s[j] 
+                # by swapping with s[i], which will get s further ways from s2
+                # if s[j] != s2[i], swapping with s[i] will not get s closer to s2
                 if s[j] == s2[j] or s[j] != s2[i]: continue
+                # now we find a s[j] such that swapping it with s[i] will 
+                # make s[i] = s2[i], one step closer to s2
                 sa = list(s)
                 sa[i], sa[j] = sa[j], sa[i]
                 nxt = ''.join(sa)
