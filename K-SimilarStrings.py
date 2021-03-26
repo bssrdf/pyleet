@@ -57,7 +57,7 @@ class Solution(object):
             while s[i] == s2[i]: i += 1            
             for j in range(i+1,len(s)):
                 # if s[j] is the same as s2[j], we don't want to change s[j] 
-                # by swapping with s[i], which will get s further ways from s2
+                # by swapping with s[i], which will get s further away from s2
                 # if s[j] != s2[i], swapping with s[i] will not get s closer to s2
                 if s[j] == s2[j] or s[j] != s2[i]: continue
                 # now we find a s[j] such that swapping it with s[i] will 

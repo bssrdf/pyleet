@@ -53,7 +53,7 @@ class Solution(object):
             elif sums not in dic:
                 dic[sums] = i # for duplicated sums, only record the first occurance   
                               # because the longest dist will be from it  
-        return ans if ans != 0 else 0
+        return ans
 
 if __name__ == "__main__":
     print(Solution().maxSubArrayLen([1, -1, 5, -2, 3], 3))

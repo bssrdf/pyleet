@@ -54,9 +54,7 @@ class Solution(object):
         diff = 0
         for i in nums:
             diff ^= i
-        #print(bin(diff))
         diff &= -diff # Get its last set bit
-        #print(bin(diff))
         rets = [0, 0]  # this array stores the two numbers we will return
         for num in nums:
             if num & diff == 0: # the bit is not set

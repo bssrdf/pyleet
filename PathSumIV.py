@@ -51,6 +51,7 @@ class Solution(object):
         :rtype: int
         """
         if not nums: return 0
+        nums.sort()
         res = 0
         m = {}
         q = deque([nums[0] // 10])
@@ -61,16 +62,17 @@ class Solution(object):
             level = t // 10
             pos = t % 10
             left = (level + 1) * 10 + 2 * pos - 1
-            right = left + 1
+            right = left + 1            
             if left not in m and right not in m:
-                res += m[t]
+                res += m[t] # a leaf node, add path sum to total
             if left in m:
-                m[left] += m[t]
+                m[left] += m[t] # add val to its left child
                 q.append(left)
             if right in m:
-                m[right] += m[t]
+                m[right] += m[t] # add val to its right child
                 q.append(right)
         return res
 
 if __name__ == "__main__":
     print(Solution().pathSum([113, 215, 221]))
+    print(Solution().pathSum([456,331,320,229,215,113,468,342,431]))
