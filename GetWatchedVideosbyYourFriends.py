@@ -86,7 +86,7 @@ class Solution(object):
         c = Counter([v for idx in queue for v in watchedVideos[idx]])    
         return sorted(c.keys(),key=lambda x:(c[x],x))
 
-     def watchedVideosByFriendsFast(self, watchedVideos, friends, id, level):
+    def watchedVideosByFriendsFast(self, watchedVideos, friends, id, level):
         """
         :type watchedVideos: List[List[str]]
         :type friends: List[List[int]]
@@ -99,7 +99,7 @@ class Solution(object):
         for _ in range(level):
             bfs={j for i in bfs for j in friends[i] if j not in visited}
             visited|=bfs
-        freq=collections.Counter([v for idx in bfs for v in watchedVideos[idx]])
+        freq=Counter([v for idx in bfs for v in watchedVideos[idx]])
         return sorted(freq.keys(),key=lambda x:(freq[x],x))
         
 
