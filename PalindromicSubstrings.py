@@ -49,7 +49,21 @@ class Solution(object):
             ans += count(i-1,i) # even length
         return ans
 
+    def countSubstringsDP(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        n, res = len(s), 0
+        # dp[i][j] is true of s[i:j] is a palindrom
+        dp = [[False for _ in range(n)] for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            for j in range(i, n):
+                dp[i][j] = (s[i] == s[j]) and (j - i <= 2 or dp[i + 1][j - 1])
+                if dp[i][j]: res += 1
+        return res
 
         
 if __name__ == "__main__":
     print(Solution().countSubstrings("aaa"))
+    print(Solution().countSubstringsDP("aaa"))
