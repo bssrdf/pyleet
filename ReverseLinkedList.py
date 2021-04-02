@@ -21,6 +21,17 @@ class Solution(object):
         head.next = None
         return temp
 
+    def reverseList(self, head):        
+        prev, cur = None, head
+        while cur:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+        return prev
+        
+
+
 if __name__ == "__main__":
     a = ListNode(10)
     b = ListNode(11)
@@ -33,12 +44,13 @@ if __name__ == "__main__":
     d.next = e
     x = a 
     while x is not None:
-       print(x.val)
+       print(str(x.val)+'->',end='')
        x = x.next
-    print('===========')
-    e=Solution().reverse(a)
+    print('\n===========\n')
+    #e=Solution().reverse(a)
+    e=Solution().reverseList(a)
     x = e 
     while x is not None:
-       print(x.val)
+       print(str(x.val)+'->',end='')
        x = x.next
 

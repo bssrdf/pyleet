@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 -Hard-
+*Priority Queue*
+*BFS*
+
 
 Given an m x n matrix of positive integers representing the height of each unit 
 cell in a 2D elevation map, compute the volume of water it is able to trap 
@@ -42,14 +45,14 @@ class Solution(object):
         import heapq    
         m, n = len(heightMap), len(heightMap[0])
         heap = []
-        visited = [[0]*n for _ in range(m)]
+        visited = [[False]*n for _ in range(m)]
 
         # Push all the block on the border into heap
         for i in range(m):
             for j in range(n):
                 if i == 0 or j == 0 or i == m-1 or j == n-1:
                     heapq.heappush(heap, (heightMap[i][j], i, j))
-                    visited[i][j] = 1
+                    visited[i][j] = True
         result = 0
         while heap:
             height, i, j = heapq.heappop(heap)    
@@ -57,7 +60,7 @@ class Solution(object):
                 if 0 <= x < m and 0 <= y < n and not visited[x][y]:
                     result += max(0, height-heightMap[x][y])
                     heapq.heappush(heap, (max(heightMap[x][y], height), x, y))
-                    visited[x][y] = 1
+                    visited[x][y] = True
         return result
         
         

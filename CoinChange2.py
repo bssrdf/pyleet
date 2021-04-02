@@ -71,7 +71,7 @@ class Solution(object):
                 # dp[i][cents-coins[i]]: the number of ways taking ith coin and giving 
                 # amount of cents-coins[i]                           
                 dp[i][cents] = dp[i-1][cents] +  \
-                               dp[i][cents-coins[i]] if coins[i]<=cents else 0                             
+                               dp[i][cents-coins[i-1]] if coins[i-1]<=cents else 0                             
         return dp[len(coins)][amount]
     
     
@@ -101,5 +101,6 @@ if __name__ == "__main__":
     print(Solution().change(10, [10]))
     print(Solution().change(5, [1,2,5]))
     print(Solution().changeTopdown(5, [1,2,5]))
+    print(Solution().change2dDP(5, [1,2,5]))
     #print(Solution().changeTopdown(3, [2]))
     #print(Solution().changeTopdown(10, [10]))
