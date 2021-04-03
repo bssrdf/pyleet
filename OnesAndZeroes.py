@@ -38,6 +38,7 @@ strs[i] consists only of digits '0' and '1'.
 1 <= m, n <= 100
 
 '''
+from collections import Counter
 
 class Solution(object):
     def findMaxForm(self, strs, m, n):
@@ -77,9 +78,31 @@ class Solution(object):
 
 
 
+    def findMaxFormWrong(self, strs, m, n):
+        """
+        :type strs: List[str]
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        dp = [[0]*(n+1) for _ in range(m+1)]
+        #dp[0][0] = 0
+        strs.sort(key=len)
+        for k in range(len(strs)):
+            for i in range(0, m+1):
+                for j in range(0,n+1):
+                    cnt = Counter(strs[k])
+                    if i >= cnt['0'] and j >= cnt['1']:
+                        print('a', strs[k], i, j, cnt, dp[i][j])
+                        dp[i][j] = max(dp[i][j], 1+dp[i-cnt['0']][j-cnt['1']])
+                        print('b', strs[k], i, j, cnt, dp[i][j])
+        #print(dp)
+        return dp[m][n]
 
 
 
 if __name__ == "__main__":
-    print(Solution().findMaxForm(["10","0001","111001","1","0"],  5, 3))
-    print(Solution().findMaxForm(["10","0","1"], 1, 1))
+    #print(Solution().findMaxForm(["10","0001","111001","1","0"],  5, 3))
+    print(Solution().findMaxFormWrong(["10","0001","111001","1","0"],  5, 3))
+    #print(Solution().findMaxForm(["10","0","1"], 1, 1))
+    #print(Solution().findMaxFormWrong(["10","0","1"], 1, 1))
