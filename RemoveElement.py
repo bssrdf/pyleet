@@ -24,8 +24,8 @@ class Solution:
         return r
     
 if __name__ == "__main__":
-    print Solution().removeElement([3, 3], 3)
-    print Solution().removeElement([4, 5], 4)
-    print Solution().removeElement([1, 2, 3, 4, 5, 2, 2], 2)
-    print Solution().removeElement([1, 2, 3, 4, 5, 2, 2], 10)
-    print Solution().removeElement([1, 2, 3, 4, 5, 2, 2], 5)
+    print(Solution().removeElement([3, 3], 3))
+    print(Solution().removeElement([4, 5], 4))
+    print(Solution().removeElement([1, 2, 3, 4, 5, 2, 2], 2))
+    print(Solution().removeElement([1, 2, 3, 4, 5, 2, 2], 10))
+    print(Solution().removeElement([1, 2, 3, 4, 5, 2, 2], 5))
