@@ -83,6 +83,23 @@ class Solution(object):
         :type words: List[str]
         :rtype: List[int]
         """
+        """
+        还是子串问题，我们仍用滑动窗口去解决。由于words中单词长度相等，那么设置左右指针移动时只移动一个
+        单词的长度。需要注意的是，应当在“窗口滑动”之前遍历窗口的起始位置。比如每个单词的长度为3，如果左
+        右指针的起始位置为0，那么每次只移动一个单词长度的话，能访问到的只有以0、3、6、9,...这几个索引字
+        母开头的单词。左右指针的起始位置为1时，每次只移动一个单词长度，能访问到的只有以1、4、7、10,...
+        这几个索引字母开头的单词。左右指针的起始位置为2时，能访问到的只有2,5,8,11,...这几个索引字母开头
+        的单词。因此需要遍历[0,len(one_word))设置左右指针的起始位置，这样能够遍历到以各个位置开头的单词，
+        确保没有遗漏。
+
+        我们仍维护target来存储words中出现的各个单词的个数（需要凑齐的单词），window存储窗口中出现的words
+        里单词的个数，valid存储window中满足target条件的单词个数。需要注意的是对于不同的窗口起始位置，
+        window和valid要重新初始化。因为对于不同的窗口起始位置，window和valid将要存储新一轮的滑动结果。
+
+        右边界移动的条件为：右指针+一个单词的长度<=字符串s的长度(这样当右指针+一个单词长度=字符串s的长度时，
+        右指针继续右移一个单词的长度，右指针等于len(s)，就不能继续移动了)。左指针移动的条件为窗口内的字母
+        个数等于words中的字母个数，此时判断窗口内子串是否是words中单词的串联，并移动左指针。
+        """
         target = defaultdict(int)
         for word in words:
             target[word] += 1
@@ -106,7 +123,7 @@ class Solution(object):
                     #判断一下
                     if(valid == len(target)):
                         result.append(left)
-                    #左移
+                    # left pointer moves
                     tmp_word = s[left:left+one_word]
                     left += one_word
                     if tmp_word in target:
