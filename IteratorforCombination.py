@@ -57,7 +57,8 @@ class CombinationIterator(object):
                 self.bitMask &= ~(1 << pos)    
                 return
             self.bitMask |= 1 << pos
-            for i in range(pos+1, len(s)):
+            #for i in range(pos+1, len(s)):
+            for i in range(pos+1, len(s)-(self.length-k)+1):
                 dfs(s, i, k+1)
             self.bitMask &= ~(1 << pos)    
         for i in range(len(self.s)-self.length+1):
