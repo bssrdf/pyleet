@@ -44,9 +44,18 @@ class Solution(object):
                 for b in res:
                     tempres.append(b+a)
             res =  tempres
-        print res
+        #print res
         return res
         
 if __name__ == "__main__":
-    Solution().letterCombinations("23") == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
-    Solution().letterCombinationsBFS("234") == ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"]
+    assert(Solution().letterCombinations("23") ==
+     ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"])
+
+    #assert(Solution().letterCombinations("234") == 
+    #["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"])
+
+    #assert(Solution().letterCombinationsBFS("23") == 
+    #["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"])
+    print(Solution().letterCombinationsBFS("23"))
+
+    
