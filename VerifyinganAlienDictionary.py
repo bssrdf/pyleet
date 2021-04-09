@@ -49,15 +49,13 @@ class Solution(object):
         for i in range(1,len(words)):
             w1 = words[i-1]
             w2 = words[i]
-            i = 0
+            j = 0
             for c1, c2 in zip(w1, w2):
-               if m[c1] == m[c2]: 
-                   i += 1
-                   continue  
+               if m[c1] == m[c2]: j += 1
                elif m[c1] < m[c2]: break
                else: return False            
-            print(i, len(w1), len(w2))
-            if i == len(w2) and len(w1) > len(w2):                
+            #print(j, len(w1), len(w2))
+            if j == len(w2) and len(w1) > len(w2):                
                 return False
         return True
 

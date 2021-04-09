@@ -53,7 +53,7 @@ class Solution(object):
                 cur = num[:i]                
                 if len(cur) > 1 and cur[0] == '0': return
                 nxt = num[i:]
-                if num == '23': print(i, cur, nxt, len(out))
+              #  if num == '23': print(i, cur, nxt, len(out))
                 if len(out) > 0:
                     helper(nxt, int(cur), curNum + int(cur), out + "+" + cur)
                     helper(nxt, -int(cur), curNum - int(cur), out + "-" + cur)
@@ -66,3 +66,5 @@ class Solution(object):
         
 if __name__ == "__main__":
     print(Solution().addOperators(num = "123", target = 6))
+    print(Solution().addOperators(num = "123", target = 123))
+    print(Solution().addOperators(num = "000", target = 0))
