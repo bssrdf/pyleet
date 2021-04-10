@@ -80,11 +80,9 @@ if __name__ == "__main__":
             makeSet(items[i-1])
             if prev:
                 union(prev, items[i-1])
-            #else:
             prev = items[i-1]
         else:
             cnt += 1
-            #print(i, cnt)
             if prev:
                 node = DLLNode(cnt, findSet(prev))
             else:
@@ -96,43 +94,24 @@ if __name__ == "__main__":
     extracted = [0]*cnt
     cnt += 1
     if prev:
-        print('##',prev.val, cnt)        
         node = DLLNode(cnt, findSet(prev))
     else:
         node = DLLNode(cnt, None)
     head.next = node
     node.prev = head 
-    #'''   
-    head = dummy.next
-    while head:
-        if head.dset:
-           print('size, Kj =',head.dset.size, head.Kj)
-        else:
-           print('size, Kj =', 0, head.Kj)    
-        head = head.next   
-    #'''
-    print('===============')
     for item in items:
         t = findSet(item)
-        print(item.val, t.pos.Kj)
-    print('===============')
-    for item in items:
-        t = findSet(item)
-        #print(item.val, t.pos.Kj)
         if t.pos.next:
             extracted[t.pos.Kj-1] = item.val
             cur = t.pos.next
-            #if cur.dset: print('head->',type(cur), type(t.pos), type(cur.dset))
-           # while cur and (not cur.dset):
-           #     cur = cur.next
-            #print(item.val, t.pos.Kj)
+            t.pos.prev.next = cur
+            cur.prev = t.pos.prev
             if cur.dset:
+                t.pos = cur
                 union(cur.dset.head, item)
             else:
-                cur.dset = t                     
-            t.pos.prev.next = t.pos.next
-            t.pos.next.prev = t.pos.prev
-            #del t
+                cur.dset = t  
+                t.pos = cur                   
     print(extracted)
              
 
