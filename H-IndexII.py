@@ -43,7 +43,7 @@ class Solution(object):
         :rtype: int
         """
         n = len(citations)
-        l, r = 0, n - 1
+        l, r = 0, n
 
         while l < r:
             m = (l + r) // 2
@@ -51,8 +51,7 @@ class Solution(object):
                 l = m + 1
             else:
                 r = m
-        
-        return n - l if citations[l] >= n-l  else 0
+        return n - l
 
 
 if __name__ == "__main__":
