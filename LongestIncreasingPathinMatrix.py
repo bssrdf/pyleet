@@ -1,4 +1,7 @@
 '''
+-Hard-
+*DFS*
+
 
 Given an integer matrix, find the length of the longest increasing path.
 
@@ -41,8 +44,8 @@ class Solution(object):
         cache = [ [-1 for _ in range (n)] for _ in range(m) ]
         long = 0 
         for i in range(m):
-           for j in range(n):
-               long = max(long, self.longest(matrix, cache, m, n, i, j))
+            for j in range(n):
+                long = max(long, self.longest(matrix, cache, m, n, i, j))
         return long
         
     def longest(self, matrix, cache, m, n, i, j):
@@ -58,8 +61,8 @@ class Solution(object):
             ik,jk = i+d[0],j+d[1]
             if ik >=0 and ik < m and jk >= 0 and jk < n and matrix[i][j] < matrix[ik][jk]:
                 l = max(l, 1+self.longest(matrix, cache, m, n, ik, jk))  
-        cache[i][j] = max(cache[i][j], l)
-        return l 
+        cache[i][j] = l
+        return cache[i][j]
 m = [
   [3,4,5],
   [3,2,6],
