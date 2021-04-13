@@ -1,4 +1,7 @@
 '''
+-Medium-
+*Doubly LinkedList*
+*Hash Table*
 
 Design and implement a data structure for Least Recently Used (LRU) cache. It should 
 support the following operations: get and put.
@@ -54,7 +57,7 @@ class LRUCache:
            return n.val
         return -1
 
-    def set(self, key, value):
+    def put(self, key, value):
         if key in self.dic:
             self._remove(self.dic[key])
         n = Node(key, value)
@@ -62,6 +65,7 @@ class LRUCache:
         self.dic[key] = n
         if len(self.dic) > self.capacity:
             n = self.head.next
+            # remove the nmode at the head
             self._remove(n)
             del self.dic[n.key]
 
@@ -72,6 +76,7 @@ class LRUCache:
         n.prev = p
 
     def _add(self, node):
+        # add the node to the tail
         p = self.tail.prev
         p.next = node
         self.tail.prev = node
@@ -79,12 +84,12 @@ class LRUCache:
         node.next = self.tail
 
 cache = LRUCache(2)
-cache.set(1, 1)
-cache.set(2, 2)
+cache.put(1, 1)
+cache.put(2, 2)
 print(cache.get(1))       #returns 1
-cache.set(3, 3)    # evicts key 2
+cache.put(3, 3)    # evicts key 2
 print(cache.get(2))       # returns -1 (not found)
-cache.set(4, 4)    # evicts key 1
+cache.put(4, 4)    # evicts key 1
 print(cache.get(1))       # returns -1 (not found)
 print(cache.get(3))       # returns 3
 print(cache.get(4))       # returns 4
