@@ -35,7 +35,7 @@ class Solution(object):
         """
         type num: List[int]
         rtype: int
-        """
+        """        
         queue = deque()
         self.mlev = 0
         def make_queue(lst, level):            

@@ -76,6 +76,43 @@ class NestedIterator(object):
         :rtype: bool
         """
         return len(self.queue) > 0
+
+class NestedIteratorStack(object):
+
+    def __init__(self, nestedList):
+        """
+        Initialize your data structure here.
+        :type nestedList: List[NestedInteger]
+        """
+        
+        self.stack = []
+        for i in nestedList[::-1]:
+            self.stack.append(i)
+
+    #def prepareList(self, nestedList):
+    #    for lst in nestedList[::-1]:
+    #        self.stack.append(lst)
+            
+    def next(self):
+        """
+        :rtype: int
+        """        
+        return self.stack.pop().getInteger()
+        
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        while self.stack:
+            currInteger = self.stack[-1]
+            if currInteger.isInteger():
+                return True
+            self.stack.pop()
+            for i in currInteger.getList()[::-1]:
+                self.stack.append(i)
+        return False
+        
         
 
 if __name__ == "__main__":

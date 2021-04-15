@@ -64,7 +64,7 @@ class Solution(object):
                 r = mid
             else:
                 l = mid + 1
-        print(arr[mid], mid, r, k)
+        print(arr[mid], mid, l, r, k)
         return r + k       
 
 
