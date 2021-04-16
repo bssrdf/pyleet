@@ -42,16 +42,49 @@ class Solution(object):
         :type citations: List[int]
         :rtype: int
         """
+        """
+        To understand this we should have a clear understanding of the origin solution to this problem. 
+        It is on wikipage: https://en.wikipedia.org/wiki/H-index
+
+        Summary here:
+        Sort the array descending order, give each a index start from 1.
+        From right to left, find the last number >= its index, the result is its index.
+
+        ....c: 25, 8, 5, 3, 3
+        index:1, 2, 3, 4, 5
+        number 5, H-index 3.
+
+        After understand this origin solution, we can go to the binary search one.
+        First, the different is the order changed, in this problem, the array sorted in ascending.
+        We need somehow transfer it to original problem.
+
+        For example, we have those number, and their index starts with 0
+        ......c: 3, 3, 5, 8, 25　
+        index: 0, 1, 2, 3, 4
+
+        We can covert it using n the length of the array. We subtract n with the index, we get:
+        ........c: 3, 3, 5, 8, 25　
+        index0: 0, 1, 2, 3, 4　
+        index1: 5, 4, 3, 2, 1
+
+        We can see we almost have the original form now except the order. It is easy, in the original 
+        problem we try to find the last one >= its index, now we find the first one >= its index.
+
+        So now we just using binary search to find the number, a thing here we need to mind is the 
+        index0 here we are using, but we need to convert it to index1.
+        """
         n = len(citations)
         l, r = 0, n
-
         while l < r:
             m = (l + r) // 2
+            # recast index i from [0, 1, ....n-1] to j [n, n-1, ... 1]
+            # by doing j = n-i
+            # search for the first recasted index j where c[j] >= j 
             if citations[m] < n - m:
                 l = m + 1
             else:
                 r = m
-        return n - l
+        return n - l 
 
 
 if __name__ == "__main__":

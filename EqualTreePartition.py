@@ -61,6 +61,7 @@ class Solution(object):
         """
         m = defaultdict(int)
         def helper(node):
+            # recursively compute sum of the node's val and its subtree
             if not node: return 0                        
             left = helper(node.left)
             right = helper(node.right)            
@@ -69,11 +70,13 @@ class Solution(object):
             return cur
         sm = helper(root)
         if sm == 0: return m[0] > 1
-        return sm % 2 == 0 and sm//2 in m
+        # if one subtree has ever had a sum = 1/2 of the total (total is an even number)
+        # we can split this subtree from its parent to statisfy the requirement   
+        return sm % 2 == 0 and sm//2 in m 
 
 
 if __name__=="__main__":
-    root = constructBinaryTree([5,10, 10, null, null, 2, 3])
+    root = constructBinaryTree([5, 10, 10, null, null, 2, 3])
     root.prettyPrint()
     print(Solution().checkEqualTree(root))
     root = constructBinaryTree([1, 2, 10, null, null, 2, 20])
