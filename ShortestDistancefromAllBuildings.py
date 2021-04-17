@@ -1,4 +1,6 @@
 '''
+-Hard-
+
 
 You want to build a house on an empty land which reaches all buildings in the shortest 
 amount of distance. 
