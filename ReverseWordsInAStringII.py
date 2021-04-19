@@ -24,27 +24,22 @@ class Solution(object):
         :type s: List[str]
         :rtype: List[str]
         """
-        n = len(s)
-        l, r = 0, n-1
+        l, r = 0, len(s)-1
         while l < r:
             s[l], s[r] = s[r], s[l]
             l += 1
             r -= 1
         l, r = 0, 0
-        for i in range(n):
+        s.append(' ')
+        for i in range(len(s)):
             if s[i] == ' ':
                 r = i-1
                 while l < r:
                     s[l], s[r] = s[r], s[l]
                     l += 1
                     r -= 1
-                l = i+1
-        r = n-1
-        while l < r:
-            s[l], s[r] = s[r], s[l]
-            l += 1
-            r -= 1        
-        return s 
+                l = i+1        
+        return s[:-1] 
 
 if __name__ == "__main__":
     print(Solution().reverseWords(["t","h","e"," ","s","k","y"," ","i",
