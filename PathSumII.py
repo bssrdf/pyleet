@@ -29,7 +29,7 @@ class Solution(object):
     def dfs(self, root, target, path, ret):
         path.append(root.val)
         if root.left is None and root.right is None:
-            if target - root.val == 0:
+            if target == root.val:
                 ret.append(path[:])
         if root.left:
            self.dfs(root.left, target - root.val, path, ret)
@@ -58,7 +58,7 @@ node10.right = node7
 node5.left = node8
 node5.right = node9
 
-print Solution().pathSum(node1, 22)
+print(Solution().pathSum(node1, 22))
 
 
 

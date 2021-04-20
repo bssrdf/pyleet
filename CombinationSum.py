@@ -58,8 +58,8 @@ class Solution(object):
         # to count the first element in this recursive step even if it is the same 
         # as one before. To avoid overcounting, we just ignore the duplicates
         # after the first element.
-            if i > start and nums[i] == nums[i - 1]:
-               continue
+            #if i > start and nums[i] == nums[i - 1]:
+            #   continue
 
         # If the current element is bigger than the assigned target, there is 
         # no need to keep searching, since all the numbers are positive
