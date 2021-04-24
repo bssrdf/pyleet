@@ -1,5 +1,7 @@
 '''
 -Hard-
+*Binary Search*
+
 
 Given an array consisting of n integers, find the contiguous subarray whose 
 length is greater than or equal to k that has the maximum average value. And 
@@ -20,7 +22,7 @@ The answer with the calculation error less than 10^-5 will be accepted.
 '''
 
 class Solution(object):
-    def findMaxAverage(self, nums, k):
+    def findMaxAverageTLE(self, nums, k):
         """
         :type nums: List[int]
         :type k: int
@@ -38,6 +40,30 @@ class Solution(object):
                 t = sums[i] -  sums[j]
                 if t > res * (i - j) : res = t / (i - j)
         return res
+
+    def findMaxAverage(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: float
+        """
+        # O(nlog(max-min))
+        n = len(nums)
+        sums = [0] * (n+1)
+        left = min(nums)
+        right = max(nums)
+        while right - left > 1.e-5:
+            minSum, mid = 0, left + (right - left) / 2
+            check = False
+            for i in range(1,n+1):
+                sums[i] = sums[i - 1] + nums[i - 1] - mid
+                if i >= k: minSum = min(minSum, sums[i - k])
+                if i >= k and sums[i] > minSum: 
+                    check = True 
+                    break 
+            if check: left = mid
+            else: right = mid
+        return left
 
 if __name__ == "__main__":
     print(Solution().findMaxAverage([1,12,-5,-6,50,3], 4))

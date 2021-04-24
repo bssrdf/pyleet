@@ -1,6 +1,7 @@
 '''
 -Easy-
 *Two Passes*
+*DP*
 
 Find the contiguous subarray within an array (containing at least one number) which 
 has the largest sum.
@@ -24,6 +25,7 @@ class Solution(object):
         for i in range(1, len(nums)):
             sums[i] = sums[i-1]+nums[i] if sums[i-1] > 0 else nums[i]
             res = max(sums[i], res)
+            print(i, sums[i], res)
         return res
 
 if __name__ == "__main__":

@@ -60,38 +60,59 @@ class Solution(object):
                print(k, j, lSum, mSum, rSum)
                if lSum <= mSum <= rSum: res += 1
         return res
+
+    def waysToSplitO_N(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        prefix = [0]
+        for x in nums: prefix.append(prefix[-1] + x)
+        
+        ans = j = k = 0 
+        for i in range(1, len(nums)): 
+            j = max(j, i+1)
+            while j < len(nums) and 2*prefix[i] > prefix[j]: j += 1
+            k = max(k, j)
+            while k < len(nums) and 2*prefix[k] <= prefix[i] + prefix[-1]: k += 1
+            ans += k - j 
+        return ans % 1_000_000_007
+
     def waysToSplitBinarySearch(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
         n = len(nums)
-        preSum = [0]
+        preSum = [0]*n
+        preSum[0] = nums[0]
         res = 0
-        for i in nums:
-            preSum.append(preSum[-1]+i)
-        for k in range(n-1, 1, -1):
-            rSum = preSum[n] - preSum[k]
-            l, r = 1, k
-            while l < r:
-                m = l + (r-l) // 2
-                if k==4: print(l, r, m, preSum[k] - preSum[m+1], rSum)
-                if preSum[k] - preSum[m+1] >= rSum:
-                    l = m + 1
-                else:
-                    r = m 
-            n1 = l+1
-            l, r = 1, k
-            while l < r:                
-                m = l + (r-l) // 2
-                #if k==4: print(l, r, m, preSum[k] - preSum[m+1], preSum[m+1])
-                if preSum[k] - preSum[m+1] >= preSum[m+1] - preSum[0]:
-                    l = m+1
-                else:
-                    r = m
-            n2 = l
-            print(k, rSum, n1, n2)
-            res += max(n2-n1+1, 0)
+        MOD = 10**9+7
+        for i in range(1, n):
+            preSum[i] = preSum[i-1]+nums[i]
+        for k in range(1, n-1):
+            if preSum[k - 1] > (preSum[n - 1] - preSum[i - 1]) // 2: break # early termination
+            lSum = preSum[k-1]
+            def helper(i, searchLeft):
+                ret = -1
+                l, r = i, n-2
+                while l <= r:
+                    m = l + (r-l) // 2
+                    mSum = preSum[m] - preSum[i-1]
+                    rSum = preSum[n-1] - preSum[m]
+                    if lSum <= mSum <= rSum:
+                        ret = m
+                        if searchLeft: r = m-1
+                        else: l = m+1
+                    elif lSum > mSum:
+                        l = m+1
+                    else:
+                        r = m-1
+                return ret
+            left = helper(k, True)
+            right = helper(k, False)
+            if left == -1 and right == -1: continue
+            res = (res + (right - left + 1) % MOD) % MOD
         return res
 
         
