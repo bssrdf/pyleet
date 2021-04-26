@@ -58,12 +58,14 @@ class Solution(object):
             for i in range(1,n+1):
                 sums[i] = sums[i - 1] + nums[i - 1] - mid
                 if i >= k: minSum = min(minSum, sums[i - k])
-                if i >= k and sums[i] > minSum: 
-                    check = True 
+                if i >= k and sums[i] > minSum: # there exists a subarray with length >= k and
+                    check = True                # its average > mid
                     break 
             if check: left = mid
             else: right = mid
-        return left
+#        print(left, right)
+        return right
 
 if __name__ == "__main__":
     print(Solution().findMaxAverage([1,12,-5,-6,50,3], 4))
+    print(Solution().findMaxAverage([-1,0,1], 3))
