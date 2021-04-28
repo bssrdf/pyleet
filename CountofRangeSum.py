@@ -16,6 +16,7 @@ Explanation: The three ranges are : [0,0], [2,2], [0,2] and their respective
 sums are: -2, -1, 2.
 
 '''
+import bisect
 
 class Solution(object):
     def countRangeSum(self, nums, lower, upper):
@@ -66,4 +67,37 @@ class Solution(object):
             return count
         return sort(0, len(first))
 
+
+    def countRangeSumBIT(self, nums, lower, upper):
+        """
+        :type nums: List[int]
+        :type lower: int
+        :type upper: int
+        :rtype: int
+        """    
+        n = len(nums)
+        Sum, BITree = [0] * (n + 1), [0] * (n + 2)
+        
+        def count(x):
+            s = 0
+            while x:
+                s += BITree[x]
+                x -= (x & -x)
+            return s
+        
+        def update(x):
+            while x <= n + 1:
+                BITree[x] += 1
+                x += (x & -x)
+                
+        for i in range(n):
+            Sum[i + 1] = Sum[i] + nums[i]
+        sortSum, res = sorted(Sum), 0
+        for sum_j in Sum:
+            sum_i_count = count(bisect.bisect_right(sortSum, sum_j - lower)) - count(bisect.bisect_left(sortSum, sum_j - upper))
+            res += sum_i_count
+            update(bisect.bisect_left(sortSum, sum_j) + 1)
+        return res
+
 print(Solution().countRangeSum([-2,5,-1], -2, 2))
+print(Solution().countRangeSumBIT([-2,5,-1], -2, 2))
