@@ -1,4 +1,8 @@
 '''
+-Hard-
+
+*Backtracking*
+
 On a 2-dimensional grid, there are 4 types of squares:
 
 1 represents the starting square.  There is exactly one starting square.
