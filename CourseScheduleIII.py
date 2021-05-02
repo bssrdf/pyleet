@@ -38,17 +38,28 @@ class Solution(object):
         :rtype: int
         """
         courses.sort(key = lambda x: x[1])
-        f = 0
+        f = 0 # currentTotalTime
         q = []
         for t, d in courses:
+            # During iteration, say I want to add the current course, 
+            # currentTotalTime being total time of all courses taken till now, 
+            # but adding the current course might exceed my deadline or it doesn’t.
             if f+t <= d:
+                # If it doesn’t, then I have added one new course. 
                 heapq.heappush(q, -t)
+                # Increment the currentTotalTime with duration of current course.
                 f += t
             elif q:
+                # if it exceeds deadline, I can swap current course with current 
+                # courses that has biggest duration.
+                # * What preprocessing do I need to do on my course processing 
+                # order so that this swap is always legal?
                 tmax = -q[0]
                 if tmax > t: # greedily evict the largest t from the pq
                     heapq.heappop(q) 
                     heapq.heappush(q, -t)    
+                    # * No harm done and I might have just reduced the 
+                    # currentTotalTime, right?
                     f = f + t - tmax
         return len(q)
 
