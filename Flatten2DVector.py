@@ -1,4 +1,10 @@
 """
+-Medium-
+$$$
+
+*Iterators*
+
+
 Premium Question.
 
 Implement an iterator to flatten a 2d vector.
@@ -49,33 +55,29 @@ class Vector2D:
 
         self.main_iter = iter(vec2d)
         self.main_next = next(self.main_iter, None)
-
-        while self.main_next is not None and not self.sub_iter:
-            if len(self.main_next) > 0:
-                self.sub_iter = iter(self.main_next)
-
-            self.main_next = next(self.main_iter, None)
-
+        #print('inital array length: {} with type {}'.format(len(self.main_next), type(self.main_next))) 
+        self.next_sub()
         if self.sub_iter:
             self.sub_next = next(self.sub_iter, None)
 
+    def next_sub(self):
+        while self.main_next is not None:
+            if len(self.main_next) > 0:
+                self.sub_iter = iter(self.main_next)
+                break
+            self.main_next = next(self.main_iter, None)
+        self.main_next = next(self.main_iter, None)
+
+
     def next(self):
         """
-
         :rtype: int
         """
         val = self.sub_next
 
         self.sub_next = next(self.sub_iter, None)
         if self.sub_next is None:
-            while self.main_next is not None:
-                if len(self.main_next) > 0:
-                    self.sub_iter = iter(self.main_next)
-                    break
-
-                self.main_next = next(self.main_iter, None)
-
-            self.main_next = next(self.main_iter, None)
+            self.next_sub()
             self.sub_next = next(self.sub_iter, None)
 
         return val
