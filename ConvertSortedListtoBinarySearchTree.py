@@ -82,6 +82,7 @@ class Solution(object):
         nxt = head.next
         if not nxt: return TreeNode(head.val)
         middle = findMiddle(head)
+        print(middle.val)
         lnode, middle = middle, middle.next
         rnode = middle.next if middle else None
         lnode.next = None
@@ -94,7 +95,7 @@ class Solution(object):
 if __name__ == "__main__":
     node = ListNode(-10)
     head = node
-    for i in [-3, 0, 5, 9]:
+    for i in [-3, 0, 2, 5, 9, 11]:
        newnode = ListNode(i)
        node.next = newnode
        node = node.next
