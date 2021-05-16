@@ -49,7 +49,6 @@ class Solution:
     @return: return the number of ways he can reach the planet n through the portal.
     """
     def getNumberOfWays(self, n, m, limit, cost):
-        # 
         # dp[i][j]表示到达星球i时剩余金币为j的方式数
         dp = [ [0]*(m+1) for _ in range(n+1)]
         # 初始化,在星球0金币数为m
@@ -62,7 +61,4 @@ class Solution:
                 for k in range(m-cost[i]+1):
                     dp[i][k] += dp[i - j][k + cost[i]]
         # 将剩余钱数的各种方式数相加得到结果
-        res = 0
-        for i in range(m+1):
-            res += dp[n][i]
-        return res
+        return sum([dp[n][i] for i in range(m+1)])
