@@ -41,6 +41,26 @@ class Solution:
     """
     def wordPatternMatch(self, pattern, str):
         # write your code here
+        m = {}
+        def helper(p, r):
+            if p == len(pattern) and r == len(str): return True
+            if p == len(pattern) or r == len(str): return False
+            c = pattern[p]
+            for i in range(r, len(str)):
+                t = str[r:i+1]
+                if c in m and m[c] == t:
+                    if helper(p + 1, i + 1): return True
+                elif c not in m:
+                    b = False
+                    for it in m:
+                        if m[it] == t: b = True
+                    if not b:
+                        m[c] = t
+                        if helper(p + 1, i + 1): return True
+                        m.pop(c)
+            return False
+        return helper(0, 0)
 
 if __name__ == "__main__":
     print(Solution().wordPatternMatch(pattern = "abab", str = "redblueredblue"))
+    print(Solution().wordPatternMatch(pattern = "aabb", str = "xyzabcxzyabc"))
