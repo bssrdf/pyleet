@@ -96,7 +96,7 @@ class Solution(object):
                             break
                     else: break
                 if i > 0: heapq.heappush(sell, (p, i)) 
-        return  (sum([x[1] for x in buy]) + sum([x[1] for x in sell])) % MOD
+        return  sum([x[1] for x in buy+sell]) % MOD
             
 
 
