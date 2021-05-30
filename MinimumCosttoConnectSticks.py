@@ -1,5 +1,7 @@
 '''
 -Medium-
+*Greedy*
+*Priority Queue*
 
 In order to decorate your new house, you need to process some sticks with 
 positive integer length. You can connect any two sticks of lengths X and Y 
