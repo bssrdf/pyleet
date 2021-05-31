@@ -56,5 +56,19 @@ class Solution(object):
         if ruleKey == 'type': return  typ[ruleValue] 
         if ruleKey == 'name': return name[ruleValue] 
 
+    def countMatchesCleanCode(self, items, ruleKey, ruleValue):
+        """
+        :type items: List[List[str]]
+        :type ruleKey: str
+        :type ruleValue: str
+        :rtype: int
+        """
+        rule = {'type' : 0, 'color' : 1, 'name' : 2}
+        cnt, index = 0, rule[ruleKey]
+        for item in items:
+            if item[index] == ruleValue:
+                cnt += 1
+        return cnt
+
 if __name__ == "__main__":
     print(Solution().countMatches(items = [["phone","blue","pixel"],["computer","silver","lenovo"],["phone","gold","iphone"]], ruleKey = "color", ruleValue = "silver"))
