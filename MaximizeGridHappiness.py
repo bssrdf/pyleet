@@ -87,8 +87,10 @@ class Solution(object):
             
             n_in_mask = (in_mask << 1) & ((1 << n) - 1)
             n_ex_mask = (ex_mask << 1) & ((1 << n) - 1)
-            if r == 1 and c == 1 and ex_cnt == 0 and in_cnt == 1:
-                print('{:04b}'.format(n_in_mask), '{:04b}'.format(n_ex_mask))
+            #if r == 0 and c == 1 and ex_cnt == 1 and in_cnt == 1:
+            #    print('{:04b}'.format(ex_mask), 
+            #          '{:04b}'.format(ex_mask<<1),
+            #          '{:04b}'.format(n_ex_mask))
             ans = dp(idx + 1, n_in_mask, n_ex_mask, in_cnt, ex_cnt)
             if in_cnt > 0:
                 cur = 120 + calc_cost(r, c, in_mask, ex_mask, -30)
