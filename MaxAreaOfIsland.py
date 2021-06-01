@@ -1,6 +1,7 @@
 '''
 -Medium-
 *DFS*
+*Union Find*
 
 Given a non-empty 2D array grid of 0's and 1's, an island is a group of 1's 
 (representing land) connected 4-directionally (horizontal or vertical.) You 
@@ -76,6 +77,31 @@ class Solution(object):
         for i in range(m*n):
             res = max(res, ranks[i])                             
         return 0 if cnt == 0 else res
+    
+    def maxAreaOfIslandDFS(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        m = len(grid)
+        n = len(grid[0])
+        dirs = [(-1,0), (0,-1), (1,0), (0,1)]
+        area = 0
+        def dfs(x, y):
+            grid[x][y] = 2
+            cur = 1
+            for r,c in dirs:
+                i1,j1=x+r,y+c
+                if i1<0 or i1>=m or j1<0 or j1>=n or grid[i1][j1] != 1:
+                    continue
+                cur += dfs(i1, j1)
+            return cur
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1: 
+                    area = max(area, dfs(i,j))
+        return area
+
 
 
 
@@ -89,3 +115,4 @@ if __name__ == "__main__":
  [0,0,0,0,0,0,0,1,1,1,0,0,0],
  [0,0,0,0,0,0,0,1,1,0,0,0,0]]
     print(Solution().maxAreaOfIsland(grid))
+    print(Solution().maxAreaOfIslandDFS(grid))
