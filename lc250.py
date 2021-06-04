@@ -17,9 +17,7 @@ with open('LC250.txt','r') as infile:
             mark = ':heavy_check_mark:'
         else:
             mark = ':heavy_multiplication_x:'
-        #newfields ='- '+mark+'  '+fields[0]+'  '+prob_name+'\n' 
         newfields.append('- '+mark+'  '+fields[0]+'  '+prob_name+'\n') 
-        #outfile.write(newfields)
 summary = "## **%d** finished with **%d** left" %(finished, 250-finished)
 with open('LC250.md','w') as outfile:
     outfile.write("# Leetcode 前 400 重点 250 题")    
@@ -31,11 +29,4 @@ with open('LC250.md','w') as outfile:
     outfile.write("\n\n")    
     for line in newfields:
         outfile.write(line)
-
-
-
-
-#with open('LC250.md','a') as outfile:
-#    outfile.write("\n---")
-#    outfile.write(summary)
 print(summary)
