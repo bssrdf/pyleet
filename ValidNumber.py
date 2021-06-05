@@ -48,6 +48,7 @@ s consists of only English letters (both uppercase and lowercase), digits (0-9),
 plus '+', minus '-', or dot '.'.
 
 '''
+from enum import Enum
 
 class Solution(object):
     def isNumber(self, s):
@@ -90,5 +91,44 @@ class Solution(object):
             return True
         else: return False
 
+    def isNumberFSM(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        class InputType(Enum): 
+            INVALID = 0		# 0 Include: Alphas, '(', '&' ans so on
+            SPACE = 1		# 1
+            SIGN = 2		# 2 '+','-'
+            DIGIT = 3		# 3 numbers
+            DOT = 4			# 4 '.'
+            EXPONENT = 5	# 5 'e' 'E'
+        transTable = [
+		#0INVA,1SPA,2SIG,3DI,4DO,5E
+			[-1,  0,  3,  1,  2, -1], #0初始无输入或者只有space的状态
+			[-1,  8, -1,  1,  4,  5], #1输入了数字之后的状态
+			[-1, -1, -1,  4, -1, -1], #2前面无数字，只输入了Dot的状态
+			[-1, -1, -1,  1,  2, -1], #3输入了符号状态
+			[-1,  8, -1,  4, -1,  5], #4前面有数字和有dot的状态
+			[-1, -1,  6,  7, -1, -1], #5'e' or 'E'输入后的状态
+			[-1, -1, -1,  7, -1, -1], #6输入e之后输入Sign的状态
+			[-1,  8, -1,  7, -1, -1], #7输入e后输入数字的状态
+			[-1,  8, -1, -1, -1, -1]  #8前面有有效数输入之后，输入space的状态
+		]
+        state = 0
+        for c in s:
+            input = InputType.INVALID.value
+            if c == ' ': input = InputType.SPACE.value
+            elif c == '+' or c == '-': input = InputType.SIGN.value
+            elif c.isdigit(): input = InputType.DIGIT.value
+            elif c == '.': input = InputType.DOT.value
+            elif c == 'e' or c == 'E': input = InputType.EXPONENT.value
+            state = transTable[state][input]
+            if state == -1: return False
+        return state == 1 or state == 4 or state == 7 or state == 8
+
+
+
 if __name__ == "__main__":
     print(Solution().isNumber(" 2e-9 "))
+    print(Solution().isNumberFSM(" 2e-9 "))
