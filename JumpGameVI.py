@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Monotonic Queue"
 
 You are given a 0-indexed integer array nums and an integer k.
 
@@ -105,10 +106,6 @@ class Solution(object):
             while q and q[-1][0] < score:
                 q.pop()
             q.append((score,i))
-            #if q:    
-            #    print(i, nums[i], score, q)
-            #else:
-            #    print(i, nums[i], score)
         return score 
 
 
