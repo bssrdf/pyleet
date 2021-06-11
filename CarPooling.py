@@ -1,5 +1,6 @@
 '''
 -Medium-
+*Difference Array*
 
 You are driving a vehicle that has capacity empty seats initially available 
 for passengers.  The vehicle only drives east (ie. it cannot turn around 

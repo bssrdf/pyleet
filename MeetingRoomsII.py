@@ -17,15 +17,13 @@ Output: 1
 import sys
 import heapq
 class Solution(object):
-    def rooms(self, meetings):
-        meets = sorted(meetings, key=lambda x: x[1])
-        e = -sys.maxsize-1
-        n = 1
-        for m in meets:
-            if m[0] < e:
-                n += 1
-            e = m[1]
-        return n
+
+    def rooms(self, meetings):    
+        capacity = ans = 0
+        for _, v in sorted(x for i, j in meetings for x in [[i, 1], [j, -1]]):
+            capacity += v
+            ans = max(ans, capacity)
+        return ans    
         
     def roomsUsingHeap(self, meetings):
         meets = sorted(meetings, key=lambda x: x[0])
@@ -48,3 +46,6 @@ print(Solution().rooms([[0,30],[5,10],[15,20]]))
 print(Solution().rooms([[7,10],[2,4]]))
 print(Solution().roomsUsingHeap([[0,30],[5,10],[15,20]]))
 print(Solution().roomsUsingHeap([[7,10],[2,4]]))
+
+meetings = [(65,424),(351,507),(314,807),(387,722),(19,797),(259,722),(165,221),(136,897)]
+print(Solution().rooms(meetings))
