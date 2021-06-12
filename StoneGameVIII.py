@@ -118,12 +118,10 @@ class Solution(object):
         #dp = [0] * n
         for i in range(1,n):
             stones[i] += stones[i-1]
-        dp = stones[-1]
+        dp = stones[-1] # dp[n-2] when there are only two stones left, the current player must take thme all
        # print(dp,'---')
-        for i in range(n-2, 0, -1): # i only runs to 1 since we can't start from 0
-                                     # at least the player needs to take the first 2 stones (0, 1) 
-                                     # and merge them into 1
-            dp = max(dp, stones[i]-dp)
+        for i in range(n-2, 0, -1): # i only runs to 1 -> dp stops at 0
+            dp = max(dp, stones[i]-dp) # dp[i - 1] = max(dp[i], A[i] - dp[i]) 
             #print(i,dp) 
         return dp
         
