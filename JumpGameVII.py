@@ -94,11 +94,13 @@ class Solution(object):
         2. To determine the state of dp[i], one need to check the states in 
         window dp[i-maxJ : i-minJ], because any one of them can reach i if 
         it's labeled True.
+
         3. Then you need to check if there is a True in this window. Notice 
         that this is a sliding window problem, so you don't need to calculate 
         it everytime. You only need to remove the effect from dp[i-maxJ-1] and 
         add the dp[i-minJ]. This is done by these two lines of code 
         pre += dp[i - minJ] and pre -= dp[i - maxJ - 1]
+        
         4. The if statements if i >= minJ: and if i > maxJ: are dealing with 
         the initial boundary.
 

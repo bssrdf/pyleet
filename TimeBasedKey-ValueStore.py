@@ -1,6 +1,8 @@
 '''
 
 -Medium-
+*Binary Search*
+*Hash Table*
 
 Create a timebased key-value store class TimeMap, that supports two operations.
 

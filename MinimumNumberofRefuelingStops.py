@@ -1,4 +1,8 @@
 '''
+-Hard-
+*Priority Quque*
+*Greedy*
+*DP*
 
 A car travels from a starting position to a destination which is target 
 miles east of the starting position.
@@ -54,8 +58,10 @@ Note:
 
 '''
 
+import heapq
+
 class Solution(object):
-    def minRefuelStops(self, target, startFuel, stations):
+    def minRefuelStopsDP(self, target, startFuel, stations):
         """
         :type target: int
         :type startFuel: int
@@ -80,8 +86,33 @@ class Solution(object):
             if d >= target:
                 return i
         return -1
+
+    def minRefuelStops(self, target, startFuel, stations):
+        """
+        :type target: int
+        :type startFuel: int
+        :type stations: List[List[int]]
+        :rtype: int        
+        """
+        i = res = 0
+        pq = []
+        cur = startFuel
+        while cur < target:
+            while i < len(stations) and stations[i][0] <= cur:
+                heapq.heappush(pq, -stations[i][1])
+                i += 1
+            if not pq: return -1
+            cur += -1*heapq.heappop(pq)
+            res += 1
+        return res
+
+
+
+
 if __name__ == "__main__":
     print(Solution().minRefuelStops(100, 100, [[10,60],[20,30],[30,30],[60,40]]))
+    print(Solution().minRefuelStops(100, 10, [[10,60],[20,30],[30,30],[60,40]]))
+    print(Solution().minRefuelStops(100, 50, [[25,25],[50,50]]))
     
     
             
