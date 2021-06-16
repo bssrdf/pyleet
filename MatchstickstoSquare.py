@@ -38,17 +38,16 @@ class Solution(object):
         if sm % 4 != 0: return False
         side = sm // 4
         sides = [0]*4
-        matchsticks.sort()
+        matchsticks.sort(reverse=True)
         def dfs(i, sides):
-            #print(i, sides)
-            #if i == n: print(sides, sum(sides))
-            if i >= n:
+            if i == n:
                 return all(s == side for s in sides)
             for j in range(4):
                 if sides[j] + matchsticks[i] > side: continue  
                 sides[j] += matchsticks[i]
                 if dfs(i+1, sides): return True
                 sides[j] -= matchsticks[i]
+            #print('Exit: ', i, sides)
             return False
         return dfs(0, sides)
         
@@ -79,5 +78,5 @@ if __name__ == "__main__":
     #print(Solution().makesquare([3,3,3,3,4]))
     matches = [1569462,2402351,9513693,2220521,7730020,7930469,1040519,5767807,876240,350944,4674663,4809943,8379742,3517287,8034755]
     #print(len(matches))
-    print(Solution().makesquareAC(matches))
+    #print(Solution().makesquareAC(matches))
     print(Solution().makesquare(matches))

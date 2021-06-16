@@ -109,7 +109,8 @@ class Solution(object):
         return dp[m][n]
         
 if __name__ == "__main__":
-    #print(Solution().isMatch("aab", "c*a*b"))
+    print(Solution().isMatch("bab", "c*a*b"))
+    print(Solution().isMatch("aab", "c*a*b"))
     '''
           c * a *  
         0 1 2 3 4 
