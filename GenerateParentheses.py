@@ -1,5 +1,6 @@
 '''
 -Medium-
+*DFS*
 
 Given n pairs of parentheses, write a function to generate all combinations 
 of well-formed parentheses.
@@ -32,7 +33,7 @@ class Solution(object):
         def dfs(s, left, right):
             if left > right: return
             if len(s) == 2*n:
-                ans.append(s[:])
+                ans.append(s)
             if left > 0:
                 dfs(s+'(', left-1, right)
             if right > 0:
