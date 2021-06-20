@@ -1,4 +1,7 @@
 '''
+-Medium-
+
+*Sort*
 Given a list of non negative integers, arrange them such that they form the 
 largest number.
 
@@ -21,6 +24,13 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: str
+        """
+        """
+        这道题的关键是排序，排序方法既不是按照数字大小，也不是字典顺序。比如，数字21和2，
+        不论是数值大小还是字典顺序，21都应该大于2，但结果却不是212，而应该是221。因此我们
+        需要自己写一个排序方法，排序时，为了方便，先将所有数字转化为字符串，对于任意两个
+        字符串s1和s2，比较s1+s2与s2+s1，如果前者字典顺序大，我们就将s1放在s2前面，
+        反之s2在s1前面。
         """
         def sorted_by(a,b):
             x, y = a+b, b+a
