@@ -1,4 +1,7 @@
 '''
+-Medium-
+*DFS*
+*DP*
 
 Given a non-empty string s and a dictionary wordDict containing 
 a list of non-empty words, determine if s can be segmented into a 

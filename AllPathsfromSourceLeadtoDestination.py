@@ -1,4 +1,8 @@
 '''
+-Medium-
+*DFS*
+*Backtracking*
+
 Given the edges of a directed graph, and two nodes source and destination of 
 this graph, determine whether or not all paths starting from source 
 eventually end at destination, that is:
