@@ -53,12 +53,12 @@ class Solution(object):
                         enum[i] = left.pop()
                     else:
                         enum[i] = right.pop()
-            #print(enum)
+            print(half,enum)
             return enum
         smaller = [0] * len(nums)
         sort(list(enumerate(nums)))
         return smaller
 
 
-print(Solution().countSmaller([5,2,6,1]))
+#print(Solution().countSmaller([5,2,6,1]))
 print(Solution().countSmallerMergeSort([5,2,6,1]))
