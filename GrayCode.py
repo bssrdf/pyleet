@@ -62,7 +62,25 @@ class Solution(object):
             for j in range(size-1, -1, -1):
                 res.append(res[j] | (1 << i))                                    
         return res
+    
+    def grayCodeBacktracking(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
+        res = []
+        num = [0]
+        def backtrack(res, n, num):
+            if n == 0: 
+                res.append(num[0])
+                return
+            backtrack(res, n-1, num)
+            num[0] = num[0] ^ (1 << (n-1))
+            backtrack(res, n-1, num)
+        backtrack(res, n, num)
+        return res
 
 
 if __name__ == "__main__":
     print(list(map(bin,Solution().grayCode(3))))
+    print(list(map(bin,Solution().grayCodeBacktracking(3))))

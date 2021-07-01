@@ -43,11 +43,11 @@ class Solution(object):
             if not root: return None
             if not root.left and not root.right:
                 leaves.append(root.val)
-                return None
+                return None # remove this leaf
             root.left = helper(root.left, leaves)
             root.right = helper(root.right, leaves)
             return root
-        while root:
+        while root: # repeat until the tree becomes empty
             leaves = []
             root = helper(root, leaves)
             res.append(leaves)
