@@ -43,12 +43,12 @@ class Solution(object):
         this problem: find exactly value ---> hash map
         """
         n = len(nums)       
-        dic = {}
+        dic = {0:-1}
         ans, sums = 0, 0               
         for i in range(n):
             sums += nums[i]
-            if sums == k: ans = i+1
-            elif sums-k in dic:                
+            #if sums == k: ans = i+1
+            if sums-k in dic:                
                 ans = max(ans, i-dic[sums-k])
             elif sums not in dic:
                 dic[sums] = i # for duplicated sums, only record the first occurance   
