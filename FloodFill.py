@@ -38,7 +38,7 @@ class Solution(object):
         q = Queue(len(board)*len(board[0]))           
         target = board[x][y]
         q.enqueue((x,y))
-        print 'target = ', target        
+        print('target = ', target)        
         processed[x][y] = True        
         while(not q.isEmpty()):
             (x1, y1) = q.dequeue()            
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     #Solution().BFS(board, 3, 9, 'C')
     #Solution().DFS(board, 3, 9, 'X', 'C')
     Solution().DFSIter(board, 3, 9, 'X', 'C')
-    print '============================='
+    print('=============================')
     for l in board:
-        print l
+        print(l)
     #assert board == expected_board
