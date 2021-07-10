@@ -57,7 +57,7 @@ class Solution(object):
                 bis[ll] = i # after the extension the longest IS ends at i  
                 ll +=1 # after the extension the longest length is ll  
             else:                                
-                j = bisect_diy(0, ll, A[i]) # find a location j in [0, ll)                          
+                j = bisect_diy(0, ll, A[i]) # find a location j in [0, ll)  
                 prev[i] = bis[j-1]   # such that A[bis[j-1]] < A[i] < A[bis[j]]
                 bis[j] = i  # replace bis[j] with i, indicating we have found a
                             # better bis[j] ending with A[i]                           
@@ -68,7 +68,7 @@ class Solution(object):
         print('******************************')
         i = bis[ll-1]
         while i>=0:
-            print(A[i])
+            print(i, A[i])
             i = prev[i]
                 
            # print a, ind, bis
@@ -102,11 +102,15 @@ class Solution(object):
                 if A[i] > A[j] and F[i] < 1+F[j]:
                     F[i] = 1+F[j]
             maxa = max(maxa, F[i])
+        print(F)
         return maxa       
 
 if __name__ == "__main__":
     #assert Solution().lengthOfLIS_dp([10, 9, 2, 5, 3, 7, 101, 18]) == 4
-    assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    #print(Solution().lengthOfLIS_dp([5, 10, 4, 4, 3, 8, 9]))
+    #print(Solution().lengthOfLIS_nlogn([5, 10, 6, 4, 3, 8, 9]))
+    print(Solution().lengthOfLIS_nlogn([0,1,0,3,2,3]))
+    #assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
     #assert Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14,
     #                                     1, 9, 5, 13, 3, 11, 7, 15]) == 6
     #assert Solution().lengthOfLIS_dp([2, 4, 6, 8, 10, 1]) == 5    
