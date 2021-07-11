@@ -93,7 +93,9 @@ class Solution(object):
         corresponding versions of e0, e1, e2 after parsing character c.
 
         If c == '*', then the number of ways to finish in total is: we could put
-         * as a single digit number (9*e0), or we could pair * as a 2 digit number 1* in 9*e1 ways, or we could pair * as a 2 digit number 2* in 6*e2 ways. The number of ways to finish with an open 1 (or 2) is just e0.
+         * as a single digit number (9*e0), or we could pair * as a 2 digit 
+         number 1* in 9*e1 ways, or we could pair * as a 2 digit number 2* in 6*e2 ways. 
+         The number of ways to finish with an open 1 (or 2) is just e0.
 
         If c != '*', then the number of ways to finish in total is: we could put 
         c as a single digit if it is not zero ((c>'0')*e0), or we could pair c 
