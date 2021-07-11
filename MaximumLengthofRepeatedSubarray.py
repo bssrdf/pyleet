@@ -63,6 +63,7 @@ class Solution(object):
         :rtype: int
         """
         # 99%, 82%
+        # we can convert to string like below because 0 <= nums[i] < 100;
         str1, str2 = ''.join([chr(x) for x in nums1]), ''.join([chr(x) for x in nums2])
         m, n = len(str1), len(str2)
         left, right = 0, min(m,n)+1
@@ -81,6 +82,7 @@ class Solution(object):
             mid = left + (right - left) // 2
             if helper(str1, str2, mid): left = mid + 1
             else: right = mid
+            print(left, right, mid)
         #print(left, right)
         return right - 1
 
