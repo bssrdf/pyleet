@@ -54,11 +54,13 @@ class RabinKarp2D(object):
             if i > 0:
                 # Remove previous row from rolling hash
                 for j in range(self.width):
-                    hash = (hash + MOD - self.factors[self.width - 1 -j] \
+                    #hash = (hash + MOD - self.factors[self.width - 1 -j] 
+                    #        * ord(text[i-1][j])%MOD) % MOD
+                    hash = (hash - self.factors[self.width - 1 -j] 
                             * ord(text[i-1][j])%MOD) % MOD
                 # Add next row in rolling hash
                 for j in range(self.width):
-                    hash = (hash + self.factors[self.width - 1 -j] \
+                    hash = (hash + self.factors[self.width - 1 -j] 
                             * ord(text[i+self.height-1][j])) % MOD    
             textHash = hash
             if textHash == self.patternHash and self.check(text, i, 0):
@@ -66,7 +68,7 @@ class RabinKarp2D(object):
             for j in range(self.width, len(text[0])):
                 # Remove previous column from rolling hash
                 for k in range(self.height):                    
-                    textHash = (textHash + MOD - self.factors[self.width-1] \
+                    textHash = (textHash + MOD - self.factors[self.width-1] 
                             * ord(text[i+k][j-self.width])%MOD) % MOD
                 # Add next column in rolling hash
                 for k in range(self.height):
@@ -95,6 +97,57 @@ class RabinKarp2D(object):
             hash = rowStartHash
             '''
         return None
+
+class RabinKarp2DV2(object):
+
+    def __init__(self, rad, pattern):
+        #Radix of the alphabet. Assumes ASCII characters
+        self.RADIX = rad
+        self.pattern = pattern
+        self.height = len(pattern)
+        self.width = len(pattern[0])
+        self.factors = [0]*(self.height - 1 + self.width - 1 + 1)
+        self.factors[0] = 1
+        for i in range(1, len(self.factors)):
+            self.factors[i] = (self.RADIX * self.factors[i - 1]) % MOD
+        self.patternHash = self.hash(pattern)
+        #print('pattern hash = ', self.patternHash)
+        #print('factors = ', self.factors)
+
+    def hash(self, data):
+        result = 0
+        for i in range(self.height):
+            rowHash = 0
+            for j in range(self.width):
+                rowHash = (self.RADIX * rowHash + ord(data[i][j])) % MOD
+            result = (self.RADIX * result + rowHash) % MOD
+        return result
+
+    def check(self, text, i, j):
+        x, y = i, j
+        for a in range(self.height):
+            for b in range(self.width):
+                if text[x][y] != self.pattern[a][b]:
+                    return False
+                y += 1
+            x += 1
+            y = j
+        return True
+
+    def search(self, text):
+        rowStartHash = self.hash(text)
+        #print(rowStartHash)
+        hash = rowStartHash
+        for i in range(len(text)-self.height+1):            
+            if hash == self.patternHash and self.check(text, i, 0):
+                return [i, 0]
+            for j in range(len(text[0]) - self.width):
+                hash = self.shiftRight(hash, text, i, j)
+                if hash == self.patternHash and self.check(text, i, j + 1):
+                    return [i, j + 1]
+            rowStartHash = self.shiftDown(rowStartHash, text, i)
+            hash = rowStartHash
+        return None
         
     ''' Given the hash of the block at i, j, returns the hash of the block at i + 1, j.'''
     def shiftDown(self, hash, text, i):
@@ -102,9 +155,10 @@ class RabinKarp2D(object):
         return -1
 	
     ''' Given the hash of the block at i, j, returns the hash of the block at i, j + 1. '''
-    def shiftRight(self, hash, text, i, int ) :
+    def shiftRight(self, hash, text, i, j) :
         # TODO You have to write this
         return -1
+
 
 if __name__ == "__main__":
 
