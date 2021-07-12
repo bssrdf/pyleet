@@ -106,7 +106,7 @@ class RabinKarp2DV2(object):
         self.pattern = pattern
         self.height = len(pattern)
         self.width = len(pattern[0])
-        self.factors = [0]*(self.height - 1 + self.width - 1 + 1)
+        self.factors = [0]*((self.height - 1)+(self.width - 1) + 1)
         self.factors[0] = 1
         for i in range(1, len(self.factors)):
             self.factors[i] = (self.RADIX * self.factors[i - 1]) % MOD
@@ -152,11 +152,29 @@ class RabinKarp2DV2(object):
     ''' Given the hash of the block at i, j, returns the hash of the block at i + 1, j.'''
     def shiftDown(self, hash, text, i):
         # TODO You have to write this
-        return -1
+        # Remove previous row from rolling hash
+        for j in range(self.width):
+            #hash = (hash + MOD - self.factors[self.width - 1 -j] 
+            #        * ord(text[i-1][j])%MOD) % MOD
+            hash = (hash - self.factors[self.width + self.height - 1 - j] 
+                    * ord(text[i][j])%MOD) % MOD
+        for j in range(self.width):
+            hash = (hash + self.factors[self.width - j] 
+                    * ord(text[i+self.height][j])%MOD) % MOD
+        return hash
 	
     ''' Given the hash of the block at i, j, returns the hash of the block at i, j + 1. '''
     def shiftRight(self, hash, text, i, j) :
         # TODO You have to write this
+        for k in range(self.height):                    
+            hash = (hash + MOD - self.factors[self.width+self.height-1-k] 
+                    * ord(text[i+k][j])%MOD) % MOD
+        # Add next column in rolling hash
+        for k in range(self.height):
+            if k == 0:
+                hash = (hash*self.RADIX + ord(text[i+k][j+self.width])) % MOD    
+            else:
+                hash = (hash + ord(text[i+k][j+self.width])) % MOD 
         return -1
 
 
