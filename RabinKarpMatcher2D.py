@@ -16,19 +16,23 @@ class RabinKarp2D(object):
         self.pattern = pattern
         self.height = len(pattern)
         self.width = len(pattern[0])
-        self.factors = [0]*(self.height - 1 + self.width - 1 + 1)
+        #self.factors = [0]*(self.height - 1 + self.width - 1 + 1)
+        self.factors = [0]*self.width
         self.factors[0] = 1
         for i in range(1, len(self.factors)):
             self.factors[i] = (self.RADIX * self.factors[i - 1]) % MOD
         self.patternHash = self.hash(pattern)
+        #print('pattern hash = ', self.patternHash)
+        #print('factors = ', self.factors)
 
     def hash(self, data):
         result = 0
         for i in range(self.height):
             rowHash = 0
             for j in range(self.width):
-                rowHash = (self.RADIX * rowHash + data[i][j]) % MOD
-            result = (self.RADIX * result + rowHash) % MOD
+                rowHash = (self.RADIX * rowHash + ord(data[i][j])) % MOD
+            #result = (self.RADIX * result + rowHash) % MOD
+            result  += rowHash
         return result
 
     def check(self, text, i, j):
@@ -44,16 +48,52 @@ class RabinKarp2D(object):
 
     def search(self, text):
         rowStartHash = self.hash(text)
+        #print(rowStartHash)
         hash = rowStartHash
-        for i in range(len(text) - self.height):
+        for i in range(len(text)-self.height+1):
+            if i > 0:
+                # Remove previous row from rolling hash
+                for j in range(self.width):
+                    hash = (hash + MOD - self.factors[self.width - 1 -j] \
+                            * ord(text[i-1][j])%MOD) % MOD
+                # Add next row in rolling hash
+                for j in range(self.width):
+                    hash = (hash + self.factors[self.width - 1 -j] \
+                            * ord(text[i+self.height-1][j])) % MOD    
+            textHash = hash
+            if textHash == self.patternHash and self.check(text, i, 0):
+                return [i, 0]
+            for j in range(self.width, len(text[0])):
+                # Remove previous column from rolling hash
+                for k in range(self.height):                    
+                    textHash = (textHash + MOD - self.factors[self.width-1] \
+                            * ord(text[i+k][j-self.width])%MOD) % MOD
+                # Add next column in rolling hash
+                for k in range(self.height):
+                    if k == 0:
+                        textHash = (textHash*self.RADIX + ord(text[i+k][j])) % MOD    
+                    else:
+                        textHash = (textHash + ord(text[i+k][j])) % MOD 
+                '''
+                if i == 1 and j - self.width + 1 == 2:
+                    print(textHash)
+                    print(self.check(text, i, j - self.width + 1))
+                if textHash == self.patternHash:
+                    print(i, j)
+                '''
+                if textHash == self.patternHash and self.check(text, i, j - self.width + 1):
+                    return [i, j - self.width + 1]
+
+            '''    
             if hash == self.patternHash and self.check(text, i, 0):
                 return [i, 0]
             for j in range(len(text[0]) - self.width):
-                hash = self.shiftRight(hash, text, i, j);
+                hash = self.shiftRight(hash, text, i, j)
                 if hash == self.patternHash and self.check(text, i, j + 1):
                     return [i, j + 1]
-            rowStartHash = self.shiftDown(rowStartHash, text, i);
+            rowStartHash = self.shiftDown(rowStartHash, text, i)
             hash = rowStartHash
+            '''
         return None
         
     ''' Given the hash of the block at i, j, returns the hash of the block at i + 1, j.'''
@@ -66,5 +106,16 @@ class RabinKarp2D(object):
         # TODO You have to write this
         return -1
 
+if __name__ == "__main__":
 
+    pattern1 = ["RE",
+                "NE"]
+    pattern2 = ["AB",
+                "RE"]
 
+    text1 =["ABCD",
+            "RERE",
+            "DRNE",
+            "XPQZ"]
+    matcher = RabinKarp2D(256, pattern1)
+    print(matcher.search(text1))
