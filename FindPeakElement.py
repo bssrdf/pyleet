@@ -1,6 +1,7 @@
 '''
 
 -Medium-
+*Binary Search*
 
 A peak element is an element that is strictly greater than its neighbors.
 
@@ -58,3 +59,5 @@ class Solution(object):
 
 if __name__ == "__main__":
     print(Solution().findPeakElement([1,2,1,3,5,6,4]))
+    print(Solution().findPeakElement([1]))
+    print(Solution().findPeakElement([3,1,2]))
