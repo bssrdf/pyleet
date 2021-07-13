@@ -49,10 +49,10 @@ class Solution(object):
         元素比较下大小，如果大于，则说明峰值在前面，如果小于则在后面。这样就可以找到一个峰值了，
 
         """
-        left,  right = 0, len(nums) - 1
-        while left < right:
+        left,  right = 0, len(nums)
+        while left < right: # left open, right close, same as in general binary search pattern
             mid = left + (right - left) // 2
-            if nums[mid] < nums[mid + 1]: left = mid + 1
+            if mid+1 < len(nums) and nums[mid] < nums[mid + 1]: left = mid + 1
             else: right = mid
         return right
 
