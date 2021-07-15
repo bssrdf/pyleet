@@ -34,10 +34,7 @@ class Solution(object):
         for j in range(n - 1, -1, -1):
             if s[i] == s[j]: i += 1
         if i == n: return s
-        #string rem = s.substr(i);
-        #reverse(rem.begin(), rem.end());        
         rem = s[i:]
-        print(i,rem)
         return rem[::-1] + self.shortestPalindrome(s[:i]) + s[i:]
 
 if __name__ == "__main__":

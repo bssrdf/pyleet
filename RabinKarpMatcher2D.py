@@ -318,8 +318,8 @@ if __name__ == "__main__":
     for t in text:
         print(t)
     pattern = []
-    for i in range(20):
-        pattern.append(text[357+i][478:478+40])
+    for i in range(40):
+        pattern.append(text[357+i][478:478+60])
     for p in pattern:
         print(p)
     start_time = time.time()
