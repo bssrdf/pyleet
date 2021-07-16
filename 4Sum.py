@@ -56,7 +56,39 @@ class Solution(object):
                         right -= 1
                     elif sums < target: left += 1
                     else: right -= 1
-        return list([list(s) for s in res])
+        return [list(s) for s in res]
+
+    def fourSumDeduplicate(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        nums.sort()
+        n = len(nums)
+        res = []
+        for i in range(n-3):
+            if i > 0 and nums[i] == nums[i-1]: continue
+            for j in range(i+1, n-2):
+                if j > i+1 and nums[j] == nums[j-1]: continue
+                left, right = j+1, n-1
+                while left < right:
+                    sm = nums[i] + nums[j] + nums[left] + nums[right]
+                    if sm == target:
+                        #res.add((nums[i], nums[j], nums[left], nums[right]))
+                        res.append([nums[i], nums[j], nums[left], nums[right]])
+                        while left < right and nums[left+1] == nums[left]: 
+                            left += 1
+                        while left < right and nums[right-1] == nums[right]:    
+                            right -= 1
+                        left += 1
+                        right -= 1
+                    elif sm < target:
+                        left += 1
+                    else:
+                        right -= 1
+        return res # [list(s) for s in res]
         
 if __name__ == "__main__":
-    print(Solution().fourSum([1,0,-1,0,-2,2], 0))
+    #print(Solution().fourSum([1,0,-1,0,-2,2], 0))
+    print(Solution().fourSumDeduplicate([1,0,-1,0,-2,2], 0))
