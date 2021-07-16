@@ -48,17 +48,12 @@ class Solution(object):
             m = len(P)
             pt = [0]*m
             k = 0
-            for q in range(1,m):
+            for q in range(1,m):                
+                while k > 0 and P[k] != P[q]:
+                    k = pt[k-1] # note the difference from CLRS text which has k = pt[k]
                 if P[k] == P[q]:
-                    pt[q] = pt[q-1] + 1
                     k += 1
-                else:
-                    k = pt[q-1]
-                    while k > 0 and P[k] != P[q]:
-                        k = pt[k-1]
-                    if P[k] == P[q]:
-                        k += 1
-                    pt[q] = k
+                pt[q] = k
             return pt
         table = partialMatchTable(snew)
         print(table)
