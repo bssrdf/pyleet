@@ -72,15 +72,24 @@ class Solution(object):
         while cur:
             cur = cur.next
             num += 1
-
-        print(num)    
         while num >= k:
             cur = pre.next
-            for _ in range(1, k):
+                #    pre   cur    t
+                #     |     |     |  
+                #  dummy->  1  -> 2 -> 3 -> 4 -> 5
+            for _ in range(1, k):                
                 t = cur.next
                 cur.next = t.next
                 t.next = pre.next
                 pre.next = t
+                ''' after 1 exchange '''
+                #    pre    t    cur
+                #     |     |     | 
+                #  dummy->  2  -> 1 -> 3 -> 4 -> 5
+                ''' after 2 exchanges '''
+                #    pre    t         cur
+                #     |     |          |  
+                #  dummy->  3  -> 2 -> 1 -> 4 -> 5
             pre = cur
             num -= k
         return dummy.next
@@ -107,3 +116,4 @@ if __name__ == "__main__":
     while x is not None:
        print(str(x.val)+'->',end='')
        x = x.next
+    print()
