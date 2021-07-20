@@ -147,8 +147,8 @@ class Solution(object):
         def partialMatchTable(P):
             pt = [0]*m
             k = 0
-            for q in range(1,m):                
-                while k > 0 and P[k] != P[q]:
+            for q in range(1,m): # start matching at index 1, no need to match itself                
+                while k > 0 and P[k] != P[q]: 
                     k = pt[k-1] # note the difference from CLRS text which has k = pt[k]
                 if P[k] == P[q]:
                     k += 1
@@ -237,9 +237,10 @@ if __name__ == "__main__":
    # cs = Counter(source)
    # ct = Counter(target)
     #print(cs, ct) 
-    #print(Solution().strStrSunday(source, target))
     print(Solution().strStrRabinKarp(source, target))
     print(Solution().strStrKMP(source, target))
+    print(source.find(target))
+    print(Solution().strStr(source, target))
     #'''
     
 
