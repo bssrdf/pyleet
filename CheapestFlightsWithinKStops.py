@@ -50,6 +50,7 @@ There will not be any duplicated flights or self cycles.
 
 '''
 import heapq
+import sys
 
 from collections import defaultdict
 from collections import deque
@@ -74,19 +75,20 @@ class Solution(object):
         f = defaultdict(dict)
         for a, b, p in flights:
             f[a][b] = p
-        heap = [(0, src, k + 1)]
-        #visited = set()
-        #print(f[0])
+        heap = [(0, src, k + 1)] # k stops means k+1 edges
+        seen = {}
         while heap:
             cost, city, stops = heapq.heappop(heap)
-            #print(cost, city, stops)
             if city == dst:
                 return cost
-            #if city in visited: continue
-            #visited.add(city)
+            if city in seen and seen[city] >= stops:
+                continue # if city has been visited before with less stops, 
+                         # no need to visit it again with more stops (the less stops, the better solution)
+            seen[city] = stops
             if stops > 0:
-                for j in f[city]:
+                for j in f[city]:                    
                     heapq.heappush(heap, (cost + f[city][j], j, stops - 1))
+        #for see in seen: print(see, seen[see])
         return -1
 
     def findCheapestPriceBellmanFord(self, n, flights, src, dst, K):
@@ -123,9 +125,9 @@ class Solution(object):
         INT_MAX = 10**10        
         dp_k1 = [INT_MAX for _ in range(n)]
         dp_k  = [INT_MAX for _ in range(n)]
-        g = defaultdict(dict)        
-        for f in flights:
-            g[f[0]][f[1]] = f[2]        
+        #g = defaultdict(dict)        
+        #for f in flights:
+        #    g[f[0]][f[1]] = f[2]        
         dp_k[src] = 0        
         dp_k1[src] = 0        
         for k in range(K+1):
@@ -230,3 +232,15 @@ if __name__ == "__main__":
                [4,0,10],[4,6,8],[5,2,6],[1,4,3],[4,1,6],[0,5,10],[3,1,5],[4,3,1],[5,4,10],[0,1,6]]
     print(Solution().findCheapestPriceBellmanFord(7, tickets, 2, 4,1))
     print(Solution().findCheapestPriceBellmanFordO1Space(7, tickets, 2, 4, 1))
+
+
+    tickets = [[11,12,74],[1,8,91],[4,6,13],[7,6,39],[5,12,8],[0,12,54],[8,4,32],[0,11,4],
+               [4,0,91],[11,7,64],[6,3,88],[8,5,80],[11,10,91],[10,0,60],[8,7,92],[12,6,78],
+               [6,2,8],[4,3,54],[3,11,76],[3,12,23],[11,6,79],[6,12,36],[2,11,100],[2,5,49],
+               [7,0,17],[5,8,95],[3,9,98],[8,10,61],[2,12,38],[5,7,58],[9,4,37],[8,6,79],
+               [9,0,1],[2,3,12],[7,10,7],[12,10,52],[7,2,68],[12,2,100],[6,9,53],[7,4,90],
+               [0,5,43],[11,2,52],[11,8,50],[12,4,38],[7,9,94],[2,7,38],[3,7,88],[9,12,20],
+               [12,0,26],[10,5,38],[12,8,50],[0,2,77],[11,0,13],[9,10,76],[2,6,67],[5,6,34],    
+               [9,7,62],[5,3,67]]
+    print(Solution().findCheapestPriceBellmanFordO1Space(13, tickets, 10, 1, 10))           
+    print(Solution().findCheapestPriceDijkstra(13, tickets, 10, 1, 10))
