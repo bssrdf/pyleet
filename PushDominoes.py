@@ -43,28 +43,113 @@ dominoes[i] is either 'L', 'R', or '.'.
 '''
 
 class Solution(object):
-    def pushDominoes(self, dominoes):
+    def pushDominoesWrong(self, dominoes):
         """
         :type dominoes: str
         :rtype: str
         """
         dominoes = list(dominoes)
         n = len(dominoes)
-        left, right = -2, n
+        left, right = -2, -2
         for i in range(n):
             if dominoes[i] == 'L': right = i
             if dominoes[i] == 'R': left = i
             if left < right:
                 l, r = left+1, right-1
+                print('l,r', l, r)
+                if l-1 < 0:
+                    while r >= 0: 
+                       dominoes[r] = dominoes[r+1]                       
+                       r -= 1
+                else:
+                    while l < r:
+                        dominoes[l] = dominoes[l-1]
+                        dominoes[r] = dominoes[r+1]
+                        l += 1
+                        r -= 1
+                left = right + 1
+                right += 1
+        print(dominoes)
+        left, right = n+1, n+1
+        for i in range(n-1, -1, -1):
+            if dominoes[i] == 'L': right = i
+            if dominoes[i] == 'R': left = i
+            if left < right:
+                l, r = left+1, right-1
+                if r+1 >= n:
+                    while l < n:
+                        dominoes[l] = dominoes[l-1]
+                        l += 1
+                else:
+                    while l < r:
+                        dominoes[l] = dominoes[l-1]
+                        dominoes[r] = dominoes[r+1]
+                        l += 1
+                        r -= 1
+                right = left - 1
+                left  -= 1
+
+        return ''.join(dominoes)
+
+    def pushDominoes(self, dominoes):
+        """
+        :type dominoes: str
+        :rtype: str
+        """
+        A = ['L']+list(dominoes)+['R']
+        n = len(A)
+        left, right = 0, -1        
+        for i in range(n):
+            if A[i] == '.': continue                   
+            right = i
+            if A[left] == A[right]:
+                for j in range(left+1, right):
+                    A[j] = A[left]
+            elif A[left] == 'R' and A[right] == 'L':
+                l, r = left+1, right-1
                 while l < r:
-                    dominoes[l] = dominoes[l-1]
-                    dominoes[r] = dominoes[r+1]
+                    A[l] = A[l-1]
+                    A[r] = A[r+1]
                     l += 1
                     r -= 1
-        return ''.join(dominoes)
+            left = right
+        return ''.join(A[1:-1])
+
+    def pushDominoesSlow(self, dominoes):
+        """
+        :type dominoes: str
+        :rtype: str
+        """
+        A = 'L'+dominoes+'R'
+        n = len(A)
+        res = ''
+        left, right = 0, -1        
+        for right in range(1, n):
+            if A[right] == '.': continue                   
+            mid = right-left-1
+            if left > 0: res += A[left]
+            if A[left] == A[right]:
+                res += A[right]*mid
+            elif A[left] == 'L' and A[right] == 'R':
+                res += '.'*mid
+            else:
+                res += 'R'*(mid//2) + '.'*(mid%2)+'L'*(mid//2)
+            left = right
+        return res
+
+
+
+                    
+            
 
 
 if __name__ == "__main__": 
     print(Solution().pushDominoes(".L.R...LR..L.."))
+    #'''
     print(Solution().pushDominoes("RR.L"))
     print(Solution().pushDominoes("R."))
+    print(Solution().pushDominoes(".L"))
+    print(Solution().pushDominoes("..R.."))
+    print(Solution().pushDominoes("R.R.L"))
+    #'''
+    print(Solution().pushDominoesSlow(".L.R...LR..L.."))
