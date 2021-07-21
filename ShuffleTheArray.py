@@ -44,5 +44,21 @@ class Solution(object):
            res += [nums[i], nums[i+n]]
         return res
 
+    def shuffleO1Space(self, nums, n):
+        i = n-1
+        for j in range(len(nums)-1, n-1, -1):
+            nums[j] <<= 10
+            nums[j] |= nums[i]
+            i -= 1
+        i = 0
+        for j in range(n, len(nums)):
+            num1 = nums[j] & 1023
+            num2 = nums[j] >> 10
+            nums[i], nums[i+1] = num1, num2
+            i += 2
+        return nums
+
+
 if __name__ == "__main__":
     print(Solution().shuffle( [2,5,1,3,4,7], 3))
+    print(Solution().shuffleO1Space( [2,5,1,3,4,7], 3))
