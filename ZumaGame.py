@@ -82,34 +82,27 @@ class Solution(object):
             for i in range(len(board)+1):
                 if i < len(board) and board[i] == board[j]: continue
                 if i - j >= 3: return removeConsecutive(board[:j] + board[i:])
-                else j = i
+                else: j = i
             return board
         def helper(board,  m):
             board = removeConsecutive(board)
-            if not return 0;
-            int cnt = INT_MAX, j = 0;
-            for (int i = 0; i <= board.size(); ++i) {
-                if (i < board.size() && board[i] == board[j]) continue;
-                int need = 3 - (i - j);
-                if (m[board[j]] >= need) {
-                    m[board[j]] -= need;
-                    int t = helper(board.substr(0, j) + board.substr(i), m);
-                    if (t != INT_MAX) cnt = min(cnt, t + need);
-                    m[board[j]] += need;
-                }
-                j = i;
-            }
-            return cnt;
-    }
+            if not board: return 0
+            cnt, j = INT_MAX, 0
+            for i in range(len(board)+1):
+                #print('i = ', i)
+                if i < len(board) and board[i] == board[j]: continue
+                need = 3 - (i - j)
+               # print(board, i, j, board[i], board[j], need)
+                if m[board[j]] >= need:
+                    m[board[j]] -= need
+                    t = helper(board[:j] + board[i:], m)
+                    if t != INT_MAX: cnt = min(cnt, t + need)
+                    m[board[j]] += need
+                j = i
+            return cnt        
         res = helper(board, m)
-        return res == INT_MAX ? -1 : res;
-    i
-    
-        
-                        
-
-
-
+        return -1 if res == INT_MAX else res
 
 if __name__ == "__main__": 
     print(Solution().findMinStep(board = "WRRBBW", hand = "RB"))
+    print(Solution().findMinStep(board = "RBYYBBRRB", hand = "YRBGB"))
