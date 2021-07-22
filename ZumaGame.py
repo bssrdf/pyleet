@@ -64,3 +64,52 @@ board and hand consist of the characters 'R', 'Y', 'B', 'G', and 'W'.
 The initial row of balls on the board will not have any groups of three or more consecutive balls of the same color.
 
 '''
+
+from collections import Counter
+
+class Solution(object):
+    def findMinStep(self, board, hand):
+        """
+        :type board: str
+        :type hand: str
+        :rtype: int
+        """
+        INT_MAX = 10**9
+        res = INT_MAX
+        m = Counter(hand)
+        def removeConsecutive(board):
+            j = 0
+            for i in range(len(board)+1):
+                if i < len(board) and board[i] == board[j]: continue
+                if i - j >= 3: return removeConsecutive(board[:j] + board[i:])
+                else j = i
+            return board
+        def helper(board,  m):
+            board = removeConsecutive(board)
+            if not return 0;
+            int cnt = INT_MAX, j = 0;
+            for (int i = 0; i <= board.size(); ++i) {
+                if (i < board.size() && board[i] == board[j]) continue;
+                int need = 3 - (i - j);
+                if (m[board[j]] >= need) {
+                    m[board[j]] -= need;
+                    int t = helper(board.substr(0, j) + board.substr(i), m);
+                    if (t != INT_MAX) cnt = min(cnt, t + need);
+                    m[board[j]] += need;
+                }
+                j = i;
+            }
+            return cnt;
+    }
+        res = helper(board, m)
+        return res == INT_MAX ? -1 : res;
+    i
+    
+        
+                        
+
+
+
+
+if __name__ == "__main__": 
+    print(Solution().findMinStep(board = "WRRBBW", hand = "RB"))
