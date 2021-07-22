@@ -109,7 +109,7 @@ class Solution(object):
         res = helper(board, m)
         return -1 if res == INT_MAX else res
 
-    def findMinStepAC(self, board, hand):
+    def findMinStepWrong(self, board, hand):
         """
         :type board: str
         :type hand: str
@@ -141,8 +141,59 @@ class Solution(object):
         res = dfs(board, hand)
         return res if res != float('inf') else -1
 
+    def findMinStepAC(self, board, hand):
+        """
+        :type board: str
+        :type hand: str
+        :rtype: int
+        """
+        @lru_cache(None)
+        def remove(b):
+            i = 0
+            for j in range(len(b)+1):
+                if j == len(b) or b[j] != b[i]:
+                    if j - i >= 3:
+                        return remove(b[:i]+b[j:])
+                    i = j
+            return b
+
+        @lru_cache(None)
+        def clean(board):
+            stack = []
+            for b in board:
+                if stack and stack[-1][0] != b and stack[-1][1] >= 3:
+                    stack.pop()
+                if not stack or stack[-1][0] != b:
+                    stack += [b, 1],
+                else:
+                    stack[-1][1] += 1
+            if stack and stack[-1][1] >= 3:
+                stack.pop()
+            return ''.join([a*b for a,b in stack])
+
+        @lru_cache(None)
+        def dfs(board, hand):
+            if not board:
+                return 0
+            if not hand:
+                return float('inf')
+            m = len(board)
+            ans = float('inf')
+            for j, b in enumerate(hand):
+                new_hand = hand[:j] + hand[j+1:]
+                for i in range(m + 1):
+                    #new_board = clean(board[:i] + b + board[i:])
+                    new_board = remove(board[:i] + b + board[i:])
+                    ans = min(ans, 1 + dfs(new_board, new_hand))
+            return ans
+        
+        ans = dfs(board, hand)
+        return ans if ans < float('inf') else -1
+
+
 if __name__ == "__main__": 
     #print(Solution().findMinStep(board = "WRRBBW", hand = "RB"))
     #print(Solution().findMinStep(board = "RBYYBBRRB", hand = "YRBGB"))
-    print(Solution().findMinStep("RRWWRRBBRR", "WB"))
-    print(Solution().findMinStepAC("RRWWRRBBRR", "WB"))
+    #print(Solution().findMinStep("RRWWRRBBRR", "WB"))
+    #print(Solution().findMinStepAC("RRWWRRBBRR", "WB"))
+    print(Solution().findMinStepAC("RRYGGYYRRYYGGYRR","GGBBB"))
