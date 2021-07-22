@@ -1,5 +1,7 @@
 '''
 -Hard-
+*Memoization*
+*Backtracking*
 You are playing a variation of the game Zuma.
 
 In this variation of Zuma, there is a single row of colored balls on a board, where each 
@@ -64,7 +66,7 @@ board and hand consist of the characters 'R', 'Y', 'B', 'G', and 'W'.
 The initial row of balls on the board will not have any groups of three or more consecutive balls of the same color.
 
 '''
-
+from functools import lru_cache
 from collections import Counter
 
 class Solution(object):
@@ -84,15 +86,19 @@ class Solution(object):
                 if i - j >= 3: return removeConsecutive(board[:j] + board[i:])
                 else: j = i
             return board
+        #s = 'RRRRBBRR'
+        #t = removeConsecutive(s) 
+        #print('t= ',t)
         def helper(board,  m):
-            board = removeConsecutive(board)
+            #print('before remove: ', board)
+            #board = removeConsecutive(board)
+            #print('after  remove: ', board)
             if not board: return 0
             cnt, j = INT_MAX, 0
             for i in range(len(board)+1):
-                #print('i = ', i)
                 if i < len(board) and board[i] == board[j]: continue
                 need = 3 - (i - j)
-               # print(board, i, j, board[i], board[j], need)
+              #  print(board, need, i, j, board[j])
                 if m[board[j]] >= need:
                     m[board[j]] -= need
                     t = helper(board[:j] + board[i:], m)
@@ -103,6 +109,40 @@ class Solution(object):
         res = helper(board, m)
         return -1 if res == INT_MAX else res
 
+    def findMinStepAC(self, board, hand):
+        """
+        :type board: str
+        :type hand: str
+        :rtype: int
+        """
+        def remove(b):
+            i = 0
+            for j in range(len(b)+1):
+                if j == len(b) or b[j] != b[i]:
+                    if j - i >= 3:
+                        return remove(b[:i]+b[j:])
+                    i = j
+            return b
+        
+        @lru_cache(None)
+        def dfs(b, h):
+            b = remove(b)
+            if b and not h: return float('inf')
+            if not b: return 0
+            
+            res = float('inf')
+            for i in range(len(b)+1):
+                for j in range(len(h)):
+                    res = min(res, 1 + dfs(b[:i] + h[j] + b[i:], h[:j] + h[j+1:]))
+            return res
+        
+        hand = ''.join(filter(lambda x: x in board, hand))
+        #print(hand)
+        res = dfs(board, hand)
+        return res if res != float('inf') else -1
+
 if __name__ == "__main__": 
-    print(Solution().findMinStep(board = "WRRBBW", hand = "RB"))
-    print(Solution().findMinStep(board = "RBYYBBRRB", hand = "YRBGB"))
+    #print(Solution().findMinStep(board = "WRRBBW", hand = "RB"))
+    #print(Solution().findMinStep(board = "RBYYBBRRB", hand = "YRBGB"))
+    print(Solution().findMinStep("RRWWRRBBRR", "WB"))
+    print(Solution().findMinStepAC("RRWWRRBBRR", "WB"))
