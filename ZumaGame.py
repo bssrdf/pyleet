@@ -190,7 +190,6 @@ class Solution(object):
         ans = dfs(board, hand)
         return ans if ans < float('inf') else -1
 
-
 if __name__ == "__main__": 
     #print(Solution().findMinStep(board = "WRRBBW", hand = "RB"))
     #print(Solution().findMinStep(board = "RBYYBBRRB", hand = "YRBGB"))
