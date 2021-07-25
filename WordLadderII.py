@@ -95,6 +95,52 @@ class Solution(object):
         # note: after bidirectional BFS meets in the middle, tree contains only
         # shortest paths; the longer ones have not yet been explored.        
         return construct_paths(beginWord, endWord, tree)
+
+    def findLaddersAttempt(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: List[List[str]]
+        """
+        def constructPath(src, dst, tree):
+            if src == dst:
+                return [[src]]
+            allpaths = []
+            for suc in tree[src]:
+                paths = constructPath(suc, dst, tree)
+                for path in paths:
+                   allpaths.append([src]+path)
+            return allpaths
+        def addPath(tree, cur, nxt, is_fwd):
+            if is_fwd: tree[cur] += nxt,
+            else: tree[nxt] += cur,
+        def bfs(cur_lev, oth_lev, is_fwd, tree, wordSet):
+            if not cur_lev: return False
+            if len(cur_lev) > len(oth_lev):
+                return bfs(oth_lev, cur_lev, not is_fwd, tree, wordSet)
+            for word in cur_lev | oth_lev:
+                wordSet.discard(word)
+            nxt_lev, done = set(), False    
+            while cur_lev:
+                word = cur_lev.pop()
+                for c in string.ascii_lowercase:
+                    for i in range(len(word)):
+                        newword = word[:i]+c+word[i+1:]
+                        if newword in oth_lev:
+                            done = True
+                            addPath(tree, word, newword, is_fwd)
+                        if not done and newword in wordSet:
+                            nxt_lev.add(newword)
+                            addPath(tree, word, newword, is_fwd)
+            return done or bfs(nxt_lev, oth_lev, is_fwd, tree, wordSet)
+         
+        wordSet= set(wordList)
+        if endWord not in wordList: return []
+        tree = collections.defaultdict(list)
+        exists = bfs(set([beginWord]), set([endWord]), True, tree, wordSet)
+        return constructPath(beginWord, endWord, tree)
+            
         
 
 
@@ -103,3 +149,4 @@ if __name__ == "__main__":
         ["hit", "hot", "dot", "dog", "cog"],
         ["hit", "hot", "lot", "log", "cog"]
     ]
+    print(Solution().findLaddersAttempt("hit", "cog", ["hot","dot","dog","lot","log","cog"]))

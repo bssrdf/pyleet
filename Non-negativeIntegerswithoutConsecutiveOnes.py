@@ -60,9 +60,33 @@ class Solution(object):
             if t[i] == '1' and t[i + 1] == '1': break
             if t[i] == '0' and t[i + 1] == '0': res -= one[i]
         return res
+    
+    def findIntegersFibonacci(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """         
+        res, dp, k, pre = 0, [0]*32, 31, 0
+        dp[0], dp[1] = 1, 2
+        for i in range(2, 32):
+            dp[i] = dp[i-1] + dp[i-2]
+        while k>=0:
+            if num & 1 << k:
+                res += dp[k]
+                if pre: return res
+                pre = 1
+            else:
+                pre = 0
+            k -= 1
+        return res+1
+        
+
 
 
 if __name__ == "__main__":
     #print(Solution().findIntegers(10000))
     #print(Solution().findIntegersFast(10000))
     print(Solution().findIntegersFast(20))
+    print(Solution().findIntegersFibonacci(20))
+    print(Solution().findIntegersFast(5))
+    print(Solution().findIntegersFibonacci(5))
