@@ -1,7 +1,7 @@
 class UnionFindSet:
     def __init__(self, items=None, n=None):
         if items is None:
-            items = range(n)
+            items = list(range(n))
         self._nums = len(items)
         self._parents = {}
         self._ranks = {}
