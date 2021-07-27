@@ -2,6 +2,7 @@
 -Medium-
 
 *Monotonic Queue*
+*Two Pointers*
 
 Given an integer array, you need to find one continuous subarray that if you only 
 sort this subarray in ascending order, then the whole array will be sorted in 
@@ -29,9 +30,10 @@ class Solution(object):
         beg, end, mi, mx = -1, -2, nums[n-1], nums[0]
         for i in range(1, n):
             mx = max(mx, nums[i])
-            mi = min(mi, nums[n-1-i])
             if nums[i] < mx: end = i
-            if nums[n-1-i] > mi: beg = n-1-i
+        for i in range(n-2, -1, -1):
+            mi = min(mi, nums[i])
+            if nums[i] > mi: beg = i
         return end - beg + 1
 
     def findUnsortedSubarray(self, nums):
@@ -39,20 +41,19 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        import collections
         if not nums: 
            return  0
          #find the left bound which is 6, and the right bound is 10, 
          # these two violates the mono increasking/decreasing stack
         leftbound = len(nums)-1
         rightbound = 0
-        q = collections.deque()
+        q = []
         for i in range(len(nums)):
             while q and nums[i] < nums[q[-1]] :
                 leftbound = min(leftbound, q.pop()) 
             q.append(i)
 
-        q = collections.deque()
+        q = []
         for i in range(len(nums)-1, -1, -1):
             while q and nums[i] > nums[q[-1]] :
                 rightbound = max(rightbound, q.pop()) 
@@ -61,6 +62,7 @@ class Solution(object):
 
 if __name__ == "__main__":
     print(Solution().findUnsortedSubarray([2, 6, 4, 8, 10, 9, 15]))
+    print(Solution().findUnsortedSubarrayFast([2, 6, 4, 8, 10, 9, 15]))
 
         
     

@@ -1,4 +1,9 @@
 '''
+-Hard-
+*DP*
+*Memoization*
+*Bitmask*
+*Bipartite*
 Given a m * n matrix seats  that represent seats distributions in a classroom. 
 If a seat is broken, it is denoted by '#' character otherwise it is denoted 
 by a '.' character.
@@ -23,10 +28,13 @@ class Solution(object):
             r, c = node
             # assume a virtual edge connecting students who can spy
             for nr, nc in [[r-1,c-1], [r,c-1],[r,c+1],[r-1,c+1],[r+1,c-1],[r+1,c+1]]: 
-                if 0 <= nr < R and 0 <= nc < C and seen[nr][nc] == False and seats[nr][nc] == '.':
+                if 0 <= nr < R and 0 <= nc < C and not seen[nr][nc] and seats[nr][nc] == '.':
                     seen[nr][nc] = True
                     if matching[nr][nc] == -1 or dfs(matching[nr][nc], seen):
+                        #if nr == 2 and nc == 1: 
+                        #    print('r,c:', r, c) 
                         matching[nr][nc] = (r,c)
+                      #  matching[r][c] = (nr,nc)
                         return True
             return False
         
@@ -37,18 +45,24 @@ class Solution(object):
                     if seats[r][c] == '.':
                         seen = [[False] * C for _ in range(R)]
                         if dfs((r,c), seen):
-                            res += 1
-            for r in range(R):
-                print(matching[r])
+                            res += 1            
             return res
         
         res = Hungarian()
+        for r in range(R):
+            print(matching[r])        
                 
         count = 0
         for r in range(R):
             for c in range(C):
                 if seats[r][c] == '.':
                     count += 1
+        for row in range(R):
+            for col in range(C):
+                if seats[row][col] == '.' and matching[row][col] == -1:
+                    seats[row][col] = 'X'
+        for r in range(R):
+            print(seats[r])                    
         return count - res
 
 
