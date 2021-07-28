@@ -41,6 +41,7 @@ sitting in seat number p.
 '''
 
 from sortedcontainers import SortedSet
+import bisect
 
 class ExamRoom(object):
 
@@ -138,6 +139,40 @@ class ExamRoom2(object):
         self.removeSeg(right)
         self.addSeg(merged)
         
+class ExamRoom3(object):
+
+    def __init__(self, N):
+        """
+        :type N: int
+        """
+        self.N, self.L = N, list()
+
+    def seat(self):
+        """
+        :rtype: int
+        """
+        N, L = self.N, self.L
+        if not self.L: res = 0
+        else:
+            d, res = L[0], 0
+            # d means cur distance, res means cur pos
+            for a, b in zip(L, L[1:]):
+                if (b - a) // 2 > d:
+                    d = (b - a) // 2
+                    res = (b + a) // 2
+            if N - 1 - L[-1] > d:
+                res = N - 1
+        bisect.insort(L, res)
+        return res
+        
+
+    def leave(self, p):
+        """
+        :type p: int
+        :rtype: void
+        """
+        self.L.remove(p)
+
 
 if __name__ == "__main__":
 # Your ExamRoom object will be instantiated and called as such:
