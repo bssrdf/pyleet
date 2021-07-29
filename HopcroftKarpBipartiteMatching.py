@@ -2,6 +2,13 @@
 
 from collections import deque
 
+import networkx as nx
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib
+#matplotlib.use('TkAgg')
+
+
 NIL = 0
 INF = float('inf')
 
@@ -165,16 +172,48 @@ if __name__ == "__main__":
     # the graph is from the link below
     # https://en.wikipedia.org/wiki/Hopcroft%E2%80%93Karp_algorithm#/media/File:HopcroftKarpExample.png 
     g = BipGraph(5, 5);
+
+    edges = [(1,1), (1,2), (2,1), (3,3), (2,5), (4,1), (5,2), (5,4)]
+    '''
     g.addEdge(1, 1);
     g.addEdge(1, 2);
     g.addEdge(2, 1);
-    #g.addEdge(2, 5);
+    g.addEdge(2, 5);
     g.addEdge(3, 3);
     #g.addEdge(3, 4);
     g.addEdge(4, 1);
     #g.addEdge(4, 5);
     g.addEdge(5, 2);
     g.addEdge(5, 4);
- 
+    '''
+    for e in edges:
+        g.addEdge(*e)
+    
     print("Size of maximum matching is " +
                        str(g.hopcroftKarp()))
+    B = nx.Graph()
+    B.add_nodes_from(list(range(1,6)), bipartite=0, label='left')
+    B.add_nodes_from(list('ABCDE'), bipartite=1, label='right')
+    edges = [(1,'A'), (1,'B'), (2,'A'), (3,'C'), (2, 'E'), (4,'A'), (5,'B'), (5,'D')]
+    #B.add_edges_from(edges, label='connect')
+    for e in edges:
+        if ord(e[1])-ord('A')+1 == g.pairU[e[0]]: 
+            B.add_edge(e[0],e[1],color='r')
+        else:
+            B.add_edge(e[0],e[1],color='g')
+
+
+
+    # Now instead of spring_layout, use bipartite_layout
+
+    # First specify the nodes you want on left or top
+    left_or_top = list(range(1,6))
+
+    # Then create a bipartite layout
+    pos = nx.bipartite_layout(B, left_or_top)
+    colors = nx.get_edge_attributes(B,'color').values()
+    # Pass that layout to nx.draw
+    nx.draw(B,pos,node_color='#A0CBE2',edge_color=colors,width=2,
+        edge_cmap=plt.cm.Blues,with_labels=True)
+    plt.show()
+   
