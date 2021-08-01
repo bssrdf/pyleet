@@ -62,6 +62,63 @@ class Solution(object):
                     s = set([get(i+1,j), get(i-1,j), get(i,j+1), get(i,j-1)])
                     res = max(res, 1+sum([sizes[t] for t in s]))
         return m*n if res == 0 else res
+    
+    def largestIslandUF(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        m = len(grid)
+        n = len(grid[0])    
+        roots = [i for i in range(m*n)]
+        ranks = [1]*(m*n)
+        def find(i):
+            while roots[i] != i:
+                roots[i] = roots[roots[i]]
+                i = roots[i]
+            return i 
+        def union(i,j):
+            x, y = find(i), find(j)
+            if x != y:
+                if ranks[x] < ranks[y]:
+                    roots[x] = y
+                    ranks[y] += ranks[x]
+                else:
+                    roots[y] = x
+                    ranks[x] += ranks[y]
+        def isValid(i,j):
+            if i >= 0 and i < m and j >= 0 and j < n: return True
+            return False
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    idx = i*n+j
+                    for dx,dy in [(-1,0), (1,0), (0,1), (0,-1)]:
+                        x,y = i+dx, j+dy
+                        if isValid(x,y) and grid[x][y] == 1:
+                            nidx = x*n+y 
+                            union(idx, nidx)
+        res = 1
+        for i in ranks:
+            res = max(res, i)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    prev = set()
+                    combineSize = 1
+                    for dx,dy in [(-1,0), (1,0), (0,1), (0,-1)]:
+                        x,y = i+dx, j+dy
+                        if isValid(x,y) and grid[x][y] == 1:
+                            root = find(x*n+y)
+                            if not prev or root not in prev:
+                                combineSize += ranks[root]
+                                prev.add(root) 
+                    res = max(res, combineSize)
+        return res
+                    
+        
+
+            
 
                     
 
@@ -97,3 +154,6 @@ class Solution(object):
         
 if __name__ == "__main__":
     print(Solution().largestIsland([[1, 0], [0, 1]]))
+    print(Solution().largestIslandUF([[1, 0], [0, 1]]))
+    print(Solution().largestIsland([[1, 1], [1, 1]]))
+    print(Solution().largestIslandUF([[1, 1], [1, 1]]))
