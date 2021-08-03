@@ -57,6 +57,7 @@ class ValidWordAbbr(object):
         :type word: str
         :rtype: bool
         """
+        if word == '': return True
         abbr = self.abbreviation(word)
         if abbr in self.m2:
             if len(self.m2[abbr]) > 1: return False
