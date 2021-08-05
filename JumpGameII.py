@@ -60,6 +60,34 @@ class Solution(object):
                 maxend = max(maxend, i + nums[i])
             start, end = end + 1, maxend
         return step    
+    
+    def jump3(self, nums):        
+        n = len(nums)
+        if n == 1: return 0
+        # 从0开始，看其最远覆盖范围是多少。
+        currendEnd = nums[0]
+        # 返回结果，将0计入次数中，所以初始值为1
+        res = 1
+        # 因为0已经预先定义好，所以从1开始循环
+        i = 1
+        # 当currendEnd 大于等于目标值T时，结束循环
+        while currendEnd < n-1:
+            # 定义下一个最远覆盖范围
+            nextMaxEnd = 0
+            # 从当前位置到currendEnd范围内的所有数为起点，找其能覆盖的最远距离
+            for j in range(i, currendEnd+1):
+                nextMaxEnd = max(nextMaxEnd, j+nums[j])
+            # 如果找到的最远距离无法超越currendEnd，说明后续片段无法连接
+            #print(nextMaxEnd, currendEnd)
+            if nextMaxEnd <= currendEnd:
+                return -1
+            # 将i至于currendEnd之后
+            i = currendEnd + 1
+            # 当前能覆盖的最远距离更新为nextMaxEnd
+            currendEnd = nextMaxEnd
+            # 次数加一
+            res += 1
+        return res
      
     def jump1(self, nums):
         '''
@@ -99,9 +127,10 @@ class Solution(object):
         
         
 if __name__ == "__main__":
-    A =[ [2,3,1,1,4] ]
+    A =[[2,3,1,1,4], [1,2,1,1,1]]
     for a in A:
         #print(Solution().jump(a))
         #print(Solution().jumpAC(a))
-        print(Solution().jump1(a))
-        print(Solution().jump2(a))
+        #print(Solution().jump1(a))
+        #print(Solution().jump2(a))
+        print(Solution().jump3(a))
