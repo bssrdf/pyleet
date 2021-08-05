@@ -76,6 +76,7 @@ able to get a score >= 0.
 
 
 from collections import deque
+from functools import lru_cache
 
 class Solution(object):
     def stoneGame(self, piles):
@@ -111,8 +112,29 @@ class Solution(object):
             return memo[l][r][ID]      
         # start from two ends at 0 and n-1 with Alex playing first
         return helper(0, n-1, 1) >= 0
+
+    def stoneGameDPfast(self, piles):
+        """
+        :type piles: List[int]
+        :rtype: bool
+        """
+        N = len(piles)
+
+        @lru_cache(None)
+        def dp(i, j):
+            # The value of the game [piles[i], piles[i+1], ..., piles[j]].
+            if i > j: return 0
+            parity = (j - i - N) % 2
+            if parity == 1:  # first player
+                return max(piles[i] + dp(i+1,j), piles[j] + dp(i,j-1))
+            else:
+                return min(-piles[i] + dp(i+1,j), -piles[j] + dp(i,j-1))
+
+        return dp(0, N - 1) > 0
+
         
         
 if __name__ == "__main__":
     print(Solution().stoneGame([5,7,2,3]))
+    print(Solution().stoneGameDPfast([5,7,2,3]))
         
