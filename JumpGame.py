@@ -86,6 +86,29 @@ class Solution(object):
                 break
             lastPos = max(lastPos, i+nums[i]) # greedily jump to the furthest
         return lastPos >= len(nums)-1
+    
+    def canJump3(self, nums):        
+        n = len(nums)
+        # 从0开始，看其最远覆盖范围是多少。
+        currendEnd = nums[0]
+        # 因为0已经预先定义好，所以从1开始循环
+        i = 1
+        # 当currendEnd 大于等于目标值T时，结束循环
+        while currendEnd < n-1:
+            # 定义下一个最远覆盖范围
+            nextMaxEnd = 0
+            # 从当前位置到currendEnd范围内的所有数为起点，找其能覆盖的最远距离
+            for j in range(i, currendEnd+1):
+                nextMaxEnd = max(nextMaxEnd, j+nums[j])
+            # 如果找到的最远距离无法超越currendEnd，说明后续片段无法连接
+            #print(nextMaxEnd, currendEnd)
+            if nextMaxEnd <= currendEnd:
+                return False
+            # 将i至于currendEnd之后
+            i = currendEnd + 1
+            # 当前能覆盖的最远距离更新为nextMaxEnd
+            currendEnd = nextMaxEnd
+        return True
         
         
         
@@ -98,5 +121,7 @@ if __name__ == "__main__":
     for a in A:
         print(Solution().canJump(a))
         print(Solution().canJumpGreedy(a))
+        print(Solution().canJump3(a))
     a = [3,2,1,0,4]
     print(Solution().canJumpGreedy(a))
+    print(Solution().canJump3(a))
