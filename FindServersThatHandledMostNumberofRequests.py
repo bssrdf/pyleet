@@ -1,6 +1,9 @@
 '''
 -Hard-
 
+*Priority Queue*
+*Ordered Map*
+
 You have k servers numbered from 0 to k-1 that are being used to handle multiple 
 requests simultaneously. Each server has infinite computational capacity but cannot 
 handle more than one request at a time. The requests are assigned to servers according 
@@ -89,23 +92,19 @@ class Solution(object):
         for i in range(k, n):
             arr = arrival[i]
             dur = load[i]
-            if pq[0][0] > arr: continue # no servers available, skip
             while pq and pq[0][0] <= arr:
                 _, idx = heapq.heappop(pq)
                 finish.add(idx)
             idx = (i+k)%k
-            if idx in finish:
-                heapq.heappush(pq, (arr+dur, idx))
-                serves[idx] += 1
-                finish.remove(idx)
-            else:
+            if not finish: continue # no servers available
+            if idx not in finish:
                 j = finish.bisect(idx)
                 if j >= len(finish): j = 0
-                heapq.heappush(pq, (arr+dur, finish[j]))
-                serves[finish[j]] += 1
-                finish.pop(j)
-            print(i, idx, finish, arr, dur, serves)
-        print(serves)
+                idx = finish[j]
+            heapq.heappush(pq, (arr+dur, idx))
+            serves[idx] += 1
+            finish.remove(idx)
+            
         mx = max(serves)
         return [i for i,s in enumerate(serves) if s == mx]
 
@@ -114,9 +113,9 @@ class Solution(object):
         
 
 if __name__ == "__main__":
-    #print(Solution().busiestServers(k = 3, arrival = [1,2,3,4,5], load = [5,2,3,3,3]))
-    #print(Solution().busiestServers(k = 3, arrival = [1,2,3,4], load = [1,2,1,2]))
-    #print(Solution().busiestServers(k = 3, arrival = [1,2,3], load = [10,12,11]))
-    #print(Solution().busiestServers(k = 3, arrival = [1,2,3,4,8,9,10], load = [5,2,10,3,1,2,2]))
-    #print(Solution().busiestServers(k = 1, arrival = [1], load = [1]))
+    print(Solution().busiestServers(k = 3, arrival = [1,2,3,4,5], load = [5,2,3,3,3]))
+    print(Solution().busiestServers(k = 3, arrival = [1,2,3,4], load = [1,2,1,2]))
+    print(Solution().busiestServers(k = 3, arrival = [1,2,3], load = [10,12,11]))
+    print(Solution().busiestServers(k = 3, arrival = [1,2,3,4,8,9,10], load = [5,2,10,3,1,2,2]))
+    print(Solution().busiestServers(k = 1, arrival = [1], load = [1]))
     print(Solution().busiestServers(3, [3,4,6,8,9,11,12,16], [1,2,8,6,5,3,8,3]))
