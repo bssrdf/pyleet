@@ -33,9 +33,12 @@ class Solution(object):
         """
         i, n = 0, len(s)
         for j in range(n - 1, -1, -1):
-            if s[i] == s[j]: i += 1
+            if s[i] == s[j]: 
+                i += 1
+                print(i,j)
         if i == n: return s
         rem = s[i:]
+        print(i,rem)
         return rem[::-1] + self.shortestPalindrome(s[:i]) + s[i:]
     
     def shortestPalindromeKMP(self, s):
@@ -60,5 +63,7 @@ class Solution(object):
         t = s[table[-1]:]
         return t[::-1]+s 
 if __name__ == "__main__":
-    print(Solution().shortestPalindrome("aacecaaa"))
-    print(Solution().shortestPalindromeKMP("aacecaaa"))
+    #print(Solution().shortestPalindrome("aacecaaa"))
+    print(Solution().shortestPalindrome("adcababa"))
+
+    #print(Solution().shortestPalindromeKMP("aacecaaa"))
