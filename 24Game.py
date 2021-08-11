@@ -110,3 +110,4 @@ if __name__ == "__main__":
     print(Solution().judgePoint24([4,1,8,7]))
     print(Solution().judgePoint24Expression([4,1,8,7]))
     print(Solution().judgePoint24Expression([1,3,4,6]))
+    print(Solution().judgePoint24Expression([7,7,7,10]))
