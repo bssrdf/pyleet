@@ -47,6 +47,7 @@ class Solution(object):
         :rtype: str
         """
         snew = s + "#" + s[::-1] 
+        print(snew)
         def partialMatchTable(P):
             m = len(P)
             pt = [0]*m
@@ -64,6 +65,8 @@ class Solution(object):
         return t[::-1]+s 
 if __name__ == "__main__":
     #print(Solution().shortestPalindrome("aacecaaa"))
-    print(Solution().shortestPalindrome("adcababa"))
-
+    #print(Solution().shortestPalindrome("adcababa"))
+    #print(Solution().shortestPalindromeKMP("adcababa"))
+    print(Solution().shortestPalindromeKMP("adcaadcbaba"))
+    #print(Solution().shortestPalindromeKMP("acababa"))
     #print(Solution().shortestPalindromeKMP("aacecaaa"))
