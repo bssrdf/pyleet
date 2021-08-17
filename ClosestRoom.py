@@ -114,21 +114,24 @@ class Solution(object):
                    rooms[i][1] >= rooms[idx][1]):
                 idx = right[idx]
             right[i] = idx
-        
+        print(rooms)
         ans = []
         for q in queries:
-            idx = bisect.bisect_left(rooms, q) # compare by ID
+            idx = bisect.bisect_left(rooms, [q[0],0]) # compare by ID
             if idx == n: idx = n-1
             id = -1 
             i = idx
             while i >= 0 and rooms[i][1] < q[1]:
                 i = left[i]
+            if q == [7,7]:
+                print('l', q, idx, i)
             if i >= 0: id = closer(q[0], rooms[i][0], id)
             i = idx
             while i >= 0 and rooms[i][1] < q[1]:
                 i = right[i]
             if i >= 0: id = closer(q[0], rooms[i][0], id)
-
+            if q == [7,7]:
+                print('r', q, idx, i)
             if rooms[idx][0] > q[0]:
                 i = idx - 1
                 while i >= 0 and rooms[i][1] < q[1]:
@@ -143,5 +146,11 @@ class Solution(object):
         
 
 if __name__ == "__main__":
-    print(Solution().closestRoom(rooms = [[1,4],[2,3],[3,5],[4,1],[5,2]], queries = [[2,3],[2,4],[2,5]]))
-    print(Solution().closestRoomWithStreamQueries(rooms = [[1,4],[2,3],[3,5],[4,1],[5,2]], queries = [[2,3],[2,4],[2,5]]))
+    #print(Solution().closestRoom(rooms = [[1,4],[2,3],[3,5],[4,1],[5,2]], queries = [[2,3],[2,4],[2,5]]))
+    #print(Solution().closestRoomWithStreamQueries(rooms = [[1,4],[2,3],[3,5],[4,1],[5,2]], queries = [[2,3],[2,4],[2,5]]))
+    #print(Solution().closestRoom([[1,4],[2,3],[3,5],[4,1],[5,2]], [[2,3],[2,4],[2,5]]))
+    #print(Solution().closestRoomWithStreamQueries([[1,4],[2,3],[3,5],[4,1],[5,2]], [[2,3],[2,4],[2,5]]))
+    print(Solution().closestRoom([[11,6],[6,11],[1,22],[20,2],[21,7],[8,15],[4,17],[13,22],[17,16],[22,11]],
+      [[21,20],[23,24],[6,20],[5,23],[8,1],[1,4],[10,11],[24,10],[7,12],[7,7]]))
+    print(Solution().closestRoomWithStreamQueries([[11,6],[6,11],[1,22],[20,2],[21,7],[8,15],[4,17],[13,22],[17,16],[22,11]],
+      [[21,20],[23,24],[6,20],[5,23],[8,1],[1,4],[10,11],[24,10],[7,12],[7,7]]))
