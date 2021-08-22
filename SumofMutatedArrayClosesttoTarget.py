@@ -1,6 +1,7 @@
 '''
 -Medium-
-
+*Binary Search*
+*Prefix Sum*
 Given an integer array arr and a target value target, return the integer value such that 
 when we change all the integers larger than value in the given array to be equal to value, 
 the sum of the array gets as close as possible (in absolute difference) to target.
@@ -34,6 +35,8 @@ Constraints:
 
 '''
 
+import bisect
+
 class Solution(object):
     def findBestValue(self, arr, target):
         """
@@ -46,7 +49,27 @@ class Solution(object):
         preSum = [0]*(n+1)
         for i in range(1,n+1):
             preSum[i] = preSum[i-1] + arr[i-1]
+        l, r = 0, arr[-1]+1
+        def mySum(num):
+            i = bisect.bisect_right(arr, num)
+            return preSum[i]+(n-i)*num
+        while l < r:
+            mid = l + (r-l)//2
+            sm = mySum(mid)
+            if sm == target:
+                return mid
+            elif sm > target:
+                r = mid
+            else:
+                l = mid+1
+            print(l, r, mid, sm)            
+        if abs(mySum(r-1)-target) <= abs(mySum(r)-target):
+            return r-1
+        return r
+
         
         
 if __name__ == "__main__":
     print(Solution().findBestValue(arr = [4,9,3], target = 10))
+    #print(Solution().findBestValue(arr = [2,3,5], target = 10))
+    #print(Solution().findBestValue(arr = [60864,25176,27249,21296,20204], target = 56803))
