@@ -29,6 +29,8 @@ will fit in a 64-bit signed integer.
 
 '''
 
+import heapq
+
 class Node(object):
     def __init__(self, start, end):
         self.start, self.end = start, end
@@ -89,7 +91,7 @@ class Node(object):
         return self.total
 
 class Solution(object):
-    def rectangleArea(self, rectangles):
+    def rectangleAreaSegTree(self, rectangles):
         """
         :type rectangles: List[List[int]]
         :rtype: int
@@ -122,5 +124,80 @@ class Solution(object):
 
         return ans % (10**9 + 7)
 
+    def rectangleAreaDivideandConquer(self, rectangles):
+        """
+        :type rectangles: List[List[int]]
+        :rtype: int
+        """
+        def getSum(batch):
+            batch.sort(key=lambda x: x[1])
+            temp = []            
+            temp.append(batch[0])
+            i = 1
+            while i < len(batch):
+                cur = batch[i]
+                end = temp[-1]
+                if cur[1] <= end[3]:
+                    end[3] = max(end[3], cur[3])
+                else:
+                    temp.append(cur)
+                i += 1
+            sm = 0
+            for t in temp:
+                sm += t[3] - t[1]
+            return sm
+    
+        def verticalCut(batch, queue):
+            mi = batch[0][2] if not queue else queue[0][0]
+
+            for rec in batch:
+                mi = min(mi, rec[2])
+            
+            for rec in batch:
+                if rec[2] > mi:
+                    right = [mi, rec[1], rec[2], rec[3]]
+                    rec[2] = mi
+                    heapq.heappush(queue, right)
+
+        queue = rectangles
+        heapq.heapify(queue)
+        
+        total = 0
+        while queue:
+            batch = [] 
+            cur = heapq.heappop(queue)
+            batch.append(cur)
+            while queue and queue[0][0] == cur[0]:
+                batch.append(heapq.heappop(queue))
+            
+            verticalCut(batch, queue)
+            total += getSum(batch) * (batch[0][2] - batch[0][0])
+        
+        return total % (1000000000 + 7)
+
+    def rectangleArea(self, rectangles):
+        """
+        :type rectangles: List[List[int]]
+        :rtype: int
+        """   
+        xs = sorted(set([x for x1, y1, x2, y2 in rectangles for x in [x1, x2]]))
+        x_i = {v: i for i, v in enumerate(xs)}
+        count = [0] * len(x_i)
+        L = []
+        for x1, y1, x2, y2 in rectangles:
+            L.append([y1, x1, x2, 1])
+            L.append([y2, x1, x2, -1])
+        L.sort()
+        cur_y = cur_x_sum = area = 0
+        for y, x1, x2, sig in L:
+            area += (y - cur_y) * cur_x_sum
+            cur_y = y
+            for i in range(x_i[x1], x_i[x2]):
+                count[i] += sig
+            cur_x_sum = sum(x2 - x1 if c else 0 for x1, x2, c in zip(xs, xs[1:], count))
+        return area % (10 ** 9 + 7)
+
 if __name__ == "__main__":    
     print(Solution().rectangleArea([[0,0,2,2],[1,0,2,3],[1,0,3,1]]))
+    print(Solution().rectangleAreaSegTree([[0,0,2,2],[1,0,2,3],[1,0,3,1]]))
+    print(Solution().rectangleAreaDivideandConquer([[0,0,2,2],[1,0,2,3],[1,0,3,1]]))
