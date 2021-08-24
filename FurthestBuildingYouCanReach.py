@@ -84,6 +84,32 @@ class Solution(object):
             if bricks < 0: # if not enough bricks, stop 
                 return i
         return len(A) - 1
+    
+    def furthestBuildingHeap(self, heights, bricks, ladders):
+        """
+        :type heights: List[int]
+        :type bricks: int
+        :type ladders: int
+        :rtype: int
+        """
+        h = []
+        for i in range(1, len(heights)):
+            diff = heights[i] - heights[i - 1]
+            if diff <= 0:
+                continue
+            if bricks < diff and ladders > 0:
+                ladders -= 1
+                if h and -h[0] > diff:
+                    bricks -= heapq.heappop(h)
+                else:
+                    continue
+            bricks -= diff
+            if bricks < 0:
+                return i - 1
+            heapq.heappush(h, -diff)
+        return len(heights) - 1
+
+        
 
     def furthestBuildingTLE(self, heights, bricks, ladders):
         """
@@ -123,3 +149,5 @@ if __name__ == '__main__':
     print(Solution().furthestBuildingTLE([14,3,19,3], 17, 0))
     print(Solution().furthestBuilding([4,2,7,6,9,14,12], 5, 1))
     print(Solution().furthestBuilding([14,3,19,3], 17, 0))
+    print(Solution().furthestBuildingHeap([4,2,7,6,9,14,12], 5, 1))
+    print(Solution().furthestBuildingHeap([14,3,19,3], 17, 0))

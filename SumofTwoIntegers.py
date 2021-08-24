@@ -38,6 +38,7 @@ class Solution(object):
         MIN = 0x80000000
         # mask to get last 32 bits
         mask = 0xFFFFFFFF
+        print(MIN, MAX)
         while b != 0:
             # ^ get different bits and & gets double 1s, << moves carry
             a, b = (a ^ b) & mask, ((a & b) << 1) & mask
@@ -45,10 +46,33 @@ class Solution(object):
         # then get 32-bit positive's Python complement negative
         return a if a <= MAX else ~(a ^ mask)
 
+
+    def getSumTLE(self, a, b):
+        """
+        :type a: int
+        :type b: int
+        :rtype: int
+        """
+        # TLE for python but works in c, c++, java
+        print('a: {:08b}'.format(a))
+        print('b: {:08b}'.format(b))
+        print('14: {:08b}'.format(14))
+        print('-14: {:08b}'.format(-14))
+        while b != 0 :
+            c = a & b 
+            a = a ^ b
+            b = c << 1
+            print('a: {:08b}'.format(a))
+            print('b: {:08b}'.format(b))
+            print('c: {:08b}'.format(c))
+        #print('a: {:8b}'.format(a))    
+        return a
+
 if __name__ == "__main__":
     #print(Solution().getSum(3,2))
     #print(Solution().getSum(7,5))
     print(Solution().getSum(-1,1))
+    print(Solution().getSumTLE(7,5))
 
 
     
