@@ -88,6 +88,31 @@ class Solution(object):
         用反证法就能得出每一步都应该在第 dp[k-1][t-1] + 1 层丢鸡蛋。
         
         """
+
+        """
+        Inversion and Generic Solution
+
+        With the help of the iterative solution above, we see that it's easier to solve an inverse problem: 
+        
+        given m total drops, and k eggs, how high can we go?
+
+        So with one egg and m drops, we can only test m floors.
+
+        With two eggs and m drops:
+
+        We drop one egg to test one floor.
+        We add the number of floors we can test with m - 1 drops and 2 eggs (the egg did not break).
+        And we add m - 1 floors we can test with the last egg (the egg broke).
+        Thus, the formula is:
+
+        dp[m] = 1 + dp[m - 1] + m - 1;
+        ... which is in-line with the observation we made for the iterative solution above!
+
+        This can be easily generalized for k eggs:
+
+        dp[m][k] = 1 + dp[m - 1][k] + dp[m - 1][k - 1];
+        
+        """
         dp = [[0 for _ in range(K+1)] for _ in range(N+1)]
         m = 0
         while dp[m][K] < N: 

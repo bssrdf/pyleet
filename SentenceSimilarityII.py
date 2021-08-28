@@ -30,6 +30,7 @@ The length of each words[i] and pairs[i][j] will be in the range [1, 20].
 '''
 
 from collections import defaultdict
+from collections import deque
 from UnionFindSet import UnionFindSet
 
 class Solution(object):
@@ -59,6 +60,32 @@ class Solution(object):
                 return True
         return False
     
+    def areSentencesSimilarTwoBFS(self, words1, words2, pairs):
+        if len(words1) != len(words2):
+            return False
+        mapping = defaultdict(list)
+        for p in pairs:
+            mapping[p[0]].append(p[1])
+            mapping[p[1]].append(p[0])
+        def bfs(src, dst):
+            
+            candidates = deque([src])
+            visited = set([src])
+            
+            while candidates:
+                candidate = candidates.popleft()
+                if candidate == dst:
+                    return True
+                for synonym in mapping[candidate]:
+                    if synonym not in visited:
+                        candidates.append(synonym)
+                        visited.add(synonym)
+            return False
+        for w1,w2 in zip(words1, words2):
+            if not bfs(w1, w2):
+                return False
+        return True
+    
     def areSentencesSimilarTwoUF(self, words1, words2, pairs):
         if len(words1) != len(words2):
             return False
@@ -82,6 +109,21 @@ class Solution(object):
             if uf.find(mapping[w1]) != uf.find(mapping[w2]):
                 return False
         return True   
+
+    def areSentencesSimilarTwoUF2(self, words1, words2, pairs):
+        if len(words1) != len(words2):
+            return False        
+        words = set()
+        for p in pairs:
+           words.add(p[0])
+           words.add(p[1]) 
+        uf = UnionFindSet(items=list(set(words1+words2)|words))
+        for p in pairs:
+            uf.union(p[0], p[1])
+        for w1, w2 in zip(words1, words2):
+            if uf.find(w1) != uf.find(w2):
+                return False
+        return True   
         
 
 print(Solution().areSentencesSimilarTwoUF(["great", "acting", "skills"], 
@@ -94,4 +136,6 @@ s1 = ["7", "5", "4", "11", "13", "15", "19", "12", "0", "10"]
 s2 = ["16", "1", "7", "3", "15", "10", "13", "2", "19", "8"]
 pairs = [["6", "18"], ["8", "17"], ["1", "13"], ["0", "8"], ["9", "14"], ["11", "17"], ["11", "19"], ["13", "16"], ["0", "18"], ["3", "11"], ["1", "9"], ["2", "11"], ["2", "4"], ["0", "19"], ["8", "12"], ["8", "19"], ["16", "19"], ["1", "11"], ["2", "18"], ["0", "16"], ["7", "11"], ["6", "8"], ["9", "17"], ["8", "16"], ["3", "13"], ["7", "9"], ["7", "10"], ["3", "6"], ["15", "19"], ["1", "5"], ["2", "14"], ["1", "18"], ["8", "15"], ["14", "19"], ["3", "17"], ["6", "10"], ["5", "17"], ["10", "15"], ["1", "10"], ["4", "6"]]
 print(Solution().areSentencesSimilarTwoUF(s1, s2, pairs))
+print(Solution().areSentencesSimilarTwoUF2(s1, s2, pairs))
+print(Solution().areSentencesSimilarTwoBFS(s1, s2, pairs))
 

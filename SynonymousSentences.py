@@ -53,9 +53,17 @@ class UnionFind(object):
     groups: word to group mapping
     """
     
-    def __init__(self):
+    def __init__(self, pairs = None):
         self.groups = {}
-        
+        '''
+        for w1,w2 in pairs:
+            self.groups[w1] = w1
+            self.groups[w2] = w2
+
+        for w1,w2 in pairs:
+            self.union(w1, w2)
+        '''
+
     def find(self, word):
         """
         Return the group of the given word
@@ -64,6 +72,9 @@ class UnionFind(object):
         if word not in self.groups:
             self.groups[word] = word
         return self.groups[word]
+        #if word == self.groups[word]:
+        #    return word
+        #return self.find(self.groups[word])
 
     def union(self, word1, word2):
         """
@@ -115,7 +126,7 @@ class Solution(object):
                         candidates.append(synonym)
                         visited.add(synonym)
             return res
-        
+
         for word in words:
             candidates = sorted(bfs(word))
             res = [r + [candidate] for r in res for candidate in candidates]
