@@ -67,13 +67,18 @@ class Solution(object):
                                  # we are using the numbers given
                 i += 1
             else:
+                print('A', i, nums[i], miss)
                 miss += miss  # nums[i] > miss, so no way to represent numbers
                               # [miss, nums[i]], we need to add a patch.
                               # add a number (= miss) will allow us to represent
                               # [miss,  2*miss-1]
                 res += 1
+                print('B', i, nums[i], miss)
+                
         return res
     
 if __name__ == "__main__":
-    print(Solution().minPatches([1,3],  6))
+    #print(Solution().minPatches([1,3],  6))
     print(Solution().minPatches([1,5,10], 20))
+    print(Solution().minPatches([1, 2, 4, 11, 30], 50))
+    print(Solution().minPatches([1, 2, 4, 16, 30], 50))
