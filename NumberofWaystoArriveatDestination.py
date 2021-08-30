@@ -45,7 +45,10 @@ There is at most one road connecting any two intersections.
 You can reach any intersection from any other intersection.
 
 '''
-
+from collections import defaultdict
+import math
+import heapq
+from functools import lru_cache
 
 class Solution(object):
     def countPaths(self, n, roads):
@@ -54,6 +57,64 @@ class Solution(object):
         :type roads: List[List[int]]
         :rtype: int
         """
+        graph = defaultdict(list)
+        for u, v, time in roads:
+            graph[u].append([v, time])
+            graph[v].append([u, time])
+        def dijkstra(src):
+            dist = [math.inf] * n
+            ways = [0] * n
+            minHeap = [(0, src)]  # dist, src
+            dist[src] = 0
+            ways[src] = 1
+            while minHeap:
+                d, u = heapq.heappop(minHeap)
+                if u == n-1:
+                    print('at n-1:', d)
+                if dist[u] < d: continue  # Skip if `d` is not updated to latest version!
+                for v, time in graph[u]: # we found better candidate, so 
+                                         # we update distance 
+                    if dist[v] > d + time:
+                        dist[v] = d + time
+                        ways[v] = ways[u]
+                        heapq.heappush(minHeap, (dist[v], v))
+                    elif dist[v] == d + time: # means we found one more way to 
+                                              # reach node with minimal cost.
+                        ways[v] = (ways[v] + ways[u]) % 1_000_000_007
+            print('time to dest:', dist[n-1])            
+            return ways[n - 1]
+
+        return dijkstra(0)
+
+    def countPathsArray(self, n, roads):
+        def create_adjlist():
+            adjlist = defaultdict(list)
+            for v1, v2, t in roads:
+                adjlist[v1].append((v2, t))
+                adjlist[v2].append((v1, t))
+            return adjlist
+        adjlist = create_adjlist()
+        
+        mincost = [0] + [math.inf] * (n-1)
+        pred = defaultdict(list)
+        
+        decided = set()
+        for _ in range(n):
+            minidx = min((idx for idx in range(n) if idx not in decided), key=mincost.__getitem__)
+            decided.add(minidx)
+            for v, t in adjlist[minidx]:
+                if mincost[minidx] + t < mincost[v]:
+                    pred[v][:] = [minidx]
+                    mincost[v] = mincost[minidx] + t
+                elif mincost[minidx] + t == mincost[v]:
+                    pred[v].append(minidx)
+                    
+        # Compute number of ways
+        @lru_cache(None)
+        def count(dest):
+            return sum(count(v) for v in pred[dest]) if pred[dest] else 1
+        return count(n-1) % (10**9+7)
         
 if __name__ == "__main__":
     print(Solution().countPaths(n = 7, roads = [[0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]]))
+    print(Solution().countPathsArray(n = 7, roads = [[0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]]))
