@@ -112,7 +112,38 @@ class Solution(object):
             # 穷举了所有数字，都无法装满当前桶    
             return False
         # k 号桶初始什么都没装，从 nums[0] 开始做选择        
-        return backtrack(k, 0, 0)       
+        return backtrack(k, 0, 0)   
+
+    def canPartitionKSubsetsWithPrune(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """     
+        if len(nums) < k or sum(nums) % k != 0 or max(nums) > sum(nums) // k:
+            return False
+        target = sum(nums)//k
+
+        nums.sort(reverse = True)
+        edge = [0]*k
+
+        def dfs(index):
+            if index == len(nums):
+                return True
+            seen = [] # record the searched summ
+            #seen = set()#  slower than using list??
+            for i in range(k):
+                if edge[i] in seen: continue
+                if edge[i] + nums[index] <= target:
+                    seen.append(edge[i])
+                    #seen.add(edge[i])
+                    edge[i] += nums[index]
+                    if dfs(index + 1):
+                        return True
+                    edge[i] -= nums[index]
+            return False
+
+        return dfs(0)   
          
 if __name__ == "__main__":
     print(Solution().canPartitionKSubsets([4, 3, 2, 3, 5, 2, 1], 4))
