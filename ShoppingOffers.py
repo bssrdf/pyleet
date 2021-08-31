@@ -58,17 +58,14 @@ class Solution(object):
         :rtype: int
         """
         res = sum(p*i for p,i in zip(price, needs))
-        #print(res, needs)
         def helper(offer, needs):
             r = [0]*len(needs)
             for i in range(len(needs)):
-           #     print(i,o)
                 if offer[i] > needs[i]: return []
                 r[i] = needs[i] - offer[i]
             return r
         for offer in special:
             r = helper(offer, needs)
-            #print('r =', r, offer)
             if r:
                res = min(res, self.shoppingOffers(price, special, r)+offer[-1])
         return res

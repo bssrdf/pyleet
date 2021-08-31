@@ -42,11 +42,8 @@ class Solution(object):
         """
         C = Counter(answers)
         res = 0
-        #for k in sorted(C.keys(), reverse=True):            
         for k in C:
-            #res += (k+1) * ( 1 if C[k]//(k+1) == 0 else math.ceil(C[k]/(k+1)) )
             res += (k+1) * math.ceil(C[k]/(k+1))
-        #    print(k, C[k], res)
         return res    
                 
 

@@ -93,7 +93,7 @@ class Solution(object):
                     right = mid - 1
             return -1
         for i in range(1, n):
-            print(i, jobs[i])
+            #print(i, jobs[i])
             l = search(i)
             profit = jobs[i][2]
             if l != -1:

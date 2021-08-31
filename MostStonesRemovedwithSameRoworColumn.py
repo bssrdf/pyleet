@@ -82,15 +82,17 @@ class Solution(object):
         :type stones: List[List[int]]
         :rtype: int
         """
+        '''
         m, n = 0, 0
         for st in stones:
             m = max(m, st[0])
             n = max(n, st[1])        
         m += 1; n += 1
         print('m=',m, 'n=',n)
+        '''
         uf = UnionFind()            
         for r, c in stones:
-            uf.union(r, c + m)  # Un
+            uf.union(r, ~c)  # Un
         return len(stones) - uf.nConnected()
 
     def removeStonesUF(self, stones):

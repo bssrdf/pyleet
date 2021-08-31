@@ -38,3 +38,24 @@ x != y
 x and y are exist in the tree.
 
 '''
+
+class Solution(object):
+    def isCousins(self, root, x, y):
+        """
+        :type root: TreeNode
+        :type x: int
+        :type y: int
+        :rtype: bool
+        """
+        px, py = [None], [None]
+        hx, hy = [0], [0]
+        def helper(node, par, h, v, p, ht):
+            if not node: return
+            if node.val == v:
+                p[0] = par; ht[0] = h  
+                return
+            helper(node.left, node, h+1, v, p, ht)
+            helper(node.right, node, h+1, v, p, ht)
+        helper(root, None, 1, x, px, hx)
+        helper(root, None, 1, y, py, hy)
+        return hx[0] == hy[0] and px[0] != py[0]

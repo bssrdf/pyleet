@@ -59,18 +59,13 @@ class Solution(object):
             for j in range(i+1, n):
                 cnt[nums[i]*nums[j]] += 1
         res = 0
-        #print(factorial(6),factorial(4))
         for k,v in cnt.items():
             if v > 1:                
-                #m = factorial(v)//factorial(v-2)
-                #print(v, m)
-                #res += 4 * (factorial(v)//factorial(v-2))
                 res += 4 * (factorial(v)//factorial(v-2))
         return res  
 
         
 
-        return 0 
 if __name__ == "__main__":
     print(Solution().tupleSameProduct([2,3,4,6]))
     print(Solution().tupleSameProduct([2,3,4,6,8,12]))

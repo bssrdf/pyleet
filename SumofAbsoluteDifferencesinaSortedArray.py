@@ -45,7 +45,6 @@ class Solution(object):
             left[i] = left[i-1]+nums[i-1]
         for i in range(n-1, -1, -1):
             right[i] = right[i+1] + nums[i] 
-        #print(left, right)
         
         res = [0]*n
         for i in range(n):

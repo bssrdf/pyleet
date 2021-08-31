@@ -98,9 +98,7 @@ class Solution(object):
         result = target
         for mask in range(2**len(target)):
             ar = abbr(mask)         
-            #print(ar, mask)   
             if all(d & mask for d in diffs) and len(ar) < len(result):
-            #    print('====',result, ar)
                 result = ar
         return result
         

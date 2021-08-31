@@ -79,7 +79,7 @@ class Solution(object):
             if s1 == s2: continue
             if s1 in m and s2 in m[s1]: continue
             if s2 in m and s1 in m[s2]: continue
-            print(i, s1, s2, m[s1], m[s2])
+           # print(i, s1, s2, m[s1], m[s2])
             return False
         return True
         

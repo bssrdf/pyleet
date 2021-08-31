@@ -96,6 +96,34 @@ class Solution(object):
             res.append(str(t))
         return ''.join(res[::-1])
     
+
+    def addStrings2(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        if len(num1) > len(num2):
+            num2 = '0'*(len(num1)-len(num2))+num2
+        elif len(num2) > len(num1):
+            num1 = '0'*(len(num2)-len(num1))+num1
+        i, j = len(num1)-1, len(num2)-1
+        res = ['']*(len(num1)+1)
+        t = 0
+        while i >= 0:
+            k = int(num1[i])+int(num2[i])+t
+            if k >= 10:
+                k -= 10
+                t = 1
+            else:
+                t = 0
+            res[i+1] = str(k)
+            i -= 1
+        if t == 1:
+            res[0] = '1'            
+            return ''.join(res)
+        return ''.join(res[1:]) 
+    
 if __name__ == "__main__":
     print(Solution().addStrings(num1 = "456", num2 = "77"))
     print(Solution().addStrings(num1 = "0", num2 = "0"))
