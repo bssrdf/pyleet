@@ -69,6 +69,30 @@ class Solution(object):
         if numSum % 4 != 0: return False
         target = [numSum//4] * 4
         return dfs(nums,0, target)    
+    
+    def makesquareWithPrune(self, nums):
+        if len(nums) < 4 or sum(nums) % 4 != 0 or max(nums) > sum(nums) // 4:
+            return False
+        target = sum(nums)//4
+
+        nums.sort(reverse = True)
+        edge = [0]*4
+
+        def dfs(index):
+            if index == len(nums):
+                return True
+            seen = [] # record the searched matchstick lengths
+            for i in range(4):
+                if edge[i] in seen: continue
+                if edge[i] + nums[index] <= target:
+                    seen.append(edge[i])
+                    edge[i] += nums[index]
+                    if dfs(index + 1):
+                        return True
+                    edge[i] -= nums[index]
+            return False
+
+        return dfs(0)
 
 
 
