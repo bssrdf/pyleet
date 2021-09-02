@@ -1,5 +1,9 @@
 '''
-Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
+-Medium-
+*Recursion*
+
+Given an integer n, generate all structurally unique BST's 
+(binary search trees) that store values 1 ... n.
 
 Example:
 
@@ -30,7 +34,7 @@ The above output corresponds to the 5 unique BST's shown below:
 #         self.left = left
 #         self.right = right
 
-from BinaryTree import (TreeNode, preOrder)
+from BinaryTree import (TreeNode, null)
 
 class Solution(object):
 
@@ -87,10 +91,51 @@ class Solution(object):
                 lev += 1
             
         return ans
+    
+    def generateTreesSimpleSolution(self, n):
+        """
+        :type n: int
+        :rtype: List[TreeNode]
+        """
+        '''
+        I start by noting that 1..n is the in-order traversal for any BST with 
+        nodes 1 to n. So if I pick i-th node as my root, the left subtree will 
+        contain elements 1 to (i-1), and the right subtree will contain elements 
+        (i+1) to n. I use recursive calls to get back all possible trees for 
+        left and right subtrees and combine them in all possible ways with the 
+        root.
+        '''
+        def genTreeList(l, r):
+            tlis = []
+            if l > r:
+                tlis.append(None)
+                return tlis
+            if l == r:
+                tlis.append(TreeNode(l))
+                return tlis
+            for i in range(l, r+1):
+                left = genTreeList(l, i-1)
+                right = genTreeList(i+1, r)
+                for lnode in left:
+                    for rnode in right:
+                        root = TreeNode(i)
+                        root.left = lnode
+                        root.right = rnode
+                        tlis.append(root)
+            return tlis
+        return genTreeList(1, n)
+
+
 
 if __name__ == "__main__":
     bsts = Solution().generateTrees(4)
     print(len(bsts))
+    for bst in bsts:
+        bst.prettyPrint()
+    bsts = Solution().generateTreesSimpleSolution(4)
+    print(len(bsts))
+    for bst in bsts:
+        bst.prettyPrint()
     #for t in bsts:
     #    preOrder(t)
     #    print('')
