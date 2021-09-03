@@ -144,8 +144,23 @@ class Solution(object):
                 visit(targets[airport].pop())
             route.append(airport)         
         visit('JFK')
-        return route[::-1]       
-            
+        return route[::-1]
+
+    def findItineraryPQ2(self, tickets):
+        # Write your code here
+        graph = collections.defaultdict(list)
+        for s,t in tickets:
+            heapq.heappush(graph[s], t)
+        #res = deque()
+        res = []
+        def dfs(city):            
+            while graph[city]:
+                dst = heapq.heappop((graph[city]))
+                dfs(dst)
+            #res.appendleft(city)
+            res.append(city)
+        dfs('JFK')
+        return res[::-1]                    
 
 if __name__=="__main__":
 
@@ -153,7 +168,11 @@ if __name__=="__main__":
     tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
     #tickets = [("JFK","SFO"),("JFK","ATL"),("SFO","ATL"),("ATL","JFK"),("ATL","SFO")]
     #tickets=[("MUC", "LHR"), ("JFK", "MUC"), ("SFO", "SJC"), ("LHR", "SFO")]
-    #tickets= [["JFK","KUL"],["JFK","NRT"], ["NRT","JFK"]]
+    
     #print(Solution().ReconIter(tickets))
     print(Solution().findItinerary(tickets))
     print(Solution().findItineraryPQ(tickets))
+
+    tickets= [["JFK","KUL"],["JFK","NRT"], ["NRT","JFK"]]
+    print(Solution().findItineraryPQ2(tickets))
+
