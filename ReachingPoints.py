@@ -44,6 +44,20 @@ class Solution(object):
             else: tx %= ty
         return sx == tx and sy <= ty and (ty - sy) % sx == 0 or \
                sy == ty and sx <= tx and (tx - sx) % sy == 0
+    
+    def ReachingPoints(self, start, target):
+        # write your code here
+        sx, sy = start
+        tx, ty = target
+        if sx > tx or sy > ty: return False
+        if sx == tx: return (ty-sy)%sx == 0 # only change y
+        if sy == ty: return (tx-sx)%sy == 0
+        if tx > ty: 
+            return self.ReachingPoints([sx, sy], [tx%ty, ty]) # make sure tx%ty < ty
+        elif tx < ty: 
+            return self.ReachingPoints([sx, sy], [tx, ty%tx])
+        else:
+            return False
 
 if __name__ == "__main__":
     print(Solution().reachingPoints(sx = 1, sy = 1, tx = 3, ty = 5))
