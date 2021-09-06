@@ -1,6 +1,6 @@
 '''
 -Medium-
-
+*Union Find*
 Please design a data structure which can do the following operations:
 
 void addEdge(int a, int b):add an edge between node aa and node bb. It is guaranteed that there isn't self-loop or multi-edge.
