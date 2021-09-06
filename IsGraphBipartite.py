@@ -45,6 +45,8 @@ The graph is guaranteed to be undirected.
 
 '''
 
+from collections import deque
+
 class Solution(object):
     def isBipartite(self, graph):
         """
@@ -64,6 +66,32 @@ class Solution(object):
             if color[i] == 0 and not dfs(i, 1):
                 return False
         return True
+    
+    def isBipartiteBFS(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: bool
+        """
+        n = len(graph)
+        color = [0]*n
+        def bfs(u):
+            queue = deque([u])
+            while queue:
+                u = queue.popleft()
+                for v in graph[u]:
+                    if color[v] == 0:
+                        color[v] = -1 if color[u] == 1 else 1
+                        queue.append(v)
+                    elif color[v] == color[u]:
+                        return False
+            return True
+        for u in range(n):
+            if color[u] == 0:
+                color[u] = 1
+                if not bfs(u):
+                    return False
+        return True
+
 
     def isBipartiteUF(self, graph):
         """
@@ -92,3 +120,7 @@ if __name__ == '__main__':
     print(Solution().isBipartite([[1,2,3],[0,2],[0,1,3],[0,2]]))
     print(Solution().isBipartiteUF([[1,3],[0,2],[1,3],[0,2]]))
     print(Solution().isBipartiteUF([[1,2,3],[0,2],[0,1,3],[0,2]]))
+    print(Solution().isBipartiteBFS([[1,3],[0,2],[1,3],[0,2]]))
+    print(Solution().isBipartiteBFS([[1,2,3],[0,2],[0,1,3],[0,2]]))
+    print(Solution().isBipartite([[1],[0],[4],[4],[2,3]]))
+    print(Solution().isBipartiteBFS([[1],[0],[4],[4],[2,3]]))

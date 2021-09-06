@@ -44,6 +44,7 @@ class Solution(object):
                 sm = mul + vals[p2]
                 vals[p1] += sm // 10
                 vals[p2] = sm % 10
+                print(i, j, p1, p2, sm, vals)
         for val in vals:
             if not res and val == 0: continue
             res += str(val)

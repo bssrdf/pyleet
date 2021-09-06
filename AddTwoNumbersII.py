@@ -52,12 +52,9 @@ class Solution(object):
             num = s1.pop()+s2.pop()+b
             node, b = increment(num, last)            
             last = node
-        while s1:
-            num = s1.pop()+b
-            node, b = increment(num, last)                        
-            last = node
-        while s2:
-            num = s2.pop()+b
+        s = s1 or s2
+        while s:
+            num = s.pop()+b
             node, b = increment(num, last)                        
             last = node
         if b > 0:
