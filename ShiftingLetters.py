@@ -44,7 +44,6 @@ class Solution(object):
         """
         code = [ord(c)-ord('a') for c in s]
         n = len(shifts)
-        #code[n-1] += shifts[n-1]
         sufSum = 0
         for i in range(n-1, -1, -1):
             sufSum += shifts[i]

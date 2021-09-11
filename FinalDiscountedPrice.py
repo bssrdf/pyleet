@@ -49,7 +49,6 @@ class Solution:
         res = prices[:]
         for i, p in enumerate(prices):
             if rightSmaller[i] != -1: res[i] -= rightSmaller[i]                             
-
         return res
 
 

@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Union Find*
 
 We have n cities labeled from 1 to n. Two different cities with labels x and y are directly connected by a bidirectional road if and only if x and y share a common divisor strictly greater than some threshold. More formally, cities with labels x and y have a road between them if there exists an integer z such that all of the following are true:
 
@@ -65,7 +66,7 @@ class Solution(object):
         :type queries: List[List[int]]
         :rtype: List[bool]
         """
-                
+
         roots = [i for i in range(n+1)]
         def find(i):
             while i != roots[i]:

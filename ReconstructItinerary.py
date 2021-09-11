@@ -151,13 +151,11 @@ class Solution(object):
         graph = collections.defaultdict(list)
         for s,t in tickets:
             heapq.heappush(graph[s], t)
-        #res = deque()
         res = []
         def dfs(city):            
             while graph[city]:
                 dst = heapq.heappop((graph[city]))
                 dfs(dst)
-            #res.appendleft(city)
             res.append(city)
         dfs('JFK')
         return res[::-1]                    

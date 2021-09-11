@@ -33,3 +33,19 @@ class Solution(object):
             node2.next = node1
             temp = temp.next.next
         return prev.next
+    
+    def swapPairs2(self, head):
+        # write your code here
+        dummy = ListNode(-1)
+        dummy.next = head
+        pre, cur, nxt = dummy, head, head.next
+        while nxt:
+            t = nxt.next
+            nxt.next = cur
+            cur.next = t            
+            pre.next = nxt            
+            pre = cur
+            cur = cur.next
+            if not cur: break
+            nxt = cur.next
+        return dummy.next
