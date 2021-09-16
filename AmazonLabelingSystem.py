@@ -36,7 +36,7 @@ class Solution(object):
     def relabel(self, originalLabel: str, charLimit: int) -> str:
         newLabel = ''
         oldLabel = sorted(originalLabel, reverse=True)
-        print('original reversed',oldLabel)
+        print('original reversed',''.join(oldLabel))
         refChar = oldLabel[0]
         numSimChars = 0         # tracks how many times the current letter has been repeated
         q = []                  # a queue that tracks letters that are cut-off when max number of letters is exceeded
