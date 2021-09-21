@@ -47,6 +47,8 @@ n is even.
 
 '''
 
+from collections import defaultdict
+
 class Solution(object):
     def canArrange(self, arr, k):
         """
@@ -65,14 +67,32 @@ class Solution(object):
         """
         frequency = [0]*k
         for i in arr:
-            frequency[((i%k)+k)%k] += 1
-        print(frequency)
+            frequency[i%k] += 1
+        #print(frequency)
         if frequency[0]%2 != 0: return False
-        for i in range(1, k//2):
+        for i in range(1, k//2+1):
             if frequency[i] != frequency[k-i]:
                 return False
         return True
+
+    def canArrangeAC(self, arr, k):
+        n = len(arr)
+        m = defaultdict(int)
+        for i in arr:
+            r = i % k
+            d = 0 if r == 0 else k - r
+            if d in m:
+                m[d] -= 1
+                if m[d] == 0: m.pop(d)
+            else:
+                m[r] += 1
+        return not m
 if __name__ == "__main__":
     print(Solution().canArrange([1,2,3,4,5,10,6,7,8,9], 5))
     print(Solution().canArrange([1,2,3,4,5,6], 10))
     print(Solution().canArrange([-1,1,-2,2,-3,3,-4,4],  3))
+    print(Solution().canArrange([-1,-1,-1,-1,2,2,-2,-2], 3))
+    print(Solution().canArrangeAC([1,2,3,4,5,10,6,7,8,9], 5))
+    print(Solution().canArrangeAC([1,2,3,4,5,6], 10))
+    print(Solution().canArrangeAC([-1,1,-2,2,-3,3,-4,4],  3))
+    print(Solution().canArrangeAC([-1,-1,-1,-1,2,2,-2,-2], 3))
