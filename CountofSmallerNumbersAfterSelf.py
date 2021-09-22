@@ -58,7 +58,45 @@ class Solution(object):
         smaller = [0] * len(nums)
         sort(list(enumerate(nums)))
         return smaller
+    
+    def countSmallerBIT(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        n = len(nums)
+        res = [0]*n
+        offset = min(nums)
+        if offset <= 0:
+            offset = (-offset)+1
+            for i in range(n):
+                nums[i] += offset
+        BIT = [0]*(max(nums) + 1)
+        def update(index, val):
+            while index < len(BIT):
+                BIT[index] += val
+                index += index & (-index)
+        def getPrefixSum(index):
+            sm = 0
+            while index > 0:
+                sm += BIT[index]
+                index -= index & (-index)
+            return sm
+        for i in nums:
+            update(i, 1)
+        for i in range(n):
+            update(nums[i], -1) 
+            res[i] = getPrefixSum(nums[i]-1)
+        return res
+        
+        
+
 
 
 #print(Solution().countSmaller([5,2,6,1]))
-print(Solution().countSmallerMergeSort([5,2,6,1]))
+#print(Solution().countSmallerMergeSort([5,2,6,1]))
+#print(Solution().countSmallerBIT([5,2,6,1]))
+#print(Solution().countSmallerBIT([-1]))
+#print(Solution().countSmallerBIT([-1, -1]))
+print(Solution().countSmallerBIT([0, 1, 2]))
