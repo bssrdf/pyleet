@@ -2,7 +2,7 @@
 - :heavy_check_mark: 2 Amazon Fulfillment Builder https://leetcodecom/discuss/intFulfillment-Builder
 - :heavy_check_mark: 3 Amazon Music Pairs https://leetcodecom/problems/pans-divisible-by-60/
 - :heavy_multiplication_x: 4 Beta Testing https://leetcodecom/problems/mi-of-a-job-schedule/
-- :heavy_multiplication_x: 5 Breaka Palindrome https://leetcodecom/problems/break-a-palindrome/
+- :heavy_check_mark: 5 Break a Palindrome https://leetcodecom/problems/break-a-palindrome/
 - :heavy_multiplication_x: 6 Chemical Delivery System https://leetcodecom/discuss/interview-question/893279/
 - :heavy_check_mark: 7 Choose A Flask https://algomonster/problems/choose_a_flask
 - :heavy_check_mark: 8 Copy List with Random Pointer https://leetcodecom/problems/copy-list-with-random-pointer/
@@ -18,4 +18,43 @@
 - 18 Find The Highest Profit https://leetcodecom/discuss/int-The-Highest-Profit
 - 19 Five Star Sellers https://leetcodecom/discuss/interview-question/933383/
 - 20 Friend Circles https://algomonster/problems/friend_circles
-- 21 GiftingGroupshttps://leetcodecom/problems/friend-circles/22ItemsinContainershttps://leetcodecom/discuss/interview-question/865660/23KClosestPointstoOriginhttps://leetcodecom/problems/k-closest-points-to-origin24KeywordSuggestionshttps://leetcodecom/problems/search-suggestions-system/25LabelingSystemhttps://leetcodecom/discuss/int-or-Labeling-System26LargestItemAssociationhttps://leetcodecom/discuss/interview-question/782606/27LRUCacheMisseshttps://leetcodecom/discuss/interview-question/855839/28MaxDiskSpacehttps://algomonster/problems/fivailable_disk_space29MaximalSquarehttps://leetcodecom/problems/maximal-square/30MergeTwoSortedListshttps://leetcodecom/problems/merge-two-sorted-lists31MinCosttoConnectAllNodeshttps://algomonster/problems/min_cost_to_connect_all_nodes32MinDistanceBetweenRobotshttps://leetcodecom/discuss/interview-question/821708/33MinimumDifficultyofaJobSchedulehttps://algomonster/problems/min_job_difficulty34MinimumTotalContainerSizehttps://algomonster/problems/minimum_total_container_size35MostCommonWordhttps://leetcodecom/problems/most-common-word36MultiprocessorSystemhttps://leetcodecom/discuss/interview-question/928912/37MusicPairshttps://algomonster/problems/pairs_of_songs38NearestCityhttps://leetcodecom/discuss/interview-question/808374/39NumberofIslandshttps://leetcodecom/problems/number-of-islands/40OptimalUtilizationhttps://algomonster/problems/optimal_utilization41PackagingAutomationhttps://leetcodecom/discuss/intackaging-Automation42PowerGridhttps://leetcodecom/discuss/interview-question/900852/43PrimeAirRoutehttps://leetcodecom/discuss/int-or-Prime-Air-Route44RoboticsChallengehttps://leetcodecom/discuss/interview-question/806503/45RoverControlhttps://leetcodecom/discuss/int20-or-Rover-Control46Searcha2DMatrixIIhttps://leetcodecom/problems/search-a-2d-matrix-ii47ShoppingPatternshttps://leetcodecom/discuss/intr-Shopping-Patterns48SlowestKeyPresshttps://leetcodecom/problems/slowest-key/49SmallestNegativeBalancehttps://leetcodecom/discuss/interview-question/874127/50SubstringsofSizeKwithK-1DistinctCharshttps://leetcodecom/discuss/interview-question/370112/51SubtreeofAnotherTreehttps://leetcodecom/problems/subtree-of-another-tree52SubtreewithMaximumAveragehttps://leetcodecom/discuss/interview-question/34961753ThrottlingGatewayhttps://leetcodecom/discuss/int/throttling-gateway54TopKFrequentlyMentionedKeywordshttps://leetcodecom/discuss/interview-question/542597/55TransactionLogshttps://leetcodecom/discuss/interview-question/862600/56Turnstilehttps://leetcodecom/discuss/interview-question/699973/57TwoSum-UniquePairshttps://leetcodecom/discuss/interview-question/37243458UniqueDeviceNameshttps://leetcodecom/discuss/intUnique-Device-Names59UtilizationCheckshttps://leetcodecom/discuss/interview-question/376019/60WaystoSplitStringIntoPrimeNumbershttps://leetcodecom/discuss/interview-question/833164/
+- 21 Gifting Groups https://leetcodecom/problems/friend-circles/
+- 22 Items in Containers https://leetcodecom/discuss/interview-question/865660/
+- 23 K Closest Points to Origin https://leetcodecom/problems/k-closest-points-to-origin
+- 24 Keyword Suggestions https://leetcodecom/problems/search-suggestions-system/
+- 25 Labeling System https://leetcodecom/discuss/int-or-Labeling-System
+- 26 Largest Item Association https://leetcodecom/discuss/interview-question/782606/
+- :heavy_check_mark: 27 LRU Cache Misses https://leetcodecom/discuss/interview-question/855839/
+- 28 Max Disk Space https://algomonster/problems/fivailable_disk_space
+- 29 Maximal Square https://leetcodecom/problems/maximal-square/
+- 30 Merge Two Sorted Lists https://leetcodecom/problems/merge-two-sorted-lists
+- 31 Min Cost to Connect All Nodes https://algomonster/problems/min_cost_to_connect_all_nodes
+- 32 Min Distance Between Robots https://leetcodecom/discuss/interview-question/821708/
+- 33 Minimum Difficulty of a Job Schedule https://algomonster/problems/min_job_difficulty
+- 34 Minimum Total Container Size https://algomonster/problems/minimum_total_container_size
+- 35 Most Common Word https://leetcodecom/problems/most-common-word
+- 36 MultiprocessorSystemhttps://leetcodecom/discuss/interview-question/928912/
+- :heavy_check_mark: 37 Music Pairs https://algomonster/problems/pairs_of_songs
+- 38 Nearest City https://leetcodecom/discuss/interview-question/808374/
+- :heavy_check_mark: 39 Number of Islands https://leetcodecom/problems/number-of-islands/
+- 40 Optimal Utilization https://algomonster/problems/optimal_utilization
+- 41 Packaging Automation https://leetcodecom/discuss/intackaging-Automation
+- 42 Power Grid https://leetcodecom/discuss/interview-question/900852/
+- 43 Prime Air Route https://leetcodecom/discuss/int-or-Prime-Air-Route
+- 44 Robotics Challenge https://leetcodecom/discuss/interview-question/806503/
+- 45 Rover Control https://leetcodecom/discuss/int20-or-Rover-Control
+- 46 Search a 2D Matrix II https://leetcodecom/problems/search-a-2d-matrix-ii
+- 47 Shopping Patterns https://leetcodecom/discuss/intr-Shopping-Patterns
+- 48 Slowest Key Press https://leetcodecom/problems/slowest-key/
+- 49 Smallest Negative Balance https://leetcodecom/discuss/interview-question/874127/
+- 50 Substrings of Size K with K-1 Distinct Chars https://leetcodecom/discuss/interview-question/370112/
+- 51 Subtree of Another Tree https://leetcodecom/problems/subtree-of-another-tree
+- 52 Subtree with Maximum Average https://leetcodecom/discuss/interview-question/349617
+- 53 Throttling Gateway https://leetcodecom/discuss/int/throttling-gateway
+- 54 Top K Frequently Mentioned Keywords https://leetcodecom/discuss/interview-question/542597/
+- 55 Transaction Logs https://leetcodecom/discuss/interview-question/862600/
+- 56 Turnstile https://leetcodecom/discuss/interview-question/699973/
+- 57 Two Sum - Unique Pairs https://leetcodecom/discuss/interview-question/372434
+- 58 Unique Device Names https://leetcodecom/discuss/intUnique-Device-Names
+- 59 Utilization Checks https://leetcodecom/discuss/interview-question/376019/
+- 60 Ways to Split String Into Prime Numbers https://leetcodecom/discuss/interview-question/833164/
