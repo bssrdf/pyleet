@@ -37,7 +37,7 @@ class Solution(object):
 
     def shortestDistance(self, grid):
         m, n = len(grid), len(grid[0])
-        res = sys.maxsize-1
+       # res = sys.maxsize-1
         val = 0
         sumDist = [[0 for _ in range(n)] for _ in range(m)]
         dirs = ((-1, 0),(1, 0), (0, -1), (0, 1))
