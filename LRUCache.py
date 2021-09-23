@@ -83,13 +83,29 @@ class LRUCache:
         node.prev = p
         node.next = self.tail
 
-cache = LRUCache(2)
-cache.put(1, 1)
-cache.put(2, 2)
-print(cache.get(1))       #returns 1
-cache.put(3, 3)    # evicts key 2
-print(cache.get(2))       # returns -1 (not found)
-cache.put(4, 4)    # evicts key 1
-print(cache.get(1))       # returns -1 (not found)
-print(cache.get(3))       # returns 3
-print(cache.get(4))       # returns 4
+class Solution(object):
+    def lru_cache_misses(self, num, pages, max_cache_size):
+        cache = LRUCache(max_cache_size)
+        res = 0
+        for p in pages:
+            if cache.get(p) == -1:
+                res += 1
+                cache.put(p, None)
+        return res        
+
+
+
+
+if __name__ == "__main__":
+    cache = LRUCache(2)
+    cache.put(1, 1)
+    cache.put(2, 2)
+    print(cache.get(1))       #returns 1
+    cache.put(3, 3)    # evicts key 2
+    print(cache.get(2))       # returns -1 (not found)
+    cache.put(4, 4)    # evicts key 1
+    print(cache.get(1))       # returns -1 (not found)
+    print(cache.get(3))       # returns 3
+    print(cache.get(4))       # returns 4
+    requests = [1,2,1,3,1,2]
+    print(Solution().lru_cache_misses(6, requests, 2))
