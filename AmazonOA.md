@@ -33,9 +33,9 @@
 - 33 Minimum Difficulty of a Job Schedule https://algo.monster/problems/min_job_difficulty
 - 34 Minimum Total Container Size https://algo.monster/problems/minimum_total_container_size
 - 35 Most Common Word https://leetcode.com/problems/most-common-word
-- 36 MultiprocessorSystemhttps://leetcode.com/discuss/interview-question/928912/
+- 36 Multiprocessor System https://leetcode.com/discuss/interview-question/928912/
 - :heavy_check_mark: 37 Music Pairs https://algo.monster/problems/pairs_of_songs
-- 38 Nearest City https://leetcode.com/discuss/interview-question/808374/
+- :heavy_check_mark: 38 Nearest City https://leetcode.com/discuss/interview-question/808374/
 - :heavy_check_mark: 39 Number of Islands https://leetcode.com/problems/number-of-islands/
 - 40 Optimal Utilization https://algo.monster/problems/optimal_utilization
 - 41 Packaging Automation https://leetcode.com/discuss/intackaging-Automation
