@@ -55,6 +55,6 @@
 - 55 Transaction Logs https://leetcode.com/discuss/interview-question/862600/
 - 56 Turnstile https://leetcode.com/discuss/interview-question/699973/
 - 57 Two Sum - Unique Pairs https://leetcode.com/discuss/interview-question/372434
-- 58 Unique Device Names https://leetcode.com/discuss/intUnique-Device-Names
+- 58 Unique Device Names https://leetcode.com/discuss/interview-question/945483/Amazon-or-OA-2020-or-Unique-Device-Names
 - 59 Utilization Checks https://leetcode.com/discuss/interview-question/376019/
 - 60 Ways to Split String Into Prime Numbers https://leetcode.com/discuss/interview-question/833164/
