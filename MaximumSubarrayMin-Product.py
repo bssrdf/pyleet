@@ -1,5 +1,7 @@
 '''
 -Medium-
+*Monotonic Stack*
+
 
 The min-product of an array is equal to the minimum value in the array multiplied by the array's sum.
 
@@ -72,21 +74,36 @@ class Solution(object):
         for i in range(1,n+1):
             preSum[i] = preSum[i-1]+nums[i-1]
         res = 1
+        leftGreat = [-1]*n
+        rightGreat = [-1]*n
         stack = []
         for i in range(n):
-            if stack: j = stack[0]
-            else: j = i
-            while stack and nums[stack[-1]] > nums[i]:
+            while stack and nums[stack[-1]] >= nums[i]:
                 stack.pop() 
-            stack.append(i)
-            res = max(res, nums[stack[0]]*(preSum[i+1]-preSum[j]))
-
-                #print(i, j, nums[rmq.minRange(i,j)], preSum[j+1]-preSum[i], res)
-        return res
+            if stack:
+                leftGreat[i] = stack[-1]+1
+            else:
+                leftGreat[i] = 0    
+            stack.append(i) 
+        #print(leftGreat)    
+        stack = []
+        for i in range(n-1, -1, -1):
+            while stack and nums[stack[-1]] >= nums[i]:
+                stack.pop() 
+            if stack:
+                rightGreat[i] = stack[-1]-1
+            else:
+                rightGreat[i] = n-1    
+            stack.append(i) 
+        for i in range(n):
+            l = leftGreat[i]
+            r = rightGreat[i] 
+            res = max(res, nums[i]*(preSum[r+1]-preSum[l]))
+        return res%(10**9+7)
 
         
 
 if __name__ == "__main__":
-    print(Solution().maxSumMinProduct([1,2,3,2]))
+    #print(Solution().maxSumMinProduct([1,2,3,2]))
     print(Solution().maxSumMinProduct([2,3,3,1,2]))
-    print(Solution().maxSumMinProduct([3,1,5,6,4,2]))
+    #print(Solution().maxSumMinProduct([3,1,5,6,4,2]))
