@@ -1,6 +1,8 @@
 '''
 -Medium-
-
+%Amazon%
+*Greedy*
+*Priority Queue*
 Multiprocessor System
 Multiprocessor systems at Amazon involve multiple CPUs for performing various 
 tasks,
