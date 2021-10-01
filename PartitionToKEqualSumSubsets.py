@@ -23,6 +23,7 @@ Accepted
 
 '''
 from functools import lru_cache
+from typing import List
 
 class Solution(object):
     def canPartitionKSubsets(self, nums, k):
@@ -144,6 +145,26 @@ class Solution(object):
             return False
 
         return dfs(0)   
+
+    def canPartitionKSubsetsChallenge(self, nums: List[int], k: int) -> bool:
+        sums = sum(nums)
+        n = len(nums)
+        if sums % k != 0: return False
+        target = sums // k
+        used = [False]*n
+        def helper(start, curSum, groups):
+            if groups == k: return True
+            if curSum == target:
+                return helper(0, 0, groups+1)
+            for i in range(start, n):
+                if not used[i] and curSum+nums[i] <= target:
+                        used[i] = True
+                        if helper(i+1, curSum+nums[i], groups):
+                            return True
+                        used[i] = False
+            
+            return False
+        return helper(0, 0, 0)
          
 if __name__ == "__main__":
     print(Solution().canPartitionKSubsets([4, 3, 2, 3, 5, 2, 1], 4))
