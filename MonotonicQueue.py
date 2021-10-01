@@ -43,3 +43,37 @@ def decreasingQueue(A):
 firstLargerToLeft, firstLargerToRight = decreasingQueue(A)
 print(firstLargerToLeft)
 print(firstLargerToRight)
+
+def leftFurthestGreaterOrEqual(nums):
+    n = len(nums)
+    indx = [-1]*n 
+    stack = []
+    for i in range(n):
+        while stack and nums[stack[-1]] >= nums[i]:
+            stack.pop() 
+        if stack:
+            indx[i] = stack[-1]+1
+        else:
+            indx[i] = 0    
+        stack.append(i) 
+    return indx
+
+def rightFurthestGreaterOrEqual(nums):
+    n = len(nums)
+    indx = [-1]*n 
+    stack = []
+    for i in range(n-1, -1, -1):
+        while stack and nums[stack[-1]] >= nums[i]:
+            stack.pop() 
+        if stack:
+            indx[i] = stack[-1]-1
+        else:
+            indx[i] = n-1    
+        stack.append(i) 
+    return indx
+B = [2,3,3,1,2]
+leftGreat = leftFurthestGreaterOrEqual(B)
+print(leftGreat)
+rightGreat = rightFurthestGreaterOrEqual(B)
+print(rightGreat)
+
