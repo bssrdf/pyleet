@@ -57,6 +57,16 @@ class Solution(object):
         The egg did not break, and we reduced the number of floors to n - i.
         Solve this recursively to get the number of throws for n - i floors.
         This way, we find a floor for which the number of throws - maximum from these two cases - is minimal.
+        
+        ** further thought process about the max() below **
+        Here we are finding max no. of drops(basically worst case) required if we start dropping our first 
+        egg from any floor i. For any floor i there are 2 possibilities. 
+        If the egg breaks then we are just left with 1 egg , so we need traverse linearly to find the 
+        threshold floor which requires i-1 drops (the worst case is when (i-1)th floor is the threshold floor). 
+        Second case is when the egg does not break when we drop the egg from ith floor, then the threshold floor 
+        is above i, But above i there are n-i floors . So we recur for those n-i remaining floors . And at last 
+        we want the minimum of all which tells us we should drop our first egg from the floor having minimum 
+        number of drops.
         """
         return min((1 + max(i - 1, self.twoEggDrop(n - i)) for i in range (1, n)), default = 1)
 
