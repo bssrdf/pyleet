@@ -23,13 +23,17 @@ class Solution(object):
         N = len(nums)
         N2 = 2*N
         ans = []
+        print(N, N2)
         for i in range(N):
             if nums[i] > N2:
+         #       print('a', i, nums[i])
                 nums[nums[i]-N2-1] += N
             elif nums[i] > N:
+         #       print('b', i, nums[i])
                 nums[nums[i]-N-1] += N
             else:
                 nums[nums[i]-1] += N        
+        print(nums)
         for i,n in enumerate(nums):
             if n > N2:
                 ans.append(i+1)
