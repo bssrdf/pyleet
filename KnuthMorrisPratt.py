@@ -83,3 +83,5 @@ if __name__=="__main__":
     print(lps)
     lps = partialMatchTable("ABCDEABCDAB")
     print(lps)
+    lps = partialMatchTable("ABACABAB")
+    print(lps)
