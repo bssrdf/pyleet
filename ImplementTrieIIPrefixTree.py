@@ -45,65 +45,59 @@ It is guaranteed that for any function call to erase, the string word will exist
 
 '''
 
-from collections import defaultdict
 
-class Node(defaultdict):
-    def __init__(self):
-        super().__init__(Node)
-        self.terminal = False        
-
-
-class Trie(object):
+class Trie:
 
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.root = Node()
-        
+        self.children = [None] * 26
+        self.count = 0
+        self.pre_count = 0
 
-    def insert(self, word):
-        """
-        Inserts a word into the trie.
-        :type word: str
-        :rtype: None
-        """
-        cur = self.root
-        for c in word:    
-            cur = cur[c]
-        cur.terminal = True
-        
-
-
-        
-
-    def search(self, word):
-        """
-        Returns if the word is in the trie.
-        :type word: str
-        :rtype: bool
-        """
-        cur = self.root
+    def insert(self, word: str) -> None:
+        node = self
         for c in word:
-            if c not in cur:
-                return False
-            cur = cur[c]
-        return cur.terminal
+            index = ord(c) - ord('a')
+            if node.children[index] is None:
+                node.children[index] = Trie()
+            node = node.children[index]
+            node.pre_count += 1
+        node.count += 1
 
-        
+    def countWordsEqualTo(self, word: str) -> int:
+        node = self._search_prefix(word)
+        return 0 if node is None else node.count
 
-    def startsWith(self, prefix):
-        """
-        Returns if there is any word in the trie that starts with the given prefix.
-        :type prefix: str
-        :rtype: bool
-        """
-        cur = self.root
+    def countWordsStartingWith(self, prefix: str) -> int:
+        node = self._search_prefix(prefix)
+        return 0 if node is None else node.pre_count
+
+    def erase(self, word: str) -> None:
+        node = self
+        for c in word:
+            index = ord(c) - ord('a')
+            node = node.children[index]
+            node.pre_count -= 1
+        node.count -= 1
+
+    def _search_prefix(self, prefix: str):
+        node = self
         for c in prefix:
-            if c not in cur:
-                return False
-            cur = cur[c]
-        return True
+            index = ord(c) - ord('a')
+            if node.children[index] is None:
+                return None
+            node = node.children[index]
+        return node
+
+
 
 if __name__ == "__main__":
     trie = Trie()
+    trie.insert("apple") #               // Inserts "apple".
+    trie.insert("apple") #               // Inserts another "apple".
+    print(trie.countWordsEqualTo("apple")) #    // There are two instances of "apple" so return 2.
+    print(trie.countWordsStartingWith("app"))# // "app" is a prefix of "apple" so return 2.
+    trie.erase("apple") #                // Erases one "apple".
+    print(trie.countWordsEqualTo("apple")) #    // Now there is only one instance of "apple" so return 1.
+    print(trie.countWordsStartingWith("app")) # // return 1
+    trie.erase("apple")#                // Erases "apple". Now the trie is empty.
+    print(trie.countWordsStartingWith("app")) # // return 0
