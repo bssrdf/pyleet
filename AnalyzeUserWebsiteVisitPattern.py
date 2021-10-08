@@ -1,5 +1,8 @@
 '''
 -Medium-
+*Sorting*
+*Hash Table*
+*Combinations*
 
 You are given three arrays username, timestamp and website of the same length N where the ith tuple means that the user 
 with name username[i] visited the website website[i] at time timestamp[i].
@@ -52,6 +55,12 @@ class Solution(object):
         :type website: List[str]
         :rtype: List[str]
         """
+        # Loop over the array of type Struct and obtain all the websites visited by each user 
+        # in ascending order. For each user, obtain the websites and generate all possible 3-sequences, 
+        # and update the counts of each 3-sequence. Note that since the target is to find the 3-sequence 
+        # visited by the largest number of users, for each user, a 3-sequence can be counted at most once. 
+        # After all users’ 3-sequences are visited, obtain the 3-sequence with the maximum count and is 
+        # the lexicographically smallest, and return the 3-sequence.
         d = defaultdict(list)
 
         for t, u, w in sorted(zip(timestamp, username, website)):

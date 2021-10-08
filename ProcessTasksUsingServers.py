@@ -92,7 +92,6 @@ class Solution:
                 idx = queue.popleft() 
                 res[idx] = sid
                 heapq.heappush(working, (t+tasks[idx], sid))
-            
         return res
 
 if __name__ == '__main__':
