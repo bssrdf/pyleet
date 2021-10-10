@@ -120,8 +120,8 @@ class Solution(object):
                     ans = max(ans, dp[i][j])
                 else:
                     dp[i][j] = 0 
-        for i in range(n+1):
-           print(dp[i])
+        #for i in range(n+1):
+        #   print(dp[i])
         return ans
 
 import random
@@ -135,10 +135,10 @@ if __name__ == "__main__":
     print(Solution().longestRepeatingSubstringDP2("aabcaabdaab"))
     s = ''
     for i in range(1500):
-        s += chr(random.randint(0,25)+ord('a'))
-    #print(Solution().longestRepeatingSubstringDP(s))
-    #print(Solution().longestRepeatingSubstringDP2(s))
-    #print(Solution().longestRepeatingSubstring2(s))
+        s += chr(random.randint(0,10)+ord('a'))
+    print(Solution().longestRepeatingSubstringDP(s))
+    print(Solution().longestRepeatingSubstringDP2(s))
+    print(Solution().longestRepeatingSubstring2(s))
     #print(Solution().longestRepeatingSubstring(s))
     
     
