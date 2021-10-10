@@ -56,15 +56,12 @@ from collections import defaultdict
 
 class Solution:
     def gridIllumination(self, n: int, lamps: List[List[int]], queries: List[List[int]]) -> List[int]:
-        
         lampRow = defaultdict(set)
         lampCol = defaultdict(set)
         lampDiag = defaultdict(set)
         lampAntiDiag = defaultdict(set)
         lamps = set([(i,j) for i,j in lamps])
-       # print(len(lamps), len(queries))
         res = [0]*len(queries)
-
         for i,j in lamps:
             lampRow[i].add((i,j))
             lampCol[j].add((i,j))
