@@ -118,10 +118,14 @@ class Solution:
         for i in range(l):
             m ^= (1 << (ord(s[i]) - ord('a')))
             presum[i+1] = m
-  
+        for i in range(l+1):
+            print("{:032b}".format(presum[i]))
+            
         rst, mask = [], 0x3ffffff
+        print("{:032b}".format(mask))
         for st, end, k in queries:
             bi = (presum[end+1] ^ presum[st]) & mask
+            print(st,end, "{:032b}   {:032b}".format(bi, presum[end+1] ^ presum[st]))
             rst.append(bin(bi).count('1')//2 <= k)
         return rst
 
@@ -133,3 +137,9 @@ if __name__ == "__main__":
     [1,2,0],[0,3,1],[0,3,2],[0,4,1]]))
     print(Solution().canMakePaliQueries3(s = "abcda", queries = [[3,3,0],
     [1,2,0],[0,3,1],[0,3,2],[0,4,1]]))
+    print(Solution().canMakePaliQueries4(s = "abcda", queries = [[3,3,0],
+    [1,2,0],[0,3,1],[0,3,2],[0,4,1]]))
+    print(Solution().canMakePaliQueries4(s = "abccbdbab", queries = [[3,3,0],
+    [1,2,0],[0,3,1],[0,3,2],[0,4,1], [3,8,2]]))
+    print(Solution().canMakePaliQueries4(s = "abccbdbab", queries = [[3,3,0],
+    [1,2,0],[0,3,1],[0,3,2],[0,4,1], [4,8,2]]))
