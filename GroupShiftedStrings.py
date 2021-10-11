@@ -34,8 +34,23 @@ class Solution:
     """
     def groupStrings(self, strings):
         # write your code here
-               
-        #strings.sort(key=len)
+        # The relative distance between each letter of the string and the 
+        # first character is equal.
+
+        # For example, abc and efg are mutually offset. For abc, the distance 
+        # between b and a is 1, and the distance between c and a is 2. For efg, 
+        # the distance between f and e is 1, and the distance between g and e 
+        # is 2. .
+
+        # Let’s look at another example. The distance between az and yx, z 
+        # and a is 25, and the distance between x and y is also 25 (direct 
+        # subtraction is -1, which is the reason for adding 26 and taking the 
+        # remainder).
+
+        # Then, in this case, all strings that are offset from each other 
+        # have a unique distance difference. According to this, the mapping 
+        # can be well grouped.       
+        
         groups = defaultdict(list)
         ans = []
         for s in strings:
@@ -43,7 +58,7 @@ class Solution:
             for c in s:
                 t += str((ord(c)+26-ord(s[0]))%26)+','
             groups[t].append(s)
-         
+        print(groups) 
         return list(groups.values())
 
 if __name__=="__main__":

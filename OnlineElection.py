@@ -52,18 +52,17 @@ class TopVotedCandidate:
     def __init__(self, persons: List[int], times: List[int]):
         self.n = len(persons)
         self.times = times
-        self.votes = [0]*self.n
-        self.leading = 0
+        votes = [0]*self.n
+        leading = 0
         self.winner = []
-        for p, t in zip(persons, times):            
-            self.votes[p] += 1
-            if self.votes[p] >= self.votes[self.leading]:
-                self.leading = p
-            self.winner.append(self.leading)
+        for p in persons:            
+            votes[p] += 1
+            if votes[p] >= votes[leading]:
+                leading = p
+            self.winner.append(leading)
 
     def q(self, t: int) -> int:
         idx = bisect.bisect_left(self.times, t)
-        #if idx == self.n: return self.winner[idx-1]
         if idx < self.n and t == self.times[idx]: return self.winner[idx]
         return self.winner[idx-1]
         
@@ -73,7 +72,7 @@ if __name__ == "__main__":
     print(topVotedCandidate.q(12))# // return 1, At time 12, the votes are [0,1,1], and 1 is leading.
     print(topVotedCandidate.q(25))# // return 1, At time 25, the votes are [0,1,1,0,0,1], and 1 is leading (as ties go to the most recent vote.)
     print(topVotedCandidate.q(15))# // return 0
-    print(topVotedCandidate.q(10))# // return 0
+    print(topVotedCandidate.q(10))# // return 1
     print(topVotedCandidate.q(24))# // return 0
     print(topVotedCandidate.q(8))# // return 1
 
