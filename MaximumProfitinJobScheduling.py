@@ -4,8 +4,8 @@
 We have n jobs, where every job is scheduled to be done from startTime[i] to endTime[i], 
 obtaining a profit of profit[i].
 
-You're given the startTime, endTime and profit arrays, return the maximum profit you can take such that there 
-are no two jobs in the subset with overlapping time range.
+You're given the startTime, endTime and profit arrays, return the maximum profit you 
+can take such that there are no two jobs in the subset with overlapping time range.
 
 If you choose a job that ends at time X you will be able to start another job that starts at time X.
 
@@ -68,7 +68,23 @@ class Solution(object):
             if dp[i][1] + p > dp[-1][1]:
                 dp.append([e, dp[i][1] + p])
         return dp[-1][1]
-    
+
+    def jobScheduling2(self, startTime, endTime, profit):
+        """
+        :type startTime: List[int]
+        :type endTime: List[int]
+        :type profit: List[int]
+        :rtype: int
+        """
+        jobs = sorted(zip(startTime, endTime, profit), key=lambda v: (v[0],v[1]))
+        S = [i[0] for i in jobs]
+        m = len(jobs)
+        dp = [0]*(m+1)
+        for k in range(m-1, -1, -1):
+            temp = bisect.bisect_left(S, jobs[k][1])
+            dp[k] = max(dp[k+1], jobs[k][2] + dp[temp])
+        return dp[0]
+        
     def jobSchedulingDP(self, startTime, endTime, profit):
         """
         :type startTime: List[int]
@@ -103,5 +119,9 @@ class Solution(object):
         
 if __name__ == "__main__":
     print(Solution().jobScheduling(startTime = [1,2,3,3], endTime = [3,4,5,6], profit = [50,10,40,70]))
+    print(Solution().jobScheduling2(startTime = [1,2,3,3], endTime = [3,4,5,6], profit = [50,10,40,70]))
     print(Solution().jobSchedulingDP(startTime = [1,2,3,3], endTime = [3,4,5,6], profit = [50,10,40,70]))
+    print(Solution().jobScheduling([1,2,3,4,6], [3,5,10,6,9], [20,20,100,70,60]))
+    print(Solution().jobScheduling2([1,2,3,4,6], [3,5,10,6,9], [20,20,100,70,60]))
     print(Solution().jobSchedulingDP([1,2,3,4,6], [3,5,10,6,9], [20,20,100,70,60]))
+    
