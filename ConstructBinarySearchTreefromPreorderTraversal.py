@@ -64,5 +64,5 @@ class Solution(object):
 if __name__ == '__main__':
     root = Solution().bstFromPreorder([8,5,1,7,10,12])
     root.prettyPrint()
-    root = Solution().bstFromPreorder([1,3])
-    root.prettyPrint()
+    #root = Solution().bstFromPreorder([1,3])
+    #root.prettyPrint()
