@@ -54,6 +54,26 @@ class Solution(object):
              
         return dp[n-1][K][0]
     
+    def maxProfitDpPattern2(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int      
+        """
+        if len(prices) <= 1: return 0
+        K, n = 2, len(prices)
+        dp = [[0]*2 for _ in range(K+1)] 
+        dp_1 = [[0]*2 for _ in range(K+1)]   
+        #dp_1[2][0] = 0 
+        #dp_1[1][0] = 0  
+        dp_1[2][1] = -prices[0]
+        dp_1[1][1] = -prices[0]
+        for i in range(1,n):
+            for k in range(K, 0, -1):            
+               dp[k][0] = max(dp_1[k][0], dp_1[k][1]+prices[i])
+               dp[k][1] = max(dp_1[k][1], dp_1[k-1][0]-prices[i])
+            dp, dp_1 = dp_1, dp 
+        return dp_1[K][0]
+    
     def maxProfit(self, prices):
         """
         :type prices: List[int]
@@ -116,6 +136,9 @@ if __name__ == "__main__":
     print(s.maxProfitDpPattern([3,3,5,0,0,3,1,4]))
     print(s.maxProfitDpPattern([1,2,3,4,5]))
     print(s.maxProfitDpPattern([7,6,4,3,1]))
+    print(s.maxProfitDpPattern2([3,3,5,0,0,3,1,4]))
+    print(s.maxProfitDpPattern2([1,2,3,4,5]))
+    print(s.maxProfitDpPattern2([7,6,4,3,1]))
     print(s.maxProfitO1Space([3,3,5,0,0,3,1,4]))
     print(s.maxProfitO1Space([1,2,3,4,5]))
     print(s.maxProfitO1Space([7,6,4,3,1]))
