@@ -85,7 +85,7 @@ class Solution(object):
                 h = heights[stack.pop()]
                 j = stack[-1] + 1 if stack else 0
                 w = i - j
-                # when it spans over k
+                # when it spans over k                     
                 if j <= k and k <= i-1:
                     maxArea = max(maxArea, h * w)
             stack.append(i)

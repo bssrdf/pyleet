@@ -43,10 +43,8 @@ class Solution:
     def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
         m, n = len(grid1), len(grid1[0])
         dirs = [(-1,0), (1,0), (0,-1), (0,1)]
-        #isLand = [[False for _ in range(n)] for _ in range(m)]
         isSub, cnt = [True], 0
         def dfs1(grid, i, j):       
-            #isLand[i][j] = True     
             grid[i][j] = 2
             for di,dj in dirs:
                 x, y = i+di, j+dj

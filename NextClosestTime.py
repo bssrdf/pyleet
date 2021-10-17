@@ -73,6 +73,7 @@ class Solution:
             
             if timeArray[0] >= 24:
                 timeArray[0] %= 24
+
         def isReuse(timeArray):
             hour = timeArray[0]; minute = timeArray[1]
             if not hour // 10 in digits:
@@ -87,7 +88,8 @@ class Solution:
                 return True
   
         timeArray = [int(time[:2]), int(time[3:])]
-        for i in range(1, 1441):
+        for i in range(1, 1441): # iterate over each minute in a 24 hour interval 
+                                 # starting from the given time + 1 min
             nextT(timeArray)
             if isReuse(timeArray):
                 nextTime = "{:02d}:{:02d}".format(timeArray[0], timeArray[1])

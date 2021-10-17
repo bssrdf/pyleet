@@ -46,14 +46,12 @@ class Solution:
     def minDistance(self, height, width, tree, squirrel, nuts):
         # Write your code here
         n = len(nuts)
-        t = [0]*n
         total = 0
-        for i in range(n):
-            t[i] = abs(tree[0]-nuts[i][0]) + abs(tree[1]-nuts[i][1])  
-            total += 2 *t[i]
         mi = float('inf')    
         for i in range(n):
-            d = abs(squirrel[0]-nuts[i][0]) + abs(squirrel[1]-nuts[i][1]) - t[i]
+            t = abs(tree[0]-nuts[i][0]) + abs(tree[1]-nuts[i][1])  
+            total += 2*t
+            d = abs(squirrel[0]-nuts[i][0]) + abs(squirrel[1]-nuts[i][1]) - t
             if mi > d: 
                 mi = d
         return total + mi

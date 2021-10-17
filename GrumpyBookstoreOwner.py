@@ -64,8 +64,6 @@ class Solution:
         C, G, M = customers, grumpy, minutes
         n = len(C)
         preSumi, preSumim = 0, 0
-        #for i in range(1,n+1):
-        #    preSum[i] = preSum[i-1] + (C[i-1] if G[i-1] == 0 else 0)
         total = 0
         for i in range(M):
            preSumi += C[i] if G[i] == 0 else 0
@@ -76,7 +74,6 @@ class Solution:
             preSumi += C[i] if G[i] == 0 else 0
             preSumim += C[i-M] if G[i-M] == 0 else 0
             res = max(res, total - preSumi + preSumim)  
-        #print(preSumi) 
         return res + preSumi
         
         

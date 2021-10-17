@@ -49,7 +49,6 @@ class Solution(object):
             if start == n:            
                 return
             for i in range(start, n):
-                #if len(set(arr[i])) != len(arr[i]): continue
                 if not uniques[i]: continue
                 isUnique = True 
                 for c in arr[i]:

@@ -71,13 +71,13 @@ class Solution:
         return isUnival(root, bb)
 
 if __name__ == "__main__":
-    '''
+    #'''
     root = constructBinaryTree([5,1,5,5,5,null,5])
-    print(Solution().countUnivalSubtreesWrong(root))
+    print(Solution().countUnivalSubtreesAC(root))
     root = constructBinaryTree([1,3,2,4,5,null,6])
-    print(Solution().countUnivalSubtreesWrong(root))
+    print(Solution().countUnivalSubtreesAC(root))
 
-    '''
+    #'''
     #root = constructBinaryTree([1,1,-1,1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1])
     root = constructBinaryTree([1,1,1,1,1,-1])
     root.prettyPrint()

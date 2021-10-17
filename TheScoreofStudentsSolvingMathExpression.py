@@ -210,9 +210,9 @@ class Solution:
             if i == j:
                 return {int(s[i])}
             res = {}
-            for m in range(i + 1, j, 2):
-                for a in dp(i, m - 1):
-                    for b in dp(m + 1, j):
+            for m in range(i + 1, j, 2): # enumerate each operator
+                for a in dp(i, m - 1): # all numbers from left of operator
+                    for b in dp(m + 1, j): # all numbers from right of operator
                         cur = a * b if s[m] == '*' else a + b
                         if cur <= 1000:  # opt with 0 <= answers[i] <= 1000
                             res[cur] = 2

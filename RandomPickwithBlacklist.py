@@ -55,17 +55,13 @@ class Solution:
     def __init__(self, n: int, blacklist: List[int]):
         self.m, st =  {}, set()
         self.lth = n - len(blacklist)
-        #print('lth', self.lth)
         for i in range(self.lth, n):
             st.add(i)
         for b in blacklist:
             if b in st: st.remove(b)  
-        #print('st:', st)          
         for b in blacklist:
             if b < self.lth:
                 self.m[b] = st.pop()
-         
-        print(self.m)
 
     def pick(self) -> int:
         k = random.randint(0, self.lth-1)

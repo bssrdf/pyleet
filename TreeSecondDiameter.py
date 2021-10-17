@@ -77,7 +77,6 @@ class Solution:
         for i in range(n):
             if i != firstEndPointIdx and i != secondEndPointIdx:
                 dist = max(dist, max(dist2First[i], dist2Second[i]))
-
         return dist
 
 

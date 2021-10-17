@@ -78,7 +78,6 @@ class Solution(object):
         qs.append(tuple(entrance))
         vs.add(tuple(entrance))
         sk, tk = 0, 0 
-        #print(qs, qt)
         while qs and qt:
             nxt = deque()
             for _ in range(len(qs)):

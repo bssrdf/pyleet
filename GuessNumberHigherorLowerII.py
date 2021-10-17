@@ -72,7 +72,7 @@ class Solution:
         def dp(s, e):
             if s >= e: return 0
             res = float('inf')
-            for  x in range(s, e+1):
+            for  x in range(s, e+1): # guess each number in range [s, e]
                 # dp[i][j] is the minimal cost to guess from range(i...j).
                 # When you choose an x where i <= x <= j, you may find the target number 
                 # from left i...x-1, or you may find the target number from the x+1...j, 

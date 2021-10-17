@@ -127,12 +127,10 @@ class Solution(object):
             xtarget = mapping[n][0]
             ytarget = mapping[n][1]
             if len(xCities[xtarget]) > 1:
-                #idx = bisect.bisect_left(xCities[xtarget], (ytarget,n))
                 cx, dx = getMin(xCities, xtarget, ytarget)
             else:
                 cx, dx = None, float('inf')
             if len(yCities[ytarget]) > 1:
-                #idx = bisect.bisect_left(yCities[ytarget], (xtarget,n))
                 cy, dy = getMin(yCities, ytarget, xtarget)
             else:
                 cy, dy = None, float('inf')
