@@ -41,6 +41,16 @@ class Solution(object):
         print(i,rem)
         return rem[::-1] + self.shortestPalindrome(s[:i]) + s[i:]
     
+    def shortestPalindrome2(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        r = s[::-1]
+        for i in range(len(s)+1):
+            if s.startswith(r[i:]):     
+                return r[:i]+s
+    
     def shortestPalindromeKMP(self, s):
         """
         :type s: str
@@ -64,8 +74,10 @@ class Solution(object):
         t = s[table[-1]:]
         return t[::-1]+s 
 if __name__ == "__main__":
-    #print(Solution().shortestPalindrome("aacecaaa"))
-    #print(Solution().shortestPalindrome("adcababa"))
+    print(Solution().shortestPalindrome("aacecaaa"))
+    print(Solution().shortestPalindrome2("aacecaaa"))
+    print(Solution().shortestPalindrome("adcababa"))
+    print(Solution().shortestPalindrome2("adcababa"))
     #print(Solution().shortestPalindromeKMP("adcababa"))
     print(Solution().shortestPalindromeKMP("adcaadcbaba"))
     #print(Solution().shortestPalindromeKMP("acababa"))
