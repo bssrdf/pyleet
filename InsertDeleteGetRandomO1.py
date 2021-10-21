@@ -1,5 +1,6 @@
 '''
 -Medium-
+*Hash Table*
 
 Implement the RandomizedSet class:
 
