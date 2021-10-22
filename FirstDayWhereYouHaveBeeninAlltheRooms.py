@@ -82,6 +82,18 @@ class Solution:
             res += dp
         return res % MOD
 
+    def firstDayBeenInAllRooms4(self, nextVisit: List[int]) -> int:
+        n, MOD = len(nextVisit), 10**9+7
+        dp = 2
+        preSum = [0]*(n+1)
+        preSum[1] = dp
+        res = dp
+        for i in range(1, n-1):            
+            dp = (preSum[i]-preSum[nextVisit[i]]+2)%MOD # without %MOD, it will be slow
+            preSum[i+1] = preSum[i] + dp
+            res += dp
+        return res % MOD
+
     def firstDayBeenInAllRooms3(self, A):
         #If I were to explain further in other words, to count steps to reach room i, steps[i], 
         # you need to sum:
@@ -124,3 +136,4 @@ if __name__ == "__main__":
     #print(Solution().firstDayBeenInAllRooms([0,1,0,1]))
     print(Solution().firstDayBeenInAllRooms([0,0,0,0,0,0,0,0,0,9,1,8]))
     print(Solution().firstDayBeenInAllRooms2([0,0,0,0,0,0,0,0,0,9,1,8]))
+    print(Solution().firstDayBeenInAllRooms4([0,0,0,0,0,0,0,0,0,9,1,8]))
