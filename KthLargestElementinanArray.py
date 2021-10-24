@@ -80,5 +80,6 @@ class Solution:
 
 if __name__ == "__main__":
     print(Solution().findKthLargest([3, 2, 1, 5, 6, 4], 2))
+    print(Solution().findKthLargest([3, 6, 7, 10], 4))
     print(Solution().findKthLargestPQ([3, 2, 1, 5, 6, 4], 2))
 

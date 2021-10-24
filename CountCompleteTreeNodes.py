@@ -70,7 +70,9 @@ class Solution(object):
             return 1+height(node.left)
         res, h  = 0,  height(root)
         if h < 0: return 0
+        print('total height =', h)
         if height(root.right) == h - 1: 
+            print('A')
             # 若返回值为 h-1，说明左子树是一棵完美二叉树，
             # 则左子树的结点个数是 2^h-1 个，再加上当前结点，总共是 2^h 个，即 1<<h，
             # 此时再加上对右子结点调用递归函数的返回值即可。
@@ -83,9 +85,12 @@ class Solution(object):
 if __name__ == "__main__":  
     root = constructBinaryTree([1,2,3,4,5,6])
     root.prettyPrint()
-    print(Solution().countNodes(root))
+    #print(Solution().countNodes(root))
     print(Solution().countNodesBinary(root))
-    print(Solution().countNodes(None))
-    root = constructBinaryTree([1])
-    print(Solution().countNodes(root))
+    root = constructBinaryTree([1,2,3,4,5])
+    root.prettyPrint()
+    print(Solution().countNodesBinary(root))
+    #print(Solution().countNodes(None))
+    #root = constructBinaryTree([1])
+    #print(Solution().countNodes(root))
 

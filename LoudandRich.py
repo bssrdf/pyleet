@@ -1,5 +1,7 @@
 '''
 -Medium-
+*DFS*
+
 
 In a group of N people (labelled 0, 1, 2, ..., N-1), each person has 
 different amounts of money, and different levels of quietness.
@@ -34,8 +36,18 @@ is person 7.
 
 The other answers can be filled out with similar reasoning.
 
+Note:
+
+1 <= quiet.length = N <= 500
+0 <= quiet[i] < N, all quiet[i] are different.
+0 <= richer.length <= N * (N-1) / 2
+0 <= richer[i][j] < N
+richer[i][0] != richer[i][1]
+richer[i]’s are all different.
+The observations in richer are all logically consistent.
 
 '''
+from collections import defaultdict
 
 class Solution:
     """
@@ -45,8 +57,33 @@ class Solution:
     """
     def loudAndRich(self, richer, quiet):
         # Write your code here.
+        n = len(quiet)
+        m = {q:i for i,q in enumerate(quiet)}
+        graph = defaultdict(list)
+        for u,v in richer:
+            graph[v].append(u)
+        visited = [-1]*n
+        answer = [0]*n
+        def dfs(u):
+            q = quiet[u]            
+            for v in graph[u]:
+                if visited[v] == -1:
+                    q = min(q, dfs(v))
+                else:
+                    q = min(q, visited[v])
+            visited[u] = q
+            answer[u] = m[q]
+            return q 
+        for i in range(n):
+            if visited[i] == -1:
+                dfs(i)
+        return answer
 
 if __name__ == "__main__":
     richer = [[1,0],[2,1],[3,1],[3,7],[4,3],[5,3],[6,3]]
     quiet = [3,2,5,4,6,1,7,0]
     print(Solution().loudAndRich(richer, quiet))
+    richer = [[2,3],[1,4],[0,4],[0,3]]
+    quiet = [0,1,3,4,2] 
+    print(Solution().loudAndRich(richer, quiet))
+    sol = [0,1,2,0,0]
