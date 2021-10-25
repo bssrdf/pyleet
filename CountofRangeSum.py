@@ -93,11 +93,20 @@ class Solution(object):
         for i in range(n):
             Sum[i + 1] = Sum[i] + nums[i]
         sortSum, res = sorted(Sum), 0
+        print(sortSum, Sum)
         for sum_j in Sum:
             sum_i_count = count(bisect.bisect_right(sortSum, sum_j - lower)) - count(bisect.bisect_left(sortSum, sum_j - upper))
+            print(BITree)
+            print(sum_j, sum_j - lower, sum_j - upper, 
+             bisect.bisect_right(sortSum, sum_j - lower), 
+             bisect.bisect_left(sortSum, sum_j - upper), '||',
+             count(bisect.bisect_right(sortSum, sum_j - lower)),
+             count(bisect.bisect_left(sortSum, sum_j - upper)),
+             bisect.bisect_left(sortSum, sum_j), sum_i_count )
             res += sum_i_count
             update(bisect.bisect_left(sortSum, sum_j) + 1)
         return res
 
-print(Solution().countRangeSum([-2,5,-1], -2, 2))
-print(Solution().countRangeSumBIT([-2,5,-1], -2, 2))
+#print(Solution().countRangeSum([-2,5,-1], -2, 2))
+#print(Solution().countRangeSumBIT([-2,5,-1], -2, 2))
+print(Solution().countRangeSumBIT([-2,5,-1,3,4], -2, 2))

@@ -61,14 +61,14 @@ class Solution(object):
                 prev[i] = bis[j-1]   # such that A[bis[j-1]] < A[i] < A[bis[j]]
                 bis[j] = i  # replace bis[j] with i, indicating we have found a
                             # better bis[j] ending with A[i]                           
-        for i in bis[:ll]:
-            print(A[i])
-        print('******************************')
-        print(prev)
-        print('******************************')
+        #for i in bis[:ll]:
+        #    print(A[i])
+        #print('******************************')
+        #print(prev)
+        #print('******************************')
         i = bis[ll-1]
         while i>=0:
-            print(i, A[i])
+        #    print(i, A[i])
             i = prev[i]
                 
            # print a, ind, bis
@@ -103,15 +103,38 @@ class Solution(object):
                     F[i] = 1+F[j]
             maxa = max(maxa, F[i])
         print(F)
-        return maxa       
+        return maxa     
+
+    def lengthOfLIS_nlogn2(self, nums):
+        lis = []
+        for i, x in enumerate(nums):
+            if len(lis) == 0 or lis[-1] < x:  # Append to LIS if new element is >= last element in LIS
+                lis.append(x)
+                #res = max(res, len(lis))
+            elif x < lis[0]:
+                lis[0] = x
+            else:
+                idx = bisect.bisect_left(lis, x)  # Find the index of the smallest number > x
+                #idx = bisect.bisect_right(lis, x)  # Find the index of the smallest number > x
+                if idx < len(lis):
+                    lis[idx] = x  # Replace that number with x                
+        return len(lis)
 
 if __name__ == "__main__":
     #assert Solution().lengthOfLIS_dp([10, 9, 2, 5, 3, 7, 101, 18]) == 4
     #print(Solution().lengthOfLIS_dp([5, 10, 4, 4, 3, 8, 9]))
-    #print(Solution().lengthOfLIS_nlogn([5, 10, 6, 4, 3, 8, 9]))
+    print(Solution().lengthOfLIS_nlogn([5, 10, 6, 4, 3, 8, 9]))
+    print(Solution().lengthOfLIS_nlogn2([5, 10, 6, 4, 3, 8, 9]))
     print(Solution().lengthOfLIS_nlogn([0,1,0,3,2,3]))
-    #assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
-    #assert Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14,
+    print(Solution().lengthOfLIS_nlogn2([0,1,0,3,2,3]))
+    print(Solution().lengthOfLIS_nlogn([7,7,7,7,7,7,7]))
+    print(Solution().lengthOfLIS_nlogn2([7,7,7,7,7,7,7]))
+    assert Solution().lengthOfLIS_nlogn([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    assert Solution().lengthOfLIS_nlogn2([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+    print(Solution().lengthOfLIS_nlogn([4,10,4,3,8,9]))
+    print(Solution().lengthOfLIS_nlogn2([4,10,4,3,8,9]))
+    #assert
+    #  Solution().lengthOfLIS_nlogn([0, 8, 4, 12, 2, 10, 6, 14,
     #                                     1, 9, 5, 13, 3, 11, 7, 15]) == 6
     #assert Solution().lengthOfLIS_dp([2, 4, 6, 8, 10, 1]) == 5    
     #assert Solution().lengthOfLIS_nlogn([2, 4, 6, 8, 10, 1]) == 5    
