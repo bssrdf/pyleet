@@ -6,6 +6,43 @@
 
 给定一个只包含 0 和 1 的数组，求所有满足 1 的个数大于 0 的个数的子数组个数。
 
+You are given a binary array nums containing only the integers 0 and 1. Return 
+the number of subarrays in nums that have more 1's than 0's. Since the answer 
+may be very large, return it modulo 10**9 + 7.
+
+A subarray is a contiguous sequence of elements within an array.
+
+ 
+
+Example 1:
+
+Input: nums = [0,1,1,0,1]
+Output: 9
+Explanation:
+The subarrays of size 1 that have more ones than zeros are: [1], [1], [1]
+The subarrays of size 2 that have more ones than zeros are: [1,1]
+The subarrays of size 3 that have more ones than zeros are: [0,1,1], [1,1,0], [1,0,1]
+The subarrays of size 4 that have more ones than zeros are: [1,1,0,1]
+The subarrays of size 5 that have more ones than zeros are: [0,1,1,0,1]
+Example 2:
+
+Input: nums = [0]
+Output: 0
+Explanation:
+No subarrays have more ones than zeros.
+Example 3:
+
+Input: nums = [1]
+Output: 1
+Explanation:
+The subarrays of size 1 that have more ones than zeros are: [1]
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+0 <= nums[i] <= 1
+
 === 思路 ===
 
 看到这种 0、1 比较单调的数组加上个数的大小比较，可以快速的想到将 0 看作 -1，进行前缀和，
@@ -112,9 +149,9 @@ class Solution(object):
         # 有sum(B) > 0, sum(B) = sum(A+B) - sum(A) > 0,因此sum(A+B) > sum(A),
         # 因此只需要计算前面有多少前缀和小于当前的前缀和，而这里的cnt 记录的就是
         # 小于等于sum - 1 的前缀和数目，如果当前位为1，那么 sum 会转变为sum + 1，
-        # 也就是说前缀和为sum也可以满足条件，因此有cnt += umap[sum]， 
+        # 也就是说前缀和为sum也可以满足条件，因此有cnt += umap[sum-1]， 
         # 同理如果当前位为-1，那么sum 会转变为sum - 1, 这里前缀和sum - 1不再满足条件，
-        # 而cnt又包含，因此需要cnt -= umap[sum -1]
+        # 而cnt又包含，因此需要cnt -= umap[sum]
         umap = collections.defaultdict(int)
         umap[0] = 1
         MOD = 10**9 + 7
