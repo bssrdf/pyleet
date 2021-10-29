@@ -46,25 +46,20 @@ print(firstLargerToLeft)
 print(firstLargerToRight)
 
 def leftFurthestGreaterOrEqual(nums):
-    n = len(nums)
+    n = len(nums)    
     indx = [-1]*n 
-    stack = []
-    s1 = []
-    for i in range(n-1, -1, -1):
-        while stack and nums[stack[-1]] > nums[i]:
-            stack.pop() 
-            s1.pop()
-        if stack:
-            indx[stack[-1]] = i
-        #else:
-        #    indx[i] = 0    
-        stack.append(i) 
-        s1.append(nums[i])
-    print(s1)
+    stack, stackv = [], []
+    for i in range(n):
+        if not stack or nums[stack[-1]] < nums[i]:
+            stack.append(i) 
+            stackv.append(nums[i])
+        else:
+            idx = bisect.bisect_left(stackv, nums[i])
+            indx[i] = stack[idx]
     return indx
 
 def rightFurthestGreaterOrEqual(nums):
-    A, n = nums, len(nums)    
+    n = len(nums)    
     indx = [-1]*n 
     stack, stackv = [], []
     for i in range(n-1, -1, -1):
@@ -83,6 +78,5 @@ rightGreat = rightFurthestGreaterOrEqual(B)
 print(rightGreat)
 B = [9,8,1,0,1,9,4,0,4,1]
 rightGreat = rightFurthestGreaterOrEqual(B)
-print(B)
 print(rightGreat)
 
