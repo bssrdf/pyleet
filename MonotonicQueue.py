@@ -1,5 +1,6 @@
 A = [5, 3, 1, 2, 4]
 import collections
+import bisect
 def increasingQueue(A):
     queue = collections.deque()
     firstSmallerToLeft = [None]*len(A)
@@ -48,32 +49,40 @@ def leftFurthestGreaterOrEqual(nums):
     n = len(nums)
     indx = [-1]*n 
     stack = []
-    for i in range(n):
-        while stack and nums[stack[-1]] >= nums[i]:
+    s1 = []
+    for i in range(n-1, -1, -1):
+        while stack and nums[stack[-1]] > nums[i]:
             stack.pop() 
+            s1.pop()
         if stack:
-            indx[i] = stack[-1]+1
-        else:
-            indx[i] = 0    
+            indx[stack[-1]] = i
+        #else:
+        #    indx[i] = 0    
         stack.append(i) 
+        s1.append(nums[i])
+    print(s1)
     return indx
 
 def rightFurthestGreaterOrEqual(nums):
-    n = len(nums)
+    A, n = nums, len(nums)    
     indx = [-1]*n 
-    stack = []
+    stack, stackv = [], []
     for i in range(n-1, -1, -1):
-        while stack and nums[stack[-1]] >= nums[i]:
-            stack.pop() 
-        if stack:
-            indx[i] = stack[-1]-1
+        if not stack or nums[stack[-1]] < nums[i]:
+            stack.append(i) 
+            stackv.append(nums[i])
         else:
-            indx[i] = n-1    
-        stack.append(i) 
+            idx = bisect.bisect_left(stackv, nums[i])
+            indx[i] = stack[idx]
     return indx
+
 B = [2,3,3,1,2]
 leftGreat = leftFurthestGreaterOrEqual(B)
 print(leftGreat)
 rightGreat = rightFurthestGreaterOrEqual(B)
+print(rightGreat)
+B = [9,8,1,0,1,9,4,0,4,1]
+rightGreat = rightFurthestGreaterOrEqual(B)
+print(B)
 print(rightGreat)
 
