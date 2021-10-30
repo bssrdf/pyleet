@@ -72,14 +72,11 @@ class Solution:
                     x, y = i + di, j + dj
                     if 0 <= x < m and 0 <= y < n and A[x][y] == 1:
                         A[x][y] = 2
+                        fresh -= 1
                         nxt.append((x,y)) 
             que = nxt
             res += 1    
-        for i in range(m):
-            for j in range(n):
-                if A[i][j] == 1:
-                    return -1
-        return res-1
+        return -1 if fresh > 0 else res-1
         
         
 
