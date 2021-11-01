@@ -16,6 +16,8 @@ X X X X
 X O X X
 '''
 
+from collections import deque
+
 class Solution(object):
     row = [ -1,  0, 0,  1 ]
     col = [  0, -1, 1,  0 ]
@@ -54,6 +56,41 @@ class Solution(object):
                     board[r][l] = 'X'
         return
 
+    def solve2(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        if not board or not board[0]:
+            return
+        m, n = len(board), len(board[0])
+        que = deque()
+        for l in range(n):
+            if board[0][l] == 'O':
+                que.append((0,l))
+            if board[-1][l] == 'O':
+                que.append((m-1,l))
+        for r in range(m):
+            if board[r][0] == 'O':
+                que.append((r,0))
+            if board[r][n-1] == 'O':
+                que.append((r,n-1))
+        while que:
+            (x, y) = que.popleft()
+            board[x][y] = 'M'
+            for r, c in zip(self.row, self.col):
+                i = x + r
+                j = y + c
+                if i>=0 and i<m and j>=0 and j<n and board[i][j] == 'O': 
+                    que.append((i,j))
+        for r in range(m):
+            for l in range(n):
+                if board[r][l] == 'M':
+                    board[r][l] = 'O'
+                else:
+                    board[r][l] = 'X' 
+
+
 
 if __name__ == "__main__":
     board = [
@@ -64,9 +101,9 @@ if __name__ == "__main__":
         ['X', 'O', 'X', 'X']
     ]
     for l in board:
-        print l
-    print
-    print
+        print(l)
+    print()
+    print()
     expected_board = [
         ['X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X'],
@@ -74,7 +111,7 @@ if __name__ == "__main__":
         ['X', 'O', 'X', 'X'],
         ['X', 'O', 'X', 'X']
     ]
-    Solution().solve(board)
+    Solution().solve2(board)
     for l in board:
-        print l
+        print(l)
     assert board == expected_board
