@@ -56,7 +56,6 @@ class Solution:
             max_ = arr[i-1]
             for j in range(1, min(i+1,k+1)):
                 max_ = max(max_, arr[i-j]) 
-                #dp[i] = max(dp[i], dp[i-j] + j * max(arr[i-j:i]))
                 dp[i] = max(dp[i], dp[i-j] + j * max_)
         return dp[n] 
 

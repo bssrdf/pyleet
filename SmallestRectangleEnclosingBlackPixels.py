@@ -75,6 +75,74 @@ class Solution(object):
         right = searchBnd(y+1, n, 1, 1) # this side is always 1-column right
         #print(up, down, left, right)
         return (down-up)*(right-left)
+    
+    def minArea2(self, image, x, y):
+        # Write your code here
+        m = len(image)
+        if m == 0:
+            return 0
+        n = len(image[0])
+        if n == 0:
+            return 0
+
+        start = y
+        end = n - 1
+        while start < end:
+            mid = start + (end - start) // 2 + 1
+            if self.checkColumn(image, mid):
+                start = mid
+            else:
+                end = mid - 1
+
+        right = start
+
+        start = 0
+        end = y
+        while start < end:
+            mid = start + (end - start) // 2
+            if self.checkColumn(image, mid):
+                end = mid
+            else:
+                start = mid + 1
+
+        left = start
+        
+        start = x
+        end = m - 1
+        while start < end:
+            mid = start + (end - start) // 2 + 1
+            if self.checkRow(image, mid):
+                start = mid
+            else:
+                end = mid - 1
+
+        down = start
+        
+        start = 0
+        end = x
+        while start < end:
+            mid = start + (end - start) // 2
+            if self.checkRow(image, mid):
+                end = mid
+            else:
+                start = mid + 1
+
+        up = start
+        
+        return (right - left + 1) * (down - up + 1)
+
+    def checkColumn(self, image, col):
+        for i in range(len(image)):
+            if image[i][col] == '1':
+                return True
+        return False
+
+    def checkRow(self, image, row):
+        for j in range(len(image[0])):
+            if image[row][j] == '1':
+                return True
+        return False
+    
 
 if __name__ == "__main__":
     A = [
@@ -93,7 +161,7 @@ if __name__ == "__main__":
         "0000000"
     ]
     print(Solution().minArea(A, 1, 2))
-
+    print(Solution().minArea2(A, 1, 2))
  
                         
 

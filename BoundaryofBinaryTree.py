@@ -60,7 +60,6 @@ class Solution:
         # write your code here
         def isLeaf(node):
             return not node.left and not node.right
-
         boundaryList = []
         if not root: return boundaryList
         if not isLeaf(root):

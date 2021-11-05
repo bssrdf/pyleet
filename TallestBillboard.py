@@ -73,6 +73,43 @@ class Solution:
         return dp[0]
     
     def tallestBillboard3(self, rods):
+        #Consider this problem as:
+        #Given a list of numbers, multiply each number with 1 or 0 or -1, make the 
+        # sum of all numbers to 0. Find a combination which has the largest sum 
+        # of all positive numbers.
+        #e.g. Given [1,2,3,4,5,6], we have 1*0 + 2 + 3 - 4 + 5 - 6 = 0, the sum 
+        # of all positive numbers is 2 + 3 + 5 = 10. The answer is 10.
+
+        # This is a knapsack problem.
+        # dp[i][j] represents whether the sum of first i numbers can be j - 5000. 
+        # dp[0][5000] = true.
+        # Then dp[i + 1][j] = dp[i][j - rods[i]] | dp[i][j + rods[i]] | dp[i][j].
+        # max[i][j] represents the largest sum of all positive numbers when the 
+        # sum of first i numbers is j - 5000.
+
+        # Time complexity: O(N*sum)
+
+        # It is like a knapsack problem.
+        # Consider this problem as:
+        # Given a list of numbers, multiply each number with 1 or 0 or -1, make the 
+        # sum of all numbers to 0. Find a combination which has the largest sum of 
+        # all positive numbers.
+
+        # We can consider the sum as the key and positive number sum as the value.
+        # We initally have dp[0] = 0
+
+        # We iterate through the numbers and calculate the pairs that we got. In 
+        # the case that we have same sum but different postive number sum, we only 
+        # keep the largest postive number sum.
+
+        # Let's run through a example, [1,2,3]
+        # First we have {0:0}.
+        # After 1, we have {0: 0, 1: 1, -1: 0}
+        # After 2, we have {0:0, 2:2, -2:0, 1:1, 3:3,-1:1, -1:0,1:2,-3:0}
+        # we will drop 1:1 and -1:0 since they have smaller value with the same key[1]and [-1]. 
+        # That left us with {0:0, 2:2, -2:0, 3:3,-1:1,1:2,-3:0}
+        # Number 3 is doing pretty much the same.
+        # Then we will get the final result with dp[0]
         dp = dict()
         dp[0] = 0
         

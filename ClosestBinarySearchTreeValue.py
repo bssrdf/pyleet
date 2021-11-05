@@ -46,7 +46,7 @@ class Solution:
         t = root.left if target < a else root.right
         if not t: return a
         b = self.closestValue(t, target)
-        return a if abs(a - target) < abs(b - target)  b;
+        return a if abs(a - target) < abs(b - target)  else b
         '''
         def helper(node, mi, mx):
             if not node:

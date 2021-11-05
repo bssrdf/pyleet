@@ -110,12 +110,10 @@ class Solution(object):
         for i, x in enumerate(nums):
             if len(lis) == 0 or lis[-1] < x:  # Append to LIS if new element is >= last element in LIS
                 lis.append(x)
-                #res = max(res, len(lis))
             elif x < lis[0]:
                 lis[0] = x
             else:
                 idx = bisect.bisect_left(lis, x)  # Find the index of the smallest number > x
-                #idx = bisect.bisect_right(lis, x)  # Find the index of the smallest number > x
                 if idx < len(lis):
                     lis[idx] = x  # Replace that number with x                
         return len(lis)

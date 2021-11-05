@@ -48,8 +48,6 @@ class Solution:
             cmin = max(cmin, 0)
         return cmin == 0
 
-
-
         
 if __name__ == "__main__":
     print(Solution().checkValidString("(*))"))
