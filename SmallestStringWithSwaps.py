@@ -65,14 +65,11 @@ class Solution:
             for v in graph[u]:
                 if not visited[v]:
                     dfs(v, path) 
-            #path.pop()
-
         for i in range(n):
             if not visited[i]:
                 path = []
                 dfs(i, path)
                 connected.append(path)
-        print(connected)
         res = ['']*n
         for con in connected:
             t = sorted([si[c] for c in con])
@@ -84,3 +81,5 @@ class Solution:
 if __name__ == "__main__":
     print(Solution().smallestStringWithSwaps(s = "dcab", pairs = [[0,3],[1,2]]))
     print(Solution().smallestStringWithSwaps(s = "dcab", pairs = [[0,3],[1,2],[0,2]]))
+
+

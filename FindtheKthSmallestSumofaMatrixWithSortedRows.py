@@ -56,11 +56,8 @@ class Solution:
         while pq:
             res, index = heapq.heappop(pq)
             cnt += 1
-            #s.add(index)
-           # print(cnt, res, index, pq)
             if cnt == k: return res
             for i in range(m):
-             #   print(i, index[i])
                 if index[i] < n-1:
                     index_ = index[:i] + (index[i]+1,)+index[i+1:]
                     if index_ not in s:
