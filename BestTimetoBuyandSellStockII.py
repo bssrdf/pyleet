@@ -38,5 +38,14 @@ class Solution(object):
         if not prices:
             return 0
         return sum(max(prices[i+1]-prices[i], 0) for i in range(len(prices)-1))
-
+    
+    def maxProfit2(self, prices):
+        n = len(prices)
+        dp_i_0 = 0
+        dp_i_1 = -float('inf')
+        for i in range(n):
+            dp_i_0 = max(dp_i_0, dp_i_1 + prices[i])
+            dp_i_1 = max(dp_i_1, dp_i_0 - prices[i])
+        return dp_i_0
 print(Solution().maxProfit([7,1,5,3,6,4]))
+print(Solution().maxProfit2([7,1,5,3,6,4]))
