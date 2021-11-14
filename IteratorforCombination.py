@@ -115,13 +115,15 @@ class CombinationIterator2(object):
         """
         currResult = self.result
         idx = len(self.s) - 1
+        len_ = len(self.result)
         # keep on removing the last character from the stack/result till the position where idx can be moved ahead
         while self.st and self.ch2Idx[self.st[-1]] == idx: 
             self.st.pop()
             idx -= 1
-            self.result = self.result[:-1]
+            len_ -= 1
+        self.result = self.result[:len_]
         if not self.st: 
-            print(currResult, self.result, self.st)
+         #   print(currResult, self.result, self.st)
             return currResult # // there is no next result to pre-process
         idx = self.ch2Idx[self.st.pop()] # // we need to add elements after this idx
         self.result = self.result[:-1]
@@ -131,7 +133,7 @@ class CombinationIterator2(object):
             temp = self.s[idx]
             self.result += temp
             self.st.append(temp)
-        print(currResult, self.result, self.st)
+        #print(currResult, self.result, self.st)
         return currResult
 
     def hasNext(self):
