@@ -1,4 +1,7 @@
 '''
+-Hard-
+*DP*
+*Monotonic Queue*
 
 Given an integer array nums and an integer k, return the maximum sum of a non-empty 
 subsequence of that array such that for every two consecutive integers in the 
@@ -48,13 +51,12 @@ class Solution(object):
         n = len(nums)        
         dp = nums[:1]
         #ans = dp[0]        
-        dq = collections.deque(dp)
+        dq = collections.deque(dp) # monotonically decreasing queue
         for i,x in enumerate(nums[1:], start=1):     
             # dq[0] = max(dp[i-k], dp[i-k+1], ..., dp[i-1])       
             # if the maximum (dp[0]) = the leftmost in the window, it needs to go
-            # via popleft(), then the next largest becomes the maximum sitting at dq[0]
             if i > k and dq[0] == dp[i - k - 1]:
-                dq.popleft()
+                dq.popleft() # via popleft(), then the next largest becomes the maximum sitting at dq[0]
             tmp = max(x, dq[0] + x)
             dp += tmp,
             # monotonic queue: maintain that dq[0] is the largest, 
