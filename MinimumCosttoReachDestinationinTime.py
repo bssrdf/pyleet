@@ -95,6 +95,8 @@ class Solution:
         
         pq = [(passingFees[0], 0, 0)]
         costs, time = [float('inf')]*n, [float('inf')]*n 
+        costs[0] = passingFees[0]
+        time[0] = 0
         while pq:
             cost, cur_t, node = heapq.heappop(pq)
             if node == n-1:
