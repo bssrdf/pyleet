@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Union Find*
 
 Given a non-empty array of unique positive integers nums, consider the following graph:
 

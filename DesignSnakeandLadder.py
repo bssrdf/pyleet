@@ -136,3 +136,44 @@ On starting the application, the snakes and ladders should be created programmat
 
 
 '''
+
+import uuid
+import random
+
+class Snake(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+
+class Ladder(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+class Player(object):
+    def __init__(self, name, gid):
+        self.name = name
+        self.gid = str(uuid.uuid4())
+
+
+class DiceService(object):
+    @staticmethod
+    def roll():
+        return random.randint(1,6)
+
+class SnakeAndLadderBoard(object):
+    def __init__(self, size, snakes, ladders, playerPieces):
+        self.size = size
+        self.snakes = snakes
+        self.ladders = ladders
+        self.playerPieces = playerPieces
+    
+
+class SnakeAndLadderService(object):
+
+
+
+if __name__ == "__main__":
+
+     
