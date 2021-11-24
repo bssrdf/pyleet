@@ -137,8 +137,12 @@ On starting the application, the snakes and ladders should be created programmat
 
 '''
 
+import sys
 import uuid
 import random
+
+from collections import defaultdict, deque
+
 
 class Snake(object):
     def __init__(self, start, end):
@@ -152,15 +156,18 @@ class Ladder(object):
         self.end = end
 
 class Player(object):
-    def __init__(self, name, gid):
+    def __init__(self, name):
         self.name = name
         self.gid = str(uuid.uuid4())
 
 
 class DiceService(object):
     @staticmethod
-    def roll():
-        return random.randint(1,6)
+    def roll(ndices = 1):
+        val = 0
+        for _ in range(ndices):
+            val += random.randint(1,6)
+        return val
 
 class SnakeAndLadderBoard(object):
     def __init__(self, size, snakes, ladders, playerPieces):
@@ -171,9 +178,98 @@ class SnakeAndLadderBoard(object):
     
 
 class SnakeAndLadderService(object):
+    def __init__(self, snakes, ladders, players, size = 100):
+        self.players = deque(players)
+        self.initialNumberOfPlayers = len(players)
+        playerPieces = defaultdict(int)
+        for p in players:
+            playerPieces[p.gid] = 0 
+        self.snakeAndLadderBoard = SnakeAndLadderBoard(size, snakes, ladders, playerPieces)
+    
+    def getTotalValueAfterDiceRolls(self):
+        return DiceService.roll(ndices=1)
+
+    def isGameCompleted(self):
+        currentNumberOfPlayers = len(self.players)
+        #return currentNumberOfPlayers < self.initialNumberOfPlayers 
+        return currentNumberOfPlayers < 2
+
+
+    def hasPlayerWon(self, player):
+        playerPosition = self.snakeAndLadderBoard.playerPieces[player.gid]
+        winningPostion = self.snakeAndLadderBoard.size
+        return playerPosition == winningPostion
+
+    def getNewPositionAfterGoingThroughSnakesAndLadders(self, newPosition):
+        previousPosition = -1
+        while newPosition != previousPosition: #  There could be another snake/ladder at the tail 
+                                                 #  of the snake or the end position of the ladder 
+                                                 #  and the piece should go up/down accordingly.
+
+            previousPosition = newPosition
+            for snake in self.snakeAndLadderBoard.snakes:
+                if snake.start == newPosition:
+                    newPosition = snake.end #  Whenever a piece ends up at a position with 
+                                            # the head of the snake, the piece should go down 
+                                            # to the position of the tail of that snake.
+
+            for ladder in self.snakeAndLadderBoard.ladders:
+                if ladder.start == newPosition: 
+                    newPosition = ladder.end # Whenever a piece ends up at a position with 
+                                             # the start of the ladder, the piece should 
+                                             # go up to the position of the end of that ladder.
+        return newPosition
+
+
+    def movePlayer(self, player, offset):
+        oldPosition = self.snakeAndLadderBoard.playerPieces[player.gid]
+        newPosition = oldPosition + offset
+        boardSize = self.snakeAndLadderBoard.size
+        if newPosition > boardSize:
+            newPosition = oldPosition
+        else:
+            newPosition = self.getNewPositionAfterGoingThroughSnakesAndLadders(newPosition)
+
+        self.snakeAndLadderBoard.playerPieces[player.gid] = newPosition
+
+        print("{} rolled a {} and moved from {} to {}".format(player.name, offset, oldPosition, newPosition))        
+
+
+
+
+
+    def start(self):
+        while not self.isGameCompleted():
+            totalDiceValue = self.getTotalValueAfterDiceRolls()
+            currentPlayer = self.players.popleft()
+            self.movePlayer(currentPlayer, totalDiceValue)
+            if self.hasPlayerWon(currentPlayer):
+                print(currentPlayer.name+ " wins the game")
+                self.snakeAndLadderBoard.playerPieces.pop(currentPlayer.gid)
+            else:
+                self.players.append(currentPlayer)
+        
 
 
 
 if __name__ == "__main__":
+    inputFile = sys.argv[1]
+    with open(inputFile) as f:
+        size = int(f.readline().strip())
+        nsnakes = int(f.readline().strip())
+        snakes = []
+        for i in range(nsnakes):
+            snakes.append(Snake(*f.readline().strip().split(',')))
+        nladders = int(f.readline().strip())
+        ladders = []
+        for i in range(nladders):
+            snakes.append(Ladder(*f.readline().strip().split(',')))
+        nplayers = int(f.readline().strip())
+        players = []
+        for i in range(nplayers):
+            players.append(Player(f.readline().strip()))
+    
+        snakeAndLadderService = SnakeAndLadderService(snakes, ladders, players, size = size)   
+    snakeAndLadderService.start()
 
      
