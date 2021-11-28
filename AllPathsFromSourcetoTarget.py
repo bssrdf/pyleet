@@ -30,22 +30,15 @@ class Solution(object):
         Since the input graph is a DAG, there is no need for visited array 
 
         """
-
-
         
         N = len(graph)        
         ans = []
-  
         def dfs(node, path):          
-            
-            #path.append(node)
             if node == N-1:
-                ans.append(path[:])     
-            #    path.pop()
+                ans.append(path+[N-1])     
                 return            
             for n in graph[node]:     
-                   dfs(n, path+[node])           
-            #path.pop()                
+                dfs(n, path+[node])           
         dfs(0, [])
         return ans
 
