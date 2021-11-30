@@ -50,9 +50,10 @@ class Solution(object):
             #if sums == k: ans = i+1
             if sums-k in dic:                
                 ans = max(ans, i-dic[sums-k])
-            elif sums not in dic:
-                dic[sums] = i # for duplicated sums, only record the first occurance   
+            #elif sums not in dic:
+            #    dic[sums] = i # for duplicated sums, only record the first occurance   
                               # because the longest dist will be from it  
+            dic.setdefault(sums, i)
         return ans
 
 if __name__ == "__main__":
