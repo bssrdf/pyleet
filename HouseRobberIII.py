@@ -106,10 +106,10 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """        
-        #ans = self.dp(root, {})
-        #return ans
-        ans = self.dpFast(root)
-        return max(ans[0],ans[1])
+        ans = self.dp(root, {})
+        return ans
+        #ans = self.dpFast(root)
+        #return max(ans[0],ans[1])
         
     def dp(self, root, robtree):
         if not root:
