@@ -47,7 +47,25 @@ class Solution(object):
             st.append(i-1)
             res = (res + dp[i]) % M
         return res
+    
+    def sumSubarrayMins2(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        res = 0
+        s = []
+        A = [0] + arr + [0]
+        for i, x in enumerate(A):
+            while s and A[s[-1]] > x:
+                j = s.pop()
+                k = s[-1]
+                print(A[j], i, j, k)
+                res += A[j] * (i - j) * (j - k)
+            s.append(i)
+        return res % (10**9 + 7)
         
 if __name__ == "__main__":
     print(Solution().sumSubarrayMins([3,1,2,4]))
+    print(Solution().sumSubarrayMins2([3,1,2,4]))
     print(Solution().sumSubarrayMins([3,1,2,6,4]))
