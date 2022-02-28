@@ -17,6 +17,13 @@ class FenwickTree(object):
         while x <= self.n:
             self.sum_array[x] += val
             x += self.lowbit(x)
+    
+    def update(self, x, val):
+        self.add(x, val)
+
+    def range_update(self, ui, uj, val):
+        self.update(ui, val)
+        self.update(uj+1, -val)
  
     def sum(self, x):
         res = 0
@@ -24,6 +31,12 @@ class FenwickTree(object):
             res += self.sum_array[x]
             x -= self.lowbit(x)
         return res
+
+    def point_query(self, x):
+        return self.sum(x)
+
+
+    
     
 
 import bisect 
@@ -44,6 +57,16 @@ if __name__ == "__main__":
         q.append(bit.sum(bisect.bisect_right(sortA, x)))
         #bit.add(bisect.bisect_left(sortA, a)+1, 1)
     print(q) 
+
+    rupq = FenwickTree(10)
+    rupq.range_update(2,9,7)
+    rupq.range_update(6,7,3)
+    for i in range(1, 11):        
+        print(i, rupq.point_query(i))
+
+
+
+
 
 
 

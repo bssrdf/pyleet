@@ -47,7 +47,7 @@ class Solution(object):
                 if i == 0 or j == 0:
                    dp[i][j] = 1 if matrix[i][j] == '1' else 0
                 elif matrix[i][j] == '1': 
-                    dp[i][j] = min(dp[i - 1][j - 1], min(dp[i][j - 1], dp[i - 1][j])) + 1                    
+                    dp[i][j] = min(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]) + 1                    
                 res = max(res, dp[i][j])
         return res*res
 
