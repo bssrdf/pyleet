@@ -1,6 +1,7 @@
 '''
 -Hard-
 *Binary Search*
+*Fenwick Tree*
 
 You are given an integer array nums and you have to return a new counts array. 
 The counts array has the property where counts[i] is the number of smaller 
@@ -89,6 +90,31 @@ class Solution(object):
             update(nums[i], -1) 
             res[i] = getPrefixSum(nums[i]-1)
         return res
+    
+    def countSmallerBIT2(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        n = len(nums)
+        res = [0]*n
+        A = sorted(nums)        
+        BIT = [0]*(n + 1)
+        def update(index, val):
+            while index < len(BIT):
+                BIT[index] += val
+                index += index & (-index)
+        def query(index):
+            sm = 0
+            while index > 0:
+                sm += BIT[index]
+                index -= index & (-index)
+            return sm        
+        for i in range(n-1, -1, -1):            
+            res[i] = query(bisect.bisect_left(A, nums[i]))
+            update(bisect.bisect_left(A, nums[i])+1, 1) 
+        return res
         
         
 
@@ -96,7 +122,10 @@ class Solution(object):
 
 #print(Solution().countSmaller([5,2,6,1]))
 #print(Solution().countSmallerMergeSort([5,2,6,1]))
-#print(Solution().countSmallerBIT([5,2,6,1]))
+print(Solution().countSmallerBIT([5,2,6,1]))
+print(Solution().countSmallerBIT2([5,2,6,1]))
 #print(Solution().countSmallerBIT([-1]))
-#print(Solution().countSmallerBIT([-1, -1]))
+print(Solution().countSmallerBIT([-1, -1]))
+print(Solution().countSmallerBIT2([-1, -1]))
 print(Solution().countSmallerBIT([0, 1, 2]))
+print(Solution().countSmallerBIT2([0, 1, 2]))
