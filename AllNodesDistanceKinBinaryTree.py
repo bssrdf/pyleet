@@ -43,7 +43,7 @@ from typing import List
 #         self.val = x
 #         self.left = None
 #         self.right = None
-from collections import defaultdict 
+from collections import defaultdict, deque
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
@@ -57,11 +57,12 @@ class Solution:
             if child.right:
                 connection(child, child.right)
         connection(None, root)
-        bfs = [target.val]
+        bfs = deque([target.val])
         seen = set(bfs)
         for i in range(k):
-            new_bfs = []
-            for node_val in bfs:
+            new_bfs = deque()
+            while bfs:
+                node_val = bfs.popleft()
                 for n_node_val in conn[node_val]:
                     if n_node_val not in seen:
                         new_bfs.append(n_node_val)
