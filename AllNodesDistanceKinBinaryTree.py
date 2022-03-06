@@ -68,7 +68,7 @@ class Solution:
                         new_bfs.append(n_node_val)
             bfs = new_bfs
             seen |= set(bfs)
-        return bfs            
+        return list(bfs)            
         
 
 
