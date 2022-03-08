@@ -65,14 +65,45 @@ class Solution(object):
         #print(low)
         #print(pre)
         return ans
+    
+    def criticalConnections2(self, n, connections):
+        """
+        :type n: int
+        :type connections: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        graph = defaultdict(set)
+        levels = [-1]*n
+        cri = []
+        for c in connections:
+            graph[c[0]].add(c[1]) # undirected graph, connect 
+            graph[c[1]].add(c[0]) # in both directions
+        def dfs(curr, level, parent):
+            levels[curr] = level
+            for child in graph[curr]:
+                if child == parent:
+                    continue
+                elif levels[child] == -1:
+                    levels[curr] = min(levels[curr], dfs(child, level + 1, curr))
+                else:
+                    levels[curr] = min(levels[curr], levels[child])
+                if levels[child] >= level + 1:
+                    cri.append([curr, child])
+            return levels[curr]
+        dfs(0, 0, -1)
+        return cri
+        
  
 
 
 if __name__=="__main__":
     print(Solution().criticalConnections(4, [[0,1],[1,2],[2,0],[1,3]]))
+    print(Solution().criticalConnections2(4, [[0,1],[1,2],[2,0],[1,3]]))
 
     print(Solution().criticalConnections(7, [[0,1],[0,2],[1,3],[1,4],
                                               [2,5], [2,6]]))
+    print(Solution().criticalConnections2(7, [[0,1],[0,2],[1,3],[1,4],
+                                              [2,5], [2,6]]))                                            
 
 
 
