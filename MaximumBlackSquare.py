@@ -43,8 +43,8 @@ class Solution:
     def findSquare(self, matrix: List[List[int]]) -> List[int]:
         n = len(matrix)
         dp = [[[0, 0] for _ in range(n + 1)] for _ in range(n + 1)]
-        # dp[i][j][0] the number of 0's above [i,j]
-        # dp[i][j][1] the number of 0's to the left of [i,j]
+        # dp[i][j][0] the number of 0's at and above [i,j]
+        # dp[i][j][1] the number of 0's to the left of and at [i,j]
         ans = []
         for i in range(1, n + 1):
             for j in range(1, n + 1):
