@@ -100,7 +100,12 @@ class TNode:
         self.right = None
 
 class WordDictionary2:
-
+    # TLE at case 26 of 29
+    # Possible reason is having a set of words to be inserted into the 
+    # tree can lead to different tree shapes, depending on word inserting 
+    # order. This means variable search efficiency.
+    # test case 26's word insertion order may lead to building an (almost) 
+    # degenerated tree.
     def __init__(self):
         """
         Initialize your data structure here.
@@ -134,8 +139,9 @@ class WordDictionary2:
         if not node: return False
         c = word[d]
         if c == '.':
-            if d == len(word) - 1: return node.terminal
-            if self._search(node.mid, word, d + 1): return True
+            if d == len(word) - 1: 
+                if node.terminal: return True
+            if d < len(word)-1 and self._search(node.mid, word, d + 1): return True
             if self._search(node.left, word, d): return True
             if self._search(node.right, word, d): return True
             return False
@@ -168,7 +174,9 @@ for com, par, ans in zip(commands, inputs, answers):
     if com == "addWord":
         wordDictionary.addWord(par[0])
         #print(ans, null)
+        if i < 100: print(i, par[0])
     else:
+        #print('in', i, com, par[0], ans)
         sol = wordDictionary.search(par[0])
         if sol and ans == 'False':
             print(i, com, par[0])
