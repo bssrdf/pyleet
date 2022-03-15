@@ -76,13 +76,40 @@ class Solution:
             scores[score] += 1
             max_score = max(max_score, score)
         return scores[max_score]
-            
+        
+
+    def countHighestScoreNodes2(self, parents: List[int]) -> int:
+        n = len(parents)
+        tree = defaultdict(list)
+        scores = defaultdict(int)
+        max_score = [0]
+        for i,p in enumerate(parents[1:], start=1):
+            tree[p].append(i)
+        def dfs(root):
+            if len(tree[root]) == 0: 
+                scores[n-1] += 1
+                max_score[0] = max(max_score[0], n-1)
+                return 1
+            score, subs = 1, 0
+            for i, child in enumerate(tree[root]):
+                c = dfs(child)
+                subs += c
+                if c > 0: score *= c
+            c = n-subs-1
+            if c > 0: score *= c
+            scores[score] += 1
+            max_score[0] = max(max_score[0], score)
+            return subs + 1
+        dfs(0)
+        return scores[max_score[0]]
             
 
 
 
         
 if __name__ == "__main__":
-    print(Solution().countHighestScoreNodes([-1,2,0,2,0]))
-    print(Solution().countHighestScoreNodes([-1,2,0]))
+    #print(Solution().countHighestScoreNodes([-1,2,0,2,0]))
+    #print(Solution().countHighestScoreNodes([-1,2,0]))
+    print(Solution().countHighestScoreNodes2([-1,2,0,2,0]))
+    print(Solution().countHighestScoreNodes2([-1,2,0]))
 
