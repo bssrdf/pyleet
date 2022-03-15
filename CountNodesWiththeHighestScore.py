@@ -82,13 +82,12 @@ class Solution:
         n = len(parents)
         tree = defaultdict(list)
         scores = defaultdict(int)
-        max_score = [0]
+        max_score = [n-1]
         for i,p in enumerate(parents[1:], start=1):
             tree[p].append(i)
         def dfs(root):
             if len(tree[root]) == 0: 
                 scores[n-1] += 1
-                max_score[0] = max(max_score[0], n-1)
                 return 1
             score, subs = 1, 0
             for i, child in enumerate(tree[root]):
