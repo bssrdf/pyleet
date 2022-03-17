@@ -84,77 +84,15 @@ from functools import lru_cache
 class Solution:
     def maximumGood(self, statements: List[List[int]]) -> int:
         S = statements
-        n = len(statements)
-        init = [True] * n
-        ans = [0]
-        @lru_cache(None)
-        def backtrack(used, goodmask, badmask, good):      
-            ans[0] = max(ans[0], good)
-            print('X: {:>05} {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                            bin(badmask)[2:], good, ans[0]))
+        n, ans = len(S), 0
+        def valid(cur):
             for i in range(n):
-                if used & (1 << i) == 0:   
-                    used |= 1 << i                    
-                    g = goodmask & (1 << i)
-                    b = badmask & (1 << i)
-                    #print('Y: ', init[i], bin(g), bin(b), i)
-                    if g & b == 1: continue
-                    elif (not init[i]) and g == 0 and b == 0: continue
-                    if init[i]: init[i] = False
-                    oldg, oldb = goodmask, badmask
-                    #if init[i]:
-                    goodmask |= (1 << i) # person i is good                                           
-                    badmask  &= ~(1 << i)
-                    #goodmask |= (1 << i) # 
+                if cur & 1 << i:
                     for j in range(n):
-                        if S[i][j] == 0:
-                            #goodmask &= ~(1<<j)
-                            badmask  |= (1<<j)
-                            if init[j]: init[j] = False
-                        if S[i][j] == 1:
-                            goodmask |= (1<<j)
-                            if init[j]: init[j] = False
-                            #badmask  &= ~(1<<j)
-                    print('A: {:>05} {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                            bin(badmask)[2:], good, i))    
-                    backtrack(used, goodmask, badmask, good+1)     
-                    goodmask, badmask = oldg, oldb
-
-                    goodmask &= ~(1 << i) # person i is bad                                           
-                    badmask  |=  (1 << i)
-                    #goodmask & (1 << i) == 0: # person i is bad
-                    # assume person i telling the truth
-                    for j in range(n):
-                        if S[i][j] == 0:
-                            #goodmask &= ~(1<<j)
-                            badmask  |= (1<<j)
-                            if init[j]: init[j] = False
-                        if S[i][j] == 1:
-                            goodmask |= (1<<j)
-                            if init[j]: init[j] = False
-                            #badmask  &= ~(1<<j)
-                    print('B: {:>05} {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                            bin(badmask)[2:], good, i))    
-                    backtrack(used, goodmask, badmask, good)                        
-                    goodmask, badmask = oldg, oldb 
-                    # assume person i lying
-                    for j in range(n):
-                        if S[j][i] == 1: # if person j says i is good, j is a lier
-                            #goodmask &= ~(1<<j) 
-                            badmask  |= ~(1<<j) 
-                            if init[j]: init[j] = False
-                    print('C: {:>05} {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                            bin(badmask)[2:], good, i))    
-                    backtrack(used, goodmask, badmask, good)                        
-                    goodmask, badmask = oldg, oldb 
-                    used &= ~(1<<i)                    
-        #for i in range(n):
-        #    print('person: ',i, 'is good')
-        #    backtrack(i, 0, 1<<i, 0, 0)
-        #    print('person: ',i, 'is bad')
-        #    backtrack(i, 0, 0, 1<<i, 0)
-        backtrack(0, 0, 0, 0)
-        return ans[0]
+                        if S[i][j] != 2 and S[i][j] != bool(cur & 1 << j): return False
+            return True
+        return max(bin(i).count('1') if valid(i) else 0 for i in range(1 << n))
+        
     
     def maximumGood2(self, statements: List[List[int]]) -> int:
         S = statements
@@ -170,59 +108,53 @@ class Solution:
                 if used & (1 << i) == 0:   
                     used |= 1 << i                 
                     oldg = goodmask
-                    print('Y: {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                                good, i))    
-                    if init[i] and goodmask & (1 << i) == 0 or \
-                        goodmask & (1 << i) > 0:
-                        goodmask |= (1 << i) # person i is good 
-                        if init[i]: init[i] = False 
-                        conflict =  False                                         
-                        for j in range(n):
-                            if S[i][j] == 0:
-                                if goodmask & (1 << j) > 0:
-                                    conflict = True
-                                #goodmask &= ~(1<<j)
-                                if init[j]: init[j] = False
-                            if S[i][j] == 1:
-                                if goodmask & (1 << j) == 0:
-                                    conflict = True
-                                #goodmask |= (1<<j)
-                                #if init[j]: init[j] = False
-                        print('A: {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                                good, i))    
-                        if not conflict:
-                            backtrack(used, goodmask, good+1)     
-                            goodmask = oldg
-                    if init[i] and goodmask & (1 << i) == 0 :
+                    #print('Y: {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
+                    #            good, i))    
+                    goodmask |= (1 << i) # person i is good 
+                    conflict = False                                         
+                    for j in range(n):
+                        if S[i][j] == 0:
+                            if used & (1 << j) and goodmask & (1 << j) > 0:
+                                conflict = True
+                                break
+                        if S[i][j] == 1:
+                            if used & (1 << j) and goodmask & (1 << j) == 0:
+                                conflict = True
+                                break
+                    print('A: {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
+                            good, i))    
+                    if not conflict:
+                        backtrack(used, goodmask, good+1)     
+                    goodmask &= ~(1<<i) 
                     #goodmask & (1 << i) == 0: # person i is bad
                         # assume person i telling the truth
-                        conflict = False
-                        for j in range(n):
-                            if S[i][j] == 0:
-                                if goodmask & (1 << j) > 0:
-                                    conflict = True
-                                if init[j]: init[j] = False
-                            if S[i][j] == 1:
-                                if goodmask & (1 << j) == 0:
-                                    conflict = True
-                                if init[j]: init[j] = False
-                        print('B: {:>05} {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                                good, i))    
-                        if not conflict:
-                            backtrack(used, goodmask, good)                        
-                            goodmask = oldg
-                        # assume person i lying
-                        conflict = False
-                        for j in range(n):
-                            if S[j][i] == 1: # if person j says i is good, j is a lier
-                                if goodmask & (1 << j) > 0:
-                                    conflict = True
-                                if init[j]: init[j] = False
-                        print('C: {:>05} {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
-                                good, i))    
-                        if not conflict:
-                            backtrack(used, goodmask, good)                        
-                            goodmask = oldg
+                    conflict = False
+                    for j in range(n):
+                        if S[i][j] == 0:
+                            if used & (1 << j) and goodmask & (1 << j) > 0:
+                                conflict = True
+                                break
+                        if S[i][j] == 1:
+                            if used & (1 << j) and goodmask & (1 << j) == 0:
+                                conflict = True
+                                break
+                    print('B: {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
+                            good, i))    
+                    if not conflict:
+                        backtrack(used, goodmask, good)                        
+                         
+                    # assume person i lying
+                    conflict = False
+                    for j in range(n):
+                        if S[j][i] == 1: # if person j says i is good, j is a lier
+                            if used & (1 << j) and goodmask & (1 << j) > 0:
+                                conflict = True
+                                break
+                    print('C: {:>05} {:>05} {} {}'.format(bin(used)[2:], bin(goodmask)[2:], 
+                            good, i))    
+                    if not conflict:
+                        backtrack(used, goodmask, good)                        
+                    goodmask = oldg
                     used &= ~(1<<i)                    
         backtrack(0, 0, 0)
         return ans[0]
@@ -235,7 +167,7 @@ if __name__ == "__main__":
                   [1,2,2],
                   [2,0,2]]
     #print(Solution().maximumGood(statements))
-    #print(Solution().maximumGood2(statements))
+    print(Solution().maximumGood2(statements))
     statements = [[2,0],[0,2]]
     #print(Solution().maximumGood2(statements))
     statements = [[2,0,2,2,0],
@@ -244,11 +176,17 @@ if __name__ == "__main__":
                   [1,2,0,2,2],
                   [1,0,2,1,2]]
     #print(Solution().maximumGood(statements))
-    print(Solution().maximumGood2(statements))
+    #print(Solution().maximumGood2(statements))
     statements = [[2,1,1,1],
                   [1,2,1,1],
                   [1,1,2,1],
                   [1,1,1,2]]
+    #print(Solution().maximumGood2(statements))
+    statements =  [[2,1,0,0,2],
+                   [2,2,1,0,2],
+                   [0,2,2,1,0],
+                   [2,0,0,2,0],
+                   [2,0,0,1,2]]
     #print(Solution().maximumGood2(statements))
 
         
