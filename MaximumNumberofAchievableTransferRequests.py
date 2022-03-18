@@ -60,7 +60,10 @@ requests[i].length == 2
 
 '''
 
+from collections import defaultdict
+
 from typing import List
+
 
 class Solution:
     def maximumRequests(self, n: int, requests: List[List[int]]) -> int:
@@ -81,7 +84,29 @@ class Solution:
             ans = max(ans, bin(mask).count('1') )
         return ans
 
+    def maximumRequests2(self, n: int, requests: List[List[int]]) -> int:
+        m, r = len(requests), requests
+        ans = 0
+        for mask in range(1<<m):
+            ind = [0]*n
+            outd = [0]*n
+            for i in range(m):
+                if mask & (1 << i) > 0:
+                    ind[r[i][0]] += 1
+                    outd[r[i][1]] += 1
+             
+            #if any(arr.values()): continue       
+            ans = max(ans, sum(outd) if ind == outd else 0)
+        return ans
+
 if __name__ == "__main__":
     print(Solution().maximumRequests(n = 5, requests = [[0,1],[1,0],[0,1],[1,2],[2,0],[3,4]]))
     print(Solution().maximumRequests(n = 3, requests = [[0,0],[1,2],[2,1]]))
     print(Solution().maximumRequests(n = 4, requests = [[0,3],[3,1],[1,2],[2,0]]))
+    print(Solution().maximumRequests2(n = 5, requests = [[0,1],[1,0],[0,1],[1,2],[2,0],[3,4]]))
+    print(Solution().maximumRequests2(n = 3, requests = [[0,0],[1,2],[2,1]]))
+    print(Solution().maximumRequests2(n = 4, requests = [[0,3],[3,1],[1,2],[2,0]]))
+    n = 20
+    requests = [[0,0],[3,7],[4,4],[4,4],[4,14],[6,4],[7,11],[7,18],[8,3],[9,3],[10,6],[11,7],[12,4],[14,12],[18,6],[18,8]]
+    print(Solution().maximumRequests(n, requests))
+    print(Solution().maximumRequests2(n, requests))
