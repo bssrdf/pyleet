@@ -62,10 +62,10 @@ class Solution(object):
             
             for i in range(nextIndexToCheck, n):  
                 if picked & (1<<i) == 0 and curSubsetSum + nums[i] <= m:
-                    picked |= (1<<i)  
-                    if dfs(picked, nsubs, curSubsetSum + nums[i], i+1):                
+                    #picked |= (1<<i)  
+                    if dfs(picked | (1<<i), nsubs, curSubsetSum + nums[i], i+1):                
                         return True                
-                    picked ^= (1<<i)   
+                    #picked ^= (1<<i)   
             return False
         return dfs(0, k, 0, 0)
 
