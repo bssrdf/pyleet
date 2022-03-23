@@ -1,5 +1,8 @@
 '''
 -Medium-
+*Sliding Window*
+*Binary Search*
+
 
 The frequency of an element is the number of times it occurs in an array.
 
@@ -77,8 +80,8 @@ class Solution:
         return ans
     
     def maxFrequency2(self, nums: List[int], k: int) -> int:
-        count = Counter(nums)
-        arr = sorted(count.keys())
+        # brute force        
+        arr = sorted(nums)
         n, ans = len(arr), 0
         # print(n)
         
@@ -86,15 +89,16 @@ class Solution:
             l, t = k, 0 
             j = 0
             for j in range(i-1, -1, -1):
-                l -= (arr[i]-arr[j])*count[arr[j]]
+                l -= arr[i]-arr[j]
                 if l < 0:
                     break
-                t += count[arr[j]]
+                t += 1
             
-            ans = max(ans, t+count[arr[i]])
+            ans = max(ans, t+1)
             # print(i, arr[i], j+1, arr[j+1], count[arr[j+1]], count[arr[i]], ans)
         return ans
-    def maxFrequency3(self, nums, k):
+    def maxFrequency3(self, nums, k):      
+        # Sliding window  
         A = nums
         i = 0
         A.sort()
@@ -106,6 +110,7 @@ class Solution:
         return j - i + 1
     
     def maxFrequency4(self, nums: List[int], k: int) -> int:
+        # Binary Search
         n = len(nums)
         nums.sort()
         preSum = [0] * (n + 1)
