@@ -33,14 +33,14 @@ s[i] is either '(' or ')'.
 class Solution:
     def minAddToMakeValid(self, s: str) -> int:
         i, stack, ans, n = 0, [], 0, len(s)
-        while i < len(s):
-            if s[i] == '(':
-                stack.append(s[i])
+        #while i < len(s):
+        for c in s:
+            if c == '(':
+                stack.append(c)
             elif stack and stack[-1] == '(':                   
                 stack.pop()
             else:
                 ans += 1
-            i += 1
         while stack:
             ans += 1
             stack.pop()

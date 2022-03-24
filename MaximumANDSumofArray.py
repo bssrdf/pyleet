@@ -50,8 +50,12 @@ class Solution:
             if i == n: return 0  #  all nums are placed
             ans = 0
             for slot in range(1, ns+1):
-                b = 3 ** (slot - 1)
+                # base = 3 ** (slot-1)
+                b = 3 ** (slot - 1) 
+                # how can we know the amount of space available at position? 
+                # We divide mask by b then check remainder with 3.
                 if mask // b % 3 > 0:
+                    # each time we use a space in slot, 'room' is decreased by base 
                     ans = max(ans, (nums[i] & slot) + dp(i + 1, mask - b))
             return ans
         return dp(0, 3**ns-1)

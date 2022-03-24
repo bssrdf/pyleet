@@ -64,7 +64,6 @@ class Solution:
                 g = gcd(nums[i], nums[j])
                 gcds[(i, j)] = g
                 gcds[(j, i)] = g
-        #print(gcds)
         @lru_cache(None)
         def dp(i, mask):
             if i == n+1: return 0

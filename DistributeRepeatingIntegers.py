@@ -66,7 +66,6 @@ class Solution:
             if i == n: return False
             mask = avail
             while mask:
-                #if mask:
                 sm = subsetSum[mask]
                 if sm == 0:
                     j = 0
@@ -77,8 +76,6 @@ class Solution:
                     subsetSum[mask] = sm
                 if sm <= freq[i] and dp(i+1, avail ^ mask):
                     return True
-                #else:
-                #    if dp(i+1, avail): return True
                 mask = (mask-1) & avail
             return False
         return dp(0, (1<<m)-1)

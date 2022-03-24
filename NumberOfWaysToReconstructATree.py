@@ -95,7 +95,11 @@ class Solution:
                                     # subproblems and 1 for others, like cands = [1, 2, 1, 1, 2]. 
                                     # In this case, we can be sure, that we have more than 2 solutions 
                                     # (in fact we have 1*2*1*1*2). 
-            if len(d[m]) >= 2: return 2
+            if len(d[m]) >= 2: return 2 # Actually, it can happen that there is more than one node 
+                                        # with this property and in this case any of them can be 
+                                        # root and if we have say U possible solution with first 
+                                        # of them being root, that there will be exactly U possible 
+                                        # solutions if another will be root - we can just replace one of them with another.
             return 1
             
         return helper(set(g.keys()))

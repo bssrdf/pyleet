@@ -80,10 +80,10 @@ class Solution:
         sumAk = [[] for _ in range(n+1)]        
         sumBk = [[] for _ in range(n+1)]        
         for k in range(1,n+1):
-            # dfs(0, 0, k, 0, sumAk[k], nums[:n])
-            # dfs(0, 0, k, 0, sumBk[k], nums[n:])
-            dfs2(0, 0, k, 0, nums[:n], sumAk[k])
-            dfs2(0, 0, k, 0, nums[n:], sumBk[k])
+            dfs(0, 0, k, 0, sumAk[k], nums[:n])
+            dfs(0, 0, k, 0, sumBk[k], nums[n:])
+            # dfs2(0, 0, k, 0, nums[:n], sumAk[k])
+            # dfs2(0, 0, k, 0, nums[n:], sumBk[k])
         sumAk[0] = [0]
         sumBk[0] = [0]  
        

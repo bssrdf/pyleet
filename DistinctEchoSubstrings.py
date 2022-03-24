@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Rolling hash*
 
 
 Return the number of distinct non-empty substrings of text that can be written as 

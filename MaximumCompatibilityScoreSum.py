@@ -65,7 +65,6 @@ class Solution:
         for i in range(m):
             for j in range(m):
                 scores[(i,j)] = sum(1 if x == y else 0 for x,y in zip(S[i], M[j]))
-        print(scores)
         @lru_cache(None)
         def dp(i, mask):
             if i == m: return 0

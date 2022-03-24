@@ -56,7 +56,6 @@ class Solution:
         res = n
         for i in range(n-1, -1, -1):
             h = (h*d + val(s[i])) % q
-            #print(s[i], s[i-k+1:i+1], v)
             if i + k < n:
                 h = (h - val(s[i+k])*p) % q
             if h == hashValue:

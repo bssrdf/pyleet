@@ -94,8 +94,6 @@ class Solution:
                 if mask & (1 << i) > 0:
                     ind[r[i][0]] += 1
                     outd[r[i][1]] += 1
-             
-            #if any(arr.values()): continue       
             ans = max(ans, sum(outd) if ind == outd else 0)
         return ans
 

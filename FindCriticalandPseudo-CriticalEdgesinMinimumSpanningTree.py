@@ -142,6 +142,7 @@ class Solution:
     def findCriticalAndPseudoCriticalEdges2(self, n: int, edges: List[List[int]]) -> List[List[int]]:
         # reference: LC 1192
         def dfs(curr, level, parent):
+            # Tarjan's algorithm
             levels[curr] = level
             for child, i in graph[curr]:
                 if child == parent:
