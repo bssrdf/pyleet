@@ -47,6 +47,7 @@ from typing import List
 
 class Solution:
     def largestEvenSum(self, nums: List[int], k: int) -> int:
+        # wrong solution
         ans, even, odd = 0, 0, 0
 
         if k == 1: 
