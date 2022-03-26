@@ -76,12 +76,12 @@ class Solution:
             fx, fy = find(par, x), find(par, y)
             if fx != fy:
                 if up:
-                    if row(fx) < row(fy):
+                    if fx < fy:
                         par[fy] = fx
                     else:
                         par[fx] = fy
                 else:
-                    if row(fx) > row(fy):
+                    if fx > fy:
                         par[fy] = fx
                     else:
                         par[fx] = fy
