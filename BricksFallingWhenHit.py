@@ -161,10 +161,7 @@ class Solution:
         dirs = [(-1,0), (1,0), (0,-1), (0,1)]
         for i,(x,y) in enumerate(hits):
             if grid[x][y] == 1: 
-               hits[i].append(1) 
-               grid[x][y] = 0
-            else:
-               hits[i].append(0)
+               grid[x][y] = 2
         parents = [x*n+y for x in range(m) for y in range(n)]
         ranks  =  [1]*(n*m)
         def row(idx):
@@ -196,7 +193,7 @@ class Solution:
                 if grid[i][j] == 1:
                     union_neighbors(i, j)
         ans = []
-        for i,j,v in hits[::-1]:
+        for i,j in hits[::-1]:
             def unstable():
                 unstable0, seen = 0, set()
                 for dx, dy in dirs:
@@ -208,7 +205,7 @@ class Solution:
                             seen.add(head)
                             unstable0 += ranks[head]
                 return unstable0
-            if v == 1: 
+            if grid[i][j] == 2: 
                 unstable0 = unstable()                
                 grid[i][j] = 1
                 union_neighbors(i,j)
