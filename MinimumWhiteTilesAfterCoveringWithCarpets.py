@@ -61,8 +61,8 @@ class Solution:
         dpk1 = [0 for _ in range(n+1)]
         #for i in range(1,n+1):
         for k in range(nc):
-            for i in range(1, n+1):            
-                jump = dpk1[i-1] + (1 if floor[i-1] == '1' else 0)
+            for i in range(1,n+1):            
+                jump = dpk[i-1] + (1 if floor[i-1] == '1' else 0)
                 cover = dpk1[max(0, i-l)] if k > 0 else 1000
                 dpk[i] = min(jump, cover)
             dpk1, dpk = dpk, dpk1
