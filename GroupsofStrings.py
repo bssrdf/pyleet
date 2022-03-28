@@ -58,9 +58,59 @@ No letter occurs more than once in words[i].
 
 '''
 from typing import List
+from collections import defaultdict,Counter
 
 class Solution:
     def groupStrings(self, words: List[str]) -> List[int]:
+        n = len(words)
+        bits = defaultdict(list)
+        for i, word in enumerate(words):
+            num = 0
+            for c in word:
+                num |= 1 << (ord(c)- ord('a'))
+            bits[len(word)].append((num,i))
+        roots = [i for i in range(n)]
+        def find(x):
+            while x != roots[x]:
+                roots[x] = roots[roots[x]]
+                x = roots[x]
+            return x
+        def union(x, y):
+            fx, fy = find(x), find(y)
+            if fx < fy:
+                roots[fy] = fx
+            else:
+                roots[fx] = fy
+        lengths = sorted(bits.keys())
+        for i in range(len(lengths)-1):
+            arr = bits[lengths[i]]
+            arr1 = bits[lengths[i+1]]
+            for j in range(len(arr)):
+                for k in range(j+1, len(arr)):
+                    if lengths[i] == 1:
+                        union(arr[j][1], arr[k][1])
+                    elif bin(arr[j][0] & arr[k][0]).count('1') == lengths[i]-1:
+                        union(arr[j][1], arr[k][1])
+                for k in range(len(arr1)):
+                    if arr[j][0] | arr1[k][0] == arr1[k][0]:
+                        union(arr[j][1], arr1[k][1])
+        arr = bits[lengths[len(lengths)-1]]
+        for j in range(len(arr)):
+            for k in range(j+1, len(arr)):
+                if lengths[len(lengths)-1] == 1:
+                    union(arr[j][1], arr[k][1])
+                elif bin(arr[j][0] & arr[k][0]).count('1') == lengths[len(lengths)-1]-1:
+                    union(arr[j][1], arr[k][1])
+        cnt = Counter(roots)
+        return [len(cnt), max(cnt.values())]
+
+
+
+                    
+
+            
+
 
 if __name__ == "__main__":
     print(Solution().groupStrings(words = ["a","b","ab","cde"]))    
+    print(Solution().groupStrings(words = ["a","ab","abc"]))  
