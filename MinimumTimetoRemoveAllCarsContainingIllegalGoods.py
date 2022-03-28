@@ -79,9 +79,5 @@ class Solution:
         nums = [1 if c == '1' else -1 for c in s] 
         return n + minSumSubarray(nums) 
 
-
-
-        
-
 if __name__ == "__main__":
     print(Solution().minimumTime(s = "1100101"))

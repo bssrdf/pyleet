@@ -68,10 +68,12 @@ class Solution:
         for k,a in enumerate(artifacts):
             for i in range(a[0], a[2]+1):
                 for j in range(a[1], a[3]+1):
-                    arti[(i,j)] = k
+                    idx = i*n+j
+                    arti[idx] = k
                     pixs[k] += 1
         for x,y in dig:
-            if (x,y) in arti:
-                pixs[arti[(x,y)]] -= 1
+            idx = x*n+y
+            if idx in arti:
+                pixs[arti[idx]] -= 1
         return sum(1 if p == 0 else 0 for p in pixs) 
             

@@ -81,26 +81,26 @@ class Solution:
             if fx < fy:
                 roots[fy] = fx
                 excludes[fx] |= excludes[fy]
+                for v in excludes[fy]:
+                    excludes[find(v)].add(fx)
+                excludes[fy].clear()
             elif fx > fy:
                 roots[fx] = fy
                 excludes[fy] |= excludes[fx]
+                for v in excludes[fx]:
+                    excludes[find(v)].add(fy)
+                excludes[fx].clear()
         for r in restrictions:
             excludes[r[0]].add(r[1])
             excludes[r[1]].add(r[0])
         ans = []
         for i, (u,v) in enumerate(requests):
             fu, fv = find(u), find(v)
-            if i < 18:
-                print(i, u, v, fu, fv, excludes)
-            if u in excludes[v] or v in excludes[u]:
-               ans.append(False) 
-            elif fu in excludes[fv] or fv in excludes[fu]:
+            if fu in excludes[fv] or fv in excludes[fu]:
                 ans.append(False)
             else:
                 ans.append(True)
                 union(u, v)
-            if i < 18:
-                print(i, roots, ans)
         return ans
 
 
