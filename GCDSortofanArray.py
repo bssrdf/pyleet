@@ -94,16 +94,18 @@ class Solution:
             idx = graph[k]
             for i in range(len(idx)-1):
                 union(idx[i], idx[i+1])
-        # print(roots)
-        cnt = defaultdict(list)
         for i in range(n):
-            cnt[find(i)].append(i)        
-        for r in cnt:
-            match = set()
-            for j in cnt[r]:
-                match.add(sortIndex[j])
-            if match != set(cnt[r]):
+            if find(i) != find(sortIndex[i]):
                 return False
+        # cnt = defaultdict(list)
+        # for i in range(n):
+        #     cnt[find(i)].append(i)        
+        # for r in cnt:
+        #     match = set()
+        #     for j in cnt[r]:
+        #         match.add(sortIndex[j])
+        #     if match != set(cnt[r]):
+        #         return False
         return True
 
 
