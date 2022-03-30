@@ -38,7 +38,6 @@ class Solution:
         endsWith = [0]*26
         for c in s:
             endsWith[ord(c)-ord('a')] = sum(endsWith) + 1
-        
         return sum(endsWith)
 
 

@@ -63,8 +63,6 @@ class Solution(object):
         K, n = 2, len(prices)
         dp = [[0]*2 for _ in range(K+1)] 
         dp_1 = [[0]*2 for _ in range(K+1)]   
-        #dp_1[2][0] = 0 
-        #dp_1[1][0] = 0  
         dp_1[2][1] = -prices[0]
         dp_1[1][1] = -prices[0]
         for i in range(1,n):

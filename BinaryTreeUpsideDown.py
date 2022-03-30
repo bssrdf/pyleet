@@ -66,12 +66,11 @@ class Solution:
         while cur:
             stack.append(cur)
             cur = cur.left
+        if not stack: return None
         newroot = stack.pop()
         cur = newroot
-        print(cur.val)
         while stack:
             node = stack.pop()
-            print(node.val)
             cur.right = node
             if node.right:
                 cur.left = node.right

@@ -1,6 +1,8 @@
 '''
 -Medium-
 
+*Dijkstra's Algorithm*
+
 You are in a city that consists of n intersections numbered from 0 to n - 1 with bi-directional roads 
 
 between some intersections. The inputs are generated such that you can reach any intersection from any 

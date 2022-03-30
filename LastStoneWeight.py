@@ -59,7 +59,6 @@ class Solution:
                     heapq.heappush(pq, y-x)
             else:
                 return -y
-            #print(pq)
         return 0
             
 

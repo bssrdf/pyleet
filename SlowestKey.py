@@ -65,7 +65,6 @@ class Solution(object):
         :rtype: str
         """
         mx, key = 0, 'a'
-        #releaseTimes = [0] + releaseTimes
         for i in range(len(releaseTimes)):
             t = releaseTimes[i] - (releaseTimes[i-1] if i > 0 else 0)
             if mx < t:

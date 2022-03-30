@@ -55,21 +55,15 @@ s only consists of digits.
 class Solution:
     def splitString(self, s: str) -> bool:
         def helper(str, pre, ns):
-           # print(str, pre, ns)
             if not str:
                 if ns >= 2: 
                     return True
                 return False
             for i in range(len(str)):
                 num = int(str[:i+1])
-               # print(i, num)
-                #if num > 0 and (pre == -1 or pre - num == 1):
                 if pre == -1 or pre - num == 1:
                     if helper(str[i+1:], num, ns+1):
                         return True
-                #elif num == 0 and pre == 1:
-                #    if helper(str[i+1:], num, ns+1):
-                #        return True
             return False
         return helper(s, -1, 0)
 
