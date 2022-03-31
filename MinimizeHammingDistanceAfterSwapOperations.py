@@ -72,17 +72,14 @@ class Solution:
                 roots[fx] = fy
         for x,y in allowedSwaps:
             union(x, y)
-        # print(roots)
         ranges = defaultdict(list)
         for i in range(n):
             ranges[find(i)].append(i)
-        # print(ranges)
         for i in ranges:
             indices = ranges[i]
             m = len(indices)
             needed = Counter(target[ind] for ind in indices) 
             provided = Counter(source[ind] for ind in indices) 
-            # print(needed, provided)
             for k in needed:
                 m -= max(needed[k]-provided[k], 0)
             ans += m 

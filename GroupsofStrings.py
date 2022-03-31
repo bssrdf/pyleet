@@ -131,6 +131,7 @@ class Solution:
         
         w, n = words, len(words)        
         roots = [i for i in range(n)]
+        ranks = [0]*n
         def find(x):
             while x != roots[x]:
                 roots[x] = roots[roots[x]]
@@ -139,10 +140,12 @@ class Solution:
         def union(x, y):
             fx, fy = find(x), find(y)
             if fx != fy:
-                if fx < fy:
+                if ranks[fx] > ranks[fy]:
                     roots[fy] = fx
                 else:
                     roots[fx] = fy
+                    if ranks[fx] == ranks[fy]:
+                        ranks[fy] += 1
 
         M = {sum(1<<(ord(i) - ord("a")) for i in word): j for j, word in enumerate(w)}
 

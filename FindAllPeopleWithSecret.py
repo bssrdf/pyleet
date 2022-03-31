@@ -70,7 +70,6 @@ from collections import defaultdict
 class Solution:
     def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
         roots = [i for i in range(n)]
-        # ranks = [0 for i in range(n)]
         m2t = defaultdict(list)
         def find(x):
             while x != roots[x]:
@@ -93,7 +92,6 @@ class Solution:
             for x,y in m2t[t]:
                 if find(x) != 0:
                     roots[x] = x
-
                 if find(y) != 0:
                     roots[y] = y
         for i in range(n):

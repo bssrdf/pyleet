@@ -1,6 +1,6 @@
 '''
 -Medium-
-
+*Greedy*
 You have n gardens, labeled from 1 to n, and an array paths where paths[i] = [xi, yi] 
 describes a bidirectional path between garden xi to garden yi. In each garden, 
 you want to plant one of 4 types of flowers.
