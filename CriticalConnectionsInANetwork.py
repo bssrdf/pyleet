@@ -106,7 +106,8 @@ if __name__=="__main__":
     print(Solution().criticalConnections(7, [[0,1],[0,2],[1,3],[1,4],
                                               [2,5], [2,6]]))
     print(Solution().criticalConnections2(7, [[0,1],[0,2],[1,3],[1,4],
-                                              [2,5], [2,6]]))                                            
+                                              [2,5], [2,6]]))          
+    print(Solution().criticalConnections(2, [[0,1],[1,0]]))                                  
 
 
 
