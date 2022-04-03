@@ -55,16 +55,22 @@ import bisect
 class DetectSquares:
 
     def __init__(self):
-        self.x = defaultdict(list)
-        self.y = defaultdict(list)
+        self.P = defaultdict(int)
         
 
     def add(self, point: List[int]) -> None:
+        self.P[tuple(point)] += 1
 
-
-        
 
     def count(self, point: List[int]) -> int:
+        p1 = point
+        ans = 0
+        for p3 in self.P:
+            if abs(p1[0]-p3[0]) == abs(p1[1]-p3[1]) and abs(p1[0]-p3[0]) > 0:
+                p2, p4 = (p1[0], p3[1]), (p3[0], p1[1])
+                if p2 in self.P and p4 in self.P:
+                    ans += self.P[p3]*self.P[p2]*self.P[p4]
+        return ans 
         
 
 if __name__=="__main__":
