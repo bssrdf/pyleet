@@ -69,6 +69,8 @@ from typing import List
 import collections
 import heapq
 
+from sortedcontainers import SortedList
+
 class Node:
     def __init__(self, l, r):
         self.left = None
@@ -208,6 +210,35 @@ class Solution:
                 else:
                     lookup[i] = True
         return result
+    
+    def amountPainted4(self, paint: List[List[int]]) -> List[int]:
+        minDay = min(s for s, e in paint)
+        maxDay = max(e for s, e in paint)
+        ans = [0] * len(paint)
+        # store indices of paint that are available now
+        runningIndices = SortedList()
+        events = []  # (day, index, type)
+
+        for i, (start, end) in enumerate(paint):
+            events.append((start, i, 1))  # 1 := entering
+            events.append((end, i, -1))  # -1 := leaving
+
+        events.sort()
+
+        i = 0  # events' index
+        for day in range(minDay, maxDay):
+            while i < len(events) and events[i][0] == day:
+                day, index, type = events[i]
+                if type == 1:
+                    runningIndices.add(index)
+                else:
+                    runningIndices.remove(index)
+                i += 1
+            if runningIndices:
+                ans[runningIndices[0]] += 1
+        return ans
+    
+
      
 import random
 if __name__ == "__main__":
