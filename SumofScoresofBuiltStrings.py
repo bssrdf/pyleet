@@ -77,7 +77,6 @@ class Solution:
                 # Z[i] using naive way.
                 if i > right:
                     left, right = i, i
-        
                     # R-L = 0 in starting, so it will start
                     # checking from 0'th index.
                     while right < n and s[right - left] == s[right]:
@@ -89,7 +88,6 @@ class Solution:
                     # matches in [L,R] interval.
                     k = i - left
                     # if Z[k] is less than remaining interval
-                    
                     if z[k] < right - i + 1:
                         z[i] = z[k]
                     else:
