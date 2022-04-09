@@ -1,6 +1,8 @@
 '''
 
 -Medium-
+*Binary Search*
+
 
 On a horizontal number line, we have gas stations at positions stations[0], 
 stations[1], ..., stations[N-1], where N = stations.length.
@@ -39,7 +41,6 @@ class Solution(object):
         while r-l > 1.e-6:
             mid = l + (r-l)/2
             if condition(mid):
-            #if feasible(mid):
                 r = mid
             else:
                 l = mid
