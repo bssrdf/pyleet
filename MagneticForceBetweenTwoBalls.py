@@ -42,11 +42,39 @@ All integers in position are distinct.
 '''
 
 from typing import List
+import bisect
 
 class Solution:
     def maxDistance(self, position: List[int], m: int) -> int:
+        position.sort()
+        P = position
+        def canDistribute(d):
+            i, pos = m-1, P[0]
+            while i > 0:
+                pos += d
+                idx = bisect.bisect_left(P, pos)
+                # print(i, pos, idx, P)
+                if idx < len(P):
+                    i -= 1
+                    pos = P[idx]
+                else:
+                    return False
+            return True
+        l, r = 1, P[-1]-P[0]+1
+        # print(l, r)
+        while l < r:
+            mid = l + (r-l)//2
+            # print('A', l, r, mid)
+            if canDistribute(mid):
+                l = mid + 1
+            else:
+                r = mid
+            # print('B',l, r, mid)
+        return l-1
 
 
 if __name__ == "__main__":
     print(Solution().maxDistance(position = [1,2,3,4,7], m = 3))
     print(Solution().maxDistance(position = [5,4,3,2,1,1000000000], m = 2))
+
+    print(Solution().maxDistance(position = [79,74,57,22], m = 4))
