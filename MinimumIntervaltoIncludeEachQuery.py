@@ -80,12 +80,10 @@ class Solution:
             events.append((v[1], 1, i))
         for i,v in enumerate(queries):
             events.append((v, 0, i))
-        n = len(queries)
         events.sort()
         ans = [-1]*len(queries)
         m = {}
-        for e in events: 
-            p, t, i = e
+        for _, t, i in events: 
             if t == -1:
                 m[i] = [I[i][1]-I[i][0]+1, False]
                 heapq.heappush(pq, m[i])
@@ -97,6 +95,22 @@ class Solution:
                 if pq:
                     ans[i] = pq[0][0]
         return ans
+
+    def minInterval3(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
+        # Lee215's Solution
+        A = intervals
+        A = sorted(A)[::-1]
+        h = []
+        res = {}
+        for q in sorted(queries):
+            while A and A[-1][0] <= q:
+                i, j = A.pop()
+                if j >= q:
+                    heapq.heappush(h, [j - i + 1, j])
+            while h and h[0][1] < q:
+                heapq.heappop(h)
+            res[q] = h[0][0] if h else -1
+        return [res[q] for q in queries]
 
 
 
