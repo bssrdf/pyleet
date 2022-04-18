@@ -53,9 +53,9 @@ from typing import List
 from collections import defaultdict
 class Solution:
     def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
-        winners, losers = defaultdict(int), defaultdict(int)
+        winners, losers = set(), defaultdict(int)
         for w, l in matches:
-            winners[w] += 1
+            winners.add(w)
             losers[l] += 1
         ans = [[],[]]
         for w in winners:
