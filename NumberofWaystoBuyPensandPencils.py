@@ -51,17 +51,11 @@ class Solution:
         return sum(dp)
 
     def waysToBuyPensPencils2(self, total: int, cost1: int, cost2: int) -> int:
-        # wrong way
         ways = total//cost2
-        dp = [0]*(ways+1)
-        dp[0] = 1
         ans = 0
         for i in range(ways+1):           
             t  =  total - i*cost2
             ans += t // cost1 + 1
-            print(i, t, t//cost1, ans)
-
-        # print(dp)
         return ans
 
 if __name__ == "__main__":

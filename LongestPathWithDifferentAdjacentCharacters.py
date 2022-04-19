@@ -84,7 +84,6 @@ class Solution:
             graph[v].append(i)
         ans = [1]
         def dfs(u):
-            # ret = 1
             candi = [0, 0]
             for v in graph[u]:
                 l = dfs(v)
