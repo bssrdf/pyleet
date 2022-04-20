@@ -53,7 +53,6 @@ class Solution:
             while i > 0:
                 pos += d
                 idx = bisect.bisect_left(P, pos)
-                # print(i, pos, idx, P)
                 if idx < len(P):
                     i -= 1
                     pos = P[idx]
@@ -61,15 +60,12 @@ class Solution:
                     return False
             return True
         l, r = 1, P[-1]-P[0]+1
-        # print(l, r)
         while l < r:
             mid = l + (r-l)//2
-            # print('A', l, r, mid)
             if canDistribute(mid):
                 l = mid + 1
             else:
                 r = mid
-            # print('B',l, r, mid)
         return l-1
 
 
