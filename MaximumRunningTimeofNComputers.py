@@ -1,6 +1,7 @@
 '''
 -Hard-
 
+*Binary Search*
 
 You have n computers. You are given the integer n and a 0-indexed integer array 
 batteries where the ith battery can run a computer for batteries[i] minutes. 
@@ -62,7 +63,15 @@ class Solution:
                 # If the computers cannot run simultaneously for a minutes, then definitely 
                 # they cannot run simultaneously for b > a minutes.
                 # During a simultaneous run of a minutes, each battery, no matter how 
-                # long it can run, can "contribute" a maximum of a minutes to the total running time.
+                # long it can run, can "contribute" a maximum of a minutes to the total 
+                # running time.
+                # If a bat >= k, then this battery will be combined with this PC. If you want 
+                # to use this battery on another PC, then this PC will need a new battery to 
+                # fill this empty, so, that will be a paradox, since we could just use the 
+                # previous one.
+                # In other words, when bat >= k, we actually could remove this PC and this 
+                # battery, then, our target will just become: check remaining batteries 
+                # could run n - 1 pc for k days or not.
                 mins += min(b, k)            
             return mins >= n*k 
 
