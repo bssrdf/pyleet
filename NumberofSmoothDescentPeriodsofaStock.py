@@ -1,6 +1,9 @@
 '''
 -Medium-
 
+*Counting*
+
+
 You are given an integer array prices representing the daily price history of a stock, 
 where prices[i] is the stock price on the ith day.
 
@@ -53,11 +56,8 @@ class Solution:
                 i += 1
             k = i-j 
             ans += k*(k+1)//2
-            print(i, j, k, ans)
             j = i
             i = j+1 
-        print(i,j)
-        k = i-j 
         if prices[n-1]-prices[n-2] != -1:
             ans += 1
         return ans
