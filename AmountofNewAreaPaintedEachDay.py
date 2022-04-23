@@ -137,6 +137,7 @@ class SegmentTree:
 
 class Solution:
     def amountPainted(self, paint: List[List[int]]) -> List[int]:
+        # Wrong 
         m = len(paint)
         n = 5*10**4+1
         n = 23
@@ -172,7 +173,7 @@ class Solution:
             a = range_query(s,e)          
             ans[i] = (e-s) - range_query(s, e)
             range_update(s,e-1,1)
-            print(s, e, a, B1, B2)
+            # print(s, e, a, B1, B2)
         return ans    
     
     def amountPainted2(self, paint: List[List[int]]) -> List[int]:
@@ -245,10 +246,15 @@ if __name__ == "__main__":
     # paint = [[1,4],[4,7],[5,8]]
     paint = [[14,18],[12,16],[4,7],[3,22]]
     print(Solution().amountPainted(paint))
-    # paint = [[1,4],[5,8],[4,7]]
-    # print(Solution().amountPainted(paint))
-    # paint = [[1,5],[2,4]]
-    # print(Solution().amountPainted(paint))
+    print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted3(paint))
+    print(Solution().amountPainted4(paint))
+    paint = [[1,4],[5,8],[4,7]]
+    print(Solution().amountPainted(paint))
+    print(Solution().amountPainted2(paint))
+    paint = [[1,5],[2,4]]
+    print(Solution().amountPainted(paint))
+    print(Solution().amountPainted2(paint))
 
 
     # paint = [[1,10],[20,34], [8, 12], [16,19]]

@@ -35,6 +35,8 @@ There must be no consecutive horizontal lines of equal height in the output skyl
 as such: [...[2 3], [4 5], [12 7], ...]
 """
 __author__ = 'Daniel'
+
+from typing import List
 from collections import defaultdict, namedtuple
 import heapq
 
@@ -66,6 +68,29 @@ class Building(object):
 # x-coordinate.
 Event = namedtuple('Event', 'starts ends')
 
+
+class SegmentTree:
+    def __init__(self, nb_nodes):
+        self.tree = [0]*nb_nodes
+    
+    def update_up(self, node):
+        if node==1:
+            self.tree[node] = max(self.tree[2], self.tree[3])
+            return self.tree[node]
+        else:
+            self.tree[node] = max(self.tree[2*node], self.tree[2*node+1])
+            return self.update_up(node//2)
+        
+    def update(self, node, value):
+        """ update a node and return  current new max  """
+        self.tree[node] = value
+        return self.update_up(node//2)
+    
+class Point:
+    def __init__(self, idp, x, height):
+        self.id = idp
+        self.x = x
+        self.value = height
 
 class Solution:
     
@@ -175,6 +200,112 @@ class Solution:
                 ret.append([x, cur_h])
 
         return ret
+    
+    def getSkylineSegTree(self, buildings: List[List[int]]) -> List[List[int]]:
+        if len(buildings)==0: return []
+        if len(buildings)==1: return [[buildings[0][0],buildings[0][2]],[buildings[0][1],0]]
+        
+		#1) Split the buildings
+        nodes = []
+        for idp, building in enumerate(buildings):
+            x, y, h = building
+            begin = Point(idp,x,h)
+            ending = Point(idp,y,-h)
+            nodes.append(begin)
+            nodes.append(ending)
+        
+		#2) Sort correctly
+        nodes.sort(key=lambda node:(node.x,-node.value))
+		
+		# Create the segment tree
+        N = 1
+        while N < len(buildings) : N*=2
+        sgt = SegmentTree(2*N)
+		
+		#3) Feed the points to the segment tree
+        current_skyline = 0
+        skyline = []
+        for point in nodes:
+            new_skyline = sgt.update(N+point.id, point.value if point.value>0 else 0)
+            if new_skyline != current_skyline:
+                skyline.append([point.x,new_skyline])
+                current_skyline = new_skyline
+        return skyline
+    
+
+    def getSkylineSegTree2(self, buildings: List[List[int]]) -> List[List[int]]:
+        st = set()
+        for b,e,_ in buildings:
+            st.add(b)
+            st.add(e)
+            st.add(e-1)
+        blist = sorted(list(st))
+        m = {}
+        for i,b in enumerate(blist):
+            m[b] = i
+        n = len(blist)
+        print(blist)
+        treenodes = [0]*(4*n)
+        lazy = [0]*(4*n)
+        def update(index, start, end, left, right, val):
+            if lazy[index] != 0:
+                treenodes[index] = max(treenodes[index], lazy[index])
+                if start < end:
+                    lazy[2*index] = max(lazy[2*index], lazy[index])
+                    lazy[2*index+1] = max(lazy[2*index+1], lazy[index])
+                lazy[index] = 0
+
+            if start > end or end < left or right < start:
+                return
+            if left <= start and end <= right:
+                treenodes[index] = max(treenodes[index], val)
+                if start < end:
+                    lazy[2*index] = max(lazy[2*index], val)
+                    lazy[2*index+1] = max(lazy[2*index+1], val)
+                return 
+            mid = (start + end)//2
+            update(2*index, start, mid, left, right, val)
+            update(2*index+1, mid+1, end, left, right, val)
+        def query(nodes, index, start, end):
+            if start > end: return
+            if lazy[index] != 0:
+                treenodes[index] = max(treenodes[index], lazy[index])
+                if start < end:
+                    lazy[2*index] = max(lazy[2*index],lazy[index])
+                    lazy[2*index+1] = max(lazy[2*index+1],lazy[index])
+                lazy[index] = 0
+            
+            if start == end:
+                nodes[start] = treenodes[index]
+                return
+            mid = (start+end)//2
+            query(nodes, index*2, start, mid)
+            query(nodes, index*2+1, mid+1, end)
+    
+        for l, r, h in buildings:
+            update(1, 0, n-1, m[l], m[r-1], h)
+        nodes = [0]*n 
+        query(nodes, 1, 0, n-1)
+        print(nodes)
+        res = []
+        check = False
+        for i in range(n):
+            if not check and nodes[i] != 0:
+                res.append([blist[i], nodes[i]])
+                check = True
+            elif i > 0 and nodes[i] != nodes[i-1]:
+                res.append([blist[i], nodes[i]])
+        
+        return res
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -185,4 +316,8 @@ if __name__ == "__main__":
     print(Solution().getSkylineDC([[1,2,1],[1,2,2],[1,2,3]]))
     print(Solution().getSkyline([[2, 9, 10], [3, 7, 15], [5, 12, 12], 
                                   [15, 20, 10], [19, 24, 8]]))
+    print(Solution().getSkylineSegTree([[2, 9, 10], [3, 7, 15], [5, 12, 12], 
+                            [15, 20, 10], [19, 24, 8]]))
+    print(Solution().getSkylineSegTree2([[2, 9, 10], [3, 7, 15], [5, 12, 12], 
+                            [15, 20, 10], [19, 24, 8]]))
            
