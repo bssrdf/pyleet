@@ -121,9 +121,11 @@ class Solution:
         bit =  FenwickTree(n)
         for s,e in flowers:
             bit.range_update(m[s], m[e], 1)
-        ans = []
-        for p in persons:            
-            ans.append(bit.point_query(m[p]))
+        ans, dic = [], {}
+        for p in persons:
+            if p not in dic:
+                dic[p] = bit.point_query(m[p])
+            ans.append(dic[p])
         return ans
         
 
@@ -147,5 +149,5 @@ if __name__=="__main__":
     flowers = [[1000000000,1000000000] for _ in range(5*10**4)]
     persons = [1000000000]*(5*10**4)
     Solution().fullBloomFlowers2(flowers, persons)
-    # Solution().fullBloomFlowers(flowers, persons)
+    Solution().fullBloomFlowers(flowers, persons)
 
