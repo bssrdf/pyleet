@@ -238,9 +238,7 @@ class Solution:
             if runningIndices:
                 ans[runningIndices[0]] += 1
         return ans
-    
 
-     
 import random
 if __name__ == "__main__":
     # paint = [[1,4],[4,7],[5,8]]
