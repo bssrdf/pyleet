@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Fenwick Tree*
 
 Design a data structure that efficiently finds the majority element of a given subarray.
 

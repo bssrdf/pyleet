@@ -81,6 +81,77 @@ class Node:
         self.v = 0
         self.add = 0
 
+class SegmentTree2:
+    # bottom-up segment tree
+    def __init__(self, N, query_fn, update_fn):
+        self.base = N
+        self.query_fn = query_fn
+        self.update_fn = update_fn
+        self.tree = [0]*(2*N)
+        self.lazy = [0]*(2*N)
+        self.count = [1]*(2*N)
+        H = 1
+        while 1 << H < N:
+            H += 1
+        self.H = H
+        for i in range(N-1, 0, -1):
+            self.count[i] = self.count[i<<1] + self.count[(i<<1)+1]
+    def update(self, L, R, val):
+        L += self.base
+        R += self.base
+        self.push(L)#  // key point
+        self.push(R)#  // key point
+        L0, R0 = L, R
+        while L <= R:
+            if (L & 1) == 1:
+                self.apply(L, val)
+                L += 1
+            if (R & 1) == 0: 
+                self.apply(R, val)
+                R -= 1
+            L >>= 1
+            R >>= 1
+        self.pull(L0)
+        self.pull(R0)
+
+    def query(self, L, R):
+        result = 0
+        if L > R:
+            return result        
+        L += self.base
+        R += self.base
+        self.push(L)
+        self.push(R)
+        while L <= R:
+            if (L & 1) == 1:
+                result = self.query_fn(result, self.tree[L])
+                L += 1
+            if (R & 1) == 0:
+                result = self.query_fn(result, self.tree[R])
+                R -= 1
+            L >>= 1; R >>= 1
+        return result
+    
+    def apply(self, x, val):
+        self.tree[x] = self.update_fn(self.tree[x], val * self.count[x])
+        if x < self.base:
+            self.lazy[x] = self.update_fn(self.lazy[x], val)
+
+    def pull(self, x):
+        while x > 1:
+            x >>= 1
+            # print(x << 1, x<<1+1)
+            self.tree[x] = self.query_fn(self.tree[x<<1], self.tree[(x<<1) + 1])
+            if self.lazy[x]:
+                self.tree[x] = self.update_fn(self.tree[x], self.lazy[x] * self.count[x])
+    def push(self, x):
+        for h in range(self.H, 0, -1):
+           y = x >> h
+           if self.lazy[y]:
+                self.apply(y << 1,     self.lazy[y])
+                self.apply((y << 1) + 1, self.lazy[y])
+                self.lazy[y] = 0
+        
 
 class SegmentTree:
     def __init__(self):
@@ -238,6 +309,18 @@ class Solution:
             if runningIndices:
                 ans[runningIndices[0]] += 1
         return ans
+    
+    def amountPainted5(self, paint: List[List[int]]) -> List[int]:        
+        maxDay = max(e for s, e in paint)
+        query  = lambda x,y: x+y
+        update = lambda x,y: y
+        st = SegmentTree2(maxDay, query_fn=query, update_fn=update)
+        res = []
+        for x,y in paint:
+            cnt = st.query(x, y-1)
+            st.update(x, y-1, 1)
+            res.append(st.query(x, y-1)-cnt)
+        return res
 
 import random
 if __name__ == "__main__":
@@ -247,12 +330,15 @@ if __name__ == "__main__":
     print(Solution().amountPainted2(paint))
     print(Solution().amountPainted3(paint))
     print(Solution().amountPainted4(paint))
+    print(Solution().amountPainted5(paint))
     paint = [[1,4],[5,8],[4,7]]
     print(Solution().amountPainted(paint))
     print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted5(paint))
     paint = [[1,5],[2,4]]
     print(Solution().amountPainted(paint))
     print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted5(paint))
 
 
     # paint = [[1,10],[20,34], [8, 12], [16,19]]
