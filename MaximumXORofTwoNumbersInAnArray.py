@@ -1,4 +1,7 @@
 '''
+-Medium-
+
+
 Given a non-empty array of numbers, a0, a1, a2, … , an-1, where 0 ≤ ai < 2^31.
 
 Find the maximum result of ai XOR aj, where 0 ≤ i, j < n.
@@ -45,6 +48,7 @@ class Solution(object):
             res = max(res, x ^ matchMaxXOR(x))
          
         return res
-
+    
+    
 if __name__ == "__main__":
     print(Solution().findMaximumXOR([3, 10, 5, 25, 2, 8]))
