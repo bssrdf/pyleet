@@ -1,6 +1,7 @@
 '''
 
 -Hard-
+*Hash Table*
 
 Given an array nums of positive integers, return the longest possible length of 
 an array prefix of nums, such that it is possible to remove exactly one element 
@@ -40,8 +41,8 @@ class Solution:
         cnt,freq,maxF,res = collections.defaultdict(int), collections.defaultdict(int),0,0
         for i,num in enumerate(nums):
             cnt[num] += 1
-            freq[cnt[num]-1] -= 1
-            freq[cnt[num]] += 1
+            freq[cnt[num]-1] -= 1 # if cnt of num is bumped by 1, the cnt freq                                  
+            freq[cnt[num]] += 1   # needs to be updated: 
             maxF = max(maxF,cnt[num])
             if (maxF*freq[maxF] == i              # all elements appear max_F times, except one appears once.  
                or (maxF-1)*(freq[maxF-1]+1) == i  # all elements appear max_F-1 times, except one appears max_F.
