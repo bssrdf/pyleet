@@ -1,5 +1,7 @@
 '''
 -Hard-
+*DP*
+*Kadane's Algorithm*
 
 The variance of a string is defined as the largest difference between the number of 
 occurrences of any 2 characters present in the string. Note the two characters may 
@@ -40,6 +42,7 @@ s consists of lowercase English letters.
 '''
 from enum import unique
 import string
+from collections import Counter
 
 class Solution:
     def largestVariance(self, s: str) -> int:
@@ -146,6 +149,36 @@ class Solution:
                         canExtendprevQ = True
         return res
 
+    def largestVariance4(self, s: str) -> int:
+        res, n = 0, len(s)
+        cnt = Counter(s)
+        def helper(nums):
+            m = len(nums)
+            dp = [0]*m
+            dp[0] = nums[0]
+            ret = 0
+            for i in range(1, m):
+                dp[i] = max(dp[i-1]+nums[i], nums[i])
+            curSum = 0
+            for i in range(m-1, -1, -1):
+                curSum = max(curSum + nums[i], nums[i])
+                if nums[i] == -1: # max subarray must include a -1
+                    ret = max(ret, dp[i]+curSum-nums[i])
+            return ret
+
+        for p in string.ascii_lowercase:
+            for q in string.ascii_lowercase:
+                if cnt[p] == 0 or cnt[q] == 0: continue
+                if p == q: continue
+                nums = []
+                for i in range(n):
+                    if s[i] == p:
+                        nums.append(1)
+                    if s[i] == q:
+                        nums.append(-1)
+                res = max(res, helper(nums))
+        return res
+
 
 
 
@@ -153,4 +186,5 @@ class Solution:
 
 
 if __name__ == "__main__":
-    print(Solution().largestVariance(s = "aababbb"))        
+    print(Solution().largestVariance(s = "aababbb"))    
+    print(Solution().largestVariance4(s = "aababbb"))        
