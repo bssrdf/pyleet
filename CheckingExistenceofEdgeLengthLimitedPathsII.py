@@ -2,6 +2,8 @@
 
 -Hard-
 
+*Union Find*
+
 An undirected graph of n nodes is defined by edgeList, where 
 edgeList[i] = [u_i, v_i, dis_i] denotes an edge between nodes u_i and v_i with 
 distance dis_i. Note that there may be multiple edges between two nodes, 

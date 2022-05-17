@@ -61,13 +61,16 @@ class CountIntervals:
         
 
     def add(self, left: int, right: int) -> None:
-        l = bisect.bisect_left(self.inter,left-1,key = itemgetter(1))
-        r = bisect.bisect_right(self.inter,right+1, key = itemgetter(0))
+        # l = bisect.bisect_left(self.inter,left-1,key = itemgetter(1))
+        # r = bisect.bisect_right(self.inter,right+1, key = itemgetter(0))
+        l = bisect.bisect_left(self.inter,left-1,key = lambda x: x[1])
+        r = bisect.bisect_right(self.inter,right+1, key = lambda x: x[0])
         lval = min(left,self.inter[l][0])
         rval = max(right,self.inter[r-1][1])
         tmp = 0
         for i in range(l,r):
             tmp += self.inter[i][1]-self.inter[i][0]+1
+        # print(left, right, l, r, lval, rval)
         self.cnt += rval-lval+1 - tmp
         self.inter[l:r] = [[lval,rval]]
 
@@ -81,7 +84,7 @@ if __name__ =="__main__":
     print(countIntervals.count())#    // return 6
                             #  the integers 2 and 3 are present in the interval [2, 3].
                             #  the integers 7, 8, 9, and 10 are present in the interval [7, 10].
-    countIntervals.add(5, 8)#  // add [5, 8] to the set of intervals.
+    countIntervals.add(5, 6)#  // add [5, 8] to the set of intervals.
     print(countIntervals.count())#    // return 8
                             # // the integers 2 and 3 are present in the interval [2, 3].
                             # // the integers 5 and 6 are present in the interval [5, 8].
