@@ -321,6 +321,25 @@ class Solution:
             st.update(x, y-1, 1)
             res.append(st.query(x, y-1)-cnt)
         return res
+    
+    def amountPainted6(self, paint: List[List[int]]) -> List[int]:
+        # scan line method
+        runningIndices = SortedList()
+        events = []  # (day, index, type)
+        ans = [0] * len(paint)
+        for i, (start, end) in enumerate(paint):
+            events.append((start, i, 1))  # 1 := entering
+            events.append((end, i, -1))  # -1 := leaving
+        events.sort()
+        for i in range(len(events)):
+            day, index, type = events[i]
+            if type == 1:
+                runningIndices.add(index)
+            else:
+                runningIndices.remove(index)
+            if runningIndices:
+                ans[runningIndices[0]] += events[i+1][0] - day
+        return ans
 
 import random
 if __name__ == "__main__":
@@ -331,19 +350,23 @@ if __name__ == "__main__":
     print(Solution().amountPainted3(paint))
     print(Solution().amountPainted4(paint))
     print(Solution().amountPainted5(paint))
+    print(Solution().amountPainted6(paint))
     paint = [[1,4],[5,8],[4,7]]
     print(Solution().amountPainted(paint))
     print(Solution().amountPainted2(paint))
     print(Solution().amountPainted5(paint))
+    print(Solution().amountPainted6(paint))
     paint = [[1,5],[2,4]]
-    print(Solution().amountPainted(paint))
+    # print(Solution().amountPainted(paint))
     print(Solution().amountPainted2(paint))
     print(Solution().amountPainted5(paint))
+    print(Solution().amountPainted6(paint))
 
 
-    # paint = [[1,10],[20,34], [8, 12], [16,19]]
+    paint = [[1,10],[20,34], [8, 12], [16,19]]
     # print(Solution().amountPainted(paint))
-    # print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted6(paint))
     # N, segs = 1000, set()
     # while len(segs) < N:
     #     i, j = random.randint(1,1000), random.randint(1,1000)
@@ -351,9 +374,10 @@ if __name__ == "__main__":
     #         segs.add((i,j))
     # paint = list(segs)
     # print(paint)
-    # paint = [(73, 493), (454, 900), (204, 270), (54, 941)]
+    paint = [(73, 493), (454, 900), (204, 270), (54, 941)]
     # print(Solution().amountPainted(paint))
-    # print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted2(paint))
+    print(Solution().amountPainted6(paint))
 
     
 
