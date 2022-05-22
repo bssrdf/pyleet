@@ -1,6 +1,7 @@
 '''
 
 -Medium-
+*Hash Table*
 
 
 Given an array of integers arr.
@@ -72,7 +73,6 @@ class Solution:
                 b = preXor[k] ^ preXor[j-1]
                 if b in cnt:
                    ans += cnt[b]
-            # print(j, ans, cnt)
         return ans
 
 
