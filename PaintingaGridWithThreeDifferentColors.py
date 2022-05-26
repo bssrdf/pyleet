@@ -86,12 +86,55 @@ class Solution:
 
         return dp(0, 0)
 
+    
+    def colorTheGrid3(self, m: int, n: int) -> int:
+        MOD = 10**9 + 7
+        cand = []
+        for state in range(pow(3,m)):
+            temp = []
+            state0 = state
+            flag = True
+            for i in range(m):
+                color = state0 % 3
+                if temp and temp[-1] == color:
+                    flag = False
+                    break
+                temp.append(color)
+                state0 //= 3
+            if flag:
+                cand.append(state)
+        k = len(cand)
+        dp = [1]*k
+        def checkOK(s, t, m):
+            for i in range(m):
+                if s % 3 == t % 3:
+                    return False
+                s //= 3
+                t //= 3
+            return True
+
+        for j in range(1,n):
+            dp2 = [0]*k 
+            for s in range(k):
+                for t in range(k):
+                    if checkOK(cand[s], cand[t], m):
+                        dp2[s] = (dp2[s] + dp[t]) % MOD
+            dp = dp2
+        res = 0
+        for s in range(k):
+            res = (res + dp[s]) % MOD
+        return res
+
+
 if __name__ == "__main__":
-    print(Solution().colorTheGrid(m = 1, n = 1))
-    print(Solution().colorTheGrid(m = 1, n = 2))
-    print(Solution().colorTheGrid(m = 2, n = 2))
+    # print(Solution().colorTheGrid(m = 1, n = 1))
+    # print(Solution().colorTheGrid(m = 1, n = 2))
+    # print(Solution().colorTheGrid(m = 2, n = 2))
     print(Solution().colorTheGrid2(m = 2, n = 2))
-    print(Solution().colorTheGrid(m = 1, n = 3))
-    print(Solution().colorTheGrid(m = 5, n = 5))
+    print(Solution().colorTheGrid2(m = 1, n = 3))
+    print(Solution().colorTheGrid2(m = 5, n = 5))
+    print(Solution().colorTheGrid3(m = 2, n = 2))
+    print(Solution().colorTheGrid3(m = 1, n = 3))
+    print(Solution().colorTheGrid3(m = 5, n = 5))
 
 
