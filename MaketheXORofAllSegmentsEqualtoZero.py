@@ -34,7 +34,9 @@ Constraints:
 '''
 
 from typing import List
-from collections import defaultdict
+from collections import defaultdict, Counter
+from functools import reduce
+from itertools import accumulate
 
 class Solution:
     def minChanges(self, nums: List[int], k: int) -> int:
@@ -109,6 +111,48 @@ class Solution:
                       
         DFS(0,0,0)
         return len(nums)-self.save 
+    
+    def minChanges4(self, nums: List[int], k: int) -> int:
+        # special cases when k < 3 or k== len(nums)
+        if k == 1:
+            return len(nums) - nums.count(0)
+        if k == 2:
+            return len(nums) - Counter(nums).most_common(1)[0][1]
+        if len(nums) == k:
+            return 0 if reduce(lambda x, y: x ^ y, nums, 0) == 0 else 1
+
+        # get the Counter for each position in [0 ... k-1]
+        # sort it based on the length so that we can reduce the combinations since the order doesn't matter
+        counters = sorted([Counter(nums[i::k]).most_common() for i in range(k)], key=lambda x:len(x))
+
+        # If the full solution requires one position to have all its values changed, that position will be
+        # one that minimizes the maximum frequency of its elements, and should be the final checked counter
+        minMaxFreq = min(cc[0][1] for cc in counters)
+        for i in range(k-1,-1,-1):
+            if counters[i][0][1] == minMaxFreq:
+                final_counter = Counter(dict(counters.pop(i)))
+                break
+
+        # cache the accumulated max possible sum of counts for the rest of the columns
+        maxRemainingVal = list(accumulate([cc[0][1] for cc in reversed(counters)], initial=minMaxFreq))[::-1]
+
+        self._max = 0
+
+        # pos: position in [0:k]; val: previous XOR; running_tot: previous total counts
+        def countXOR(pos=0, val=0, running_tot=0):
+            if pos == k - 1:
+                self._max = max(self._max, final_counter[val] + running_tot)
+            else:
+                best_score_remaining = maxRemainingVal[pos+1] + running_tot
+                for elem, freq in counters[pos]:
+                    if freq + best_score_remaining > self._max:
+                        countXOR(pos+1, val^elem, running_tot+freq)
+                    else:
+                        break
+
+        countXOR()
+        return len(nums) - self._max
+
 
     
 
