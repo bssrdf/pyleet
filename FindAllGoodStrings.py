@@ -75,7 +75,7 @@ class Solution:
             return res      
         #f = failure(evil)
         f = partialMatchTable(evil)
-        print(f)
+        # print(f)
         @lru_cache(None)
         def dfs(idx, max_matched=0, lb=True, rb=True):
             '''
@@ -89,7 +89,7 @@ class Solution:
             l = s1[idx] if lb else 'a' # valid left bound
             r = s2[idx] if rb else 'z' # valid right bound
             candidates = [*srange(l, r)]
-            print(l, r, candidates, max_matched)
+            # print(l, r, candidates, max_matched)
             res = 0
             for i, c in enumerate(candidates):
                 nxt_matched = max_matched

@@ -46,6 +46,9 @@ sum(balls) is even.
 '''
 
 from typing import List
+import math
+from functools import reduce
+import operator
 
 class Solution:
     def getProbability(self, balls: List[int]) -> float:
@@ -113,6 +116,26 @@ class Solution:
         # if we have X good permutations and Y total permutations, the odds that a randomly
         # selected permutation will be "good" is X / Y AS LONG AS each permutation is equally likely.
         return self.good / self.all
+    
+    def getProbability2(self, balls: List[int]) -> float:
+        self.total = 0
+        self.good = 0
+        self.sum = sum(balls)
+        left, right = {}, {}
+        permutation = lambda n, x:math.factorial(n)/reduce(operator.mul,[math.factorial(i) for i in x.values()])
+        def dfs(i, sum1, sum2, color1, color2):
+            if abs(sum1 - sum2) > self.sum - sum1 - sum2: return
+            if i == len(balls):
+                if sum1 != sum2: return
+                p1, p2 = permutation(sum1, left), permutation(sum2, right)
+                self.total += p1 * p2
+                self.good += p1 * p2 * (color1 == color2)
+            else:
+                for j in range(balls[i] + 1):
+                    left[i], right[i] = j, balls[i] - j
+                    dfs(i+1, sum1 + j, sum2 + balls[i] - j, color1 + (j != 0), color2 + (balls[i] != j))
+        dfs(0, 0, 0, 0, 0)
+        return self.good/self.total
 
 
 if __name__ == "__main__":
