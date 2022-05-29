@@ -1,6 +1,8 @@
 '''
 
 -Hard-
+*DP*
+
 
 Given a string s, return true if it is possible to split the string s into three non-empty palindromic substrings. Otherwise, return false.​​​​​
 
