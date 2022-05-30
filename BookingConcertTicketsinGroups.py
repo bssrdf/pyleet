@@ -139,13 +139,99 @@ class BookMyShow:
             return True
         return False
 
+class BookMyShow2:
+
+    def __init__(self, n: int, m: int):        
+        self.m = m        
+        self.n = n
+        sz = 1 
+        while sz < 2*n:
+            sz <<= 1
+        self.stree = [[0,0] for _ in range(sz)]
+        self.build(0, 0, n-1)
+
+    def build(self, i, p, q):
+        # print(i, p, q)
+        if p == q :
+            self.stree[i] = [self.m, self.m]
+            return
+        m = (p + q) // 2
+        self.stree[i] = [self.m, (q-p+1)*self.m]
+        self.build(2*i+1, p, m)
+        self.build(2*i+2, m+1, q)
+
+    def query_max(self, i, p, q, k, maxRow):
+        if p > maxRow: return []
+        if self.stree[i][0] < k:  return []
+        if p == q:
+            return [p, (self.m - self.stree[i][0])]
+        m = (p + q) // 2
+        ret = self.query_max(2*i+1, p, m, k, maxRow)
+        if ret: return ret
+        return self.query_max(2*i+2, m+1, q, k, maxRow)
+
+    def update_max(self, i, p, q, row, k):
+        if p > row or q < row: return
+        if p == q:
+            self.stree[i][0] -= k
+            self.stree[i][1] -= k
+            # // cout << p << " " << stree[i][0] << endl;
+            return
+        m = (p + q) // 2
+        self.stree[i][1] -= k
+        self.update_max(2*i+1, p, m, row, k)
+        self.update_max(2*i+2, m+1, q, row, k)
+        self.stree[i][0] = max(self.stree[2*i+1][0], self.stree[2*i+2][0])
+    
+    def query_sum(self, i, p,  q, maxRow):
+        if p > maxRow:  return 0
+        if q <= maxRow:  return self.stree[i][1]
+        m = (p + q) // 2
+        return self.query_sum(2*i+1, p, m, maxRow) + self.query_sum(2*i+2, m+1, q, maxRow)
+    
+    def update_sum(self, i, p, q, k, maxRow): 
+        if p > maxRow:  return
+        if p == q:
+            self.stree[i][0] -= k
+            self.stree[i][1] -= k
+            # // cout << p << " " << stree[i][0] << endl;
+            return
+        m = (p + q) // 2
+        self.stree[i][1] -= k
+        if m+1 > maxRow or self.stree[2*i+1][1] >= k:
+            self.update_sum(2*i+1, p, m, k, maxRow)
+        else:
+            k -= self.stree[2*i+1][1]
+            self.update_sum(2*i+1, p, m, self.stree[2*i+1][1], maxRow)
+            # Be aware: stree[2*i+1][1] updates while updating the left tree
+            self.update_sum(2*i+2, m+1, q, k, maxRow)
+        self.stree[i][0] = max(self.stree[2*i+1][0], self.stree[2*i+2][0])
+
+    def gather(self, k: int, maxRow: int) -> List[int]:
+        ret = self.query_max(0, 0, self.n-1, k, maxRow)
+        if ret:
+            self.update_max(0, 0, self.n-1, ret[0], k)
+        return ret
+    
+    def scatter(self, k: int, maxRow: int) -> bool:
+        cnt = self.query_sum(0, 0, self.n-1, maxRow)
+        # print('cnt = ', cnt)
+        ret = cnt >= k
+        if ret:
+            self.update_sum(0, 0, self.n-1, k, maxRow)
+        return ret
+         
+
+
 if __name__ == "__main__":
-    bms = BookMyShow(2, 5) # There are 2 rows with 5 seats each 
+    bms = BookMyShow2(2, 5) # There are 2 rows with 5 seats each 
+    # print(bms.stree)
     print(bms.gather(4, 0))# return [0, 0]
                     # // The group books seats [0, 3] of row 0. 
     print(bms.gather(2, 0)) # return []
                     # // There is only 1 seat left in row 0,
                     # // so it is not possible to book 2 consecutive seats. 
+    # print(bms.stree)
     print(bms.scatter(5, 1)) # return True
                     # // The group books seat 4 of row 0 and seats [0, 3] of row 1. 
     print(bms.scatter(5, 1)) # return False

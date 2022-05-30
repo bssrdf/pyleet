@@ -1,5 +1,5 @@
 '''
-
+-Medium-
 
 You are given an m x n 0-indexed 2D array of positive integers heights where heights[i][j] is the height of the person standing at position (i, j).
 

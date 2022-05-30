@@ -44,6 +44,19 @@ class Solution:
         for i in range(n):
             ans += count[i]*weight[i]
         return ans
+
+    def maximumImportance2(self, n: int, roads: List[List[int]]) -> int:
+        count = [0]*n
+        for u, v in roads:
+            count[u] += 1
+            count[v] += 1
+        count.sort()
+        ans = 0
+        for i in range(1,n+1):
+            ans += i*count[i-1]
+        return ans     
+        
+            
         
 print(Solution().maximumImportance(n = 5, roads = [[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]))
 print(Solution().maximumImportance(n = 5, roads = [[0,3],[2,4],[1,3]]))
