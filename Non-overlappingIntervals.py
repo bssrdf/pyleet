@@ -1,5 +1,6 @@
 '''
 -Medium-
+*Sorting*
 
 Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum 
 number of intervals you need to remove to make the rest of the intervals non-overlapping.
@@ -37,6 +38,10 @@ class Solution(object):
         """
         :type intervals: List[List[int]]
         :rtype: int
+        """
+        """
+        sort by starting point: the minimum number of intervals to cover the whole range
+        sort by ending point: the maximum number of intervals that are non-overlapping
         """
         intervals.sort()
         last = 0

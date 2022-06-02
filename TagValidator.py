@@ -161,6 +161,52 @@ class Solution(object):
         :rtype: bool
         """
         return parser(lexer(code))
+    
+    def isValid2(self, code: str) -> bool:
+        stack = []
+        i, n = 0, len(code)
+        while i < n:
+            if i>0 and not stack:
+                return False
+            if code.startswith('<![CDATA[', i):
+                j = i+9
+                try:
+                    i = code.index(']]>', j)
+                except ValueError:
+                    return False
+                i += 3
+            elif code.startswith('</', i):
+                j = i+2
+                try:
+                    i = code.index('>', j)
+                except ValueError:
+                    return False
+                if i == j or i - j > 9:
+                    return False
+                for k in range(j, i):
+                    if not code[k].isupper():
+                        return False
+                s = code[j:i]
+                if not stack or stack.pop() != s:
+                    return False
+                i += 1
+            elif code.startswith('<',i):
+                j = i + 1
+                try:
+                    i = code.index('>',j)
+                except ValueError:
+                    return False
+                if i == j or i - j > 9:
+                    return False
+                for k in range(j, i):
+                    if not code[k].isupper():
+                        return False
+                s = code[j:i]
+                stack.append(s)
+                i += 1
+            else:
+                i += 1
+        return not stack
 
     def isValidStateMachine(self, code):
         """
