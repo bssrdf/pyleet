@@ -175,22 +175,22 @@ class Solution(object):
                 except ValueError:
                     return False
                 i += 3
-            elif code.startswith('</', i):
+            elif code.startswith('</', i): # end tag
                 j = i+2
                 try:
                     i = code.index('>', j)
                 except ValueError:
                     return False
-                if i == j or i - j > 9:
+                if i == j or i - j > 9: # tag name can not be empty or longer than 9
                     return False
                 for k in range(j, i):
-                    if not code[k].isupper():
+                    if not code[k].isupper(): # tag name all upper case
                         return False
-                s = code[j:i]
+                s = code[j:i] # got tag name
                 if not stack or stack.pop() != s:
                     return False
                 i += 1
-            elif code.startswith('<',i):
+            elif code.startswith('<',i): # start tag
                 j = i + 1
                 try:
                     i = code.index('>',j)
