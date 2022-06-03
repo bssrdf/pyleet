@@ -1,5 +1,7 @@
 '''
 -Hard-
+$$$
+*Stack*
 
 A binary expression tree is a kind of binary tree used to represent arithmetic 
 expressions. Each node of a binary expression tree has either zero or two 

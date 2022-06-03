@@ -1,5 +1,5 @@
 '''
--Medium-
+-Hard-
 *Monotonic Stack*
 
 Given an array A of integers, return the number of non-empty continuous subarrays that satisfy the 

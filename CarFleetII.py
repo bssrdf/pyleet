@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Monotonic Stack*
 
 There are n cars traveling at different speeds in the same direction along a one-lane road. 
 You are given an array cars of length n, where cars[i] = [positioni, speedi] represents:
