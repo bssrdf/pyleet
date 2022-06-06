@@ -1,6 +1,9 @@
 '''
 -Hard-
 $$$
+*Sweep Line*
+*Scan Line*
+*Segment Tree*
 
 
 
@@ -54,6 +57,8 @@ Solutions
 
 '''
 
+from collections import defaultdict
+
 
 class Solution(object):
     def minDayskVariants(self, points, k):
@@ -103,13 +108,70 @@ class Solution(object):
                 l = mid + 1
             print(l, r, mid)
         return l-1
+    
+    def minDayskVariants2(self, points, k):
+        # The points (region) infected by a virus after some days form
+        # a square rotated counterclockwise by 45 degrees on the x-y plane.          
+        # so the first step is to do a transform of co-ordinates of all points,
+        # all computations later are based on these transformed(rotated) co-ordinates
+        points = [[v[0]+v[1], v[0]-v[1]] for v in points] # rotate counterclockwise by 45 degrees
+        min_x = min(points, key=lambda x:x[0])[0]
+        max_x = max(points, key=lambda x:x[0])[0]
+        min_y = min(points, key=lambda x:x[1])[1]
+        max_y = max(points, key=lambda x:x[1])[1]
+        # print(min_x, min_y, max_x, max_y)
+        def check(l): # Time O(n^2), Space: O(n)
+            mint = lambda : defaultdict(int)
+            intervals = defaultdict(mint)
+            y_set = set()
+            for p in points:
+                x0, y0, x1, y1 = p[0]-l, p[1]-l, p[0]+l, p[1]+l
+                # print(x0, y0, x1, y1)
+                # 2D Sweep Line Algorithm; aka, difference array 
+                # all points in range (x0, y0) - (x1, y1) inclusive are 
+                # infected by virus at p after l days 
+                intervals[x0][y0] += 1
+                intervals[x0][y1+1] -= 1
+                intervals[x1+1][y0] -= 1
+                intervals[x1+1][y1+1] += 1
+                y_set.add(y0)
+                y_set.add(y1+1)
+            sorted_x = []
+            for x in intervals:
+                sorted_x.append(x)
+            sorted_x.sort()
+            sorted_y = list(y_set)
+            sorted_y.sort()
+            count = defaultdict(int)
+            for x in sorted_x: # for each sweep line (at a particular x)
+                for y,c in intervals[x].items():
+                    # print(y,c)
+                    count[y] += c # add or substract contribution from all viruses that cover this x,y  
+                cnt = 0
+                for y in sorted_y: # check each x,y 
+                    cnt += count[y] # sum up the total contribution
+                    if cnt >= k: 
+                        return True
+            return False  
 
+        left, right = 0, (max_x-min_x+max_y-min_y+1)//2
+        while left <= right:
+            mid = left + (right-left)//2
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left        
 
 
 
 
 
 if __name__ == "__main__":   
-    points = [[3,3],[1,2],[9,2]]
-    k = 2
-    print(Solution().minDayskVariants(points, k))
+    points = [[1,1],[6,1]]; k = 2
+    print(Solution().minDayskVariants2(points, k))
+    points = [[3,3],[1,2],[9,2]]; k = 2
+    # print(Solution().minDayskVariants(points, k))
+    print(Solution().minDayskVariants2(points, k))
+    points = [[3,3],[1,2],[9,2]]; k = 3
+    print(Solution().minDayskVariants2(points, k))
