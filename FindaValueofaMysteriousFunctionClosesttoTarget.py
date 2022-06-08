@@ -1,5 +1,7 @@
 '''
 -Hard-
+*Segment Tree*
+*Set*
 
 Winston was given the above mysterious function func. He has an integer array arr and an integer target and he wants to find the values l and r that make the value |func(arr, l, r) - target| minimum possible.
 
@@ -133,6 +135,20 @@ class Solution:
                     l += 1
                     r += 1
         return ans
+    
+    def closestToTarget2(self, arr: List[int], target: int) -> int:
+        st, n = {arr[-1]}, len(arr)
+        ans = float('inf')
+        for i in range(n-2, -1, -1):
+            setnew = {arr[i]}
+            for j in st:
+                setnew.add(arr[i] & j)
+            for j in setnew:
+                ans = min(ans, abs(j-target))    
+            st = setnew
+        return ans
+
+
 
 
 if __name__ == "__main__":   
@@ -140,3 +156,8 @@ if __name__ == "__main__":
     print(Solution().closestToTarget(arr = [1000000,1000000,1000000], target = 1))
     print(Solution().closestToTarget(arr = [1,2,4,8,16], target = 0))
     print(Solution().closestToTarget([70,15,21,96],4))
+
+    print(Solution().closestToTarget2(arr = [9,12,3,7,15], target = 5))
+    print(Solution().closestToTarget2(arr = [1000000,1000000,1000000], target = 1))
+    print(Solution().closestToTarget2(arr = [1,2,4,8,16], target = 0))
+    print(Solution().closestToTarget2([70,15,21,96],4))
