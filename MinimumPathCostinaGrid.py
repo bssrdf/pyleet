@@ -52,7 +52,7 @@ class Solution:
         m, n = len(grid), len(grid[0])
         ans = float('inf')
         @lru_cache(None)
-        def dp(r, c):
+        def dp(r, c):  
             cost = grid[r][c]    
             if r == m-1:
                 # print(r, cost)                 

@@ -81,4 +81,4 @@ class Solution(object):
 if __name__ == "__main__":
     print(Solution().minJumps(nums = [3,2,4,4,1], costs = [3,7,6,4,2]))
     print(Solution().minJumps(nums = [0,1,2], costs = [1,1,1]))
-    print(Solution().minJumps(nums = [3,2,6,8,6,4,4,1], costs = [3,7,6,4,5,3,2,2]))
+    print(Solution().minJumps(nums = [3,2,6,8,6,4,4,1], costs = [3,13,6,4,5,3,2,2]))
