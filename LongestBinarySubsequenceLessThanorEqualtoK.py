@@ -61,6 +61,7 @@ class Solution:
                 cur = (dp[j] << 1) + int(s[i] == '1')
                 if cur < dp[j+1]:
                     dp[j+1] = cur
+        print(dp)
         ret = 1
         for i in range(2, n+1):
             if dp[i] <= k: ret = i
