@@ -54,11 +54,11 @@ class Solution:
     def countHousePlacements2(self, n: int) -> int:
         dp, dp1 = [0]*4, [0]*4
         dp[2] = 1
-        mod = 10**9 +7
+        mod = 10**9 + 7
         for i in range(1, n+1):
             dp1[0] = (dp[1] + dp[2]) % mod
             dp1[1] = (dp[0] + dp[2]) % mod
-            dp1[2] = (dp[0] + dp[1] + dp[2] + dp[3]) % mod
+            dp1[2] = sum(dp) % mod
             dp1[3] = dp[2] % mod
             dp, dp1 = dp1, dp
         
