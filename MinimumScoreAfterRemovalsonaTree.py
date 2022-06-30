@@ -1,5 +1,8 @@
 '''
 -Hard-
+*DFS*
+*BFS*
+
 
 There is an undirected connected tree with n nodes labeled from 0 to n - 1 and n - 1 edges.
 
@@ -53,6 +56,7 @@ edges represents a valid tree.
 '''
 import collections
 import math
+from functools import cache
 from typing import List
 
 class Solution:
@@ -114,6 +118,41 @@ class Solution:
                 ans = min(ans, max(cur) - min(cur))
             
         return ans
+    
+    def minimumScore2(self, nums: List[int], edges: List[List[int]]) -> int:
+        find = collections.defaultdict(list)
+        for x, y in edges:
+            find[x].append(y)
+            find[y].append(x)
+
+        @cache
+        def get_xors_of_subtree(root, prev):
+            res = []
+            val = nums[root]
+            for y in find[root]:
+                if y != prev:
+                    tmp = get_xors_of_subtree(y, root)
+                    res.extend(tmp)
+                    val ^= tmp[-1]
+            res.append(val)
+            return res
+
+        res = math.inf
+        for x, y in edges:
+            left_xors = get_xors_of_subtree(x, y)
+            right_xors = get_xors_of_subtree(y, x)
+            left_val = left_xors[-1]
+            right_val = right_xors[-1]
+            for l1 in left_xors[:-1]:
+                l2 = left_val ^ l1
+                res = min(res, max(l1, l2, right_val) - min(l1, l2, right_val))
+            for r1 in right_xors[:-1]:
+                r2 = right_val ^ r1
+                res = min(res, max(r1, r2, left_val) - min(r1, r2, left_val))
+
+        return res
+
+
 
 
 if __name__ == "__main__":
