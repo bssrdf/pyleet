@@ -50,15 +50,11 @@ class Solution:
             while stack and A[stack[-1]] > A[i]:
                 smallerRight[stack[-1]] = i 
                 stack.pop()            
+            if stack:
+                smallerLeft[i] = stack[-1]
             stack.append(i)
-        stack = []
-        for i in range(n-1, -1, -1):
-            while stack and A[stack[-1]] > A[i]:
-                smallerLeft[stack[-1]] = i
-                stack.pop()
-            stack.append(i)
-        print(smallerLeft)
-        print(smallerRight)
+        # print(smallerLeft)
+        # print(smallerRight)
         for i in range(n):
             k = smallerRight[i] - smallerLeft[i] - 1
             if A[i] > threshold / k:
