@@ -43,6 +43,8 @@ n == jobs.length == workers.length
 
 '''
 
+from typing import List
+
 class Solution:
     def minimumTime(self, jobs: List[int], workers: List[int]) -> int:
         jobs.sort()

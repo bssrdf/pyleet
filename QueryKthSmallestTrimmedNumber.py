@@ -1,6 +1,8 @@
 '''
 -Medium-
 
+*Bucket Sort*
+
 You are given a 0-indexed array of strings nums, where each string is of equal length and consists of only digits.
 
 You are also given a 0-indexed 2D integer array queries where queries[i] = [ki, trimi]. For each queries[i], you need to:
@@ -64,7 +66,31 @@ class Solution:
             pq.sort()
             ans.append(pq[k-1][1])
         return ans
+    
+    def smallestTrimmedNumbers2(self, nums: List[str], queries: List[List[int]]) -> List[int]:        
+        m, n = len(nums), len(nums[0])
+        ans = [[0]*m for _ in range(n+1)]
+        for j in range(m):
+            ans[0][j] = j
+        for i in range(1, n+1):
+            buckets = [[] for _ in range(10)]
+            for j in range(m):
+                idx = ans[i-1][j]
+                buckets[ord(nums[idx][-i])-ord('0')].append(idx)
+            j = 0
+            for b in range(10):
+                for idx in buckets[b]:
+                    ans[i][j] = idx
+                    j += 1
+        return [ ans[t][k-1] for k,t in queries]    
+
+
+        
+
+
                 
 if __name__ == "__main__":
     print(Solution().smallestTrimmedNumbers(nums = ["102","473","251","814"], queries = [[1,1],[2,3],[4,2],[1,2]]))
     print(Solution().smallestTrimmedNumbers( nums = ["24","37","96","04"], queries = [[2,1],[2,2]]))
+    print(Solution().smallestTrimmedNumbers2(nums = ["102","473","251","814"], queries = [[1,1],[2,3],[4,2],[1,2]]))
+    print(Solution().smallestTrimmedNumbers2( nums = ["24","37","96","04"], queries = [[2,1],[2,2]]))

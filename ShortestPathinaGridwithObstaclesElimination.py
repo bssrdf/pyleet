@@ -91,7 +91,7 @@ class Solution(object):
         dirs = [(-1,0), (1,0), (0,-1), (0,1)]        
         while queue:
             (i,j), obs, steps = queue.popleft()
-            print(i, j, obs, steps)
+            # print(i, j, obs, steps)
             if (i,j) == (m-1,n-1): return steps
             for di, dj in dirs:
                 x, y = i+di, j+dj

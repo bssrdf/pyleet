@@ -33,6 +33,8 @@ intervals[i].length == 2
 
 '''
 
+
+
 class Solution(object):
     def eraseOverlapIntervals(self, intervals):
         """
@@ -41,7 +43,6 @@ class Solution(object):
         """
         """
         sort by starting point: the minimum number of intervals to cover the whole range
-        sort by ending point: the maximum number of intervals that are non-overlapping
         """
         intervals.sort()
         last = 0
@@ -53,7 +54,30 @@ class Solution(object):
                     last = i
             else: last = i
         return res
+    
+    def eraseOverlapIntervals2(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: int
+        """
+        """        
+        sort by ending point: the maximum number of intervals that are non-overlapping
+        为了保留更多的区间数目，在众多重合的区间里面，我们会优先选择右端点靠前的区间。
+        因为它对后续的影响最小，有更大的概率让更多的区间出现。
+        """
+        intervals.sort(key=lambda x: x[1])
+        i, cnt = 0, 0
+        while i < len(intervals):
+            cnt += 1
+            j = i+1
+            while j < len(intervals) and intervals[j][0] < intervals[i][1]:
+                j += 1
+            i = j
+        return len(intervals) - cnt
+
+
 
     
 if __name__ == "__main__":
     print(Solution().eraseOverlapIntervals([[1,2],[2,3],[3,4],[1,3]]))
+    print(Solution().eraseOverlapIntervals2([[1,2],[2,3],[3,4],[1,3]]))
