@@ -109,22 +109,29 @@ class Solution:
 
 
 if __name__ == "__main__":
-    print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[5,4]]))
-    print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[4,6]]))
-    print(Solution().numberOfMountains(peaks = [[1,3],[1,3]]))
-    print(Solution().numberOfMountains(peaks = [[1,3],[1,3], [1,2]]))
-    print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[9,2],[10,3]]))
-    print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
+    # print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[5,4]]))
+    # print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[4,6]]))
+    # print(Solution().numberOfMountains(peaks = [[1,3],[1,3]]))
+    # print(Solution().numberOfMountains(peaks = [[1,3],[1,3], [1,2]]))
+    # print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[9,2],[10,3]]))
+    # print(Solution().numberOfMountains(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
 
-    print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[5,4]]))
-    print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[4,6]]))
-    print(Solution().numberOfMountains2(peaks = [[1,3],[1,3]]))
-    print(Solution().numberOfMountains2(peaks = [[1,3],[1,3], [1,2]]))
-    print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[9,2],[10,3]]))
-    print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
+    # print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[5,4]]))
+    # print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[4,6]]))
+    # print(Solution().numberOfMountains2(peaks = [[1,3],[1,3]]))
+    # print(Solution().numberOfMountains2(peaks = [[1,3],[1,3], [1,2]]))
+    # print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[9,2],[10,3]]))
+    # print(Solution().numberOfMountains2(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
 
     # print(Solution().numberOfMountains3(peaks = [[1,3],[1,3], [1,2]]))
     # print(Solution().numberOfMountains4(peaks = [[1,3],[1,3], [1,2]]))
+
+    print(Solution().numberOfMountains3(peaks = [[2,2],[6,3],[5,4]]))
+    print(Solution().numberOfMountains3(peaks = [[2,2],[6,3],[4,6]]))
+    print(Solution().numberOfMountains3(peaks = [[1,3],[1,3]]))
+    print(Solution().numberOfMountains3(peaks = [[1,3],[1,3], [1,2]]))
+    print(Solution().numberOfMountains3(peaks = [[2,2],[6,3],[9,2],[10,3]]))
+    print(Solution().numberOfMountains3(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
 
     print(Solution().numberOfMountains4(peaks = [[2,2],[6,3],[5,4]]))
     print(Solution().numberOfMountains4(peaks = [[2,2],[6,3],[4,6]]))

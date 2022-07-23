@@ -133,6 +133,23 @@ class Solution(object):
 
         return maxArea
 
+    def largestRectangleAreaOnePass(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """        
+        heights = [0] + heights + [0]
+        ret, n = 0, len(heights)
+        stk = []
+        for i in range(n):
+            while stk and heights[stk[-1]] > heights[i]:
+                H = heights[stk[-1]]
+                stk.pop()
+                ret = max(ret, H*(i-stk[-1]-1))
+            stk.append(i)
+        return ret
+
+
 
 print(Solution().largestRectangleArea([2,1,5,6,2,3]))
 print(Solution().largestRectangleAreaMonoQueue([2,1,5,6,2,3]))

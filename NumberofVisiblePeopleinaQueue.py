@@ -59,13 +59,9 @@ class Solution(object):
             cnt = 0
             while stack and H[stack[-1]] < H[i]:                
                 cnt += 1
-                stack.pop()
-            if cnt == 0:                            
-                if stack: res[i] = 1
-                else: res[i] = 0            
-            else:
-                if stack: res[i] = cnt+1
-                else: res[i] = cnt
+                stack.pop()            
+            if stack: cnt += 1
+            res[i] = cnt
             stack.append(i)   
         return res
 
