@@ -1,6 +1,6 @@
 '''
 -Hard-
-
+*Hash Table*
 
 
 You are given a 0-indexed positive integer array nums and a positive integer k.
@@ -43,6 +43,7 @@ Constraints:
 '''
 
 from typing import List
+from collections import Counter 
 
 class Solution:
     def countExcellentPairs(self, nums: List[int], k: int) -> int:
@@ -64,8 +65,24 @@ class Solution:
                                # *2 to account for reversed pairs                              
                 j -= 1
         return cnt + sum(1 for b in B if 2*b >= k)
+
+    def countExcellentPairs2(self, nums: List[int], k: int) -> int:
+        # The sum of the number of set bits in (num1 OR num2) and (num1 AND num2) 
+        # is equal to the sum of the number of set bits in num1 and num2.
+        def bits(n):
+            return bin(n).count('1')
+        cnt = 0    
+        B = [bits(x) for x in set(nums) ]
+        counter = Counter(B) 
+        for c1 in counter:
+            for c2 in counter:
+                if c1 + c2 >= k:
+                    cnt += counter[c1] * counter[c2]
+        
+        return cnt
     
 
 if __name__ == "__main__":
     print(Solution().countExcellentPairs(nums = [1,2,3,1], k = 3))
+    print(Solution().countExcellentPairs2(nums = [1,2,3,1], k = 3))
                 
