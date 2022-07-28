@@ -1,7 +1,7 @@
 '''
 
 -Medium-
-
+*Hashing*
 
 Given a 0-indexed n x n integer matrix grid, return the number of pairs (Ri, Cj) such that row Ri and column Cj are equal.
 
@@ -48,11 +48,36 @@ class Solution:
             # print(tpl)
             pairs += cnt[tpl]
         return pairs
+    
+    def equalPairs2(self, grid: List[List[int]]) -> int:
+        pairs, M = 0, 10**9+7
+        m, n = len(grid), len(grid[0])
+        def rowhash(r):
+            ret = 0
+            for i in range(n):
+                ret = (ret + grid[r][i]) * 7 % M
+            return ret    
+        def colhash(c):
+            ret = 0
+            for i in range(m):
+                ret = (ret + grid[i][c]) * 7 % M
+            return ret    
+        rows, cols = [0]*m, [0]*n
+        for i in range(m):
+            rows[i] = rowhash(i)
+        for i in range(n):
+            cols[i] = colhash(i)
+        for i in range(m):
+            for j in range(n):
+                if rows[i] == cols[j]: pairs += 1
+        return pairs 
+        
 
 
 if __name__ == "__main__":
     grid = [[3,2,1],[1,7,6],[2,7,7]]
     print(Solution().equalPairs(grid))
+    print(Solution().equalPairs2(grid))
 
 
                         

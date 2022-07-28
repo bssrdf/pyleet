@@ -40,7 +40,7 @@ peaks[i].length == 2
 '''
 
 from typing import List
-from collections import defaultdict
+from collections import defaultdict, Counter
 class Solution:
     def numberOfMountains(self, peaks: List[int]) -> int:
         m = defaultdict(int)
@@ -106,6 +106,27 @@ class Solution:
                     s, e = a, b
         return cnt
 
+    def numberOfMountains5(self, peaks: List[int]) -> int:
+        count = Counter((x, y) for x, y in peaks)
+        peaks = sorted([k for k, v in count.items() if v == 1])
+        stack = []
+
+        # returns True if `peak1` is hidden by `peak2`
+        def isHidden(peak1: List[int], peak2: List[int]) -> bool:
+            x1, y1 = peak1
+            x2, y2 = peak2
+            return x1 - y1 >= x2 - y2 and x1 + y1 <= x2 + y2
+
+        for i, peak in enumerate(peaks):
+            while stack and isHidden(peaks[stack[-1]], peak):
+                stack.pop()
+            if stack and isHidden(peak, peaks[stack[-1]]):
+                continue
+            stack.append(i)
+
+        return len(stack)
+
+
 
 
 if __name__ == "__main__":
@@ -132,12 +153,19 @@ if __name__ == "__main__":
     print(Solution().numberOfMountains3(peaks = [[1,3],[1,3], [1,2]]))
     print(Solution().numberOfMountains3(peaks = [[2,2],[6,3],[9,2],[10,3]]))
     print(Solution().numberOfMountains3(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
-
+    print("*************************************")
     print(Solution().numberOfMountains4(peaks = [[2,2],[6,3],[5,4]]))
     print(Solution().numberOfMountains4(peaks = [[2,2],[6,3],[4,6]]))
     print(Solution().numberOfMountains4(peaks = [[1,3],[1,3]]))
     print(Solution().numberOfMountains4(peaks = [[1,3],[1,3], [1,2]]))
     print(Solution().numberOfMountains4(peaks = [[2,2],[6,3],[9,2],[10,3]]))
     print(Solution().numberOfMountains4(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
+    print("*************************************")
+    print(Solution().numberOfMountains5(peaks = [[2,2],[6,3],[5,4]]))
+    print(Solution().numberOfMountains5(peaks = [[2,2],[6,3],[4,6]]))
+    print(Solution().numberOfMountains5(peaks = [[1,3],[1,3]]))
+    print(Solution().numberOfMountains5(peaks = [[1,3],[1,3], [1,2]]))
+    print(Solution().numberOfMountains5(peaks = [[2,2],[6,3],[9,2],[10,3]]))
+    print(Solution().numberOfMountains5(peaks = [[2,2],[6,3],[1,3],[1,3],[9,2],[10,3]]))
 
 
