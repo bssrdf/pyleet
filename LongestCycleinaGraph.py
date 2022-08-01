@@ -43,22 +43,42 @@ from typing import List
 class Solution:
     def longestCycle(self, edges: List[int]) -> int:
         n = len(edges)
-        dist = [-1]*n
+        dist, visited = [-1]*n, [False]*n
         ans = -1
-        def dfs(u, d, dist):
+        def dfs(u, d):
             nonlocal ans
             dist[u] = d
             v = edges[u] 
             if v != -1:
                 if dist[v] == -1:
-                    dfs(v, d+1, dist)
-                elif dist[v] < d+1:
-                    # print(u, v, d, dist)
+                    dfs(v, d+1)
+                elif not visited[v] and dist[v] < d+1:
                     ans = max(ans, d+1-dist[v])
+            visited[u] = True    
         for i in range(n):
             if edges[i] != -1 and dist[i] == -1:
-               dfs(i, 0, dist)
+                dfs(i, 0)
         return ans
+
+    def longestCycle2(self, edges: List[int]) -> int:
+        n = len(edges)
+        dist = [-1]*n
+        ans = -1
+        def dfs(u, d):
+            nonlocal ans
+            dist[u] = d
+            v = edges[u] 
+            if v != -1:
+                if dist[v] == -1:
+                    dfs(v, d+1)
+                elif dist[v] < d+1:
+                    ans = max(ans, d+1-dist[v])
+            dist[u] = 10**6    
+        for i in range(n):
+            if edges[i] != -1 and dist[i] == -1:
+                dfs(i, 0)
+        return ans
+
 
 if __name__ == "__main__":
     print(Solution().longestCycle(edges = [3,3,4,2,3]))
@@ -67,4 +87,10 @@ if __name__ == "__main__":
     edges = [49,29,24,24,-1,-1,-1,2,23,-1,44,47,52,49,9,31,40,34,-1,53,33,-1,2,-1,18,31,0,9,47,35,-1,-1,-1,-1,4,12,14,19,-1,4,4,43,25,11,54,-1,25,39,17,-1,22,44,-1,44,29,50,-1,-1]
     print(Solution().longestCycle(edges = edges))
 
+
+    print(Solution().longestCycle2(edges = [3,3,4,2,3]))
+    print(Solution().longestCycle2(edges = [2,-1,3,1]))
+    print(Solution().longestCycle2(edges = [-1,4,-1,2,0,4]))
+    edges = [49,29,24,24,-1,-1,-1,2,23,-1,44,47,52,49,9,31,40,34,-1,53,33,-1,2,-1,18,31,0,9,47,35,-1,-1,-1,-1,4,12,14,19,-1,4,4,43,25,11,54,-1,25,39,17,-1,22,44,-1,44,29,50,-1,-1]
+    print(Solution().longestCycle2(edges = edges))
         
