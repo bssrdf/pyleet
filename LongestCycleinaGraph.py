@@ -52,8 +52,8 @@ class Solution:
             if v != -1:
                 if dist[v] == -1:
                     dfs(v, d+1, dist)
-                else:
-                    print(u, v, d, dist)
+                elif dist[v] < d+1:
+                    # print(u, v, d, dist)
                     ans = max(ans, d+1-dist[v])
         for i in range(n):
             if edges[i] != -1 and dist[i] == -1:
@@ -64,5 +64,7 @@ if __name__ == "__main__":
     print(Solution().longestCycle(edges = [3,3,4,2,3]))
     print(Solution().longestCycle(edges = [2,-1,3,1]))
     print(Solution().longestCycle(edges = [-1,4,-1,2,0,4]))
+    edges = [49,29,24,24,-1,-1,-1,2,23,-1,44,47,52,49,9,31,40,34,-1,53,33,-1,2,-1,18,31,0,9,47,35,-1,-1,-1,-1,4,12,14,19,-1,4,4,43,25,11,54,-1,25,39,17,-1,22,44,-1,44,29,50,-1,-1]
+    print(Solution().longestCycle(edges = edges))
 
         
