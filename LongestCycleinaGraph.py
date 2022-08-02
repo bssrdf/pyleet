@@ -63,7 +63,7 @@ class Solution:
         return ans
 
     def longestCycle2(self, edges: List[int]) -> int:
-        n = len(edges)
+        MAX, n = 10**6, len(edges)
         dist = [-1]*n
         ans = -1
         def dfs(u, d):
@@ -75,7 +75,7 @@ class Solution:
                     dfs(v, d+1)
                 elif dist[v] < d+1:
                     ans = max(ans, d+1-dist[v])
-            dist[u] = 10**6    
+            dist[u] = MAX  
         for i in range(n):
             if edges[i] != -1 and dist[i] == -1:
                 dfs(i, 0)
