@@ -47,11 +47,17 @@ class Solution:
     def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
         n = len(edges)
         dist1, dist2 = [-1]*n, [-1]*n 
+        # def dfs(u, d, dist):
+        #     dist[u] = d
+        #     v = edges[u] 
+        #     if v != -1 and dist[v] == -1:
+        #        dfs(v, d+1, dist)
         def dfs(u, d, dist):
-            dist[u] = d
-            v = edges[u] 
-            if v != -1 and dist[v] == -1:
-               dfs(v, d+1, dist)
+            while u != -1 and dist[u] == -1:
+                dist[u] = d
+                d += 1                 
+                u = edges[u]
+                
         dfs(node1, 0, dist1)
         dfs(node2, 0, dist2)
         ans, dmin = -1, n 
