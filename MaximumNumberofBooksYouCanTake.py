@@ -3,9 +3,14 @@
 *Monotonic Stack*
 *DP*
 
-You are given a 0-indexed integer array books of length n where books[i] denotes the number of books on the ith shelf of a bookshelf.
+You are given a 0-indexed integer array books of length n where books[i] denotes 
+the number of books on the i-th shelf of a bookshelf.
 
-You are going to take books from a contiguous section of the bookshelf spanning from l to r where 0 <= l <= r < n. For each index i in the range l <= i < r, you must take strictly fewer books from shelf i than shelf i + 1.
+You are going to take books from a contiguous section of the bookshelf spanning from l to r 
+where 0 <= l <= r < n. 
+
+For each index i in the range l <= i < r, you must take strictly fewer books from shelf i 
+than shelf i + 1.
 
 Return the maximum number of books you can take from the bookshelf.
 
@@ -43,7 +48,13 @@ Explanation:
 - Take 7 books from shelf 3.
 You have taken 13 books so return 13.
 It can be proven that 13 is the maximum number of books you can take.
- 
+
+
+Example 4:
+
+Input: books = [1,0,2,3,10,11,12]
+Output: 38
+
 
 Constraints:
 
@@ -78,7 +89,7 @@ class Solution:
             if stk:
                 left[i] = stk[-1]
             stk.append(i)
-        print(left)
+        # print(left)
         ans = 0
         dp = [0] * n
         dp[0] = books[0]
@@ -91,7 +102,37 @@ class Solution:
             # print(i, dp[i], s, cnt, dp[j])
             ans = max(ans, dp[i])
         return ans
+    
+    def maximumBooks2(self, books: List[int]) -> int:
+        # dp[i] := max # of books we can take from books[0..i]
+        # with taking all of books[i]
+        dp = [0] * len(books)
+        stack = []  # possible indices we can reach
+
+        for i, book in enumerate(books):
+            # we may take all of books[j] where books[j] < books[i] - (i - j)
+            while stack and books[stack[-1]] >= book - (i - stack[-1]):
+                stack.pop()
+            # we can now take books[j + 1..i]
+            j = stack[-1] if stack else -1
+            lastPicked = book - (i - j) + 1
+            if lastPicked > 1:
+                # book + (book - 1) + ... + (book - (i - j) + 1)
+                dp[i] = (book + lastPicked) * (i - j) // 2
+            else:
+                # 1 + 2 + ... + book
+                dp[i] = book * (book + 1) // 2
+            if j >= 0:
+                dp[i] += dp[j]
+            stack.append(i)
+
+        return max(dp)
 
 if __name__ == "__main__":
     print(Solution().maximumBooks(books = [8,5,2,7,9]))
     print(Solution().maximumBooks(books = [8,2,3,7,3,4,0,1,4,3]))
+    print(Solution().maximumBooks(books = [1,0,2,3,10,11,12]))
+
+    print(Solution().maximumBooks2(books = [8,5,2,7,9]))
+    print(Solution().maximumBooks2(books = [8,2,3,7,3,4,0,1,4,3]))
+    print(Solution().maximumBooks2(books = [1,0,2,3,10,11,12]))
