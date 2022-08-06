@@ -1,6 +1,6 @@
 '''
 -Medium-
-
+*Hash Table*
 
 You are given an array of points in the X-Y plane points where points[i] = [xi, yi].
 
