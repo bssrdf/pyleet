@@ -78,6 +78,19 @@ class Solution:
             dp[c] = mi + 1
         return max(dp)
 
+    
+    def longestIdealString4(self, s: str, k: int) -> int:
+        # fastest
+        n = len(s)
+        dp = [0]*26
+        dp[ord(s[0]) - ord('a')] = 1 
+        for i in range(1, n):
+            c = ord(s[i]) - ord('a')
+            # using python's built-in max function to find maximum 
+            # is much faster than fining it mannually with a for-loop
+            dp[c] = max(dp[max(c-k,0):min(c+k+1, 26)]) + 1
+        return max(dp)
+
 if __name__ == "__main__":
     print(Solution().longestIdealString(s = "acfgbd", k = 2))
     print(Solution().longestIdealString(s = "abcd", k = 3))

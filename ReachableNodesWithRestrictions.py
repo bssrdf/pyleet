@@ -73,16 +73,13 @@ class Solution:
         for u, v in edges:
             graph[u].append(v)
             graph[v].append(u)     
-        cnt = 0   
         def dfs(u):            
-            nonlocal cnt
-            cnt += 1
             vis.add(u)            
             for v in graph[u]:
                 if v not in vis:
                     dfs(v)
         dfs(0)
-        return cnt
+        return len(vis) - len(restricted)
 
         
         
