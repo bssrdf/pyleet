@@ -37,6 +37,7 @@ from typing import List
 
 class Solution:
     def minimumReplacement(self, nums: List[int]) -> int:
+        # Wrong solution
         n, mi = len(nums), nums[-1]
         cnt =  0
         for i in range(n-2, -1, -1):
