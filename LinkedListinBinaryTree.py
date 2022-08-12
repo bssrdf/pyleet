@@ -1,5 +1,7 @@
 '''
 -Medium-
+*DFS*
+*Recursion*
 
 
 Given a binary tree root and a linked list with head as the first node. 
@@ -56,14 +58,12 @@ class ListNode:
 #         self.right = right
 class Solution:
     def isSubPath(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
-        def dfs(node, cur):
+        def dfs(cur, node):
             if not cur: return True
             if not node: return False            
             if cur.val == node.val:
-                if dfs(node.left, cur.next):
+                if dfs(cur.next, node.left) or dfs(cur.next, node.right):
                     return True
-                if dfs(node.right, cur.next):
-                    return True            
             return False
         if not head: return True
         if not root: return False 
