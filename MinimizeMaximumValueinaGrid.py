@@ -2,6 +2,8 @@
 
 -Hard-
 
+*Sorting*
+
 
 You are given an m x n integer matrix grid containing distinct positive integers.
 
@@ -49,16 +51,12 @@ grid consists of distinct integers.
 class Solution:
     def maximumValue(self, grid):
         m, n = len(grid), len(grid[0])
-        A = []
-        for i in range(m):
-            for j in range(n):
-                A.append((grid[i][j], i, j))
-        row, col = [1]*m, [1]*n        
+        A = [ (grid[i][j], i, j) for i in range(m) for j in range(n) ]
+        row, col = [1]*m, [1]*n # ranks for rows and columns       
         A.sort()
         for _, i, j in A:
-            grid[i][j] = max(row[i], col[j])
-            row[i] = grid[i][j] + 1
-            col[j] = grid[i][j] + 1
+            grid[i][j] = max(row[i], col[j]) # assign maximum rank from row i and col j 
+            row[i] = col[j] = grid[i][j] + 1 # bump row i's and col j's rank to be current rank + 1
         return grid
 
 if __name__ == "__main__":
