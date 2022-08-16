@@ -4,6 +4,7 @@
 *Couting*
 *DP*
 *Digit DP*
+*Bitmask*
 
 We call a positive integer special if all of its digits are distinct.
 
@@ -36,6 +37,8 @@ Constraints:
 
 '''
 
+from functools import lru_cache
+
 class Solution:
     def countSpecialNumbers(self, n: int) -> int:
         s, ans = str(n), 0
@@ -64,7 +67,37 @@ class Solution:
             else:
                 return ans
         return ans + 1
-            
+    
+
+    def countSpecialNumbers2(self, n: int) -> int:
+        # Digit DP solution
+        s = str(n)
+        @lru_cache(None)
+        def dp(pos, tight, mask):
+            # state:
+            # pos: the position where a digit can be put, [1, len(s)]
+            # tight: whether there is constraint on which digit can be picked: 0/1
+            # mask: indicate which digit has been picked [0, 2^10] 
+            if pos == len(s): return int(mask != 0)
+            ans = 0
+            if tight == 1:
+                for i in range(ord(s[pos]) - ord('0')+1):
+                    if mask & (1 << i) > 0: continue
+                    newmask = mask if mask == 0 and i == 0 else (mask | (1<<i))
+                    if i == ord(s[pos]) - ord('0'):
+                        ans += dp(pos+1, 1, newmask)
+                    else:
+                        ans += dp(pos+1, 0, newmask)
+            else:
+                for i in range(10):
+                    if mask & (1 << i) > 0: continue
+                    newmask = mask if mask == 0 and i == 0 else (mask | (1<<i))
+                    ans += dp(pos+1, 0, newmask)
+            return ans
+        return dp(0, 1, 0)
+
+
         
 if __name__ == "__main__":
     print(Solution().countSpecialNumbers(135))
+    print(Solution().countSpecialNumbers2(135))
