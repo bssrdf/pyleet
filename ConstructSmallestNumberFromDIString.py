@@ -1,6 +1,7 @@
 '''
 -Medium-
-
+*Greedy*
+*Backtracking*
 
 You are given a 0-indexed string pattern of length n consisting of the characters 'I' meaning increasing and 'D' meaning decreasing.
 
@@ -63,3 +64,19 @@ class Solution:
             helper(pattern, c, used)
             used[i] = False
         return res
+    
+    def smallestNumber2(self, s: str) -> str:
+        res = []
+        for i,c in enumerate(s + 'I', 1):
+            if c == 'I':
+                res += range(i, len(res), -1)
+        return ''.join(map(str,res))
+    
+    def smallestNumber3(self, s):
+        res, stack = [], []
+        for i,c in enumerate(s + 'I', 1):
+            stack.append(str(i))
+            if c == 'I':
+                res += stack[::-1]
+                stack = []
+        return ''.join(res)
