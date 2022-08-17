@@ -21,6 +21,8 @@ Constraints:
 
 '''
 
+from functools import lru_cache
+
 class Solution(object):
     def countDigitOne(self, n):
         """
@@ -49,6 +51,56 @@ class Solution(object):
                 ans += x
             x *= 10
         return ans
+    
+
+    def countDigitOne2(self, n):
+        s = str(n)
+        @lru_cache(None) 
+        # def dp(pos, count, flag):
+        def dp(pos, count, tight):
+            if pos == len(s):
+                return count
+            ans = 0
+            limit = ord(s[pos])-ord('0') if tight == 1 else 9 
+            # limit = ord(s[pos])-ord('0') if flag == 0 else 9 
+            for i in range(limit+1):
+                ncount = count+1 if i == 1 else count
+                ntight = tight and i == limit
+                # nflag =  flag or (i != limit)
+                # ans += dp(pos+1, ncount, nflag)
+                ans += dp(pos+1, ncount, ntight)
+            return ans        
+        # return dp(0, 0, 0) 
+        return dp(0, 0, 1) 
+    
+    def countDigitOne3(self, n: int) -> int:
+        if n <= 0: 
+            return 0
+        N = list(map(int, str(n)))
+
+        @lru_cache(None)
+        def dp(pos, isPrefix, isBigger, ones):
+            if pos == len(N):
+                return 0
+            result = 0
+            for i in range(0 if pos > 0 else 1, 10):
+                _isPrefix = isPrefix and i == N[pos]
+                _isBigger = isBigger or (isPrefix and i > N[pos])
+                _ones = ones + (1 if i == 1 else 0)
+                if not (pos == len(N) - 1 and _isBigger):
+                    result += ones
+                if i == 1 and not (pos == len(N) - 1 and _isBigger):
+                    result += 1
+                result += dp(pos + 1, _isPrefix, _isBigger, _ones)
+            return result
+
+        return dp(0, True, False, 0)
+
+
 
 if __name__ == "__main__":
     print(Solution().countDigitOne(13))
+    print(Solution().countDigitOne(135))
+    print(Solution().countDigitOne2(13))
+    print(Solution().countDigitOne2(135))
+    print(Solution().countDigitOne3(135))

@@ -51,21 +51,12 @@ class Solution:
             if res[u] == -1:
                 res[u] = d
             for v,c in graph[u]:
-                if col == 1:
-                    if c == -1 and (v, -1) not in visited:
-                        visited.add((v, -1))
-                        que.append((v, -1, d+1))
-                elif col == -1:        
-                    if c == 1 and (v, 1) not in visited:
-                        visited.add((v, 1))
-                        que.append((v, 1, d+1))
-                else:
-                    if c == -1 and (v, -1) not in visited:
-                        visited.add((v, -1))
-                        que.append((v, -1, d+1))
-                    if c == 1 and (v, 1) not in visited:
-                        visited.add((v, 1))
-                        que.append((v, 1, d+1))
+                if col > -1 and c == -1 and (v, -1) not in visited:
+                    visited.add((v, -1))
+                    que.append((v, -1, d+1))
+                if col < 1 and c == 1 and (v, 1) not in visited:
+                    visited.add((v, 1))
+                    que.append((v, 1, d+1))               
         return res
 
 if __name__ == "__main__":

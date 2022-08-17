@@ -1,6 +1,7 @@
 '''
 -Hard-
-
+*DP*
+*Digit DP*
 Given a positive integer n, find the number of non-negative integers less than or 
 equal to n, whose binary representations do NOT contain consecutive ones.
 
@@ -20,6 +21,8 @@ satisfy the rule.
 Note: 1 <= n <= 10^9
 
 '''
+
+from functools import lru_cache
 
 class Solution(object):
     def findIntegers(self, num):
@@ -79,6 +82,26 @@ class Solution(object):
                 pre = 0
             k -= 1
         return res+1
+    
+    def findIntegers2(self, n):
+        # digit DP solution
+        s = bin(n)[2:]
+        @lru_cache(None) 
+        def dp(pos, last, tight):
+            if pos == len(s):
+                return 1
+            ans = 0
+            limit = ord(s[pos]) - ord('0') if tight else 1 
+            for i in range(limit+1):                
+                ntight = tight and i == limit
+                if last == 1:
+                    if i != 1:
+                       ans += dp(pos+1, False, ntight)
+                else:
+                    ans += dp(pos+1, i == 1, ntight)
+            return ans        
+        return dp(0, 0, True) 
+    
         
 
 
@@ -86,7 +109,10 @@ class Solution(object):
 if __name__ == "__main__":
     #print(Solution().findIntegers(10000))
     #print(Solution().findIntegersFast(10000))
-    print(Solution().findIntegersFast(20))
-    print(Solution().findIntegersFibonacci(20))
-    print(Solution().findIntegersFast(5))
+    # print(Solution().findIntegersFast(20))
+    # print(Solution().findIntegersFibonacci(20))
+    # print(Solution().findIntegersFast(5))
     print(Solution().findIntegersFibonacci(5))
+    print(Solution().findIntegers2(5))
+    print(Solution().findIntegers(10000))
+    print(Solution().findIntegers2(10000))

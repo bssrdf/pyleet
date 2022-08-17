@@ -43,6 +43,11 @@ All the values in digits are unique.
 
 '''
 
+
+from typing import List
+from functools import lru_cache
+
+
 class Solution(object):
 
     def atMostNGivenDigitSetDP(self, digits, n):
@@ -106,10 +111,31 @@ class Solution(object):
         dfs(0, [])
         return self.res
     
-    
+
+    def atMostNGivenDigitSet2(self, digits: List[str], n: int) -> int:
+        N = str(n)         
+        @lru_cache(None) 
+        def dfs(i, comp): # comp ----(-1 -> current number is bigger, 0 -> same, 1 smaller)
+            if i == len(N):
+                return comp > -1
+            if comp != 0:
+                return 1 + len(digits) * dfs(i + 1, comp)
+            ans = 1
+            for d in digits:
+                if d == N[i]:
+                    ans += dfs(i + 1, 0)
+                elif int(d) > int(N[i]):
+                    ans += dfs(i + 1, -1)
+                else:
+                    ans += dfs(i + 1, 1)
+            return ans
+        return dfs(0, 0) - 1
 
 
 if __name__ == "__main__":
     print(Solution().atMostNGivenDigitSet(["1","3","5","7"], 100))
     print(Solution().atMostNGivenDigitSetDP(["1","3","5","7"], 300))
     #print(Solution().atMostNGivenDigitSet(["7"], 8))
+    print(Solution().atMostNGivenDigitSet2(["1","3","5","7"], 100))
+    print(Solution().atMostNGivenDigitSet2(["1","3","5","7"], 300))
+    # print(Solution().atMostNGivenDigitSet3(["1","3","5","7"], 100))
