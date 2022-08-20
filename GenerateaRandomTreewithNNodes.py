@@ -15,7 +15,7 @@ from random import random, randint
 class Solution:
     def generateTree(self, n: int) -> List[List[int]]:
         self.n = n
-        # generate a dandom Prufer sequence of length n-2
+        # generate a random Prufer sequence of length n-2
         prufer = [randint(1, n) for i in range(n-2)]
         degree = [1]*(n+1)
         edges = []
@@ -30,11 +30,10 @@ class Solution:
                     degree[i] -= 1
                     degree[j] -= 1
                     break
-        u,v = 0, 0
+        u, v = 0, 0
         for i in range(1, n+1):
             if degree[i] == 1:
-                if u == 0:
-                    u = i
+                if u == 0: u = i
                 else:
                     v = i
                     break
