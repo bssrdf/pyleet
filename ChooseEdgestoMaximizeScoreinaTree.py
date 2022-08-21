@@ -190,7 +190,14 @@ if __name__ == "__main__":
     # print(Solution().maximumScore3(edges = edges))
     N = 50000
     sol = GenerateaRandomTreewithNNodes.Solution()
-    tree = sol.generateTree(N)
+    start = time.time()     
+    # tree = sol.generateTree(N)
+    end = time.time()
+    # print('spend', end-start, 'to generate a ', N, 'node tree')
+    start = time.time()     
+    tree = sol.generateTreeFast(N)
+    end = time.time()
+    print('spend', end-start, 'to generate a ', N, 'node tree')
     tree = sol.swapRoot(tree)
     edges = []
     for i in range(N):
