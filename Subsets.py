@@ -47,5 +47,22 @@ class Solution(object):
             self.dfs(nums, i+1, path, 
                            result)
             path.pop()
+    
+
+    def subsets2(self, nums):
+        # iterative
+        A = nums
+        n = len(A)        
+        res = [[], [A[0]]]
+        for i in range(1,n):
+            tmp = []
+            for j in range(1<<(i-1)):
+                tmp.append(res[-(j+1)][:-1]+[A[i]])
+                tmp.append(res[-(j+1)]+[A[i]])
+            res += tmp    
+        return res
+
+
 
 print(Solution().subsets([1,2,3]))
+print(Solution().subsets2([1,2,3]))
