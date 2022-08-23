@@ -47,19 +47,14 @@ class Solution:
         for i in range(9, -1, -1):
             c = str(i)
             if cnt[c] > 1:
-                if cnt[c] % 2 > 0:                    
-                    n = (cnt[c]-1)//2
-                    cnt[c] = 1
-                else:
-                    n = (cnt[c])//2
-                    cnt[c] = 0 
+                n, cnt[c] = divmod(cnt[c], 2)  
                 s += c*n
         if s and s[0] == '0':
             for i in range(9, -1, -1):
                 c = str(i)
                 if cnt[c] > 0:
                     return c
-            return '0'
+            return '0' # num contains all 0's
         else:
             # if middle < 0:
             for i in range(9, -1, -1):

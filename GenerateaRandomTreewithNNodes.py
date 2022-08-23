@@ -57,14 +57,15 @@ class Solution:
            nodeCount[prufer[i]] += 1
         # Find the absent nodes
         for i in range(1, n+1):
+            # any node not in Prufer sequence is a leaf node
             if i not in nodeCount: leaves.add(i)
         for i in range(len(prufer)):
             a = prufer[i]
             b = leaves.pop()
             edges.append([a,b])
             nodeCount[a] -= 1
-            if nodeCount[a] == 0:
-                leaves.add(a)
+            if nodeCount[a] == 0: # after all edges have established with its children, 
+                leaves.add(a)     # the Prufer number node also becomes a leaf node
         edges.append([leaves[0], leaves[-1]])
         return edges     
         
