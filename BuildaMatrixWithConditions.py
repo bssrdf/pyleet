@@ -1,6 +1,6 @@
 '''
 -Hard-
-*Topological Sort*
+*Topological*
 
 You are given a positive integer k. You are also given:
 
@@ -151,6 +151,44 @@ class Solution:
         for num in range(k):
             ans[row[num]][col[num]] = num + 1
         return ans
+    
+
+    def buildMatrix3(self, k: int, rowConditions: List[List[int]], colConditions: List[List[int]]) -> List[List[int]]:
+        def buildIndex(cond):
+            degs = [0]*(k+1) 
+            indices = [] 
+            dag = defaultdict(set)
+            for a,b in cond:
+                if b not in dag[a]:
+                    degs[b] += 1
+                    dag[a].add(b)
+            que = deque()
+            for i in range(1,k+1):
+                if degs[i] == 0:   
+                    que.append(i)
+                    indices.append(i)
+            while que:
+                i = que.popleft()
+                for b in dag[i]:
+                    degs[b] -= 1
+                    if degs[b] == 0:
+                        que.append(b)
+                        indices.append(b)
+            return indices
+        
+        row = buildIndex(rowConditions)
+        if len(row) < k: return []  
+        col = buildIndex(colConditions)
+        if len(col) < k: return []  
+        pos = [[] for _ in range(k+1)]
+        for i in range(k):
+            pos[row[i]].append(i)
+        for i in range(k):
+            pos[col[i]].append(i)        
+        ans = [[0]*k for _ in range(k)]
+        for num in range(1,k+1):
+            ans[pos[num][0]][pos[num][1]] = num
+        return ans
 
         
       
@@ -160,7 +198,8 @@ class Solution:
 
 
 if __name__ == "__main__":
-    print(Solution().buildMatrix(k = 3, rowConditions = [[1,2],[3,2]], colConditions = [[2,1],[3,2]]))
+    print(Solution().buildMatrix2(k = 3, rowConditions = [[1,2],[3,2]], colConditions = [[2,1],[3,2]]))
+    print(Solution().buildMatrix3(k = 3, rowConditions = [[1,2],[3,2]], colConditions = [[2,1],[3,2]]))
     # print(Solution().buildMatrix(k = 3, rowConditions = [[1,2],[2,3],[3,1],[2,3]], colConditions = [[2,1]]))
     # k = 8
     # rowConditions = [[1,2],[7,3],[4,3],[5,8],[7,8],[8,2],[5,8],[3,2],[1,3],[7,6],[4,3],[7,4],[4,8],[7,3],[7,5]]
