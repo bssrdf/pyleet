@@ -1,5 +1,8 @@
 '''
 -Medium-
+$$$
+
+
 You are given a 0-indexed string s consisting of only lowercase English letters. Return the number of substrings in s that begin and end with the same character.
 
 A substring is a contiguous non-empty sequence of characters within a string.
@@ -56,7 +59,7 @@ class Solution:
         for c in s:
             i = ord(c) - ord('a')
             counter[i] += 1
-            ans += counter[i]
+            ans += counter[i] # number of new substrings ending at c is counter[i]
         return ans
 
 
