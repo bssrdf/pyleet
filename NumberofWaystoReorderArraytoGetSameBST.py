@@ -59,6 +59,28 @@ from typing import List
 
 class Solution:
     def numOfWays(self, nums: List[int]) -> int:
+        MOD = 10**9 + 7
+        n = len(nums)
+        table = [[] for _  in range(n+1)]
+        for i in range(n+1):
+            table[i] = [1]*(i+1)
+            for j in range(1, i):
+                table[i][j] = (table[i-1][j-1] + table[i-1][j]) % MOD 
+        def dfs(arr):
+            m = len(arr)
+            if m <= 2: return 1
+            left, right = [], []
+            for i in range(1, m):
+                if arr[i] < arr[0]:
+                    left.append(arr[i])
+                else:
+                    right.append(arr[i])
+            l = dfs(left)
+            r = dfs(right)
+            return (((table[m-1][len(left)]*l)%MOD)*r)%MOD
+        return dfs(nums)%MOD - 1 # - 1 is to account for the original permutation            
+        # for t in table:
+        #     print(t)
 
 if __name__ == "__main__":
     print(Solution().numOfWays([3,4,5,1,2]))

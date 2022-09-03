@@ -1,6 +1,9 @@
 '''
 
 -Hard-
+*Greedy*
+*Stack*
+*Hash Table*
 
 Given two strings s and t, transform string s into string t using the following operation any number of times:
 
@@ -42,6 +45,8 @@ s and t consist of only digits.
 
 '''
 
+from collections import defaultdict
+
 class Solution:
     def isTransformable(self, s: str, t: str) -> bool:
         idx, pos = [[] for _ in range(10)], [0 for _ in range(10)]
@@ -56,6 +61,35 @@ class Solution:
                     return False
             pos[d] += 1
         return True
+    
+    def isTransformable2(self, s: str, t: str) -> bool:
+        # Probably the hardest part is to realize that: 
+        # For every digit in t you find the first occurrence in s. Call that 
+        # current digit as key. You need to make sure in s, no digit smaller 
+        # than key appears to the left.
+        # As we check one-by-one, we need to remove the digits we considered from s. 
+        # In order to do this operation constant time, store all indices in reversed 
+        # form using stack in the first loop (backward pass over s). Then use the .pop() 
+        # operation in the second loop (forward pass over t).
+
+        # places: this stores the indices of every digit from 0 to 9
+        places = defaultdict(list)
+        for i in reversed(range(len(s))):
+            key = int(s[i])
+            places[key].append(i)
+        
+        for e in t: #we loop over t and check every digit
+            key = int(e) # current digit
+            if not places[key]: # digit is not in s, return False
+                return False 
+            i = places[key][-1] #location of current digit
+            for j in range(key): #only loop over digits smaller than current digit
+                if places[j] and places[j][-1] < i: #there is a digit smaller than current digit, return false
+                    return False
+            places[key].pop()
+        return True
+
+
 
 if __name__ == "__main__":
     print(Solution().isTransformable(s = "84532", t = "34852"))
