@@ -81,6 +81,25 @@ class Solution:
                 cur -= costs[i]
                 i += 1
         return n - i
+    
+    def maximumRobots3(self, times: List[int], costs: List[int], budget: int) -> int:
+        # O(N)
+        cur = i = 0
+        n = len(times)
+        d = deque()
+        ans = 0
+        for j in range(n):
+            cur += costs[j]
+            while d and times[d[-1]] <= times[j]:
+                d.pop()
+            d.append(j)
+            while d and times[d[0]] + (j - i + 1) * cur > budget:
+                if d[0] == i:
+                    d.popleft()
+                cur -= costs[i]
+                i += 1
+            ans = max(ans, j-i+1)
+        return ans
         
 
 
@@ -92,3 +111,4 @@ if __name__ == "__main__":
     C = [32,83,96,70,98,80,30,42,63,67,49,10,80,13,69,91,73,10]
     R = [49,67,92,26,18,22,38,34,36,26,32,84,39,42,88,51,8,2]
     print(Solution().maximumRobots(chargeTimes = C, runningCosts= R, budget=599))
+    print(Solution().maximumRobots3(C, R, 599))
