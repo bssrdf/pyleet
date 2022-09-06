@@ -1,6 +1,7 @@
 '''
 
 -Hard-
+*Priority Queue*
 
 You are given an integer n. There are n rooms numbered from 0 to n - 1.
 
@@ -56,9 +57,39 @@ All the values of starti are unique.
 '''
 
 from typing import List
-
+import heapq
 class Solution:
-    def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
+    def mostBooked(self, n: int, meetings: List[List[int]]) -> int:        
+        meetings.sort()
+        avail = [i for i in range(n)]
+        used = []
+        count = [0]*n       
+        for s, e in meetings:    
+            while used and used[0][0] <= s:
+                _, r = heapq.heappop(used)
+                heapq.heappush(avail, r)                     
+            if avail:
+                r = heapq.heappop(avail)
+                count[r] += 1
+                heapq.heappush(used, (e, r)) # (ending time, room number)
+            else:
+                t, r = heapq.heappop(used)
+                count[r] += 1
+                heapq.heappush(used, (t + e - s, r)) # new ending time = old one + e - s
+        ans = 0
+        for i in range(n):
+            if count[i] > count[ans]:
+                ans = i
+        return ans 
+
+
+                
+
+
+
+
+
+
 
 if __name__ == "__main__":
     print(Solution().mostBooked(n = 2, meetings = [[0,10],[1,5],[2,7],[3,4]]))

@@ -46,24 +46,18 @@ from functools import lru_cache
 class Solution:
     def maximumRows(self, mat: List[List[int]], cols: int) -> int:
         m, n = len(mat), len(mat[0])
-        # mask = [0]*n
-        # for j in range(n):
-        #     for i in range(m):
-        #         if mat[i][j] == 1:
-        #             mask[j] |= 1 << i 
         rows = [int(''.join(str(c) for c in r), 2) for r in mat]
-        # print(rows)
         ans = 0
         @lru_cache(None) 
         def backtrack(cur, msk):
             nonlocal ans
-            # if cur == n:
-            if bin(msk).count('1') == cols:
+            cnt = bin(msk).count('1') 
+            if cnt > cols:
+                return
+            if cnt == cols:
                 t = 0
                 for i in rows:
                     if (i | msk) == msk: t += 1 
-                    # print(f'{i:03b}', f'{msk:03b}', t)
-                # print(f'{msk:02b}', t)    
                 ans = max(ans, t)
                 return    
             for i in range(cur, n):

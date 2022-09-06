@@ -37,20 +37,41 @@ Constraints:
 '''
 
 from functools import lru_cache
+from math import comb
 
 class Solution:
     def numberOfWays(self, startPos: int, endPos: int, k: int) -> int:
         MOD = 10**9 + 7
         @lru_cache(None)
         def dfs(cur, steps):
+            if abs(cur-endPos) > steps:
+                return 0  
             if cur == endPos and steps == 0:
                 return 1
-            if steps == 0:
-                return 0
+            # if steps == 0:
+            #     return 0
             ans = (dfs(cur-1, steps-1) + dfs(cur+1, steps-1)) % MOD
             return ans
         return dfs(startPos, k)
-        
+    
+    def numberOfWays(self, startPos: int, endPos: int, k: int) -> int:
+        # Two sufficient and necessary conditions from a to b with k steps:
+
+        # abs(a - b) <= k
+        # (a - b - k) % 2 == 0
+        # Otherwice no ways, directly return 0
+
+        # Now two eqations
+        # left + right = k
+        # right - left = b - a
+
+        # So we can have right = (b - a + k) / 2.
+        # The combinations is to pick right steps from k steps to go right.
+        # return result combination(k, right)
+
+        a, b = startPos, endPos
+        if (a - b - k) % 2: return 0
+        return comb(k, (b - a + k) // 2) % (10 ** 9 + 7)    
 
 if __name__ == "__main__":
     print(Solution().numberOfWays(startPos = 1, endPos = 2, k = 3))
