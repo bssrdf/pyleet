@@ -217,6 +217,173 @@ class SegmentTree(object):
         _print(self.root, 0)
 
 
+class SegmentTree2:
+    # bottom-up segment tree
+    def __init__(self, N, query_fn, update_fn):
+        self.base = N
+        self.query_fn = query_fn
+        self.update_fn = update_fn
+        self.tree = [0]*(2*N)
+        self.lazy = [0]*(2*N)
+        self.count = [1]*(2*N)
+        H = 1
+        while 1 << H < N:
+            H += 1
+        self.H = H
+        for i in range(N-1, 0, -1):
+            self.count[i] = self.count[i<<1] + self.count[(i<<1)+1]
+    def update(self, L, R, val):
+        L += self.base
+        R += self.base
+        self.push(L)#  // key point
+        self.push(R)#  // key point
+        L0, R0 = L, R
+        while L <= R:
+            if (L & 1) == 1:
+                self.apply(L, val)
+                L += 1
+            if (R & 1) == 0: 
+                self.apply(R, val)
+                R -= 1
+            L >>= 1
+            R >>= 1
+        self.pull(L0)
+        self.pull(R0)
+
+    def query(self, L, R):
+        result = 0
+        if L > R:
+            return result        
+        L += self.base
+        R += self.base
+        self.push(L)
+        self.push(R)
+        while L <= R:
+            if (L & 1) == 1:
+                result = self.query_fn(result, self.tree[L])
+                L += 1
+            if (R & 1) == 0:
+                result = self.query_fn(result, self.tree[R])
+                R -= 1
+            L >>= 1; R >>= 1
+        return result
+    
+    def apply(self, x, val):
+        self.tree[x] = self.update_fn(self.tree[x], val * self.count[x])
+        if x < self.base:
+            self.lazy[x] = self.update_fn(self.lazy[x], val)
+
+    def pull(self, x):
+        while x > 1:
+            x >>= 1
+            # print(x << 1, x<<1+1)
+            self.tree[x] = self.query_fn(self.tree[x<<1], self.tree[(x<<1) + 1])
+            if self.lazy[x]:
+                self.tree[x] = self.update_fn(self.tree[x], self.lazy[x] * self.count[x])
+    def push(self, x):
+        for h in range(self.H, 0, -1):
+           y = x >> h
+           if self.lazy[y]:
+                self.apply(y << 1,     self.lazy[y])
+                self.apply((y << 1) + 1, self.lazy[y])
+                self.lazy[y] = 0
+
+
+from math import ceil, log2
+
+class segment_tree:
+    # merge(left, right): function used to merge the two halves
+    # basef(value): function applied on individual values
+    # basev: identity for merge function, merger(value, basev) = value
+    # update(node_value, old, new): function to update the nodes
+    def __init__(self, array, merge=lambda x,y:x+y, basef=lambda x:x, basev = 0):
+        self.merge = merge
+        self.basef = basef
+        self.basev = basev
+        self.n = len(array)
+        self.array = array
+        self.tree = [0] * ( 2**ceil(log2(len(array))+1) - 1 )
+        self.build(array)
+    
+    def __str__(self):
+        return ' '.join([str(x) for x in self.tree])
+
+    def _build_util(self, l, r, i, a):
+        if(l==r):
+            self.tree[i] = self.basef(a[l])
+            return self.tree[i]
+        mid = (l+r)//2
+        self.tree[i] = self.merge(self._build_util(l,mid, 2*i+1, a), self._build_util(mid+1, r, 2*i+2, a))
+        return self.tree[i]
+
+    def build(self, a):
+        self._build_util(0, len(a)-1, 0, a)
+
+    def _query_util(self, i, ln, rn, l, r):
+        if ln>=l and rn<=r:
+            return self.tree[i]
+        if ln>r or rn<l:
+            return self.basev
+        return self.merge( self._query_util( 2*i+1, ln, (ln+rn)//2, l, r ), self._query_util( 2*i+2, (ln+rn)//2+1, rn, l, r ) )
+
+    def query(self, l, r):
+        return self._query_util( 0, 0, self.n-1, l, r )
+
+    def _update_util(self, i, ln, rn, x, v):
+        if x>=ln and x<=rn:
+            if ln != rn:
+                self._update_util( 2*i+1, ln, (ln+rn)//2, x, v )
+                self._update_util( 2*i+2, (ln+rn)//2 + 1, rn, x, v )
+                self.tree[i] = self.merge(self.tree[2*i+1], self.tree[2*i+2])
+            else:
+                self.tree[i] = self.basef(v)
+
+    def update(self, x, v):
+        self._update_util( 0, 0, self.n-1, x, v )   
+        self.array[x] = v 
+
+
+class SEG:
+    # a basic segment tree template
+    # it is capable of:
+    # 1. modify one element in the array;
+    # 2. find the max of elements on some segment or min or sum
+    
+    def __init__(self, n):
+        self.n = n
+        self.tree = [0] * 2 * self.n
+       
+    def query(self, l, r):
+        l += self.n
+        r += self.n
+        ans = 0 # for max range query if minimum is > 0 or
+                # for sum range query 
+        # ans = -inf # for max range query if minimum is allowed to be < 0
+        # ans = inf # for min range query 
+        while l < r:
+            if l & 1: # same as l % 2, aka l is odd
+                ans = max(ans, self.tree[l])   # for max range query
+                #ans = min(ans, self.tree[l])  # for min range query
+                #ans += self.tree[l]           # for sum range query
+                l += 1 # l is even now
+            if r & 1: # same as r % 2, aka r is odd
+                r -= 1 # r is even now
+                ans = max(ans, self.tree[r])   # for max range query
+                #ans = min(ans, self.tree[r])  # for min range query
+                #ans += self.tree[r]           # for sum range query
+            l >>= 1
+            r >>= 1
+        return ans
+    
+    def update(self, i, val):
+        i += self.n
+        self.tree[i] = val
+        while i > 1:
+            i >>= 1
+            self.tree[i] = max(self.tree[i * 2], self.tree[i * 2 + 1]) # for max range query
+            #self.tree[i] = min(self.tree[i * 2], self.tree[i * 2 + 1]) # for min range query
+            #self.tree[i] = self.tree[i * 2] + self.tree[i * 2 + 1] # for sum range query
+
 
         
 if __name__ == '__main__':   
