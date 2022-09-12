@@ -352,8 +352,21 @@ class SEG:
     def __init__(self, n):
         self.n = n
         self.tree = [0] * 2 * self.n
+
+    def query(self, x):
+        res = 0 # for max range query if minimum is > 0 or
+                # for sum range query
+        # res = -inf # for max range query if minimum is allowed to be < 0
+        # res = inf  # for min range query         
+        x += self.n 
+        while x > 0:
+            res += self.tree[x] # for sum range query
+            # res = max(res, self.tree[x]) # for max range query
+            # res = min(res, self.tree[x]) # for min range query
+            x >>= 1
+        return res
        
-    def query(self, l, r):
+    def query_range(self, l, r):
         l += self.n
         r += self.n
         ans = 0 # for max range query if minimum is > 0 or
@@ -376,6 +389,7 @@ class SEG:
         return ans
     
     def update(self, i, val):
+        # update value at i to val
         i += self.n
         self.tree[i] = val
         while i > 1:
@@ -383,6 +397,26 @@ class SEG:
             self.tree[i] = max(self.tree[i * 2], self.tree[i * 2 + 1]) # for max range query
             #self.tree[i] = min(self.tree[i * 2], self.tree[i * 2 + 1]) # for min range query
             #self.tree[i] = self.tree[i * 2] + self.tree[i * 2 + 1] # for sum range query
+
+    def update_range(self, l, r, val):
+        # add val to range (l, r)
+        l += self.n
+        r += self.n
+        while l < r:
+            if l & 1: # same as l % 2, aka l is odd
+                self.tree[l] += val 
+                l += 1
+            if r & 1: # same as r % 2, aka r is odd
+                r -= 1
+                self.tree[r] += val
+            l >>= 1
+            r >>= 1
+        
+         
+            
+
+
+    
 
 
         
