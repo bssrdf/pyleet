@@ -1,5 +1,10 @@
 '''
 -Hard-
+
+*Sliding Window*
+*Monotonic Queue*
+*DP*
+
 You have the task of delivering some boxes from storage to their ports using only one ship. 
 However, this ship has a limit on the number of boxes and the total weight that it can carry.
 
@@ -90,9 +95,9 @@ class Solution(object):
         for i, (p, w) in enumerate(boxes):  # p: port; w: weight
             # update the earliest possible start of current trip:
             ws += w
-            while i - pre > maxBoxes or ws > maxWeight:
-                pre += 1
-                ws -= boxes[pre][1]
+            while i - pre > maxBoxes or ws > maxWeight: # shrink sliding window, 
+                pre += 1                                # if number of boxes exceeds maxBoxes  
+                ws -= boxes[pre][1]                     # if totalweight excessds maxWeight 
             while que[0][0] < pre: que.popleft()  ## pop out the boxes out of range of current trip
             
             # min cost of current trip. front of monotonic queue is always the minimal cost that meets the limitation
@@ -146,6 +151,42 @@ class Solution(object):
             dp[i+1] = diff+2 + dp[start]
         
         return dp[n]
+    
+    def boxDelivering3(self, boxes, portsCount, maxBoxes, maxWeight):
+        # DP + sliding window
+        A, B, W = boxes, maxBoxes, maxWeight
+        n = len(A)
+        C = [False]*n # consecutive ports are different or not
+        for i in range(n-1):
+            if A[i][0] != A[i+1][0]: C[i] = True
+        dp = [0]*(n+1) # dp[i+1] be the minimum cost (# of trips) to process 
+                       # all boxes from 0 to i and return to the storage.
+                       # the answer is dp[n]
+        sums = 0  # total current weight on the ship
+        start = 0 # load all boxes from start to i in one voyage
+        diff = 0  # number of different consecutive ports between start and i
+        for i in range(n):
+            if i-start == B: # drop 1 box because of # boxes constraint
+                sums -= A[start][1]
+                if C[start]: diff -= 1
+                start += 1
+            sums += A[i][1]
+            if i > 0 and C[i-1]: diff += 1
+            while sums > W: # drop more boxex because of weight constraint
+                sums -= A[start][1]
+                if C[start]: diff -= 1
+                start += 1
+            while start < i and dp[start] == dp[start+1]:
+                # drop more boxes if there is no point to carry them
+                sums -= A[start][1]
+                if C[start]: diff -= 1
+                start += 1
+            dp[i+1] = diff + 2 + dp[start] # we can load all boxes from start to i and deliver 
+                                           # them in one voyage with the cost = diff + 2
+        return dp[n]
+            
+
+
 
         
 if __name__ == '__main__':   
