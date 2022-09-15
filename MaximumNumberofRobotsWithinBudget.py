@@ -1,4 +1,9 @@
 '''
+-Hard-
+
+*Sliding Window*
+*Monotonic Queue*
+
 
 You have n robots. You are given two 0-indexed integer arrays, chargeTimes and runningCosts, both of length n. The ith robot costs chargeTimes[i] units to charge and costs runningCosts[i] units to run. You are also given an integer budget.
 
