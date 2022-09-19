@@ -17,7 +17,14 @@
 
   - Given some items or tasks in an array, you go through them one by one following the given order. When at *i*-th item, you need to find a max/min/sum over a certain range [x, y]. Segment tree is especially useful in this **point update, range query** case. Initialize a segment tree; within the i-loop, query the range and get the results and then do an update using the information obtained so far. See 
 
-    - [2407. Longest Increasing Subsequence II](https://leetcode.com/problems/longest-increasing-subsequence-ii/)    
+    - [2407. Longest Increasing Subsequence II](https://leetcode.com/problems/longest-increasing-subsequence-ii/)   
+
+- Subarray Bit Product
+  
+  - Given an integer array, you need to find the min/max length of a subarray where the OR/AND/XOR product satisfies certain requirement. The pattern is to consider each bit of integer individually and then combine all bits together to find answer. See
+
+    - [2411. Smallest Subarrays With Maximum Bitwise OR](https://leetcode.com/problems/smallest-subarrays-with-maximum-bitwise-or/) 
+
 
   
 
