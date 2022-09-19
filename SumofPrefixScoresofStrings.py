@@ -53,7 +53,8 @@ from collections import defaultdict
 
 class TrieNode(defaultdict):
     def __init__(self):
-        super().__init__(TrieNode)
+        # super().__init__(TrieNode)
+        self.default_factory = TrieNode
         # self.terminal = False
         self.go = 0  # Number of elements goes through this node
 
@@ -87,10 +88,7 @@ class Solution:
         root = TrieNode()
         for word in words:
             root.addWord(word)
-        ans = []
-        for word in words:
-            ans.append(root.query(word))
-        return ans
+        return [root.query(word) for word in words]
 
 
 if __name__ == "__main__":

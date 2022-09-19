@@ -42,6 +42,7 @@ from typing import List
 
 class Solution:
     def minimumMoney(self, transactions: List[List[int]]) -> int:
+        # O(NlogN)
         T = transactions
         loss = [t for t in T  if t[1] < t[0]]
         gain = max((t[0] for t in T  if t[1] >= t[0]), default=None)
@@ -56,6 +57,16 @@ class Solution:
             t += gain
             ans = max(ans, t)                
         return ans
+    
+
+    def minimumMoney2(self, transactions: List[List[int]]) -> int:
+        # O(N)
+        A = transactions
+        res = v = 0
+        for i,j in A:
+            res += max(0, i - j)
+            v = max(v, min(i, j))
+        return res + v
 
 
 if __name__=="__main__":
