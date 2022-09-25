@@ -19,11 +19,22 @@
 
     - [2407. Longest Increasing Subsequence II](https://leetcode.com/problems/longest-increasing-subsequence-ii/)   
 
-- Subarray Bit Product
+- Subarray Bitwise Product
   
   - Given an integer array, you need to find the min/max length of a subarray where the OR/AND/XOR product satisfies certain requirement. The pattern is to consider each bit of integer individually and then combine all bits together to find answer. See
 
     - [2411. Smallest Subarrays With Maximum Bitwise OR](https://leetcode.com/problems/smallest-subarrays-with-maximum-bitwise-or/) 
+  
+
+- Construct graph following a certain order of edges 
+
+  - Given a series of undirected edges, the problem is to find number of paths satisfying certain requirements. The underlying idea is **MST** using **Union Find**. Build the graph one edge a step; compute certain properties using the current connectivity information; union the two nodes and move on to next edge. See
+
+    - [2421. Number of Good Paths](https://leetcode.com/problems/number-of-good-paths/) 
+    - [1697. Checking Existence of Edge Length Limited Paths](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/)
+    - [1724. Checking Existence of Edge Length Limited Paths II](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/)
+
+
 
 
   
