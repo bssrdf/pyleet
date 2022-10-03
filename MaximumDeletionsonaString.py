@@ -9,6 +9,7 @@ sys.setrecursionlimit(300000)
 
 class Solution:
     def deleteString(self, s: str) -> int:
+        if (len(set(s)) == 1): return len(s)
         @lru_cache(None)
         def dfs(s):
             ret = 1 
@@ -19,6 +20,7 @@ class Solution:
         return dfs(s)
     
     def deleteString2(self, s: str) -> int:
+        if (len(set(s)) == 1): return len(s)
         def partialMatchTable(P):
             n = len(P)
             pt = [0]*n 
@@ -39,7 +41,39 @@ class Solution:
                     ret = max(ret, dfs(s[pt[i]:]) + 1)
             return ret 
         return dfs(s)
-        
+
+    def deleteString3(self, s):
+        # lcs[i][j] means the length of the longest common substring.
+        # If lcs[i][j] = k,
+        # then s.substring(i, i + k) == s.substring(j, j + k)
+        # and s.substring(i, i + k + 1) != s.substring(j, j + k + 1).
+        # This can be done in O(n^2).
+
+        # dp[i] mean the the maximum number of operations to delete
+        # the substring starting at s[i].
+
+        # If lcs[i][j] >= j - i,
+        # s.substring(i, j) == s.substring(j, j + j - i)
+        # this means we can delete the prefix s.substring(i, j) from s.substring(i),
+        # and it changes to s.substring(j).
+        # And we update dp[i] = max(dp[i], dp[j] + 1)
+
+
+        # Complexity
+        # Time O(n^2)
+        # Space O(n^2)
+        n = len(s)
+        if len(set(s)) == 1: return n
+        lcs = [[0] * (n + 1) for i in range(n + 1)]
+        dp = [1] * n
+        for i in range(n-1, -1, -1):
+            for j in range(i + 1, n):
+                if s[i] == s[j]:
+                    lcs[i][j] = lcs[i + 1][j + 1] + 1
+                if lcs[i][j] >= j - i:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return dp[0]
+
 
 if __name__ == "__main__":   
     # print(Solution().deleteString(s = "aaabaab"))
