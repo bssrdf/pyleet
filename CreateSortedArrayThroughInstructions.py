@@ -1,5 +1,6 @@
 '''
 -Hard-
+*Fenwick Tree*
 
 Given an integer array instructions, you are asked to create a sorted array 
 from the elements in instructions. You start with an empty container nums. 

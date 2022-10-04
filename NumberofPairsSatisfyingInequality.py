@@ -78,6 +78,43 @@ class Solution:
             ans += sl.bisect_right(a+diff)
             sl.add(a)
         return ans     
+    
+
+    def numberOfPairs3(self, nums1: List[int], nums2: List[int], diff: int) -> int:
+        A = [a-b for a,b in zip(nums1, nums2)]
+        n = len(A)
+        ans = 0
+        def helper(a, b):
+            nonlocal ans
+            if a == b: return
+            mid = a + (b-a)//2
+            helper(a, mid)
+            helper(mid+1, b)
+            i = a
+            for j in range(mid+1, b+1):
+                while i <= mid and A[i] <= A[j] + diff:
+                    i += 1
+                ans += i - a
+            arr, i, j = [], a, mid+1
+            while i <= mid and j <= b:
+                if A[i] < A[j]:
+                    arr.append(A[i])
+                    i += 1
+                else:
+                    arr.append(A[j])
+                    j += 1
+            while i <= mid:
+                arr.append(A[i])
+                i += 1
+            while j <= b: 
+                arr.append(A[j])
+                j += 1
+            k = 0
+            for i in range(a, b+1):
+                A[i] = arr[k]
+                k += 1 
+        helper(0, n-1)
+        return ans     
 
 
 
@@ -88,3 +125,6 @@ if __name__ == "__main__":
     print(Solution().numberOfPairs2(nums1 = [3,2,5], nums2 = [2,2,1], diff = 1))
     print(Solution().numberOfPairs2(nums1 = [3,-1], nums2 = [-2,2], diff = -1))    
     print(Solution().numberOfPairs2(nums1 = [5,-3,-4], nums2 = [1,-5,5], diff = 2))    
+    print(Solution().numberOfPairs3(nums1 = [3,2,5], nums2 = [2,2,1], diff = 1))
+    print(Solution().numberOfPairs3(nums1 = [3,-1], nums2 = [-2,2], diff = -1))    
+    print(Solution().numberOfPairs3(nums1 = [5,-3,-4], nums2 = [1,-5,5], diff = 2))    
