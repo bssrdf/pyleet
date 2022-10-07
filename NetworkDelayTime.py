@@ -164,6 +164,21 @@ class Solution(object):
                 for v, w in adj[node]:
                     heapq.heappush(q, (time + w, v))
         return max(t.values()) if len(t) == N else -1
+    
+
+    def networkDelayTimeDijkstra2(self, times, N, K):
+        q, t, adj = [(0, K)], [float('inf')]*(N+1), defaultdict(list)
+        for u, v, w in times:
+            adj[u].append((v, w))
+        t[0], t[K] = 0, 0
+        while q:
+            time, u = heapq.heappop(q)
+            if time > t[u]: continue
+            for v, w in adj[u]:
+                if t[v] > time + w:
+                    t[v] = time + w   
+                    heapq.heappush(q, (time + w, v))
+        return  -1 if any(u == float('inf') for u in t) else max(t)
 
 
 
@@ -175,4 +190,5 @@ if __name__ == "__main__":
              [5,4,12],[2,1,36],[4,2,75],[2,4,11],[1,3,30],[2,5,8]]
     print(Solution().networkDelayTime(times, 5, 1))
     print(Solution().networkDelayTimeDijkstra(times, 5, 1))
+    print(Solution().networkDelayTimeDijkstra2(times, 5, 1))
     print(Solution().networkDelayTimeBucketQueue(times, 5, 1))
