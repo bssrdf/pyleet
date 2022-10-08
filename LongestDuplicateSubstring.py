@@ -29,6 +29,9 @@ s consists of lowercase English letters.
 
 '''
 
+from stree import STree, suffix_tree
+from collections import deque
+
 class Solution(object):
     def longestDupSubstring(self, s):
         """
@@ -57,11 +60,37 @@ class Solution(object):
                 res = pos
             else:
                 right = mid
-        print(left, right, res)
+        # print(left, right, res)
         return s[res:res+left-1]
+    
+    def longestDupSubstring2(self, s: str) -> str:
+        st = suffix_tree(s+'$')
+        
+        que = deque([("", st.root)])
+        res = ''
+        # def update_max(lst, x):
+        #     if not lst or len(lst[0]) < len(x):
+        #         return [x]
+        #     return lst 
+
+        while que:
+            s1, node = que.popleft()
+            for _, (str_ref, tr) in node.children.items():
+                if tr.children:
+                    s2 = s1 + st.substr(str_ref)
+                    que.append((s2, tr))
+                    if len(s2) > len(res):
+                       res = s2
+        return res
+
+
+
 
 if __name__ == "__main__":
     print(Solution().longestDupSubstring("banana"))
     print(Solution().longestDupSubstring("abcd"))
     print(Solution().longestDupSubstring("nnpxouomcofdjuujloanjimymadkuepightrfodmauhrsy"))
+    print(Solution().longestDupSubstring2("banana"))
+    print(Solution().longestDupSubstring2("abcd"))
+    print(Solution().longestDupSubstring2("nnpxouomcofdjuujloanjimymadkuepightrfodmauhrsy"))
 
