@@ -124,6 +124,9 @@ class Solution:
         return ''.join(ans)
 
     def robotWithString3(self, s: str) -> str:
+        # treat t as a stack, and anytime starting from top down there is 
+        # a char which is smaller than or equal to the smallest in s, robot 
+        # can write it to form the lexicographically smallest string        
         cnt = [0]*26
         for c in s:
             cnt[ord(c) - ord('a')] += 1
@@ -131,6 +134,9 @@ class Solution:
         for c in s:
             t.append(c)
             cnt[ord(c)-ord('a')] -= 1
+            # lo is the smallest char in s
+            # it could be found by the following code
+            # the smallest lo where cnt[lo] > 0
             while lo < 26 and cnt[lo] == 0:
                 lo += 1
             print(t, chr(lo+ord('a')))
