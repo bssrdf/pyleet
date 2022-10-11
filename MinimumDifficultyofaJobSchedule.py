@@ -1,6 +1,7 @@
 '''
 
 -Hard-
+*DP*
 
 You want to schedule a list of jobs in d days. Jobs are dependent (i.e To work on the i-th job, 
 you have to finish all the jobs j where 0 <= j < i).
@@ -120,14 +121,14 @@ class Solution(object):
         """
         n = len(A)
         if n < d: return -1
-
+        # dp(i,d) denotes the minimum difficulty of schedule for jobs [i..n-1] in d days
         @lru_cache(None)
         def dfs(i, d):
             if d == 1:
                 return max(A[i:])
             res, maxd = float('inf'), 0
             for j in range(i, n - d + 1):
-                maxd = max(maxd, A[j])
+                maxd = max(maxd, A[j]) # difficulty of schedule for jobs in range [i, j] 
                 res = min(res, maxd + dfs(j + 1, d - 1))
             return res
         return dfs(0, d)
