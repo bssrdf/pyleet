@@ -56,16 +56,26 @@ class Solution:
         return ans 
     
     def longestNiceSubstring2(self, s: str) -> str:
-        if len(s) < 2: return ""
+        if not s: return ""
         st = set(s)
         for i in range(len(s)):
             c = s[i]
             if c.upper() in st and c.lower() in st:
                 continue 
-            sub1 = self.longestNiceSubstring(s[:i+1])
+            sub1 = self.longestNiceSubstring(s[:i])
             sub2 = self.longestNiceSubstring(s[i+1:])
             return sub1 if len(sub1) >= len(sub2) else sub2
         return s    
+    
+    def longestNiceSubstring3(self, s: str) -> str:
+        if not s: return "" # boundary condition 
+        ss = set(s)
+        for i, c in enumerate(s):
+            if c.swapcase() not in ss: 
+                s0 = self.longestNiceSubstring(s[:i])
+                s1 = self.longestNiceSubstring(s[i+1:])
+                return max(s0, s1, key=len)
+        return s
 
 
 
