@@ -2,6 +2,8 @@
 
 -Easy-
 
+*Divide and Conquer"
+
 A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not because 'b' appears, but 'B' does not.
 
 Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.
@@ -76,6 +78,49 @@ class Solution:
                 s1 = self.longestNiceSubstring(s[i+1:])
                 return max(s0, s1, key=len)
         return s
+    
+
+    def longestNiceSubstring4(self, s: str) -> str:
+        retLen, retStart = -1, -1
+        def helper(k):
+            j = 0
+            Map1, Map2 = Counter(), Counter()
+            lth, start = -1, -1
+            for i in range(len(s)):
+                while j < len(s) and (len(Map1) < k or len(Map1) == k and s[j].lower() in Map1):
+                    Map1[s[j].lower()] += 1                
+                    Map2[s[j]] += 1  
+                    j += 1
+                if len(Map1) < k: break                
+                
+                flag = 1
+                for x in Map1:
+                    if Map2[x.lower()] == 0 or Map2[x.upper()] == 0:
+                        flag = 0
+                        break
+                if flag == 1:
+                    if j-i > lth:
+                        lth = j-i
+                        start = i
+                
+                Map1[s[i].lower()] -= 1
+                if Map1[s[i].lower()] == 0:
+                    Map1.pop(s[i].lower())
+                Map2[s[i]] -= 1
+            return (lth, start)
+            
+        for k in range(26, 0, -1):
+            l, start = helper(k)
+            if l > retLen:
+                retLen = l
+                retStart = start
+            elif l == retLen and start < retStart:
+                retStart = start
+        if retLen != -1:
+            return s[retStart:retStart+retLen]
+        else:
+            return ""        
+
 
 
 
@@ -86,3 +131,5 @@ if __name__ == "__main__":
     print(Solution().longestNiceSubstring(s = "Bb"))
     print(Solution().longestNiceSubstring2(s = "YazaAay"))
     print(Solution().longestNiceSubstring2(s = "Bb"))
+    print(Solution().longestNiceSubstring4(s = "YazaAay"))
+    print(Solution().longestNiceSubstring4(s = "Bb"))
