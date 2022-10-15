@@ -46,3 +46,10 @@ for i in range(k):
   
 there are ```k``` bitmasks that satisfy the requirement  
 
+
+
+##Fact  
+```python 
+(a&b) ^ (a&c) = a & (b^c)
+```
+
