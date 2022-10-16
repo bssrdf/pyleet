@@ -147,19 +147,11 @@ class Solution:
                 for v in tree[u]:                    
                     if vals[u] == target or degs[v] > 0:
                         degs[v] -= 1
-                        vals[v] += vals[u] if vals[u] != target else 0
+                        vals[v] += vals[u] if vals[u] < target else 0
                         if degs[v] == 0:
                             return vals[v] == target
                         elif degs[v] == 1:
                             que.append(v)
-
-                    # elif degs[v] > 0:
-                    #     vals[v] += vals[u]
-                    #     degs[v] -= 1
-                    #     if degs[v] == 0:
-                    #         return vals[v] == target
-                    #     elif degs[v] == 1:
-                    #         que.append(v)
             return True
             
 
