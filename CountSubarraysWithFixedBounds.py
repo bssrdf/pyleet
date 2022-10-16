@@ -66,15 +66,32 @@ class Solution:
                 ans += j - outB[i] if j - outB[i] > 0 else 0 
         return ans
 
-            
-
+    def countSubarrays3(self, nums: List[int], minK: int, maxK: int) -> int:
+        # O(1) space
+        pminK, pmaxK, outB = -1, -1, -1
+        ans = 0
+        for i,a in enumerate(nums):
+            if a == minK:
+                pminK = i
+            if a == maxK:
+                pmaxK = i
+            if  a < minK or a > maxK:
+                outB = i 
+            if pminK != -1 and pmaxK != -1:
+                j = min(pminK, pmaxK)
+                ans += j - outB if j - outB > 0 else 0 
+        return ans
+        
 
 if __name__ == "__main__":
     print(Solution().countSubarrays(nums = [1,3,5,2,7,5], minK = 1, maxK = 5))
     print(Solution().countSubarrays2(nums = [1,3,5,2,7,5], minK = 1, maxK = 5))
+    print(Solution().countSubarrays3(nums = [1,3,5,2,7,5], minK = 1, maxK = 5))
     print(Solution().countSubarrays(nums = [1,1,1,1], minK = 1, maxK = 1))
     print(Solution().countSubarrays2(nums = [1,1,1,1], minK = 1, maxK = 1))
+    print(Solution().countSubarrays3(nums = [1,1,1,1], minK = 1, maxK = 1))
     nums = [934372,927845,479424,49441,17167,17167,65553,927845,17167,927845,17167,425106,17167,927845,17167,927845,251338,17167]
     print(Solution().countSubarrays(nums = nums, minK = 17167, maxK = 927845))
     print(Solution().countSubarrays2(nums = nums, minK = 17167, maxK = 927845))
+    print(Solution().countSubarrays3(nums = nums, minK = 17167, maxK = 927845))
         
