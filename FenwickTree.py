@@ -3,7 +3,10 @@
 Created on Wed Jul 26 00:07:56 2017
 
 @author: merli
+
 """
+
+import math
 
 class FenwickTree(object):
     def __init__(self, n):
@@ -34,6 +37,22 @@ class FenwickTree(object):
 
     def point_query(self, x):
         return self.sum(x)
+
+
+    def bit_search(self, v):
+        '''
+        Searching BIT using binary lifting
+        '''
+        LOGN = int(math.log2(self.n+1))
+        sums, pos = 0, 0 
+        for i in range(LOGN, -1, -1):
+            idx = pos + (1<<i)
+            if  idx < self.n and sums + self.sum_array[idx] < v:                 
+                sums += self.sum_array[idx]
+                pos += (1<<i)
+        return pos+1
+
+
 
 
 class FenwickTreeRURQ(object):
@@ -97,6 +116,7 @@ if __name__ == "__main__":
     rupq.range_update(2,9,1)
     rupq.range_update(6,7,1)
     print(rupq.point_query(6))
+    print(rupq.bit_search(3))
 
     # for i in range(1, 11):        
     #     print(i, rupq.point_query(i))
