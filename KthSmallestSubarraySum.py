@@ -1,5 +1,8 @@
 '''
 -Medium-
+$$$
+*Binary Search*
+*Sliding Window*
 
 Given an integer array nums of length n and an integer k, return the k-th smallest subarray sum.
 

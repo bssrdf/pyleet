@@ -1,5 +1,8 @@
 ''''
 -Hard-
+*Sliding Window*
+*Two Pointers*
+*DP*
 
 Given strings S and T, find the minimum (contiguous) substring W of S, so that T is a 
 subsequence of W.
@@ -48,10 +51,38 @@ class Solution:
                     minLen = lth
                     start = dp[i][n]
         return S[start:start+minLen] if start != -1 else ""
+    
+    def minWindow2(self, S, T):
+        # use two pointers
+        INF = 2*10**4+1
+        m, n, minLen, start = len(S), len(T), INF, -1
+        def slidingWindow(start):
+            i, j = start, 0
+            while i < m and j < n:
+                if S[i] == T[j]:
+                    j += 1
+                i += 1
+            if j == n:
+                return i-start
+            return INF  
+
+        for i in range(m):
+            if S[i] == T[0]:
+                lth = slidingWindow(i)
+                if lth < minLen:
+                    minLen = lth
+                    start = i
+        return S[start:start+minLen] if start != -1 else ""
+
+
+
 
 if __name__ == "__main__":
-    #print(Solution().minWindow(S="abcdebdde", T="bde"))
+    print(Solution().minWindow(S="abcdebdde", T="bde"))
+    print(Solution().minWindow2(S="abcdebdde", T="bde"))
     S = "spbmtkwqpftyahhnughzxscpavtqymtbanjyybdlhbphfrycpytsgzoeunvxaxuwbmecthomrjgmbvaoyjxxefmtxaxgwswdjdjlkpzsuirbujvhesfzdklgkulkmfnlofytaszwtxacnffvszmobxwmlhaxporskwzrvgmdpneggxqidqsdgvcprcnkdrxtsktibilbtggpazwuddhrgsmaspelglhausmfnyksdfyrwtpftrgtw"
     T = "asgvamuyus"
+    print('s length = ', len(S))
     print(Solution().minWindow(S, T))
+    print(Solution().minWindow2(S, T))
     
