@@ -115,10 +115,14 @@ class Solution:
     def makeSimilar2(self, nums: List[int], target: List[int]) -> int:
         cnt1, cnt2 = Counter(nums), Counter(target)
         
-        freq1_even = sorted([[c,f] for c,f in cnt1.items() if c%2 == 0 and (c not in cnt2 or f != cnt2[c])])
-        freq1_odd  = sorted([[c,f] for c,f in cnt1.items() if c%2 == 1 and (c not in cnt2 or f != cnt2[c])])
-        freq2_even = sorted([[c,f] for c,f in cnt2.items() if c%2 == 0 and (c not in cnt1 or f != cnt1[c])])
-        freq2_odd  = sorted([[c,f] for c,f in cnt2.items() if c%2 == 1 and (c not in cnt1 or f != cnt1[c])])
+        # freq1_even = sorted([[c,f] for c,f in cnt1.items() if c%2 == 0 and (c not in cnt2 or f != cnt2[c])])
+        # freq1_odd  = sorted([[c,f] for c,f in cnt1.items() if c%2 == 1 and (c not in cnt2 or f != cnt2[c])])
+        # freq2_even = sorted([[c,f] for c,f in cnt2.items() if c%2 == 0 and (c not in cnt1 or f != cnt1[c])])
+        # freq2_odd  = sorted([[c,f] for c,f in cnt2.items() if c%2 == 1 and (c not in cnt1 or f != cnt1[c])])
+        freq1_even = sorted([[c,f] for c,f in cnt1.items() if c%2 == 0])
+        freq1_odd  = sorted([[c,f] for c,f in cnt1.items() if c%2 == 1])
+        freq2_even = sorted([[c,f] for c,f in cnt2.items() if c%2 == 0])
+        freq2_odd  = sorted([[c,f] for c,f in cnt2.items() if c%2 == 1])
         print(freq1_odd)
         print(freq2_odd)
         print(freq1_even)        
@@ -128,7 +132,7 @@ class Solution:
         ans = 0
         
         while i < len(freq1_odd) and j < len(freq2_odd):
-            
+            pos, neg = 0, 0
             a1, f1 = freq1_odd[i]
             a2, f2 = freq2_odd[j]            
             if a1 < a2:    
@@ -166,20 +170,25 @@ class Solution:
                     freq2_odd[j] = [a2, 0] 
                     j += 1
                     freq1_odd[i] = [a1, f1-f2]
+            ans += max(pos, neg)  
+            print(pos, neg, freq1_odd[i], freq2_odd[j],ans)
+
+
                     
         # ans = max(pos, neg)
-        print(i, len(freq1_odd),  j, len(freq2_odd))
-        print(freq1_odd)
-        print(freq2_odd)
+        # print(i, len(freq1_odd),  j, len(freq2_odd))
+        # print(freq1_odd)
+        # print(freq2_odd)
 
-        pos1, neg1 = pos, neg
-        print(pos, neg)
+        # pos1, neg1 = pos, neg
+        # print(pos, neg)
         # pos, neg = 0, 0
         i, j = 0, 0
         while i < len(freq1_even) and j < len(freq2_even):
             
             a1, f1 = freq1_even[i]
-            a2, f2 = freq2_even[j]            
+            a2, f2 = freq2_even[j]  
+            pos, neg = 0, 0          
             if a1 < a2:    
                 if f1 == f2: 
                     pos += (a2-a1)*f2//2
@@ -214,13 +223,23 @@ class Solution:
                     freq2_even[j] = [a2, 0]
                     j += 1
                     freq1_even[i] = [a1, f1-f2]
-        print(pos, neg)
-        print(pos-pos1, neg-neg1)
-        print(i, len(freq1_even),  j, len(freq2_even))
-        print(freq1_even)
-        print(freq2_even)
-        ans = max(pos, neg)
+            ans += max(pos, neg)       
+        # print(pos, neg)
+        # print(pos-pos1, neg-neg1)
+        # print(i, len(freq1_even),  j, len(freq2_even))
+        # print(freq1_even)
+        # print(freq2_even)
+        # ans = max(pos, neg)
         return ans 
+
+    def makeSimilar3(self, nums: List[int], target: List[int]) -> int:    
+        onums = sorted([x for x in nums if x % 2])
+        enums = sorted([x for x in nums if x % 2 == 0])
+        otar = sorted([x for x in target if x % 2])
+        etar = sorted([x for x in target if x % 2 == 0])
+        return sum((x - y) // 2 for x, y in zip(onums, otar) if x > y) + \
+               sum((x - y) // 2 for x, y in zip(enums, etar) if x > y)
+    
 
 
 if __name__ == "__main__":        
