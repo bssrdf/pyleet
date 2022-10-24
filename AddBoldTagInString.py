@@ -36,6 +36,7 @@ All the strings in input have length in range [1, 1000].
 
 class Solution:
 
+
     def addBoldTag(self, s, dic):
         n = len(s)
         res = ''

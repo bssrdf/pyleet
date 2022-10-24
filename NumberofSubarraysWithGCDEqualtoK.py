@@ -34,6 +34,7 @@ Constraints:
 '''
 from math import gcd
 from typing import List
+from collections import Counter
 
 class Solution:
     def subarrayGCD(self, nums: List[int], k: int) -> int:
@@ -46,6 +47,19 @@ class Solution:
                 g = gcd(g, nums[j])
                 if g == k:
                     ans += 1
+        return ans   
+    
+    def subarrayGCD2(self, nums: List[int], k: int) -> int:
+        n, ans = len(nums), 0
+        gcds = Counter()
+        for i in range(n):
+            gcds1 = Counter()
+            if nums[i] % k == 0:
+                gcds[nums[i]] += 1
+            for prev,cnt in gcds.items():
+                gcds1[gcd(prev, nums[i])] += cnt
+            ans += gcds1[k]
+            gcds, gcds1 = gcds1, gcds    
         return ans   
     
     
