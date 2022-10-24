@@ -47,6 +47,9 @@ class Solution:
                 if g == k:
                     ans += 1
         return ans   
-                
+    
+    
+            
 if __name__ == "__main__":        
     print(Solution().subarrayGCD(nums = [9,3,1,2,6,3], k = 3))                    
+    print(Solution().subarrayGCD2(nums = [9,3,1,2,6,3], k = 3))                    

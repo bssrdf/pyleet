@@ -1,6 +1,7 @@
 '''
 
 -Hard-
+*Greedy*
 
 You are given two positive integer arrays nums and target, of the same length.
 
@@ -50,6 +51,7 @@ from typing import List
 from collections import Counter
 class Solution:
     def makeSimilar(self, nums: List[int], target: List[int]) -> int:
+        # Wrong
         cnt1, cnt2 = Counter(nums), Counter(target)
         
         freq1_even = sorted([[c,f] for c,f in cnt1.items() if c%2 == 0 and (c not in cnt2 or f != cnt2[c])])
@@ -113,6 +115,7 @@ class Solution:
         return ans
 
     def makeSimilar2(self, nums: List[int], target: List[int]) -> int:
+        # Wrong
         cnt1, cnt2 = Counter(nums), Counter(target)
         
         # freq1_even = sorted([[c,f] for c,f in cnt1.items() if c%2 == 0 and (c not in cnt2 or f != cnt2[c])])
@@ -237,6 +240,14 @@ class Solution:
         enums = sorted([x for x in nums if x % 2 == 0])
         otar = sorted([x for x in target if x % 2])
         etar = sorted([x for x in target if x % 2 == 0])
+        print(onums)
+        print(otar)
+        print(enums)
+        print(etar)
+        print(sum((x - y) // 2 for x, y in zip(onums, otar) if x > y))
+        print(sum((x - y) // 2 for x, y in zip(enums, etar) if x > y))
+        print(sum((y-x) // 2 for x, y in zip(onums, otar) if x < y))
+        print(sum((y-x) // 2 for x, y in zip(enums, etar) if x < y))
         return sum((x - y) // 2 for x, y in zip(onums, otar) if x > y) + \
                sum((x - y) // 2 for x, y in zip(enums, etar) if x > y)
     
@@ -264,6 +275,7 @@ if __name__ == "__main__":
 
     nums = [44,590,100,354,524,144,898,943,968,266,856,294,553,494,369,907,623,169,1,352,465,209,561,600,415,591,4,254,55,932,344,484,638,260,740,806,21,590,187,631,326,829,4,770,664,251,849,814,912,143,158,476,16,82,401,276,306,151,444,172,760,165,384,906,346,456,10,210,712,622,230,629,254,97]
     target = [54,323,558,124,183,984,513,762,4,190,340,25,376,722,719,283,406,710,710,386,69,511,1,740,198,695,123,392,100,980,328,680,2,242,192,588,860,175,70,523,919,618,738,593,814,176,2,979,740,553,733,388,950,428,545,754,907,2,670,734,324,473,648,645,31,47,2,108,104,480,519,396,2,198]
-    print(Solution().makeSimilar2(nums = nums, target=target))
+    # print(Solution().makeSimilar2(nums = nums, target=target))
+    print(Solution().makeSimilar3(nums = nums, target=target))
 
         
