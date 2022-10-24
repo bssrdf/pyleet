@@ -33,9 +33,55 @@ s consists of lowercase English letters.
 
 '''
 
-
+from collections import defaultdict
 class Solution:
     def maxProduct(self, s: str) -> int:
+        magic_prime = 32416189573
+        def maxLengthPalin(t):
+            print('t:', t)
+            if not t: return -1, 0
+            res, l, r = -1, 0, len(t)
+            def findPalin(m):
+                print('m = ', m)
+                curHash = 0
+                Pm = pow(26, m-1, magic_prime)
+                pos = defaultdict(set)
+                for i in range(len(t)):
+                    idx = ord(t[i]) - 97
+                    if i >= m:
+                        curHash = 26*(curHash-Pm*(ord(t[i-m]) - 97)) + idx 
+                    else: 
+                        curHash = curHash*26 + idx
+                    curHash %= magic_prime    
+                    pos[curHash].add(i)
+                curHash = 0
+                for i in range(len(t)-1, -1, -1):
+                    idx = ord(t[i]) - 97
+                    if i <= len(t)-m-1:
+                        curHash = 26*(curHash-Pm*(ord(t[i+m]) - 97)) + idx 
+                    else: 
+                        curHash = curHash*26 + idx
+                    curHash %= magic_prime
+                    if curHash in pos:
+                        return pos[curHash].pop()
+                return -1
+            while l < r:
+                mid = l + (r-l)//2
+                k = findPalin(mid)
+                if k == -1:
+                    r = mid 
+                else:
+                    l = mid + 1
+                    res = k
+            return res, l  
+        idx, lth1 = maxLengthPalin(s)
+        l, r = idx-lth1, idx
+        idx, lth2 = maxLengthPalin(s[:l])
+        idx, lth3 = maxLengthPalin(s[r:])
+        return lth1 * max(lth2, lth3)
+
+
+
         
 
 if __name__ == "__main__":
