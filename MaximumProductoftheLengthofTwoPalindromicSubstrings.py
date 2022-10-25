@@ -99,31 +99,32 @@ class Solution:
 
     def maxProduct2(self, s: str) -> int:
         def manachers(S):
-            A = '@#' + '#'.join(S) + '#$'
-            Z = [0] * len(A)
-            center = right = 0
-            for i in range(1, len(A) - 1):
-                if i < right:
-                    Z[i] = min(right - i, Z[2 * center - i])
-                while A[i + Z[i] + 1] == A[i - Z[i] - 1]:
-                    Z[i] += 1
-                if i + Z[i] > right:
-                    center, right = i, i + Z[i]
-            return Z[2:-2:2]
-
-        def helper(s):
-            man, n = manachers(s), len(s)
-            ints = [(i - man[i]//2, i + man[i]//2) for i in range(n)]
-            arr = [0]*n
-            for a, b in ints: 
-                arr[b] = max(arr[b], b - a + 1)
-            for i in range(n-2, -1, -1):
-                arr[i] = max(arr[i], arr[i + 1] - 2)
-            return list(accumulate(arr, max))
-        
-        t1, t2 = helper(s), helper(s[::-1])[::-1][1:] + [0]   
-        return max(x*y for x, y in zip(t1, t2))
-
+            # Manacher's Algorithm - Finding all sub-palindromes in O(N)
+            # https://cp-algorithms.com/string/manacher.html
+            n = len(S)
+            #l2r[i] the maximum length of palindrom in S[:i]
+            m, l2r = [0]*n, [1]*n # m is d1 array
+            l, r = 0, 1 # Initially we set l=0, r=1, which corresponds to the empty string.
+            for i in range(n):
+                m[i] = 0 if i >= r else min(m[l+r-i], r-i)
+                # run trivial algorithm to expand the range(palindrom)
+                while i-m[i] >= 0 and i + m[i] < n and S[i - m[i]] == S[i + m[i]]:
+                    l2r[i + m[i]] = 2 * m[i] + 1
+                    m[i] += 1
+                if i + m[i] > r: # update left/right border
+                    l = i - m[i]
+                    r = i + m[i]
+            for i in range(1,n):
+                l2r[i] = max(l2r[i], l2r[i-1])
+            return l2r
+        n = len(s)
+        res = 1
+        l2r = manachers(s)
+        r2l = manachers(s[::-1])
+        for i,j  in zip(range(n-1), range(n-2,0,-1)):
+            res = max(res, l2r[i]*r2l[j])
+        return res
+                
     def maxProduct3(self, s: str) -> int:
         mod = 10**9 + 7
         base = 27
@@ -200,4 +201,5 @@ if __name__ == "__main__":
     # print(Solution().maxProduct(s ="wtbptdhbjqsrwkxccxkwrsqjbhdtpbtw"))
     s = "ggbswiymmlevedhkbdhntnhdbkhdevelmmyiwsbgg"
     print(Solution().maxProduct(s = s))
+    print(Solution().maxProduct2(s = s))
     print(Solution().maxProduct3(s = s))
