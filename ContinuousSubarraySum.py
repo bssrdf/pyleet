@@ -3,9 +3,13 @@
 -Medium-
 *Hash Table*
 
-Given a list of non-negative numbers and a target integer k, write a 
-function to check if the array has a continuous subarray of size at 
-least 2 that sums up to a multiple of k, that is, sums up to n*k where n is also an integer.
+
+
+Given an integer array nums and an integer k, return true if nums has a continuous 
+subarray of size at least two whose elements sum up to a multiple of k, or false otherwise.
+
+An integer x is a multiple of k if there exists an integer n such that x = n * k. 
+0 is always a multiple of k.
 
  
 
@@ -26,9 +30,11 @@ size 5 and sums up to 42.
 
 Constraints:
 
-The length of the array won't exceed 10,000.
-You may assume the sum of all the numbers is in the range of a 
-signed 32-bit integer.
+1 <= nums.length <= 105
+0 <= nums[i] <= 109
+0 <= sum(nums[i]) <= 2^31 - 1
+1 <= k <= 2^31 - 1
+
 '''
 
 from collections import defaultdict
@@ -49,7 +55,7 @@ class Solution(object):
         m.add(S[0])
         p[S[0]] = 0               
         for i in range(1,n+1):
-            t = S[i]%k if k != 0 else S[i]
+            t = S[i] % k 
             if t in m and t in p and i-p[t]>=2:              
                 return True
             m.add(t)
@@ -64,12 +70,12 @@ class Solution(object):
         p = defaultdict(int)
         n = len(nums)
         S = 0
-        p[S] = 0 
-        
+        p[S] = 0         
         for i in range(1,n+1):
             S += nums[i-1]
-            t = S%k if k != 0 else S
-            if t in p and i-p[t]>=2:              
+            t = S % k 
+            if t in p and i-p[t]>=2:   
+                # print(i-1, nums[i-1], S, t)           
                 return True
             if t in p:
                 p[t] = min(p[t], i) 
@@ -87,6 +93,8 @@ if __name__ == "__main__":
     print(Solution().checkSubarraySum2([0,0], 0))
     print(Solution().checkSubarraySum([0,1,0,3,0,4,0,4,0], 5))
     print(Solution().checkSubarraySum2([0,1,0,3,0,4,0,4,0], 5))
+    print(Solution().checkSubarraySum2([1,0,2,3,0,4,0,4,1], 5))
+    print(Solution().checkSubarraySum2([1,0,22,3,0,4,0,4,1], 5))
     
 
 
