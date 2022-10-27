@@ -1,6 +1,9 @@
 '''
 
 -Hard-
+*Combinatorics"
+*DP*
+*Divide and Conquer*
 
 Given an array nums that represents a permutation of integers from 1 to n. We are 
 going to construct a binary search tree (BST) by inserting the elements of nums 
@@ -77,6 +80,10 @@ class Solution:
                     right.append(arr[i])
             l = dfs(left)
             r = dfs(right)
+            # note the use m-1 intead of m below 
+            # the reason is arr[0] is the root of the subtree
+            # what we need is C(len(left)+len(right), len(left))
+            # and len(left)+len(right) = m-1
             return (((table[m-1][len(left)]*l)%MOD)*r)%MOD
         return dfs(nums)%MOD - 1 # - 1 is to account for the original permutation            
         # for t in table:
