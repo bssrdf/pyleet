@@ -1,7 +1,8 @@
 '''
 -Hard-
-*DP*
 
+$$$
+*DP*
 
 LeetCode wants to give one of its best employees the option to travel among N cities to collect 
 algorithm problems. But all work and no play makes Jack a dull boy, you could take vacations in 
@@ -64,6 +65,7 @@ We don't consider the impact of flight hours towards the calculation of vacation
 
 
 '''
+from functools import lru_cache
 
 class Solution:
     """
@@ -85,12 +87,55 @@ class Solution:
             memo[city][week] = res
             return res
         return helper(0, 0)
-
-
-
-
+    
+    def maxVacationDays2(self, flights, days):
+        # Write your code here
+        n, k = len(flights), len(days[0])
+        @lru_cache(None)
+        def helper(city, week):
+            if week == k: return 0
+            res = 0
+            for i in range(n):
+                # either stay at current city or travel to next one where there is a flight
+                # to gain vacation days in current week
+                if city == i or flights[city][i] == 1:
+                    res = max(res, days[i][week]+helper(i, week+1))
+            return res
+        return helper(0, 0) # initially at city 0 and week 0
+    
+    def maxVacationDays3(self, flights, days):
+        # Write your code here
+        n, k = len(flights), len(days[0])
+        dp = [[0]*(k) for _ in range(n)]
+        res = 0
+        for j in range(k-1, -1, -1):
+            for i in range(n):            
+                dp[i][j] = days[i][j]
+                for l in range(n):
+                    if (l == i or flights[i][l] == 1) and j < k-1:
+                       dp[i][j] = max(dp[i][j], dp[l][j+1] + days[i][j]) 
+                # why do we go backwards in time? the reason is in
+                # this way at week 0, we can check values of dp[i][0] **only
+                # if** there is a flight from city 0 to city i;         
+                # if we do it in a time forward fasion, it is not easy to do this
+                # check (you have to maintain a state to tell whether it is able to 
+                # reach city i from city 0)  
+                if j == 0 and (i == 0 or flights[0][i]): 
+                    res = max(res, dp[i][0])
+        return res # initially at city 0 and week 0
+    
 
 if __name__ == "__main__":
     print(Solution().maxVacationDays(flights = [[0,1,1],[1,0,1],[1,1,0]], 
                                     days = [[1,3,1],[6,0,3],[3,3,3]]))
+            
+    print(Solution().maxVacationDays3(flights = [[0,1,1],[1,0,1],[1,1,0]],     
+                                    days = [[1,3,1],[6,0,3],[3,3,3]]))
+    print(Solution().maxVacationDays(flights = [[0,1,1],[1,0,1],[1,1,0]], 
+    days = [[7,0,0],[0,7,0],[0,0,7]]))
+    print(Solution().maxVacationDays3(flights = [[0,1,1],[1,0,1],[1,1,0]], 
+    days = [[7,0,0],[0,7,0],[0,0,7]]))
+    print(Solution().maxVacationDays(flights = [[0,0,0],[0,0,0],[0,0,0]], days = [[1,1,1],[7,7,7],[7,7,7]]))
+    print(Solution().maxVacationDays3(flights = [[0,0,0],[0,0,0],[0,0,0]], days = [[1,1,1],[7,7,7],[7,7,7]]))
+
 
