@@ -60,37 +60,44 @@ from BinaryTree import (TreeNode, constructBinaryTree, null)
 #         self.right = right
 class Solution:
     def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
-        dp = {}
-        height = {}
-        def dfs(node, depth):
+        dp, height = {}, {}
+        # def postorder(node, depth):
+        #     if not node: return 0
+        #     left = postorder(node.left, depth+1)
+        #     right = postorder(node.right, depth+1)
+        #     if node.left:
+        #         dp[node.left.val] = max(depth, right)
+        #     if node.right:   
+        #         dp[node.right.val] = max(depth, left)
+        #     height[node.val] = max(left, right)
+        #     return max(left, right)+1
+
+        def postorder(node, depth):
             if not node: return 0
-            left = dfs(node.left, depth+1)
-            right = dfs(node.right, depth+1)
-            if node.left:
-                dp[node.left.val] = max(depth, right)
-            if node.right:   
-                dp[node.right.val] = max(depth, left)
+            left = postorder(node.left, depth+1)
+            right = postorder(node.right, depth+1)            
             height[node.val] = max(left, right)
             return max(left, right)+1
         
-        dfs(root, 0)
+        postorder(root, 0)
         # print(dp) 
-        def dfs1(node, depth):
+        dp[root.val] = 0
+        if root.left:
+            dp[root.left.val] = (height[root.right.val] + 1) if root.right else 0
+        if root.right:
+            dp[root.right.val] = (height[root.left.val] + 1) if root.left else 0
+
+        def preorder(node, depth):
             if not node: return
             if node.left:
-                if node.right:
-                    dp[node.left.val] = max(depth + 1 + height[node.right.val], dp[node.val])
-                else:
-                    dp[node.left.val] =  max(depth, dp[node.val])
+                dp[node.left.val] = max(depth + ((1 + height[node.right.val]) if node.right else 0), dp[node.val])
             if node.right:
-                if node.left:
-                    dp[node.right.val] = max(depth + 1 + height[node.left.val], dp[node.val])
-                else:
-                    dp[node.right.val] = max(depth, dp[node.val])
-            dfs1(node.left, depth+1)
-            dfs1(node.right, depth+1)
-        dfs1(root.left, 1)
-        dfs1(root.right, 1)
+                dp[node.right.val] = max(depth + ((1 + height[node.left.val]) if node.left else 0), dp[node.val])
+            preorder(node.left, depth+1)
+            preorder(node.right, depth+1)
+        # preorder(root.left, 1)
+        # preorder(root.right, 1)
+        preorder(root, 0)
 
         # print(dp) 
         # print(height)
