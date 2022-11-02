@@ -69,15 +69,40 @@ class Solution:
                 return int(t) 
         num = helper(n)
         return num - n
+    
+
+    def makeIntegerBeautiful2(self, n: int, target: int) -> int:
+        A = []
+        t = n
+        while t > 0:
+            A.append(t % 10)
+            t //= 10
+        if sum(A) <= target: return 0
+        A.append(0)
+        ret, p = 0, 1
+        for i in range(len(A)-1):
+            ret += (10-A[i])*p
+            A[i] = 0
+            A[i+1] += 1
+            p *= 10
+            if A[i+1] == 10: continue
+            print(ret, A)
+            if sum(A) <= target: return ret 
+        return ret
 
 
 if __name__ == "__main__":   
+    print(Solution().makeIntegerBeautiful2(n = 467, target = 17))        
     print(Solution().makeIntegerBeautiful(n = 467, target = 6))        
     print(Solution().makeIntegerBeautiful(n = 467, target = 16))        
+
         
     print(Solution().makeIntegerBeautiful(n = 16, target = 6))        
     print(Solution().makeIntegerBeautiful(n = 1, target = 1))        
 
     print(Solution().makeIntegerBeautiful(n = 8, target = 2))        
     print(Solution().makeIntegerBeautiful(n = 19, target = 1))        
+    print(Solution().makeIntegerBeautiful2(n = 19, target = 1))        
     print(Solution().makeIntegerBeautiful(n = 20, target = 1))        
+
+    # print(Solution().makeIntegerBeautiful2(n = 20, target = 1))        
