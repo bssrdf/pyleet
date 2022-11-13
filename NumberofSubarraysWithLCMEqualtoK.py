@@ -27,6 +27,22 @@ class Solution:
                 g = nums[j]
                 m1 = nums[j]
         return ans
+
+    def subarrayLCM2(self, nums: List[int], k: int) -> int:
+        ans = 0
+        n = len(nums)
+        def lcm(a, b):
+            return a * b // gcd(a,b)
+        for i in range(n):            
+            l = nums[i]
+            for j in range(i, n):
+                l = lcm(l, nums[j])
+                if l == k: ans += 1  
+                elif l > k:
+                    break              
+        return ans
                     
 print(Solution().subarrayLCM([2,1,1,5], 5))      
 print(Solution().subarrayLCM([3,6,2,7,1], 6))
+print(Solution().subarrayLCM2([2,1,1,5], 5))      
+print(Solution().subarrayLCM2([3,6,2,7,1], 6))
