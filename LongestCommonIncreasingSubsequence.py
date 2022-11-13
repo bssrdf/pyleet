@@ -22,20 +22,45 @@ class Solution:
         # f[i][j]=f[i-1][j], a[i]!=b[j]
         # f[i][j]=max(f[i-1][k])+1, a[i]=b[j],0<=k<j,b[j]>b[k]
         n = len(A)
+        A = [-1] + A
+        B = [-1] + B
         dp = [[0]*(n+1) for _ in range(n+1)]
         for i in range(1, n+1):
-            maxn = 0
+            val = 0            
+            if B[0] < A[i]: val = dp[i-1][0]
             for j in range(1, n+1):
-                if A[i-1] != B[j-1]:
+                if A[i] != B[j]:
                     dp[i][j] = dp[i-1][j]
                 else:
-                    dp[i][j] = maxn + 1
-                if B[j-1] < A[i-1]:
-                    maxn = max(maxn, dp[i-1][j])
+                    dp[i][j] = val + 1
+                if B[j] < A[i]:
+                    val = max(val, dp[i-1][j])
         return max(dp[n])     
+    
+
+    def longestCommonIncreasingSubsequence2(self, A, B) -> int:
+        n = len(A)
+        A = [-1] + A
+        B = [-1] + B
+        dp = [[0]*(n+1) for _ in range(n+1)]
+        for i in range(1, n+1):
+            for j in range(1, n+1):
+                if A[i] != B[j]:
+                    dp[i][j] = dp[i-1][j]
+                else:
+                    for k in range(j):
+                        if B[k] < A[i]: 
+                           dp[i][j] = max(dp[i][j], dp[i-1][k]+1)
+        return max(dp[n])     
+    
+
+
 
 
 
 if __name__ == "__main__":   
     print(Solution().longestCommonIncreasingSubsequence([2, 2, 1, 3], [2, 1, 2, 3]))
+    print(Solution().longestCommonIncreasingSubsequence2([2, 2, 1, 3], [2, 1, 2, 3]))
+    print(Solution().longestCommonIncreasingSubsequence([3, 4, 9, 1], [5, 3, 8, 9, 10, 2, 1])) 
+    print(Solution().longestCommonIncreasingSubsequence2([3, 4, 9, 1], [5, 3, 8, 9, 10, 2, 1])) 
 
