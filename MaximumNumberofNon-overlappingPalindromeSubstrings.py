@@ -40,8 +40,12 @@ class Solution:
         n = len(s)
         dp = [0] * (n + 1)
         for i in range(k, n + 1):
-            dp[i] = dp[i - 1]
+            dp[i] = dp[i - 1] # no palindrom ending at i
             for length in range(k, k + 2):
+                # If one palindrome is a substring of another palidrome then considering 
+                # the second one will not increase the total number of non-overlapping palindromes. 
+                # Thus, we only need to consider the minimally allowed palindromes of even and 
+                # odd lengths (i.e., of k and k+1).
                 j = i - length
                 if j < 0:
                     break

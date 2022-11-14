@@ -66,7 +66,6 @@ class Solution:
         while que:
             nq = deque()
             nn = [] 
-            n = len(que)
             for i in range(len(que)):
                 node = que.popleft()                
                 nn.append((node.val, i))
@@ -77,12 +76,12 @@ class Solution:
             k = 0
             ns = {v : j for j,v in enumerate(nn)}
             for i,v in enumerate(sorted(nn)):
-                j = ns[v]
+                j = ns[v] # j is the current index of the number which should be at i
                 w = nn[i]
                 if nn[i] != nn[j]:
                     k += 1
-                    nn[i], nn[j] = nn[j], nn[i]
-                    ns[v], ns[w] = i, j
+                    nn[i], nn[j] = nn[j], nn[i] # swap numbers at index i and j
+                    ns[v], ns[w] = i, j # swap indices 
                 
             # print(arr, nums, k)
             ans += k
