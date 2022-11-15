@@ -63,5 +63,30 @@ class Solution:
             right -= 1
         return True
 
+    def maxPalindromes2(self, s: str, k: int) -> int:
+        n = len(s)
+        dp = [0] * (n + 1)
+        ipa = [[False]* (n + 2) for _ in range(n+2)]
+        # ipa[i][j] is True if s[i:j+1] is a palindrom
+        for i in range(n): # check for odd length palindrom
+            l = 0
+            while i-l >= 0 and i+l < n and s[i-l] == s[i+l]:
+                ipa[i-l][i+l] = True
+                l += 1
+        for i in range(1, n): # check for even length palindrom
+            l, r = i-1, i
+            while l >= 0 and r < n and s[l] == s[r]:
+                ipa[l][r] = True
+                l -= 1
+                r += 1
+        for i in range(k, n+1):
+            dp[i] = dp[i-1]
+            for j in range(i-k-1, i-k+1):
+                if j < 0: continue
+                if ipa[j][i-1]: dp[i] = max(dp[i], dp[j]+1)
+        return dp[n]              
+        
+
 if __name__ == "__main__":
     print(Solution().maxPalindromes(s = "abaccdbbd", k = 3))
+    print(Solution().maxPalindromes2(s = "abaccdbbd", k = 3))
