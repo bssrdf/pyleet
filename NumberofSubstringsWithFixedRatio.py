@@ -3,6 +3,8 @@
 
 $$$
 
+*Hash Table*
+
 
 You are given a binary string s, and two integers num1 and num2. num1 and num2 are coprime numbers.
 
@@ -45,6 +47,30 @@ from collections import Counter
 
 class Solution:
     def fixedRatio(self, s: str, num1: int, num2: int) -> int:
+        '''
+        前缀和 + 计数
+
+        我们用 one[i] 表示字符串 s[0,..i] 中 '1' 的个数，用 zero[i] 表示字符串 s[0,..i] 
+        中 '0' 的个数。子串符合条件，需要满足
+
+        
+        (zero[j] - zero[i]) / (one[j] - one[i]) = num1 / num2
+        
+
+        其中 i < j。我们可以将上式转化为
+
+        
+        one[j] * num1 - zero[j] * num2 = one[i] * num1 - zero[i] * num2
+        
+
+        遍历到下标 j 时，我们只需要统计有多少个下标 i 满足上式即可。因此，我们可以用
+        哈希表记录 one[i] * num1 - zero[i] * num2 出现的次数，遍历到下标 j 时，
+        只需要统计 one[j] * num1 - zero[j] * num2 出现的次数即可。
+
+        哈希表初始时只有一个键值对 (0, 1)。
+
+        时间复杂度 O(n)，空间复杂度 O(n)。其中 n 为字符串 s 的长度。
+        '''
         n0 = n1 = 0
         ans = 0
         cnt = Counter({0: 1})
