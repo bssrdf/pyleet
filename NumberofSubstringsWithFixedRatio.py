@@ -67,7 +67,7 @@ class Solution:
         哈希表记录 one[i] * num1 - zero[i] * num2 出现的次数，遍历到下标 j 时，
         只需要统计 one[j] * num1 - zero[j] * num2 出现的次数即可。
 
-        哈希表初始时只有一个键值对 (0, 1)。
+        哈希表初始时只有一个键值对 {0:1}。
 
         时间复杂度 O(n)，空间复杂度 O(n)。其中 n 为字符串 s 的长度。
         '''
@@ -77,8 +77,8 @@ class Solution:
         for c in s:
             n0 += c == '0'
             n1 += c == '1'
-            # x = n1 * num1 - n0 * num2
-            x = n0 * num2 - n1 * num1
+            x = n1 * num1 - n0 * num2
+            # x = n0 * num2 - n1 * num1
             # print('A', c, n0, n1, x, ans, cnt)
             ans += cnt[x]            
             cnt[x] += 1
