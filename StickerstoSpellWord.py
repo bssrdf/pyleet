@@ -1,5 +1,8 @@
 '''
 -Hard-
+
+*DP*
+
 We are given n different types of stickers. Each sticker has a lowercase 
 English word on it.
 
@@ -66,7 +69,40 @@ class Solution:
                         dp[curState] = min(dp[curState], dp[state] + 1)
         return dp[(1 << targetLength) - 1]
     
+
+    def minStickers2(self, stickers: List[str], target: str) -> int:
+        m = len(stickers)
+        mp = [[0]*26 for y in range(m)] 
+        for i in range(m):
+            for c in stickers[i]:
+                mp[i][ord(c)-ord('a')] += 1    
+        dp = {}
+        dp[""] = 0
+        
+        def helper(dp, mp, target):
+            if target in dp:
+                return dp[target]
+            tar = [0]*26
+            for c in target:
+                tar[ord(c)-ord('a')] += 1   
+            ans = float('inf')
+            for i in range(m):
+                if mp[i][ord(target[0])-ord('a')] == 0:
+                    continue
+                s = ''
+                for j in range(26):
+                    if tar[j] > mp[i][j]:
+                        s += chr(ord('a')+j)*(tar[j] - mp[i][j]) 
+                tmp = helper(dp, mp, s)
+                if tmp != -1: 
+                    ans = min(ans, 1+tmp)    
+            dp[target] = -1 if ans == float('inf') else ans
+            return dp[target]
+                
+        return helper(dp, mp, target)
+    
         
 
 if __name__ == '__main__':
     print(Solution().minStickers(stickers = ["with","example","science"], target = "thehat"))
+    print(Solution().minStickers2(stickers = ["with","example","science"], target = "thehat"))
