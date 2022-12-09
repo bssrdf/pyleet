@@ -57,14 +57,13 @@ class Solution:
         visited = [False]*(n+1)
         dmin = 10**4+1
         def dfs(u):
-            visited[u] = True
+            nonlocal dmin
+            visited[u] = True            
             for v,w in G[u]:
+                dmin = min(dmin, w) # still explore this edge even if v has already been visited before
                 if not visited[v]:
                     dfs(v)
-        dfs(1)
-        for u,v,w in roads:
-            if visited[u] or visited[v]:
-                dmin = min(dmin, w)
+        dfs(1)        
         return dmin    
     
     def minScore2(self, n: int, roads: List[List[int]]) -> int:
@@ -92,8 +91,12 @@ class Solution:
 
 
 if __name__ == "__main__":
+    print(Solution().minScore(n = 4, roads = [[1,2,9],[2,3,6],[2,4,5],[1,4,7]]))
     print(Solution().minScore2(n = 4, roads = [[1,2,9],[2,3,6],[2,4,5],[1,4,7]]))
-        
+
+
+    print(Solution().minScore(6,
+    [[4,5,7468],[6,2,7173],[6,3,8365],[2,3,7674],[5,6,7852],[1,2,8547],[2,4,1885],[2,5,5192],[1,3,4065],[1,4,7357]]))    
     print(Solution().minScore2(6,
     [[4,5,7468],[6,2,7173],[6,3,8365],[2,3,7674],[5,6,7852],[1,2,8547],[2,4,1885],[2,5,5192],[1,3,4065],[1,4,7357]]))
 
