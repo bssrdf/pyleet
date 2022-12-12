@@ -72,8 +72,7 @@ class Solution:
                     heapq.heappush(pq, (grid[i][j], i, j))
         nums = sorted(sums)
         for i, q in enumerate(queries):
-            if q <= tl: ans[i] = 0
-            else: 
+            if q > tl:
                 idx = bisect.bisect_left(nums, q)
                 ans[i] = sums[nums[idx-1]] if idx == len(nums) or nums[idx] != q else sums[nums[idx]]
         return ans
