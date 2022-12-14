@@ -1,6 +1,8 @@
 '''
 
 -Medium-
+$$$
+
 *Hash Table*
 *Sorting*
 

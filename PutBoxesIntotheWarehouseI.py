@@ -1,6 +1,11 @@
 '''
 -Medium-
 
+$$$
+
+*Sorting*
+*Greedy*
+
 Given two arrays of positive integers boxes and warehouse representing the heights of some boxes 
 of unit width, and the heights of n rooms in a warehouse, respectively. The warehouse's rooms are 
 labeled from 0 to n - 1 from left to right where warehouse[i] (0-indexed) is the height of the ith room.
@@ -75,7 +80,30 @@ class Solution(object):
             j -= 1
         return ans
 
+    def maxBoxesInWarehouse2(self, boxes, warehouse):
+        '''
+        这是一道经典题，比较简单的贪心策略是：尽量将最外的仓库（即index较小的位置，它能支持
+        最大的高度）留给高的盒子，否则会浪费空间。
+
+        具体的做法是：从左到右遍历cell。对于每个cell，从高到低寻找能fit的盒子，凡是不fit的盒子
+        就都舍弃（他们以后肯定放不进任何cell），如果发现某个盒子能fit，就装进去。然后处理
+        第二个cell，以此类推。
+        '''
+        B, W = boxes, warehouse
+        B.sort(reverse=True)
+        ans, i = 0, 0
+        for b in B:            
+            if i == len(W):
+                break
+            if b <= W[i]:
+                i += 1
+                ans += 1 
+        return ans
+
+
 
 if __name__ == "__main__":
     print(Solution().maxBoxesInWarehouse(boxes = [4,3,4,1], warehouse = [5,3,3,4,1]))
     print(Solution().maxBoxesInWarehouse(boxes = [1,2,2,3,4], warehouse = [3,4,1,2]))
+    print(Solution().maxBoxesInWarehouse2(boxes = [4,3,4,1], warehouse = [5,3,3,4,1]))
+    print(Solution().maxBoxesInWarehouse2(boxes = [1,2,2,3,4], warehouse = [3,4,1,2]))
