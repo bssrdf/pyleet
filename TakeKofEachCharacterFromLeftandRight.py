@@ -32,10 +32,16 @@ s consists of only the letters 'a', 'b', and 'c'.
 
 
 '''
+import bisect
+
+from collections import Counter
 
 class Solution:
     def takeCharacters(self, s: str, k: int) -> int:
         n = len(s)
+        cnt = Counter(s)
+        if cnt['a'] < k or cnt['b'] < k or cnt['c'] < k:
+            return -1
         left = [[0]*n for _ in range(3)]
         right = [[0]*n for _ in range(3)]
         idx = ord(s[0]) - ord('a')
@@ -58,7 +64,17 @@ class Solution:
             print(l)
         for l in right:
             print(l)   
-        return 0
+        ans = len(s) + 1 
+        for i in range(n, -1, -1):
+            idx = [-1]*3
+            for j in range(3):
+                if i == n: 
+                    idx[j] = bisect.bisect_left(left[j], k)
+                elif k-right[j][i] > 0: 
+                    idx[j] = bisect.bisect_left(left[j], k-right[j][i])
+            print(i, idx)
+            ans = min(ans, max(idx)+ 1 + n-i)
+        return ans
     
 
     def takeCharacters2(self, s: str, k: int) -> int:
@@ -86,4 +102,6 @@ class Solution:
 
 
 if __name__ == "__main__":
-    print(Solution().takeCharacters2(s = "aabaaaacaabc", k = 2))
+    # print(Solution().takeCharacters(s = "aabaaaacaabc", k = 2))
+    # print(Solution().takeCharacters(s = "acba", k = 1))
+    print(Solution().takeCharacters(s = "ccbabcc", k = 1))
