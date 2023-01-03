@@ -1,5 +1,6 @@
 '''
 -Hard-
+*DP*
 
 You are given an array nums consisting of positive integers and an integer k.
 
@@ -73,15 +74,15 @@ class Solution:
         dp = [[0] * k for _ in range(n)]
         for i in range(n):
             for j in range(k):
-                if i == 0 and j == 0:
+                if i == 0 and j == 0: # base case
                     dp[i][j] = 1
                     continue
-                if i == 0:
+                if i == 0: # j > 0
                     if j == nums[i]: dp[i][j] = 1
                     continue
-                if nums[i] > j: dp[i][j] = dp[i-1][j]
+                if nums[i] > j: dp[i][j] = dp[i-1][j] # can not include nums[i]
                 else:
-                    dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i]]
+                    dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i]] # either not include nums[i] or include 
                     dp[i][j] %= MOD
         invalid = sum(dp[n-1]) % MOD
         return max(2**n - 2*invalid, 0) % MOD

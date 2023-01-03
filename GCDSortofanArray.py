@@ -67,7 +67,7 @@ class Solution:
         sortIndex = sorted([i for i,_ in enumerate(nums)], key=lambda x: nums[x])
         def sieve(n):
             A = [i for i in range(n+1)]
-            for p in range(2, math.floor(math.sqrt(n))):
+            for p in range(2, math.floor(math.sqrt(n))+1):
                 if A[p]:
                     j = p*p
                     while j <= n:

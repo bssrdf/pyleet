@@ -1,5 +1,6 @@
 '''
 -Medium-
+*Two Pointers*
 
 You are given a string s consisting of the characters 'a', 'b', and 'c' and a non-negative integer k. Each minute, you may take either the leftmost character of s, or the rightmost character of s.
 
@@ -109,6 +110,40 @@ class Solution:
             # print(i, idx)
             ans = min(ans, max(idx)+ 1 + n-i)
         return ans
+
+    def takeCharacters3(self, s: str, k: int) -> int:
+        n = len(s)
+        if k == 0: return 0
+        flag = False
+        cnt = [0]*3
+        l, r  = 0, n
+        while l < n:
+            for j in range(3):
+                cnt[j] += 1 if ord(s[l])-ord('a') == j else 0 
+            if all([x >= k for x in cnt]):
+                flag = True
+                break
+            l += 1
+        if not flag: return -1
+        ret = l + 1
+        while l >= 0:
+            for j in range(3):
+                cnt[j] -= 1 if ord(s[l])-ord('a') == j else 0 
+            l -= 1
+            while l < r and any([x < k for x in cnt]):
+                r -= 1
+                for j in range(3):
+                    cnt[j] += 1 if ord(s[r])-ord('a') == j else 0 
+            if all([x >= k for x in cnt]):
+                ret = min(ret, l+1+n-r)
+        return ret     
+
+
+
+
+
+
+
     
 
 
