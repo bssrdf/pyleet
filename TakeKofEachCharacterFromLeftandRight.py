@@ -39,6 +39,7 @@ from collections import Counter
 class Solution:
     def takeCharacters(self, s: str, k: int) -> int:
         n = len(s)
+        if k == 0: return 0
         cnt = Counter(s)
         if cnt['a'] < k or cnt['b'] < k or cnt['c'] < k:
             return -1
@@ -60,10 +61,10 @@ class Solution:
                     right[idx][i] = right[idx][i+1] + 1
                 else:
                     right[idx][i] = right[idx][i+1] 
-        for l in left:
-            print(l)
-        for l in right:
-            print(l)   
+        # for l in left:
+        #     print(l)
+        # for l in right:
+        #     print(l)   
         ans = len(s) + 1 
         for i in range(n, -1, -1):
             idx = [-1]*3
@@ -72,36 +73,50 @@ class Solution:
                     idx[j] = bisect.bisect_left(left[j], k)
                 elif k-right[j][i] > 0: 
                     idx[j] = bisect.bisect_left(left[j], k-right[j][i])
-            print(i, idx)
+            # print(i, idx)
             ans = min(ans, max(idx)+ 1 + n-i)
         return ans
     
 
     def takeCharacters2(self, s: str, k: int) -> int:
-        s2 = s + s
         n = len(s)
-        j, i = 0, 0
-        cnt = [0]*3
-        ans = len(s)+1
-        def check():
-            return all([x >= k for x in cnt]) 
-        while i < n:
-            cnt[ord(s2[i])-ord('a')] += 1
-            i += 1
-            while check():  
-                ans = min(ans, i-j)
-                cnt[ord(s[j])-ord('a')] -= 1
-                j += 1            
-        return -1 if ans == len(s) + 1 else ans    
-
-
-
-
-
-
+        if k == 0: return 0
+        cnt = Counter(s)
+        if cnt['a'] < k or cnt['b'] < k or cnt['c'] < k:
+            return -1
+        left = [[0]*n for _ in range(3)]
+        idx = ord(s[0]) - ord('a')
+        left[idx][0] = 1
+        for i in range(1, n):
+            for idx in range(3):
+                if ord(s[i])-ord('a') == idx:
+                    left[idx][i] = left[idx][i-1] + 1
+                else:
+                    left[idx][i] = left[idx][i-1] 
+        # for l  left:
+            # print(l)
+        ans = len(s) + 1 
+        right = [0]*3
+        for i in range(n, -1, -1):
+            idx = [-1]*3            
+            if i < n:
+               for j in range(3): 
+                    right[j] += 1 if ord(s[i])-ord('a') == j else 0 
+            print(i, right)
+            for j in range(3):
+                if i == n or k-right[j] > 0: 
+                    idx[j] = bisect.bisect_left(left[j], k-right[j])
+            # print(i, idx)
+            ans = min(ans, max(idx)+ 1 + n-i)
+        return ans
+    
 
 
 if __name__ == "__main__":
     # print(Solution().takeCharacters(s = "aabaaaacaabc", k = 2))
     # print(Solution().takeCharacters(s = "acba", k = 1))
     print(Solution().takeCharacters(s = "ccbabcc", k = 1))
+    print(Solution().takeCharacters2(s = "ccbabcc", k = 1))
+
+    print(Solution().takeCharacters(s = "aabaaaacaabc", k = 2))
+    print(Solution().takeCharacters2(s = "aabaaaacaabc", k = 2))
