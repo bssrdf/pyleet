@@ -132,6 +132,50 @@ class Solution:
                 right = mid   # Decrease minPowerRequired value to need less additional power stations
         return left - 1
     
+    def maxPower3(self, stations: List[int], r: int, k: int) -> int:
+        '''
+        If we can distribute k power stations to bring minimun power level to x, power level x - 1 is also achieveable. Intuitively, the problem can be solved by binary search of the maximum minimum power level.
+
+        First we use a size 2 * r + 1 sliding window to find the current power level. Left and right bounds for binary search is the min(current power level) and max(current power level) + k.
+
+        For each target power level mid = (left + right + 1) // 2, we want to check whether mid can be realized. At each city, we can calculate the gap between the city's current power and mid, then, we start to place new stations to fill the gaps. At the stage, we sweep from 0 to n - 1, if a non-zero gap[i] encountered, we greedily place a new station such that the left boundary of influence of the new station is at [i] as a result, all cities in [i to i + 2 * r inclusively] are powered (gap reduced). Implementation-wise, we do not want to update the the city gaps [i to i + 2 * r inclusively], which will TLE, instead, we use a diffiential array to track the right bounary of influence of the new station, and use a cumulative vairable c to represent influences of the new stations. See function check below for details.
+        
+        '''
+        n = len(stations)
+        pw = [0] * n
+        pw[0] = sum(stations[0:r + 1])
+        for i in range(1, n): # sliding window to obtain current power level
+            pw[i] = pw[i - 1] \
+                    - (stations[i - r - 1] if i - r - 1 >= 0 else 0) \
+                    + (stations[i + r] if i + r < n else 0)
+        
+        def check(mid, k):
+            gap = [max(0, mid - p) for p in pw]
+            diff = [0] * (n + 1 + r * 2) # differential array for stations our of range
+            c = 0
+            for i in range(n):
+                c += diff[i] # remove the stations out of range
+                if gap[i] <= c:
+                    continue
+                if gap[i] - c > k: # unachievable, return False
+                    return False
+                else:
+                    x = gap[i] - c # number of stations to build where i is the left boundary of influence
+                    k -= x
+                    c += x # influence of the new stations
+                    diff[i + 1 + r * 2] -= x # track end of the influence
+            return True
+        
+        mi, ma = min(pw), max(pw)
+        le, ri = mi, ma + k
+        while le < ri: # binary search
+            mid = (le + ri + 1) // 2
+            if check(mid, k):
+                le = mid
+            else:
+                ri = mid - 1
+        return le
+    
 
 
 
