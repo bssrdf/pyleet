@@ -48,8 +48,27 @@ there are ```k``` bitmasks that satisfy the requirement
 
 
 
-##Fact  
+## Fact of XOR operation
+
 ```python 
 (a&b) ^ (a&c) = a & (b^c)
 ```
+
+Given a collection of ```nums``` (as a list/set/tree), the XOR of all of them can be found by
+
+```python
+r = 0
+for a in nums: # if nums is given as a tree, do a DFS/BFS to find r
+    r ^= a
+```
+
+Suppose ```r1``` is XOR of some subset of ```nums```, then ```r2```, XOR of the rest can be found by
+
+```python
+r2 = r ^ r1   
+```
+
+
+
+
 
