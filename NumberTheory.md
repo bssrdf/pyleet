@@ -82,3 +82,34 @@ def primes_list(m):
             return primes_list(m//i) + [i]
     return [m]
 ```
+
+## Find the result of (a/b) % m where m is a primer number 
+   use Euler's theorem where (1/b) % m = b ^ (m-2) % m
+
+```python
+
+   res = a * pow(b, m-2, m) % m
+```
+
+or use *Extended Euclidean algorithm*
+
+```python
+def inverse(a, m):
+    t, r = 0, m
+    newt, newr = 1, a 
+    while newr != 0:
+        q = r // newr
+        t  = newt
+        newt = t - q*newt
+        r  = newr
+        newr = r - q*newr
+    if r > 1: return -1 # a is not invertible
+    if t < 0:
+        t += m
+    return t
+```
+
+
+
+
+
