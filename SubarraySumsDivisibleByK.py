@@ -1,5 +1,7 @@
 '''
 -Medium-
+*Hash Table*
+*Prefix Sum*
 
 Given an array A of integers, return the number of (contiguous, 
 non-empty) subarrays that have a sum divisible by K.
@@ -44,6 +46,25 @@ class Solution(object):
                 ans += m[t]
             m[t] += 1
         return ans
+    
+    def subarraysDivByK2(self, A, K):
+        """
+        :type A: List[int]
+        :type K: int
+        :rtype: int
+        """
+        m = defaultdict(int)       
+        m[0] = 1
+        sums, ans = 0, 0
+        for a in A:
+            sums += a
+            t = sums % K
+            if t in m:
+                ans += m[t]
+            m[t] += 1
+        return ans
+
 
 if __name__ == "__main__":
     print(Solution().subarraysDivByK([4,5,0,-2,-3,1], 5))
+    print(Solution().subarraysDivByK2([4,5,0,-2,-3,1], 5))
