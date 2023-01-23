@@ -65,3 +65,4 @@ class Solution:
 if __name__ == '__main__':
     print(Solution().minOperations(nums1 = [4,3,1,4], nums2 = [1,3,7,1], k = 3))
     print(Solution().minOperations(nums1 = [3,8,5,2], nums2 = [2,4,1,6], k = 1))
+    print(Solution().minOperations(nums1 = [54, 64, 9, 63], nums2 = [19, 53, 97, 21], k = 22))
