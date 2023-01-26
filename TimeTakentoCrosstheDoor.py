@@ -152,6 +152,33 @@ class Solution:
             ans[j] = cur
             cur += 1         
         return ans
+    
+    def timeToCross3(self, arrival: List[int], state: List[int]) -> List[int]:
+        A, S = arrival, state
+        n = len(A)
+        ans = [0]*n
+        qs = [deque(), deque()]
+        d, time = 1, 0
+        def popQueues(time, d, arrivalTime):
+            while arrivalTime > time and (qs[0] or qs[1]):
+                if not qs[d]:
+                    d ^= 1
+                ans[qs[d][0]] = time
+                qs[d].popleft()
+                time += 1
+            return time,d    
+
+        for i in range(n):
+            time, d = popQueues(time, d, A[i])
+            # If the door was not used in the previous second, then the person who
+            #  wants to exit goes first.
+            if A[i] > time:
+                time = arrival[i]  # Forward the `time` to now.
+                d = 1
+            qs[S[i]].append(i)
+
+        popQueues(time, d, 200000)
+        return ans
 
 
 
@@ -166,6 +193,8 @@ class Solution:
 if __name__=="__main__":        
     # print(Solution().timeToCross(arrival = [0,1,1,2,4], state = [0,1,0,0,1]))
     print(Solution().timeToCross2(arrival = [0,1,1,2,4], state = [0,1,0,0,1]))
+    print(Solution().timeToCross3(arrival = [0,1,1,2,4], state = [0,1,0,0,1]))
     print(Solution().timeToCross2(arrival = [0,0,0], state = [1,0,1]))
+    print(Solution().timeToCross3(arrival = [0,0,0], state = [1,0,1]))
 
 
