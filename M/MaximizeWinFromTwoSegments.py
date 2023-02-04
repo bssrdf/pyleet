@@ -40,6 +40,7 @@ from typing import List
 from collections import defaultdict, deque
 class Solution:
     def maximizeWin(self, prizePositions: List[int], k: int) -> int:
+        # Wrong
         pP = prizePositions
         mp = defaultdict(int)
         for i in pP:

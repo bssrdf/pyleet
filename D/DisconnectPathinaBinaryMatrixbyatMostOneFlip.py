@@ -62,6 +62,7 @@ class Solution:
     
 
     def isPossibleToCutPath2(self, grid: List[List[int]]) -> bool:
+        # Wrong
         m, n = len(grid), len(grid[0]) 
         cnt = [[0]*n for _ in range(m)] 
         if m == 1 and n == 2 or m == 2 and n == 1:
