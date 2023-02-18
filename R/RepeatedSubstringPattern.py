@@ -79,7 +79,7 @@ class Solution:
         Z = zarray(s)
         print(Z)
         for i,z in enumerate(Z):
-            if z == (n-i) and n % (i) == 0:
+            if z == (n-i) and n % i == 0:
                 return True
                         
         return False
