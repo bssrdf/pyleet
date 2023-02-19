@@ -1,6 +1,7 @@
 '''
 -Hard-
-
+*Segment Tree*
+*Lazy Propagation*
 You are given two 0-indexed arrays nums1 and nums2 and a 2D array queries of queries. There are three types of queries:
 
 For a query of type 1, queries[i] = [1, l, r]. Flip the values from 0 to 1 and from 1 to 0 in nums1 from index l to index r. Both l and r are 0-indexed.
@@ -36,39 +37,95 @@ queries[i].length = 3
 '''
 
 from typing import List
+# from collections import defaultdict
 
+class segtree():
+    def __init__(self, n, nums):
+        # self.lazy = defaultdict(int)
+        # self.len = defaultdict(int)
+        # self.tree = defaultdict(int)
+        self.lazy = [0]*(4*n)
+        self.len = [0]*(4*n)
+        self.tree = [0]*(4*n)
+        # initial length and summation
+        self.init_len(1, 0, n, nums)
+        self.init_num(1, 0, n, nums)
+        
+    def init_len(self, ind, cl, cr, num):
+        if cr < cl or cl >= len(num):
+            return 
+        if cr == cl:
+            self.len[ind] = 1
+            return 
+        mid = (cl + cr) // 2
+        # if cl != cr:
+        self.init_len(ind*2, cl, mid, num)
+        self.init_len(ind*2+1, mid+1, cr, num)
+        self.len[ind] = self.len[ind*2] + self.len[ind*2+1]
+    
+    def init_num(self, ind, cl, cr, num):
+        if cr < cl or cl >= len(num):
+            return
+        if cl == cr:
+            self.tree[ind] = num[cl]
+            return
+        mid = (cl + cr) // 2
+        # if cl != cr:
+        self.init_num(ind*2, cl, mid, num)
+        self.init_num(ind*2+1, mid+1, cr, num)
+        
+        self.tree[ind] = self.tree[ind*2] + self.tree[ind*2+1]
+        
+    
+    def proplazy(self, ind):
+        # if the parent node has the notation to flip, then we update all summation of children nodes.
+        if self.lazy[ind]:
+            self.lazy[ind*2] ^= self.lazy[ind]
+            self.tree[ind*2] = self.len[ind*2] - self.tree[ind*2]
+            self.lazy[ind*2 + 1] ^= self.lazy[ind]
+            self.tree[ind*2 + 1] = self.len[ind*2+1] - self.tree[ind*2 + 1]
+            self.tree[ind] = self.tree[ind*2] + self.tree[ind*2+1]
+            self.lazy[ind] = 0
+        
+    def update(self, ind, ul, ur, cl, cr):
+        if cl > ur or cr < ul:
+            return 
+        if ul <= cl and cr <= ur:
+            # mark to flip
+            self.lazy[ind] ^= 1
+            self.tree[ind] = self.len[ind] - self.tree[ind]
+        else:
+            mid = (cl + cr) // 2
+            self.proplazy(ind)
+            self.update(ind*2, ul, ur, cl, mid)
+            self.update(ind*2+1, ul, ur, mid+1, cr)
+            self.tree[ind] = self.tree[ind*2] + self.tree[ind*2+1]
+           
+    def query(self, ind, ul, ur, cl, cr):
+        if cl > ur or cr < ul:
+            return 0
+        if ul <= cl and cr <= ur:
+            return self.tree[ind]
+        else:
+            mid = (cl + cr) // 2
+            self.proplazy(ind)
+            return self.query(ind*2, ul, ur, cl, mid) + self.query(ind*2+1, ul, ur, mid+1, cr)
+         
 class Solution:
     def handleQuery(self, nums1: List[int], nums2: List[int], queries: List[List[int]]) -> List[int]:
-        n, m = len(nums1), len(queries)
-        sums = sum(nums2)
-        bits = [0]*(n+1)
-        def update(i, x):
-            while i <= n:
-                bits[i] += x
-                i += i & (-i)
-        def query(i):
-            t = 0
-            while i > 0:
-                t += bits[i]
-                i -= i & (-i) 
-            return t
+        n = len(nums1)
+        seg = segtree(n, nums1)
         ans = []
-        for i in range(n):
-            if nums1[i] == 1:
-                update(i+1, nums1[i])
-        for i in range(m):
-            k, l, r = queries[i]
-            if k == 1:
-                update(l+1, 1)
-                # update(r+1, -1)
-                print(bits)
-            elif k == 2:
-                x = query(n)
-                # print('x:', x, bits)
-                sums +=  x * l
-            else:
-                ans.append(sums) 
-        return ans       
+        sums = sum(nums2)        
+        for i, j, k in queries:
+            if i == 1:
+                seg.update(1, j, k, 0, n)
+            if i == 2:
+                sums += seg.tree[1] * j
+            if i == 3:
+                ans.append(sums)
+        return ans
+       
 
 
 
