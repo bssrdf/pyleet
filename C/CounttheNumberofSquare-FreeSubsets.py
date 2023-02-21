@@ -156,6 +156,37 @@ class Solution:
             return ret % MOD    
         return dfs(0, 0) - 1    
     
+    def squareFreeSubsets6(self, nums: List[int]) -> int:
+        # AC
+        # almost the same as squareFreeSubsets3 but managing cache
+        # manually, instead of relying on built-in lru_cache
+        MOD = 10**9+7
+        sqs = {4, 8, 9, 12, 16, 20, 24, 28, 18, 27, 25}
+        A = [i for i in nums if i not in sqs]
+        primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+        mp = {p:i for i,p in enumerate(primes)}
+        n = len(A)
+        # Added
+        self.dp = [[-1 for _ in range(1024)] for _ in range(n)]
+        masks = [0]*31
+        for i in range(2,31):
+            st = set()
+            for k in mp:
+                if i % k == 0:
+                    st.add(k)
+                    masks[i] |= 1 << (mp[k]) 
+        def dfs(i, bmask):
+            if i == n: return 1
+            # Added
+            if self.dp[i][bmask] != -1: return self.dp[i][bmask]
+            ret = dfs(i+1, bmask)
+            if (masks[A[i]] & bmask) == 0:
+                ret += dfs(i+1, bmask | masks[A[i]])
+            # Added
+            self.dp[i][bmask] = ret
+            return ret
+        return (dfs(0, 0) - 1) % MOD   
+    
     def squareFreeSubsets4(self, nums: List[int]) -> int:
         MOD = 10**9+7
         sqs = {4, 8, 9, 12, 16, 20, 24, 28, 18, 27, 25}
