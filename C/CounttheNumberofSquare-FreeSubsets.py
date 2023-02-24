@@ -277,3 +277,6 @@ if __name__ == '__main__':
     print(Solution().squareFreeSubsets3(nums = nums))
     print(Solution().squareFreeSubsets4(nums = nums))
     print(Solution().squareFreeSubsets5(nums = nums))
+    nums = [1]*1000
+    print(Solution().squareFreeSubsets5(nums = nums))
+    print(Solution().squareFreeSubsets6(nums = nums))

@@ -48,16 +48,18 @@ class Solution(object):
         :type Capital: List[int]
         :rtype: int
         """
+        # cap is min-heap
+        # pro is a max-heap
         cap, pro = [], []
         for i in range(len(Profits)):
             heapq.heappush(cap, (Capital[i], Profits[i]))
         for i in range(k):
-            while cap and cap[0][0] <= W:
-                c, p = heapq.heappop(cap)
-                heapq.heappush(pro, (-p,c))
-            if not pro: break
-            p, _ = heapq.heappop(pro)
-            W += -p
+            while cap and cap[0][0] <= W: # gather all projects where its capital requirment 
+                c, p = heapq.heappop(cap) # can be satisfied and
+                heapq.heappush(pro, (-p,c)) # move them to pro heap 
+            if not pro: break # if no projects can be done, we quit 
+            p, _ = heapq.heappop(pro) # finish the project with greatest profit
+            W += -p # W can only go up
         return W
 
 
