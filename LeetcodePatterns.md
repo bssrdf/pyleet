@@ -51,6 +51,28 @@
     - [1697. Checking Existence of Edge Length Limited Paths](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/)
     - [1724. Checking Existence of Edge Length Limited Paths II](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/)
 
+&nbsp;<br>
+- DFS that can be memoized
+  - Certain graph/tree problems which require DFS solutions can also use memoization to speed
+  up the process. This could make a seemingly O(N^2) solution to pass AC. The dfs function looks
+  like 
+  ```python
+  @lru_cache(None)
+  def dfs(node, parent):
+      ret = 0
+      for child in G[node]:
+        if child == parent: continue
+        # some operations on ret 
+        ret += dfs(child, parent) # accumulate results from child nodes 
+      return ret   
+  for i in range(n):    
+     dfs(i, -1) # call dfs for each node
+                # this is O(n^2) but memoization will make it much faster in practice                
+  ```  
+  See [2581. Count Number of Possible Root Nodes](https://leetcode.com/problems/count-number-of-possible-root-nodes/description/) and [2538. Difference Between Maximum and Minimum Price Sum](https://leetcode.com/problems/difference-between-maximum-and-minimum-price-sum/)
+
+
+
 
 
 

@@ -45,6 +45,7 @@ The given input represents a valid tree.
 '''
 
 import collections
+from functools import lru_cache
 
 class Solution:
     def sumOfDistancesInTree(self, N, edges):
@@ -168,7 +169,61 @@ class Solution:
         moveRoot(0, 0)
 
         return sumDist
+    
+
+    def sumOfDistancesInTree3(self, n, edges):
+        # TLE, but very close
+        tree = collections.defaultdict(list)
+        for e in edges:
+            tree[e[0]].append(e[1])
+            tree[e[1]].append(e[0])
+        ans = [0]*n
+        # visit and calculates the sum distance in the whole tree
+        @lru_cache(None)
+        def dfs(i, pre):
+            ret, nNode = 0, 1            
+            for j in tree[i]:
+                if j == pre: continue
+                t = dfs(j, i) 
+                nNode += t[1]
+                ret += t[0] + t[1]
+            return (ret, nNode)  
+        for i in range(n):
+            ans[i] = dfs(i, -1)[0]           
+        return ans
+    
+
+    def sumOfDistancesInTree4(self, n, edges):
+        # TLE, but very close with 73/74 testcases passed
+        tree = collections.defaultdict(list)
+        for e in edges:
+            tree[e[0]].append(e[1])
+            tree[e[1]].append(e[0])
+        ans = [0]*n
+        # visit and calculates the sum distance in the whole tree
+        cache = {}
+        def dfs(i, pre):
+            ret, nNode = 0, 1            
+            if (i, pre) in cache:
+                return cache[(i, pre)] 
+            for j in tree[i]:
+                if j == pre: continue
+                if (j, i) in cache:
+                    t = cache[(j,i)]
+                else:
+                    t = dfs(j, i) 
+                nNode += t[1]
+                ret += t[0] + t[1]
+            cache[(i, pre)] = (ret, nNode)      
+            return cache[(i,pre)]
+        for i in range(n):
+            ans[i] = dfs(i, -1)[0]           
+        return ans
+
+    
 
 if __name__ == "__main__": 
     print(Solution().sumOfDistancesInTree(N = 6, edges = [[0,1],[0,2],[2,3],[2,4],[2,5]]))
     print(Solution().sumOfDistancesInTree2(N = 6, edges = [[0,1],[0,2],[2,3],[2,4],[2,5]]))
+    print(Solution().sumOfDistancesInTree3(n = 6, edges = [[0,1],[0,2],[2,3],[2,4],[2,5]]))
+    print(Solution().sumOfDistancesInTree4(n = 6, edges = [[0,1],[0,2],[2,3],[2,4],[2,5]]))
