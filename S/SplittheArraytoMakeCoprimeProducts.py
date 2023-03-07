@@ -1,6 +1,6 @@
 '''
 
--Medium-
+-Hard-
 
 You are given a 0-indexed integer array nums of length n.
 
@@ -43,6 +43,7 @@ from collections import Counter
 import math
 
 def primes_set(m):
+    if m == 1: return set()
     for i in range(2, int(math.sqrt(m))+1):
         if m % i == 0:
             return primes_set(m//i) | set([i])
@@ -65,8 +66,7 @@ def sieve(n):
 
 class Solution:
     def findValidSplit(self, nums: List[int]) -> int:
-        n = len(nums)
-        if n == 1: return -1
+        n = len(nums)        
         dp = Counter()
         for i in range(n-1, 0, -1):
             for p in primes_set(nums[i]):
@@ -102,4 +102,5 @@ class Solution:
 
 if __name__ == '__main__':
     print(Solution().findValidSplit(nums = [4,7,8,15,3,5]))
+    print(Solution().findValidSplit(nums = [1,1,89]))
 

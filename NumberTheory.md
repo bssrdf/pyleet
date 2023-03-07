@@ -64,6 +64,7 @@ def sieve(n):
 import math
 
 def primes_set(m):
+    if m == 1: return set()
     for i in range(2, int(math.sqrt(m))+1):
         if m % i == 0:
             return primes_set(m//i) | set([i])
