@@ -1,5 +1,6 @@
 #implementation of the Queue ADT using a circular array.
 from Array import Array
+
 class Queue :
 # Creates an empty queue.
     def __init__( self, maxSize ): 
