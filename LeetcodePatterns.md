@@ -42,6 +42,10 @@
 
     - [2411. Smallest Subarrays With Maximum Bitwise OR](https://leetcode.com/problems/smallest-subarrays-with-maximum-bitwise-or/) 
   
+
+  - Given an integer array, you need to find the number of subarrays on which the bitwise product satisfies certain conditions, e.g. the XOR product is zero. This kind of problems are often tied to the idea of prefix sum: the product over ```A[:i]``` (call it ```S_0_i```) is equal to product of ```S_0_j``` and ```S_j_i```. Then such problems can be transformed to find the number of subarrays which have ```S_j_i = y```. Let the product be XOR product, ```S_0_i = x1^x2....^xi``` and ```S_j_i = xj^...^xi = S_0_i^S_0_j```. We can use a map to store the frequency of ```S_0_j``` and at each ```i``` query the map to get the number of ```S_0_i```, i.e., the number of subarrays that can be formed by ```j``` and ```i```. See
+    - [2588. Count the Number of Beautiful Subarrays](https://leetcode.com/problems/count-the-number-of-beautiful-subarrays/)   
+  
 &nbsp;<br>
 - Construct graph following a certain order of edges 
 
