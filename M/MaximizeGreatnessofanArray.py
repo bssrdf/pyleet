@@ -58,6 +58,22 @@ class Solution:
             else:
                 r = mid 
         return l-1
+    
+    def maximizeGreatness2(self, nums: List[int]) -> int:
+        n = len(nums)
+        A = sorted(nums)
+        l, r = 0, n 
+        def possible(m):           
+            for i in range(m):
+                if A[i] >= A[-m+i]: return False 
+            return True
+        while l < r:
+            mid = l + (r-l)//2
+            if possible(mid):
+                l = mid+1
+            else:
+                r = mid 
+        return l-1
 
 
 
