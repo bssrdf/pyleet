@@ -74,6 +74,14 @@ class Solution:
             else:
                 r = mid 
         return l-1
+    
+    def maximizeGreatness3(self, nums: List[int]) -> int:
+        nums.sort()
+        res = 0
+        for i in nums:
+            if nums[res] < i:
+                res += 1 
+        return res
 
 
 
