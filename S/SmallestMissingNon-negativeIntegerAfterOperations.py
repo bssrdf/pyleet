@@ -68,6 +68,20 @@ class Solution:
             else:
                 r = mid
         return l-1
+    
+    def findSmallestInteger2(self, nums: List[int], value: int) -> int:
+        #为了方便寻找和维护同余的数字，可以一个哈希表 cnt 统计 (nums[i] % m + m) % m 的个数。
+        cnt = Counter(x % value for x in nums)
+        mex = 0
+        # 枚举 mex。 
+        # 有没有对 0 模 m 同余的数？如果有，把这个数通过操作变成 0；否则答案就是 0。
+        # 有没有对 1 模 m 同余的数？如果有，把这个数通过操作变成 1；否则答案就是 1。
+        # 有没有对 2 模 m 同余的数？如果有，把这个数通过操作变成 2；否则答案就是 2。
+        while cnt[mex % value]:
+            cnt[mex % value] -= 1
+            mex += 1
+        return mex
+
 
 
 

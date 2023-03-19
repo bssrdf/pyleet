@@ -39,6 +39,7 @@ n == grid.length == grid[i].length
 All integers in grid are unique.
 '''
 from typing import List
+from functools import pairwise
 
 class Solution:
     def checkValidGrid(self, grid: List[List[int]]) -> bool:
@@ -59,6 +60,20 @@ class Solution:
                     visited[i][j] = False       
             return False
         return dfs(0,0,0)  
+
+    def checkValidGrid2(self, grid: List[List[int]]) -> bool:
+        pos = [0] * (len(grid) ** 2)
+        for i, row in enumerate(grid):
+            for j, x in enumerate(row):
+                pos[x] = (i, j)  # 记录坐标
+        if pos[0] != (0, 0):  # 必须从左上角出发
+            return False
+        for (i, j), (x, y) in pairwise(pos):
+            dx, dy = abs(x - i), abs(y - j)  # 移动距离
+            if (dx != 2 or dy != 1) and (dx != 1 or dy != 2):  # 不合法
+                return False
+        return True
+
 
 if __name__ == '__main__':
     grid = [[0,11,16,5,20],[17,4,19,10,15],[12,1,8,21,6],[3,18,23,14,9],[24,13,2,7,22]]

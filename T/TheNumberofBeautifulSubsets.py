@@ -50,6 +50,52 @@ class Solution:
                 ret += dfs(i+1, s | {A[i]})
             return ret
         return dfs(0, set()) - 1
+    
+
+    # 在枚举 78. 子集 的基础上加个判断。
+
+    # 代码实现时，可以用哈希表或者数组来记录选过的数，从而 
+
+    #写法一：选或不选
+
+    def beautifulSubsets2(self, nums: List[int], k: int) -> int:
+        ans = -1  # 去掉空集
+        cnt = [0] * (max(nums) + k * 2)  # 用数组实现比哈希表更快
+        def dfs(i: int) -> None:
+            if i == len(nums):
+                nonlocal ans
+                ans += 1
+                return
+            dfs(i + 1)  # 不选
+            x = nums[i]
+            if cnt[x - k] == 0 and cnt[x + k] == 0:
+                cnt[x] += 1  # 选
+                dfs(i + 1)
+                cnt[x] -= 1  # 恢复现场
+        dfs(0)
+        return ans
+
+    #写法二：枚举选哪个
+    def beautifulSubsets3(self, nums: List[int], k: int) -> int:
+        ans = -1  # 去掉空集
+        cnt = [0] * (max(nums) + k * 2)  # 用数组实现比哈希表更快
+        def dfs(i: int) -> None:  # 从 i 开始选
+            nonlocal ans
+            ans += 1
+            if i == len(nums):
+                return
+            for j in range(i, len(nums)):  # 枚举选哪个
+                x = nums[j]
+                if cnt[x - k] == 0 and cnt[x + k] == 0:
+                    cnt[x] += 1  # 选
+                    dfs(j + 1)
+                    cnt[x] -= 1  # 恢复现场
+        dfs(0)
+        return ans
+
+
+
+
 
     
 if __name__ == '__main__':
