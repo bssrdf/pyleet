@@ -86,5 +86,53 @@ class Solution:
             # print(arr, nums, k)
             ans += k
             que = nq
-        return ans       
+        return ans  
+         
+    def minimumOperations2(self, root: Optional[TreeNode]) -> int:
+        
+        nodes, count = deque([root]), 0
+        
+        def perm(arr):                                            # this function simulates cycle sort,
+            pos = {m:j for j,m in enumerate(sorted(arr))}         # namely, traverses every cycle in
+            vis, tot = [0] * len(arr), 0                          # the permutation of elements and 
+            for i in range(len(arr)):                             # counts the number of swaps 
+                cnt = 0
+                while not vis[i] and i != pos[arr[i]]:            # it is known that cycle sort is the
+                    vis[i], i = 1, pos[arr[i]]                    # sorting algorithm with the minmal
+                    cnt += 1                                      # number of memory operations (swaps)
+                tot += max(0, cnt-1)                              # needed to sort an array
+            return tot
+                    
+        while nodes:
+            vals = []
+            for _ in range(len(nodes)):                            # [1] this code performs a level-by-level
+                n = nodes.popleft()                                #     BFS scan of the tree and extracts
+                vals.append(n.val)                                 #     a list of values 'vals' for each level
+                if n.left  : nodes.append(n.left)
+                if n.right : nodes.append(n.right)
+            count += perm(vals)                                    # [2] each level is sorted independently
+            
+        return count
+    
+    def minimumOperations3(self, root: TreeNode) -> int:                     #           _____1____
+                                                                            #          /          \
+        ans, queue, level = 0, [root],[]                                    #         4___         3___
+                                                                            #        /    \       /    \
+        while queue :                                                       #       7     _6     8     _5
+                                                                            #            /      /     /
+            for node in queue:                                              #           11     9     10
+                    if node:  level.extend([node.left, node.right])         #
+                                                                            #  level         idx             ans
+            arr = [(v,i) for i,v in enumerate([c.val for c in level if c])] #  –––––        –––––           –––––
+            idx = [i for _,i in sorted(arr)]                                #  [4,3]        [1,0]             1
+                                                                            #  [7,6,8,5]    [2,1,3,0]         2
+            for i in range(len(idx)):                                       #  [11,9,10]    [1,2,0]           2
+                while idx[i] != i:                                          #                               –––––
+                    j = idx[i]                                              #                                 5   <--- ans
+                    idx[i], idx[j] = idx[j], idx[i]
+                    ans += 1
+
+            queue, level = level, []
+        
+        return ans
             
