@@ -40,7 +40,7 @@ class Solution(object):
         """
         :type S: str
         :rtype: int
-        """"
+        """
         """
         Our goal is to maintain the score at the current depth we are on. When we 
         see an opening bracket, we increase our depth, and our score at the new 
