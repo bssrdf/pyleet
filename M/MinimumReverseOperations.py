@@ -45,10 +45,71 @@ all values in banned are unique
 '''
 
 from typing import List
+from collections import deque
+from sortedcontainers import SortedList
+
+class UnionFindRight:
+    def __init__(self, n):
+        self.pa = list(range(n))
+
+    def find(self, p):
+        if self.pa[p] != p: self.pa[p] = self.find(self.pa[p])
+        return self.pa[p]
+    
+    def union(self, p, q):
+        pi, qi = self.find(p), self.find(q)
+        if pi == qi: return
+        if pi < qi: pi, qi = qi, pi
+        self.pa[qi] = pi
 
 class Solution:
     def minReverseOperations(self, n: int, p: int, banned: List[int], k: int) -> List[int]:
+        res = [-1] * n
+        res[p] = 0
+        uf = UnionFindRight(n+2)
+        uf.union(p, p+2)
+        for i in banned: uf.union(i, i+2)
+
+        que = deque([p])
+        while que:
+            p = que.popleft()
+            l, r = max(k-1-p, p-k+1), min(k-1+p, 2*n-k-1-p)
+            i = uf.find(l)
+            while i <= r:
+                res[i] = res[p] + 1
+                que.append(i)
+                uf.union(i, i+2)
+                i = uf.find(i)
+        return res
+    
+    def minReverseOperations2(self, n: int, p: int, banned: List[int], k: int) -> List[int]:
+        remaining = [SortedList(), SortedList()]
+        banned = set(banned)
+        for u in range(n):
+            if u != p and u not in banned:
+                remaining[u & 1].add(u)
+
+        queue = deque([p])
+        dist = [-1] * n
+        dist[p] = 0
+        # for node in queue:
+        while queue:
+            node = queue.popleft()    
+            lo = max(node - k + 1, 0)
+            lo = 2 * lo + k - 1 - node
+            hi = min(node + k - 1, n - 1) - (k - 1)
+            hi = 2 * hi + k - 1 - node
+
+            for nei in list(remaining[lo % 2].irange(lo, hi)):
+                queue.append(nei)
+                dist[nei] = dist[node] + 1
+                remaining[lo % 2].remove(nei)
+        
+        return dist
+
+
 
 
 if __name__ == '__main__':
     print(Solution().minReverseOperations(n = 4, p = 0, banned = [1,2], k = 4))
+    print(Solution().minReverseOperations2(n = 4, p = 0, banned = [1,2], k = 4))
