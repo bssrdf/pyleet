@@ -1,6 +1,7 @@
 '''
 
 -Medium-
+*Sorting*
 
 There are two mice and n different types of cheese, each type of cheese should be eaten by exactly one mouse.
 
