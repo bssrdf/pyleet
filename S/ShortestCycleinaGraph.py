@@ -75,12 +75,13 @@ class Solution:
 
     def findShortestCycle3(self, n: int, edges: List[List[int]]) -> int:
         # DFS 
+        # Wrong for one test case
         G = defaultdict(set)
         for u,v in edges:
             G[u].add(v)
             G[v].add(u)
         ans = 1001
-        for u in G:
+        for u in range(n):
             depth = [-1]*n
             def dfs(u, par, d):
                 nonlocal ans
@@ -90,10 +91,35 @@ class Solution:
                     if depth[v] == -1:
                         dfs(v, u, d+1)
                     elif d >= depth[v] and par != v:
+                        print(d, depth[v], u, v, par)
                         ans = min(ans, d - depth[v] + 1) 
                 return
             dfs(u, -1, 0)
+            print(u, ans)
         return ans if ans != 1001 else -1
+    
+    def findShortestCycle4(self, n: int, edges: List[List[int]]) -> int:
+        # DFS 
+        G = defaultdict(set)
+        for u,v in edges:
+            G[u].add(v)
+            G[v].add(u)
+        ans = 1001
+        depth = [1001]*n
+        for u in range(n):
+            def dfs(u, par, d):
+                nonlocal ans
+                depth[u] = d
+                for v in G[u]:
+                    # Detect cycles
+                    if par != v:
+                        if depth[v] > d + 1:
+                            dfs(v, u, d+1)
+                        elif d > depth[v]:
+                            ans = min(ans, d - depth[v] + 1) 
+            if depth[u] == 1001: dfs(u, -1, 0)
+        return ans if ans != 1001 else -1
+    
     
     def findShortestCycle2(self, n: int, edges: List[List[int]]) -> int:
         # BFS 
@@ -119,18 +145,24 @@ class Solution:
             return inf
         for u in range(n):
             ans = min(ans, bfs(u))
+            # print(u, ans)
         return -1 if ans == inf else ans
 
 
 
 
 if __name__ == '__main__':
-    print(Solution().findShortestCycle(n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]))
-    print(Solution().findShortestCycle2(n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]))
-    print(Solution().findShortestCycle2(n = 4, edges = [[0,1],[0,2]]))
-    n = 13
-    edges = [[0,1],[1,2],[2,0],[0,3],[3,4],[4,5],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,0],[2,7],[2,4],[1,8],[1,11]]
+    # print(Solution().findShortestCycle(n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]))
+    # print(Solution().findShortestCycle2(n = 7, edges = [[0,1],[1,2],[2,0],[3,4],[4,5],[5,6],[6,3]]))
+    # print(Solution().findShortestCycle2(n = 4, edges = [[0,1],[0,2]]))
+    # n = 13
+    # edges = [[0,1],[1,2],[2,0],[0,3],[3,4],[4,5],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[12,0],[2,7],[2,4],[1,8],[1,11]]
+    # print(Solution().findShortestCycle2(n = n, edges = edges))
+    # n = 10
+    # edges = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[1,8],[1,9],[2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[2,9],[3,4],[3,5],[3,6],[3,7],[3,8],[3,9],[4,5],[4,6],[4,7],[4,8],[4,9],[5,6],[5,7],[5,8],[5,9],[6,7],[6,8],[6,9],[7,8],[7,9],[8,9]]
+    # print(Solution().findShortestCycle2(n = n, edges = edges))
+    n = 20
+    edges = [[8, 19], [1, 19], [0, 19], [7, 15], [13, 17], [4, 19], [2, 6], [17, 18], [7, 14], [7, 18], [5, 6], [16, 17], [1, 12], [9, 16], [6, 15], [2, 14], [4, 17], [2, 10], [0, 18], [7, 11], [5, 14], [8, 14], [4, 9], [7, 9], [9, 18], [0, 14]]
     print(Solution().findShortestCycle2(n = n, edges = edges))
-    n = 10
-    edges = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],[0,9],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[1,8],[1,9],[2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[2,9],[3,4],[3,5],[3,6],[3,7],[3,8],[3,9],[4,5],[4,6],[4,7],[4,8],[4,9],[5,6],[5,7],[5,8],[5,9],[6,7],[6,8],[6,9],[7,8],[7,9],[8,9]]
-    print(Solution().findShortestCycle2(n = n, edges = edges))
+    print(Solution().findShortestCycle4(n = n, edges = edges))
+    print(Solution().findShortestCycle3(n = n, edges = edges))
