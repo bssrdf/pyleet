@@ -81,7 +81,8 @@ class Solution:
             G[u].add(v)
             G[v].add(u)
         ans = 1001
-        for u in range(n):
+        # for u in range(n):
+        for u in [7]:
             depth = [-1]*n
             def dfs(u, par, d):
                 nonlocal ans
@@ -95,7 +96,8 @@ class Solution:
                         ans = min(ans, d - depth[v] + 1) 
                 return
             dfs(u, -1, 0)
-            print(u, ans)
+            # print(u, ans)
+            print(depth)
         return ans if ans != 1001 else -1
     
     def findShortestCycle4(self, n: int, edges: List[List[int]]) -> int:
@@ -163,6 +165,6 @@ if __name__ == '__main__':
     # print(Solution().findShortestCycle2(n = n, edges = edges))
     n = 20
     edges = [[8, 19], [1, 19], [0, 19], [7, 15], [13, 17], [4, 19], [2, 6], [17, 18], [7, 14], [7, 18], [5, 6], [16, 17], [1, 12], [9, 16], [6, 15], [2, 14], [4, 17], [2, 10], [0, 18], [7, 11], [5, 14], [8, 14], [4, 9], [7, 9], [9, 18], [0, 14]]
-    print(Solution().findShortestCycle2(n = n, edges = edges))
-    print(Solution().findShortestCycle4(n = n, edges = edges))
+    # print(Solution().findShortestCycle2(n = n, edges = edges))
+    # print(Solution().findShortestCycle4(n = n, edges = edges))
     print(Solution().findShortestCycle3(n = n, edges = edges))
