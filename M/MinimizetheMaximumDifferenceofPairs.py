@@ -46,6 +46,29 @@ class Solution:
             while i < n:
                 # once we determined a threshold m, we can greedily pair A[i] and A[i-1] 
                 # if their diff is <= m, a new pair is found  
+                
+                # Why being greedy works?
+
+                # Imagine you have [a,b,c,d], abcd are just sorted numbers
+
+                # Greedy tells us if b - a < the threshold we set, we just pick it. 
+                # The cost of doing this is if c - b < threshold as well, you can never 
+                # pick bc pair anymore because b has been paired with a.
+
+                # Will this cause any problems?
+
+                # The answer is no
+
+                # Because if you pick ab pair, you will have one pair now. If you pick 
+                # bc pair, you also have one pair, however, if you pick bc now 
+                # what's left is [a, d]. Because we have sorted abcd, d - a is likely 
+                # to be bigger so it is more likely to exceed the threshold we set.
+                # On the other hand, if we greedily pick ab pair, what's left is [c,d] 
+                # and d - c is guaranteed to be smaller or equal to d - a, so d-c is 
+                # more likely to be a pair that we can pick as well -> being greedy 
+                # (pick a and b) is more likely to let us have more pairs then not 
+                # being greedy (pick b and c). Hence for this problem, greedy works
+
                 if A[i]-A[i-1] <= m:
                     t += 1
                     i += 2
