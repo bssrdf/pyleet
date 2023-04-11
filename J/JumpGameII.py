@@ -24,7 +24,12 @@ You can assume that you can always reach the last index.
 
 @author: merli
 """
+
+from typing import List
+
 from collections import deque
+from sortedcontainers import SortedList
+
 class Solution(object):
     def jump(self, nums):
         """
@@ -121,6 +126,19 @@ class Solution(object):
                 if cur >= n-1:
                    break
         return res
+    
+    def jump5(self, nums: List[int]) -> int:
+        n = len(nums)
+        sl = SortedList(range(n))
+        que = deque([(0, 0)])
+        while que:
+            pos, d = que.popleft()
+            if pos == n-1:
+                return d
+            for k in list(sl.irange(pos, min(pos+nums[pos], n))):
+                que.append((k, d+1))
+                sl.remove(k)     
+        return -1
      
         
         
