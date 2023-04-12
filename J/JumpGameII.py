@@ -2,27 +2,40 @@
 
 """
 
--Hard-
+-Medium-
 
 *Greedy*
+*BFS (implicit)*
 
-Given an array of non-negative integers, you are initially positioned at the 
-first index of the array.
 
-Each element in the array represents your maximum jump length at that position.
+You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
 
-Your goal is to reach the last index in the minimum number of jumps.
+Each element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at nums[i], you can jump to any nums[i + j] where:
 
-For example:
-Given array A = [2,3,1,1,4]
+0 <= j <= nums[i] and
+i + j < n
+Return the minimum number of jumps to reach nums[n - 1]. The test cases are generated such that you can reach nums[n - 1].
 
-The minimum number of jumps to reach the last index is 2. (Jump 1 step from 
-index 0 to 1, then 3 steps to the last index.)
+ 
 
-Note:
-You can assume that you can always reach the last index.
+Example 1:
 
-@author: merli
+Input: nums = [2,3,1,1,4]
+Output: 2
+Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+Example 2:
+
+Input: nums = [2,3,0,1,4]
+Output: 2
+ 
+
+Constraints:
+
+1 <= nums.length <= 104
+0 <= nums[i] <= 1000
+It's guaranteed that you can reach nums[n - 1].
+
+
 """
 
 from typing import List
@@ -139,6 +152,23 @@ class Solution(object):
                 que.append((k, d+1))
                 sl.remove(k)     
         return -1
+    
+    def jump6(self, nums: List[int]) -> int:
+        # implicit BFS
+        jumps, curEnd, curFarthest = 0, 0, 0
+        # going through each pos level by level
+        for i in range(len(nums)-1):
+            # get the fathest point the positions in 
+            # current level can reach 
+            # initially (the 0-th level), curEnd = 0 and the fathest point is 0+nums[0]
+            curFarthest = max(curFarthest, i+nums[i]) 
+            if i == curEnd: # finish at the end of current level
+                jumps += 1  # make one jump
+                curEnd = curFarthest # go to next level
+        return jumps
+
+    
+
      
         
         
