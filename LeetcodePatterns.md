@@ -75,6 +75,13 @@
   ```  
   See [2581. Count Number of Possible Root Nodes](https://leetcode.com/problems/count-number-of-possible-root-nodes/description/) and [2538. Difference Between Maximum and Minimum Price Sum](https://leetcode.com/problems/difference-between-maximum-and-minimum-price-sum/)
 
+&nbsp;<br>
+- Divide array elements into groups based on modular operation
+
+  - Some problems can be solved by first divide the array elements into groups based on 
+    $arr[i]\%k$ where $k$ is a parameter. Within each group, all the elements have the same 
+    $\%k$ value; or they are multiples of $k$ ($0*k, 1*k, 2*k, ....$) apart. See [2638. Count the Number of K-Free Subsets](https://github.com/doocs/leetcode/blob/main/solution/2600-2699/2638.Count%20the%20Number%20of%20K-Free%20Subsets/README.md) 
+
 
 
 
