@@ -117,6 +117,7 @@ class Solution:
         ans = 1
         for arr in g.values():
             m = len(arr)
+            # similar to house robber 1
             f0, f1, f = 1, 2, 2
             for i in range(2, m + 1):
                 if arr[i - 1] - arr[i - 2] == k:
