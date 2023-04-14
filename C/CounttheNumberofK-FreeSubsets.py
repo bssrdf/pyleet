@@ -117,13 +117,21 @@ class Solution:
         ans = 1
         for arr in g.values():
             m = len(arr)
-            # similar to house robber 1
             f0, f1, f = 1, 2, 2
-            for i in range(2, m + 1):
-                if arr[i - 1] - arr[i - 2] == k:
+            for i in range(2, m + 1): # start from the 2nd number
+                if arr[i - 1] - arr[i - 2] == k: 
+                    # similar to house robber I
+                    # if previous number is exactly 
+                    # smaller by k, we can only take 
+                    # arr[i-1] when not taking arr[i-2] 
+                    # which is f0, 
+                    # or we don't take arr[i-1] and get
+                    # f1, so total is f0 + f1 
                     f = f0 + f1
-                else:
-                    f = f1 * 2
+                else: # here is different from house robber I
+                      # previous number does not interfere with the current one
+                    f = f1 * 2 # so we can add arr[i-1] to each subset obtained 
+                               # so far, basically double the count 
                 f0, f1 = f1, f
             ans *= f
         return ans  
