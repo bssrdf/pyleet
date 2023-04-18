@@ -38,3 +38,5 @@ def off_line_minimum(q, n):
 
 query = [4, 8, 'E', 3, 'E', 9, 2, 6, 'E', 'E', 'E', 1, 7, 'E', 5]
 print(off_line_minimum(query, 9))
+query = [4, 8, 'E', 3, 'E', 9, 2, 6, 'E', 'E', 5, 'E', 1, 7, 'E']
+print(off_line_minimum(query, 9))
