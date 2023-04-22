@@ -82,6 +82,28 @@ class Solution:
             freq[num] -= 1
         return True
 
+    def isPossible2(self, nums: List[int]) -> bool:
+        left, seq = Counter(nums), Counter() 
+        for x in nums:
+            if left[x] == 0: continue # x is used up, skip to next
+            if seq[x-1] == 0: # if a sequence of length > 3 ending with x-1  
+                # DOES NOT exists, form a new seq (starting with x and ending 
+                # with x+2 if both x+1 and x+2 are available
+                if left[x+1] > 0 and left[x+2] > 0:
+                    seq[x+2] += 1
+                    left[x+1] -= 1
+                    left[x+2] -= 1
+                else: # otherwise, can not split, return False
+                    return False 
+            else: # if a sequence of length > 3 ending with x-1 exists,
+                  # greedily attach x to that sequence to form a longer one 
+                seq[x] += 1
+                seq[x-1] -= 1
+            left[x] -= 1
+        return True        
+                 
+
 
 if __name__ == "__main__":
     print(Solution().isPossible([1,2,3,3,4,5]))
+    print(Solution().isPossible2([1,2,3,3,4,5]))
