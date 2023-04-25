@@ -20,6 +20,7 @@ All the numbers in the input array are in the range of 32-bit integer.
 '''
 
 from collections import deque
+import bisect
 
 class Solution(object):    
 
@@ -67,6 +68,43 @@ class Solution(object):
             insert(b)
             print(ele, res, a, b, c, bit)
         return res
+    
+    def reversePairs2(self, nums):
+
+        '''
+         here BIT is not used for storing prefix sums
+
+        '''
+
+        res = 0
+        copy = sorted(nums)
+        bit = [0] * (len(nums) + 1)        
+
+        def search(i):
+            sum = 0
+            while i < len(bit):
+                sum += bit[i]
+                i += i & (-i)
+            return sum
+
+        def insert(i):
+            while i > 0:
+                bit[i] += 1
+                i -= i & (-i)
+        # for every number i of the array, search BIT for the presence
+        # of elements that is 2*i+1 or bigger; the only possible elements
+        # already in BIT are to the left of i, since until now, only those
+        # have been inserted into BIT
+        for ele in nums:
+            c = bisect.bisect_left(copy, 2*ele+1)
+            a = search(c+1)
+            res += a
+            b = bisect.bisect_left(copy, ele)
+            insert(b+1)
+            # print(ele, res, a, b, c, bit)
+        return res
+
+    
         
     def reversePairs(self, nums):
         count = [0]
@@ -91,6 +129,9 @@ class Solution(object):
 
 
 print(Solution().reversePairs([1,3,2,3,1]))
+print(Solution().reversePairs2([1,3,2,3,1]))
 print(Solution().reversePairs([2,4,3,5,1]))
-print(Solution().reversePairsBIT([2,4,3,5,1]))
-print(Solution().reversePairsBIT([5,7,9,4,2,15,8]))
+print(Solution().reversePairs2([2,4,3,5,1]))
+print(Solution().reversePairs2([-5,-5]))
+# print(Solution().reversePairsBIT([2,4,3,5,1]))
+# print(Solution().reversePairsBIT([5,7,9,4,2,15,8]))
