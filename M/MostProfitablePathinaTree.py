@@ -108,6 +108,43 @@ class Solution:
         visited = [False]*n
         dfs2(0, 0)
         return ans
+    
+    def mostProfitablePath2(self, edges: List[List[int]], bob: int, amount: List[int]) -> int:
+        n = len(amount)
+        graph = defaultdict(list)
+        for u,v in edges:
+            graph[u].append(v)
+            graph[v].append(u)            
+        def dfs1(u, fa, depth):
+            if u == bob:
+                amount[u] = 0
+                return (True, depth)
+            for v in graph[u]:                
+                if v == fa: continue
+                reach, dep = dfs1(v, u, depth+1)
+                if reach:
+                    if dep % 2 == 0 and depth == dep//2:                        
+                        amount[u] //= 2
+                    elif depth > dep//2:
+                        amount[u] = 0                        
+                    return (True, dep)
+            return False, depth
+        
+        dfs1(0, -1, 0)
+        ans = -float('inf')
+        def dfs2(u, fa, sums):
+            nonlocal ans
+            isleaf = True
+            sums += amount[u]
+            for v in graph[u]:                
+                if v == fa: continue
+                isleaf = False 
+                dfs2(v, u, sums)
+            if isleaf:
+                ans = max(ans, sums)
+            
+        dfs2(0, -1, 0)
+        return ans
 
 
 
@@ -119,5 +156,8 @@ if __name__ == "__main__":
     print(Solution().mostProfitablePath(edges = [[0,1],[1,2],[1,3],[3,4]], bob = 3, amount = [-2,4,2,-4,6]))
     print(Solution().mostProfitablePath(edges = [[0,1]], bob = 1, amount = [-7280,2350]))
     print(Solution().mostProfitablePath(edges = [[0,1],[1,2],[2,3]], bob = 3, amount = [-5644,-6018,1188,-8502]))
+    print(Solution().mostProfitablePath2(edges = [[0,1],[1,2],[1,3],[3,4]], bob = 3, amount = [-2,4,2,-4,6]))
+    print(Solution().mostProfitablePath2(edges = [[0,1]], bob = 1, amount = [-7280,2350]))
+    print(Solution().mostProfitablePath2(edges = [[0,1],[1,2],[2,3]], bob = 3, amount = [-5644,-6018,1188,-8502]))
 
         

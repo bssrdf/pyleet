@@ -189,12 +189,83 @@ class Solution:
         return min(dfs(0, -1)[:2])
 
 
+    def minimumTotalPrice4(self, n: int, edges: List[List[int]], price: List[int], trips: List[List[int]]) -> int:
+        # Faster: Tarjan 离线 LCA + 树上差分
+        # 核心思路：利用树上差分打标记，再通过一次 DFS 算出 cnt 值。
+        # https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/solution/lei-si-da-jia-jie-she-iii-pythonjavacgo-4k3wq/
+        G = [[] for _ in range(n+1)]
+        for x, y in edges:
+            G[x+1].append(y+1)
+            G[y+1].append(x+1)  # 建树
+
+        
+        f = [[0]*22 for _ in range(n+1)]
+        dep = [0]*(n+1)
+        diff = [0]*(n+1)
+
+        def dfs1(u, pre):
+            f[u][0] = pre
+            dep[u] = dep[pre] + 1
+            for i in range(1, 22):
+                f[u][i] = f[f[u][i - 1]][i - 1]
+                # if dep[u] - (1 << i) >= 1: break
+
+            for v in G[u]:
+                if v == pre: continue
+                dfs1(v, u)
+
+        def lca(x, y):
+            if dep[x] > dep[y]:
+                x, y = y, x
+            # for i in range(21, -1, -1):
+            #     if dep[f[y][i]] >= dep[x]: y = f[y][i]
+            tmp = dep[y] - dep[x]
+            for j in range(22): 
+                if tmp == 0: break
+                if tmp & 1: y = f[y][j]
+                tmp >>= 1     
+            if x == y: return x
+            for i in range(21, -1, -1):
+                if f[x][i] != f[y][i]:
+                    x = f[x][i]
+                    y = f[y][i]
+            return f[x][0]
+        
+        dfs1(1, 0)  
+        for x,y in trips:    
+            diff[x+1] += 1
+            diff[y+1] += 1
+            l = lca(x+1, y+1)
+            diff[l] -= 1
+            if f[l][0] > 0:
+                diff[f[l][0]] -= 1
+        def dfs(x, fa):
+            not_halve, halve, cnt = 0, 0, diff[x]
+            for y in G[x]:
+                if y != fa:
+                    nh, h, c = dfs(y, x)  # 计算 y 不变/减半的最小价值总和
+                    not_halve += min(nh, h)  # x 不变，那么 y 可以不变，可以减半，取这两种情况的最小值
+                    halve += nh  # x 减半，那么 y 只能不变
+                    cnt += c  # 自底向上累加差分值
+            not_halve += price[x-1] * cnt  # x 不变
+            halve += price[x-1] * cnt // 2  # x 减半
+            return not_halve, halve, cnt
+        return min(dfs(1, 0)[:2])
+
+
 
 if __name__ == '__main__':
     # print(Solution().minimumTotalPrice(n = 4, edges = [[0,1],[1,2],[1,3]], price = [2,2,10,6], trips = [[0,3],[2,1],[2,3]]))
+    print(Solution().minimumTotalPrice4(n = 4, edges = [[0,1],[1,2],[1,3]], price = [2,2,10,6], trips = [[0,3],[2,1],[2,3]]))
     n = 9
-    edges = [[2,5],[3,4],[4,1],[1,7],[6,7],[7,0],[0,5],[5,8]]
-    price = [4,4,6,4,2,4,2,14,8]
-    trips = [[1,5],[2,7],[4,3],[1,8],[2,8],[4,3],[1,5],[1,4],[2,1],[6,0],[0,7],[8,6],[4,0],[7,5],[7,5],[6,0],[5,1],[1,1],[7,5],[1,7],[8,7],[2,3],[4,1],[3,5],[2,5],[3,7],[0,1],[5,8],[5,3],[5,2]]
-    print(Solution().minimumTotalPrice2(n = n, edges = edges, price = price, trips = trips))
-    print(Solution().minimumTotalPrice3(n = n, edges = edges, price = price, trips = trips))
+    # edges = [[2,5],[3,4],[4,1],[1,7],[6,7],[7,0],[0,5],[5,8]]
+    # price = [4,4,6,4,2,4,2,14,8]
+    # trips = [[1,5],[2,7],[4,3],[1,8],[2,8],[4,3],[1,5],[1,4],[2,1],[6,0],[0,7],[8,6],[4,0],[7,5],[7,5],[6,0],[5,1],[1,1],[7,5],[1,7],[8,7],[2,3],[4,1],[3,5],[2,5],[3,7],[0,1],[5,8],[5,3],[5,2]]
+    # print(Solution().minimumTotalPrice2(n = n, edges = edges, price = price, trips = trips))
+    # print(Solution().minimumTotalPrice3(n = n, edges = edges, price = price, trips = trips))
+    # print(Solution().minimumTotalPrice4(n = n, edges = edges, price = price, trips = trips))
+    # n = 5; edges = [[2,0],[3,1],[1,0],[0,4]]
+    # price = [2,16,4,16,6];  trips = [[4,3]]
+    # print(Solution().minimumTotalPrice3(n = n, edges = edges, price = price, trips = trips))
+    # print(Solution().minimumTotalPrice4(n = n, edges = edges, price = price, trips = trips))
+
