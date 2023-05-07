@@ -210,7 +210,8 @@ if __name__ == "__main__":
     #inOrder(root)
     #preOrder(root)
     root.prettyPrint()
+    root = constructBinaryTree([764,1460,2664,764,2725,4556,5305,8829,5064,5929,7660,6321,4830,7055,3761])
 
-
+    root.prettyPrint()
         
     
