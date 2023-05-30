@@ -45,7 +45,6 @@ n == mat[i].length
 -105 <= mat[i][j] <= 105
 
 '''
-
 from collections import defaultdict
 from typing import List
 
@@ -144,10 +143,17 @@ class Solution:
                 A[mat[i][j]].append([i, j])
         dp = [[0] * n for i in range(m)]
         row, col = [0]*m, [0]*n
+        # row[i] the longest increasing path so far for row i
+        # col[j] the longest increasing path so far for col j
         for a in sorted(A):
-            for i, j in A[a]:
+            # the key insight here is to update all duplicated cells all together in one iteration
+            # separately, first for dp values
+            for i, j in A[a]: # update all i/j's dp value using current row/col values
                 dp[i][j] = max(row[i], col[j]) + 1
-            for i, j in A[a]:
+            # and then for row/col array
+            for i, j in A[a]: # update row/col values using new dp 
+                # a common mistake here is to do
+                # row[i] = col[j] = dp[i][j] which is conflicting with the definition of row/col above
                 col[j] = max(col[j], dp[i][j])
                 row[i] = max(row[i], dp[i][j])
         return max(max(col), max(row))
