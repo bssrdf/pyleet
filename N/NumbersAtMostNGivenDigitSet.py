@@ -130,6 +130,21 @@ class Solution(object):
                     ans += dfs(i + 1, 1)
             return ans
         return dfs(0, 0) - 1
+    
+    def atMostNGivenDigitSet3(self, digits: List[str], n: int) -> int:
+        D = list(int(d) for d in digits)
+        N = list(int(i) for i in str(n))
+
+        @lru_cache(None)
+        def dp(i, isPrefix, isBigger):
+            if i == len(N):
+                return not isBigger
+            if not isPrefix and not isBigger:
+                return 1 + len(D) * dp(i + 1, False, False)
+            return 1 + sum(dp(i + 1, isPrefix and d == N[i], isBigger or (isPrefix and d > N[i])) for d in D)
+
+        return dp(0, True, False) - 1
+        
 
 
 if __name__ == "__main__":
@@ -137,5 +152,5 @@ if __name__ == "__main__":
     print(Solution().atMostNGivenDigitSetDP(["1","3","5","7"], 300))
     #print(Solution().atMostNGivenDigitSet(["7"], 8))
     print(Solution().atMostNGivenDigitSet2(["1","3","5","7"], 100))
-    print(Solution().atMostNGivenDigitSet2(["1","3","5","7"], 300))
-    # print(Solution().atMostNGivenDigitSet3(["1","3","5","7"], 100))
+    # print(Solution().atMostNGivenDigitSet2(["1","3","5","7"], 300))
+    print(Solution().atMostNGivenDigitSet3(["1","3","5","7"], 100))
