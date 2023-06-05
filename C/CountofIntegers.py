@@ -71,3 +71,41 @@ class Solution:
         res -= dfs(0,1,0)
 
         return res % mod
+    
+    def count2(self, num1: str, num2: str, min_sum: int, max_sum: int) -> int:
+        # follows a Digit DP template
+        s = ""
+        mod = 10**9 + 7
+
+        @lru_cache(None)
+        def dp(i, isPrefix, isBigger, sm):
+            if i == len(s):
+                if not isBigger and sm >= min_sum and sm <= max_sum:
+                    return 1
+                return 0
+            up = int(s[i]) if isPrefix else 9  
+            res = 0
+            for digit in range(up + 1):
+                newSum = sm + digit
+                if newSum > max_sum: # next digits are greater than curr so newSum always greater
+                    break
+                res += dp(i + 1, isPrefix and digit == up, isBigger or (isPrefix and digit > s[i]), newSum)
+                res %= mod
+            return res
+
+        s = list(int(i) for i in num2)
+        res = dp(0,True,False,0)
+
+        dp.cache_clear()  # clear the dp states for new dfs
+
+        s = list(int(i) for i in str(int(num1)-1))
+
+        res -= dp(0,True,False,0)
+
+        return res % mod
+    
+if __name__ == "__main__":
+    print(Solution().count(num1 = "1", num2 = "5", min_sum = 1, max_sum = 5))
+    print(Solution().count2(num1 = "1", num2 = "5", min_sum = 1, max_sum = 5))
+    print(Solution().count(num1 = "18766", num2 = "987565966", min_sum = 10, max_sum = 255))
+    print(Solution().count2(num1 = "18766", num2 = "987565966", min_sum = 10, max_sum = 255))
