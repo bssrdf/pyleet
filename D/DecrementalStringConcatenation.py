@@ -1,6 +1,8 @@
 '''
 
 -Medium-
+*DP*
+*Memoization*
 
 You are given a 0-indexed array words containing n strings.
 
