@@ -1,6 +1,8 @@
 '''
 
 -Medium-
+*Sliding Window*
+*Priority Queue*
 
 You are given a 0-indexed integer array nums. A subarray of nums is called continuous if:
 
@@ -52,23 +54,18 @@ class Solution:
         mx, mi = [], []
         j = 0
         dmx, dmi = set(), set()
-        for i in range(n):
-            if not mx:
-                ans += 1
-                heapq.heappush(mx, (-nums[i],i))
-                heapq.heappush(mi, (nums[i],i))
-                continue
-            while j <= i and nums[i] > -mx[0] + 2 or nums[i] < mi[0]-2:
+        for i in range(n):            
+            while j < i and (nums[i] > mi[0][0] + 2 or nums[i] < -(mx[0][0])-2):
                 while mx[0][1] in dmx:
                     heapq.heappop(mx)
                 while mi[0][1] in dmi:
                     heapq.heappop(mi)    
                 if nums[j] == -(mx[0][0]):
                     heapq.heappop(mx)
-                    dmi.add(j)
+                dmi.add(j)
                 if nums[j] == mi[0][0]:
                     heapq.heappop(mi)
-                    dmx.add(j) 
+                dmx.add(j) 
                 j += 1
             ans += i-j+1
             heapq.heappush(mx, (-nums[i],i))
@@ -76,10 +73,7 @@ class Solution:
         return ans    
 
 
-
-
-            
-
-
 if __name__ == '__main__':
     print(Solution().continuousSubarrays(nums = [5,4,2,4]))
+    print(Solution().continuousSubarrays(nums = [1,2,3]))
+    print(Solution().continuousSubarrays(nums = [42,41,42,41,41,40,39,38]))
