@@ -1,6 +1,9 @@
 '''
 
 -Medium-
+*DP*
+*Memoization*
+
 
 You are given a 0-indexed array nums of n integers and an integer target.
 

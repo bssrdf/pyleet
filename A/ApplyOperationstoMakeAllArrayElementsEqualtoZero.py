@@ -1,7 +1,7 @@
 '''
 -Medium-
 *Difference Array*
-
+*Sliding Window*
 You are given a 0-indexed integer array nums and a positive integer k.
 
 You can apply the following operation on the array any number of times:
