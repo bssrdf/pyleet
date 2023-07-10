@@ -75,6 +75,32 @@ class Solution:
                 dp[i][1] = 1
             ans = max(ans, dp[i][0], dp[i][1])
         return ans
+    
+    def maxNonDecreasingLength2(self, nums1: List[int], nums2: List[int]) -> int:
+        n = len(nums1) 
+        dp0_0, dp0_1 = 1, 1
+        ans = max(dp0_0, dp0_1) 
+        for i in range(1,n):
+            if nums1[i] >= nums2[i-1] and nums1[i] >= nums1[i-1]:
+                dp1_0 = 1 + max(dp0_1, dp0_0)
+            elif nums1[i] >= nums2[i-1]:
+                dp1_0 = 1 + dp0_1
+            elif nums1[i] >= nums1[i-1]:
+                dp1_0 = 1 + dp0_0
+            else:
+                dp1_0 = 1
+            if nums2[i] >= nums1[i-1] and nums2[i] >= nums2[i-1]:
+                dp1_1 = 1 + max(dp0_1, dp0_0)
+            elif nums2[i] >= nums1[i-1]:
+                dp1_1 = 1 + dp0_0
+            elif nums2[i] >= nums2[i-1]:
+                dp1_1 = 1 + dp0_1
+            else:
+                dp1_1 = 1
+            ans = max(ans, dp1_0, dp1_1)
+            dp0_0, dp1_0 = dp1_0, dp0_0
+            dp0_1, dp1_1 = dp1_1, dp0_1
+        return ans
 
 
 if __name__ == "__main__":
