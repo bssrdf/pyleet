@@ -80,5 +80,9 @@ if __name__ == "__main__":
     # nums = list(range(1, 11))
     # print(Solution().numberOfSubarrays(nums= nums))
     # print(Solution().numberOfSubarrays2(nums= nums))
+    nums=[7,5,10,8,9,5,3,7]
+    print(Solution().numberOfSubarrays(nums= nums))
+    print(Solution().numberOfSubarrays2(nums= nums))
+    
 
 
