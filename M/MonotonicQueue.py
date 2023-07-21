@@ -28,22 +28,51 @@ print(firstSmallerIndexToLeft)
 print(firstSmallerIndexToRight)
 
 def decreasingQueue(A):
-    queue = collections.deque()
+    n = len(A)
+    # queue = collections.deque()
+    queue = []
     firstLargerToLeft = [-1]*len(A)
     firstLargerToRight = [-1]*len(A)
+    firstLargerIndexToLeft = [0]*len(A)
+    firstLargerIndexToRight = [n]*len(A)
     for i,v in enumerate(A):
-        while queue and A[queue[-1]] <= v:
-            firstLargerToRight[queue.pop()] = v
+        while queue and A[queue[-1]] < v:
+            k = queue.pop()
+            firstLargerToRight[k] = v
+            firstLargerIndexToRight[k] = i
             
         if queue:
             firstLargerToLeft[i] = A[queue[-1]]
+            firstLargerIndexToLeft[i] = queue[-1]
         queue.append(i)
-    print(queue)
-    return firstLargerToLeft, firstLargerToRight
+    # print(queue)
+    return firstLargerToLeft, firstLargerToRight, firstLargerIndexToLeft, firstLargerIndexToRight
     
-firstLargerToLeft, firstLargerToRight = decreasingQueue(A)
+firstLargerToLeft, firstLargerToRight, _, _ = decreasingQueue(A)
 print(firstLargerToLeft)
 print(firstLargerToRight)
+
+# A = [3,1,3,5]
+# A = [4,1,3,6]
+# A = [2,1,3,6]
+A = [4,1,3,3,6]
+_, _, _,  firstLargerIndexToRight = decreasingQueue(A)
+print('larger to the right', firstLargerIndexToRight)
+mark = [0]*(len(A)+1)
+for i in range(len(A)):
+    mark[firstLargerIndexToRight[i]] -= 1
+    mark[i+1] += 1
+print('mark', mark)
+res = [0]*len(A)
+res[0] = mark[0]   
+for i in range(1, len(A)):
+    res[i] = res[i-1] + mark[i]
+print(res)
+
+
+
+
+
 
 def leftFurthestGreaterOrEqual(nums):
     n = len(nums)    
