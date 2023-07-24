@@ -2,6 +2,9 @@
 
 -Hard-
 
+*Sorting*
+*Binary Search*
+
 You are given a 0-indexed array usageLimits of length n.
 
 Your task is to create groups using numbers from 0 to n - 1, ensuring that each number, i, is used no more than usageLimits[i] times in total across all groups. You must also satisfy the following conditions:
@@ -54,9 +57,63 @@ Constraints:
 '''
 
 from typing import List
-
+from itertools import accumulate
 class Solution:
     def maxIncreasingGroups(self, usageLimits: List[int]) -> int:
+        A = usageLimits
+        n = len(A)
+        A.sort()
+        def possible(m):
+            delta = 0
+            for i in range(n-1, -1, -1):
+                if i > n - 1 - m:
+                    delta += A[i] - (m - (n - 1 - i))
+                delta = min(delta, 0)
+                if i <= n - 1 - m:
+                    delta += A[i]
+            return delta >= 0
+        l, r = 1, n+1
+        while l < r:   
+            mid = l + (r-l)//2
+            if possible(mid):
+                l = mid + 1
+            else:
+                r = mid
+        return l-1
+
+    def maxIncreasingGroups2(self, usageLimits: List[int]) -> int:
+        A = usageLimits
+        n = len(A)
+        A.sort()
+        def possible(groups):
+            sub = [A[0]]
+            for i in range(1, n):
+                sub.append(A[i] - A[i-1])
+            for i in range(-groups, 0, 1):
+                sub[i] -= 1
+            for i in accumulate(list(accumulate(sub))):
+                if i < 0:
+                    return False
+            return True
+            
+        l, r = 1, n+1
+        while l < r:   
+            mid = l + (r-l)//2
+            if possible(mid):
+                l = mid + 1
+            else:
+                r = mid
+        return l-1
+    
+    def maxIncreasingGroups3(self, usageLimits: List[int]) -> int:
+        A = usageLimits
+        A.sort()
+        total = k = 0
+        for a in A:
+            total += a
+            if total >= (k + 1) * (k + 2) // 2:
+                k += 1
+        return k
 
 if __name__ == "__main__":
     print(Solution().maxIncreasingGroups(usageLimits = [1,2,5]))
