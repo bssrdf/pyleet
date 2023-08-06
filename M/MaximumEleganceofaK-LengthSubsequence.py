@@ -60,6 +60,38 @@ from typing import List
 
 class Solution:
     def findMaximumElegance(self, items: List[List[int]], k: int) -> int:
+        A = sorted(items, reverse = True)
+        n = len(A)
+        # i, j = 0, 0
+        used = set()
+        cat = 1
+        used.add(A[0][1])
+        ans = A[0][0]
+        i, j = 1, 1
+        print(A)
+        for _ in range(k-1):
+            while i < n and A[i][1] not in used:
+                i += 1
+            while j < n and A[j][1] in used:
+                j += 1
+            print(i,j,cat,used)
+            if j == n or i < n and  A[i][0] - A[j][0] >= 2*cat+1:
+                ans += A[i][0]
+                i += 1
+            else:
+                ans += A[j][0]
+                cat += 1
+                used.add(A[j][1])
+            
+        # print(ans, cat)
+        return ans + cat**2
+
+
 
 if __name__ == "__main__":
-    print(Solution().findMaximumElegance(items = [[3,2],[5,1],[10,1]], k = 2))
+    # print(Solution().findMaximumElegance(items = [[3,2],[5,1],[10,1]], k = 2))
+    # print(Solution().findMaximumElegance(items = [[3,1],[3,1],[2,2],[5,3]], k = 3))
+    # print(Solution().findMaximumElegance(items = [[1,1],[2,1],[3,1]], k = 3))
+    # print(Solution().findMaximumElegance(items = [[1,1],[8,1],[3,3]], k = 3))
+
+    print(Solution().findMaximumElegance(items = [[3,3],[9,2],[1,3]], k =3))
