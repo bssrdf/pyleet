@@ -1,6 +1,9 @@
 '''
 -Medium-
 
+*BFS*
+*Dijkstra's Algorithm*
+
 
 You are given a 0-indexed 2D matrix grid of size n x n, where (r, c) represents:
 

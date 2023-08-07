@@ -1,6 +1,8 @@
 '''
 
 -Hard-
+*Greedy*
+*Sorting*
 
 You are given a 0-indexed 2D integer array items of length n and an integer k.
 
@@ -60,31 +62,73 @@ from typing import List
 
 class Solution:
     def findMaximumElegance(self, items: List[List[int]], k: int) -> int:
+        #Wrong
         A = sorted(items, reverse = True)
         n = len(A)
-        # i, j = 0, 0
+        i, j = 0, 0
         used = set()
         cat = 1
         used.add(A[0][1])
         ans = A[0][0]
+        # ans = 0
+        taken = set()
         i, j = 1, 1
+        cnt = 1
         print(A)
-        for _ in range(k-1):
-            while i < n and A[i][1] not in used:
-                i += 1
-            while j < n and A[j][1] in used:
-                j += 1
-            print(i,j,cat,used)
-            if j == n or i < n and  A[i][0] - A[j][0] >= 2*cat+1:
+        if cnt == k: return ans + cat**2                 
+        while i < n:
+            if A[i][1] not in used:
                 ans += A[i][0]
-                i += 1
-            else:
-                ans += A[j][0]
+                used.add(A[i][1])
                 cat += 1
-                used.add(A[j][1])
+                i += 1
+                cnt += 1
+                if cnt == k: break                 
+                continue
+            j = max(j, i+1)
             
-        # print(ans, cat)
+            while j < n and A[j][1] in used:
+                j += 1      
+            print(i,j,cat)
+            if i < n and j < n:
+                if A[i][0] - A[j][0] >= 2*cat+1:
+                    ans += A[i][0]
+                    i += 1
+                else:
+                    ans += A[j][0]
+                    taken.add(j)
+                    cat += 1
+                    used.add(A[j][1])
+                    j += 1
+                cnt += 1    
+                if cnt == k: break        
+            elif j == n:
+                ans += A[i][0] if i not in taken else 0
+                i += 1            
+                cnt += 1 if i not in taken else 0
+                if cnt == k: break                 
+            print(i, j, cnt, ans, taken) 
+
+        print(ans, cat)
         return ans + cat**2
+    
+    def findMaximumElegance2(self, items: List[List[int]], k: int) -> int:
+        items = sorted(items, key=lambda v: -v[0])
+        res = cur = 0
+        A = []
+        seen = set()
+        for i, (p, c) in enumerate(items):
+            if i < k: # choose the first k elements
+                if c in seen:
+                    A.append(p) # A contains duplicated categories in descending order
+                cur += p
+            elif c not in seen: # for all i >= k, the only way to get a bigger profit
+                if not A: break # is to add a new category, remove the smallest one that is in duplicated cat
+                cur += p - A.pop()
+            seen.add(c)
+            res = max(res, cur + len(seen) * len(seen)) # check all possible solutions
+        return res
+    
 
 
 
@@ -94,4 +138,9 @@ if __name__ == "__main__":
     # print(Solution().findMaximumElegance(items = [[1,1],[2,1],[3,1]], k = 3))
     # print(Solution().findMaximumElegance(items = [[1,1],[8,1],[3,3]], k = 3))
 
-    print(Solution().findMaximumElegance(items = [[3,3],[9,2],[1,3]], k =3))
+    # print(Solution().findMaximumElegance(items = [[3,3],[9,2],[1,3]], k =3))
+    # print(Solution().findMaximumElegance(items = [[1,1],[4,1]], k = 1))
+    # print(Solution().findMaximumElegance(items = [[4,4],[10,4],[8,4],[7,2]], k = 4))
+
+
+    print(Solution().findMaximumElegance(items = [[2,2],[8,6],[10,6],[2,4],[9,5],[4,5]], k = 4))
