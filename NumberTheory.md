@@ -130,6 +130,21 @@ def inverse(a, m):
 
        注：Python 用户可以忽略，取模运算会保证结果非负。
 
+## Find a big decimal number 's modular of k: n % k
+  - If ```n``` is very big and has to be constructed incrementally digit by digit, 
+    the final result of ```n%k``` can also be obtained incrementally, that is
+    ```python
+    res = 0
+    for d in digits:
+        res = (res*10 + d) % k
+    return res
+    ```
+
+
+
+     
+
+
 
 
 
