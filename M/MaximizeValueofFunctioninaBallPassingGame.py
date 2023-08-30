@@ -112,9 +112,21 @@ class Solution:
         def helper(i, p):
             if p == -1: return 0
             if (1<<p) & k == 0: return helper(i, p-1)
-            return sums[i][p] + helper(last_receiver[i][p], p-1) 
+            return sums[i][p] + helper(last_receiver[i][p], p-1)
+        def helper2(i):
+            curx, p = i, k
+            ret, j = 0, 0
+            while p > 0:
+                if (1<<j) & p > 0:
+                    ret += sums[curx][j]
+                    curx = last_receiver[curx][j]
+                    p ^= 1 << j
+                j += 1    
+            return ret
+
         for x in range(n):            
-            ans = max(ans, x+helper(x, m))
+            # ans = max(ans, x+helper(x, m))
+            ans = max(ans, x+helper2(x))
             # print(ans, t)
         return ans         
 
