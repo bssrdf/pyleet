@@ -100,6 +100,19 @@ def rightFurthestGreaterOrEqual(nums):
             indx[i] = stack[idx]
     return indx
 
+def rightFurthestSmaller(nums):
+    n = len(nums)    
+    indx = [-1]*n 
+    stack, stackv = [], []
+    for i in range(n-1, -1, -1):
+        if not stack or nums[stack[-1]] > nums[i]:
+            stack.append(i) 
+            stackv.append(-nums[i])
+        else:
+            idx = bisect.bisect_right(stackv, -nums[i])
+            indx[i] = stack[idx]
+    return indx
+
 B = [2,3,3,1,2]
 leftGreat = leftFurthestGreaterOrEqual(B)
 print(leftGreat)
