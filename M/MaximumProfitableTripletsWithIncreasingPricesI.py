@@ -90,17 +90,16 @@ class Solution:
             else:
                 sl.add((prices[j], j, profits[j]))
         print(leftMax)
-        sl = SortedList()        
-        for j in range(n-1, -1, -1):
-            idx = sl.bisect_left((-prices[j], j, 0))
-            # print(j, idx, sl)
-            if idx > 0:
-                i = sl[idx-1][1]   
-                right = sl[idx-1][2]
-                rightMax[j] = right
-                sl.add((-prices[j], j, max(right, profits[j]))) 
-            else:
-                sl.add((-prices[j], j, profits[j]))
+        stk, mx = [n-1], profits[n-1]  
+           
+        for j in range(n-2, -1, -1):
+            while stk and prices[stk[-1]] <= prices[j]:
+                mx = max(mx, profits[stk[-1]])
+                stk.pop()
+            if stk:
+               rightMax[j] = mx 
+            stk.append(j)   
+
         print(rightMax)
         for i in range(n):
             x = profits[i]
