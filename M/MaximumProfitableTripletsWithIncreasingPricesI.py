@@ -47,7 +47,7 @@ Constraints:
 '''
 
 from typing import List
-
+from sortedcontainers import SortedList
 class Solution:
     def maxProfit(self, prices: List[int], profits: List[int]) -> int:
         n = len(prices)
@@ -72,12 +72,66 @@ class Solution:
                     right = profits[k]
             if left and right:
                 ans = max(ans, left + x + right)
+                print(j, x, ans, left, right)
+        return ans   
+
+    def maxProfit3(self, prices: List[int], profits: List[int]) -> int:
+        n = len(prices)
+        sl = SortedList()
+        ans = -1
+        leftMax, rightMax = [-1]*n, [-1]*n
+        for j, x in enumerate(profits):
+            idx = sl.bisect_left((prices[j], j, 0))
+            if idx > 0:
+                i = sl[idx-1][1]   
+                left = sl[idx-1][2]
+                leftMax[j] = left 
+                sl.add((prices[j], j, max(left, profits[j]))) 
+            else:
+                sl.add((prices[j], j, profits[j]))
+        print(leftMax)
+        sl = SortedList()        
+        for j in range(n-1, -1, -1):
+            idx = sl.bisect_left((-prices[j], j, 0))
+            # print(j, idx, sl)
+            if idx > 0:
+                i = sl[idx-1][1]   
+                right = sl[idx-1][2]
+                rightMax[j] = right
+                sl.add((-prices[j], j, max(right, profits[j]))) 
+            else:
+                sl.add((-prices[j], j, profits[j]))
+        print(rightMax)
+        for i in range(n):
+            x = profits[i]
+            left, right = leftMax[i], rightMax[i]
+            if left != -1 and right != -1:
+                ans = max(ans, left + x + right)
         return ans   
 
 
-
-
+from random import randint
 if __name__ == "__main__":
-    print(Solution().maxProfit(prices = [10,2,3,4], profits = [100,2,7,10]))
-    print(Solution().maxProfit(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
-    print(Solution().maxProfit(prices = [4,3,2,1], profits = [33,20,19,87]))
+    # print(Solution().maxProfit(prices = [10,2,3,4], profits = [100,2,7,10]))
+    # print(Solution().maxProfit(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
+    # print(Solution().maxProfit(prices = [4,3,2,1], profits = [33,20,19,87]))
+
+    # print(Solution().maxProfit3(prices = [10,2,3,4], profits = [100,2,7,10]))
+    # print(Solution().maxProfit3(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
+    # print(Solution().maxProfit3(prices = [4,3,2,1], profits = [33,20,19,87]))
+    prices = [15, 18, 12, 49, 21, 100, 76, 62, 6, 92]
+    profits = [23, 98, 68, 16, 71, 82, 59, 64, 41, 9]
+    print(Solution().maxProfit2(prices=prices, profits=profits))
+    print(Solution().maxProfit3(prices=prices, profits=profits))
+    # N = 10
+    # M = 100
+    # prices, profits = [], []
+    # for _ in range(N):
+    #     prices.append(randint(1, M))
+    #     profits.append(randint(1, M))
+    # s1 = Solution().maxProfit2(prices=prices, profits=profits)    
+    # s2 = Solution().maxProfit3(prices=prices, profits=profits)   
+    # if s1 != s2:
+    #     print(s1, s2)
+    #     print(prices)
+    #     print(profits)
