@@ -71,9 +71,8 @@ class Solution:
                         ans = s[i:j+1]
                     elif l == j-i+1:
                         ans = min(ans, s[i:j+1])
-
                     break
-            print(i, l, cnt, ans)
+            # print(i, l, cnt, ans)
         return '' if ans == 'a' else ans
 
 if __name__ == "__main__":
