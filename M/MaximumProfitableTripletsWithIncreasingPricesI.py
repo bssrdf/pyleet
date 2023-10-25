@@ -4,6 +4,12 @@
 
 $$$
 
+*Sorting*
+*Binary Search*
+*Binary Index Tree*
+*BIT*
+*Fenwick Tree*
+
 
 Given the 0-indexed arrays prices and profits of length n. There are n items in an store where the ith item has a price of prices[i] and a profit of profits[i].
 
@@ -47,7 +53,7 @@ Constraints:
 '''
 
 from typing import List
-from sortedcontainers import SortedList
+import bisect
 class Solution:
     def maxProfit(self, prices: List[int], profits: List[int]) -> int:
         n = len(prices)
@@ -72,65 +78,80 @@ class Solution:
                     right = profits[k]
             if left and right:
                 ans = max(ans, left + x + right)
-                print(j, x, ans, left, right)
+                # print(j, x, ans, left, right)
         return ans   
-
+ 
     def maxProfit3(self, prices: List[int], profits: List[int]) -> int:
         n = len(prices)
-        sl = SortedList()
         ans = -1
         leftMax, rightMax = [-1]*n, [-1]*n
-        for j, x in enumerate(profits):
-            idx = sl.bisect_left((prices[j], j, 0))
-            if idx > 0:
-                i = sl[idx-1][1]   
-                left = sl[idx-1][2]
-                leftMax[j] = left 
-                sl.add((prices[j], j, max(left, profits[j]))) 
-            else:
-                sl.add((prices[j], j, profits[j]))
-        print(leftMax)
-        stk, mx = [n-1], profits[n-1]  
-           
-        for j in range(n-2, -1, -1):
-            while stk and prices[stk[-1]] <= prices[j]:
-                mx = max(mx, profits[stk[-1]])
-                stk.pop()
-            if stk:
-               rightMax[j] = mx 
-            stk.append(j)   
 
-        print(rightMax)
+        bit = [0]*(n+1)
+        def update(i, x):
+            while i <= n:
+                bit[i] = max(bit[i], x)
+                i += i & (-i)
+        def query(i):
+            t = 0
+            while i > 0:
+                t = max(t, bit[i])
+                i -= i & (-i)
+            return t
+        
+        arr = sorted(prices)
+        for j in range(n):
+            idx = bisect.bisect_left(arr, prices[j])
+            leftMax[j] = query(idx+1)            
+            update(idx+1, profits[j])            
+        # print(leftMax)
+
+        bit = [0]*(n+1)
+        arr = sorted([-p for p in prices])
+        # print(arr)   
+        for j in range(n-1, -1, -1):
+            idx = bisect.bisect_left(arr, -prices[j])
+            rightMax[j] = query(idx+1)            
+            update(idx+1, profits[j])
+
+        # print(rightMax)
         for i in range(n):
             x = profits[i]
             left, right = leftMax[i], rightMax[i]
-            if left != -1 and right != -1:
+            if left != -1 and right != 0:
                 ans = max(ans, left + x + right)
         return ans   
 
 
 from random import randint
 if __name__ == "__main__":
-    # print(Solution().maxProfit(prices = [10,2,3,4], profits = [100,2,7,10]))
-    # print(Solution().maxProfit(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
-    # print(Solution().maxProfit(prices = [4,3,2,1], profits = [33,20,19,87]))
+    print(Solution().maxProfit(prices = [10,2,3,4], profits = [100,2,7,10]))
+    print(Solution().maxProfit(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
+    print(Solution().maxProfit(prices = [4,3,2,1], profits = [33,20,19,87]))
 
-    # print(Solution().maxProfit3(prices = [10,2,3,4], profits = [100,2,7,10]))
-    # print(Solution().maxProfit3(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
-    # print(Solution().maxProfit3(prices = [4,3,2,1], profits = [33,20,19,87]))
+    print(Solution().maxProfit3(prices = [10,2,3,4], profits = [100,2,7,10]))
+    print(Solution().maxProfit3(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
+    print(Solution().maxProfit3(prices = [4,3,2,1], profits = [33,20,19,87]))
     prices = [15, 18, 12, 49, 21, 100, 76, 62, 6, 92]
     profits = [23, 98, 68, 16, 71, 82, 59, 64, 41, 9]
     print(Solution().maxProfit2(prices=prices, profits=profits))
     print(Solution().maxProfit3(prices=prices, profits=profits))
-    # N = 10
-    # M = 100
-    # prices, profits = [], []
-    # for _ in range(N):
-    #     prices.append(randint(1, M))
-    #     profits.append(randint(1, M))
-    # s1 = Solution().maxProfit2(prices=prices, profits=profits)    
-    # s2 = Solution().maxProfit3(prices=prices, profits=profits)   
-    # if s1 != s2:
-    #     print(s1, s2)
-    #     print(prices)
-    #     print(profits)
+    prices  =  [36, 74, 41, 39, 8, 84, 75, 75, 96, 28]
+    profits =  [61, 65, 76, 65, 71, 82, 85, 4, 84, 6]
+    print(Solution().maxProfit2(prices=prices, profits=profits))
+    print(Solution().maxProfit3(prices=prices, profits=profits))
+
+
+    N = 10**4
+    M = 10**4
+    prices, profits = [], []
+    for _ in range(N):
+        prices.append(randint(1, M))
+        profits.append(randint(1, M))
+    s1 = Solution().maxProfit3(prices=prices, profits=profits)    
+    print(s1)
+    s2 = Solution().maxProfit2(prices=prices, profits=profits)   
+    print(s2)
+    if s1 != s2:
+        print(s1, s2)
+        print(prices)
+        print(profits)
