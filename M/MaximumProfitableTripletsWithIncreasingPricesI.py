@@ -87,7 +87,9 @@ class Solution:
         leftMax, rightMax = [-1]*n, [-1]*n
 
         bit = [0]*(n+1)
+        mark = [False]*(n+1)
         def update(i, x):
+            mark[i-1] = True
             while i <= n:
                 bit[i] = max(bit[i], x)
                 i += i & (-i)
@@ -99,8 +101,13 @@ class Solution:
             return t
         
         arr = sorted(prices)
+        # print(arr)
         for j in range(n):
             idx = bisect.bisect_left(arr, prices[j])
+            # idx1 = idx
+            if mark[idx]:
+                idx -= 1
+            # print(j, prices[j], idx, idx1)
             leftMax[j] = query(idx+1)            
             update(idx+1, profits[j])            
         # print(leftMax)
@@ -108,8 +115,11 @@ class Solution:
         bit = [0]*(n+1)
         arr = sorted([-p for p in prices])
         # print(arr)   
+        mark = [False]*(n+1)
         for j in range(n-1, -1, -1):
             idx = bisect.bisect_left(arr, -prices[j])
+            if mark[idx]:
+                idx -= 1
             rightMax[j] = query(idx+1)            
             update(idx+1, profits[j])
 
@@ -117,26 +127,26 @@ class Solution:
         for i in range(n):
             x = profits[i]
             left, right = leftMax[i], rightMax[i]
-            if left != -1 and right != 0:
+            if left != 0 and right != 0:
                 ans = max(ans, left + x + right)
         return ans   
 
 
 from random import randint
 if __name__ == "__main__":
-    print(Solution().maxProfit(prices = [10,2,3,4], profits = [100,2,7,10]))
-    print(Solution().maxProfit(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
-    print(Solution().maxProfit(prices = [4,3,2,1], profits = [33,20,19,87]))
+    # print(Solution().maxProfit(prices = [10,2,3,4], profits = [100,2,7,10]))
+    # print(Solution().maxProfit(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
+    # print(Solution().maxProfit(prices = [4,3,2,1], profits = [33,20,19,87]))
 
-    print(Solution().maxProfit3(prices = [10,2,3,4], profits = [100,2,7,10]))
-    print(Solution().maxProfit3(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
-    print(Solution().maxProfit3(prices = [4,3,2,1], profits = [33,20,19,87]))
-    prices = [15, 18, 12, 49, 21, 100, 76, 62, 6, 92]
-    profits = [23, 98, 68, 16, 71, 82, 59, 64, 41, 9]
-    print(Solution().maxProfit2(prices=prices, profits=profits))
-    print(Solution().maxProfit3(prices=prices, profits=profits))
+    # print(Solution().maxProfit3(prices = [10,2,3,4], profits = [100,2,7,10]))
+    # print(Solution().maxProfit3(prices = [1,2,3,4,5], profits = [1,5,3,4,6]))
+    # print(Solution().maxProfit3(prices = [4,3,2,1], profits = [33,20,19,87]))
+    # prices = [15, 18, 62, 49, 21, 100, 76, 62, 6, 92]
+    # profits = [23, 98, 68, 16, 71, 82, 59, 64, 41, 9]
+    # print(Solution().maxProfit2(prices=prices, profits=profits))
+    # print(Solution().maxProfit3(prices=prices, profits=profits))
     prices  =  [36, 74, 41, 39, 8, 84, 75, 75, 96, 28]
-    profits =  [61, 65, 76, 65, 71, 82, 85, 4, 84, 6]
+    profits =  [61, 65, 76, 65, 71, 82, 85, 94, 84, 6]
     print(Solution().maxProfit2(prices=prices, profits=profits))
     print(Solution().maxProfit3(prices=prices, profits=profits))
 
