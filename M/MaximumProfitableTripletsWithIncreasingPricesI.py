@@ -87,9 +87,7 @@ class Solution:
         leftMax, rightMax = [-1]*n, [-1]*n
 
         bit = [0]*(n+1)
-        mark = [False]*(n+1)
         def update(i, x):
-            mark[i-1] = True
             while i <= n:
                 bit[i] = max(bit[i], x)
                 i += i & (-i)
@@ -101,34 +99,55 @@ class Solution:
             return t
         
         arr = sorted(prices)
-        # print(arr)
+        #print(arr)
+        mp = {}
+        for i,a in enumerate(arr):
+           if a not in mp:
+              mp[a] = i
         for j in range(n):
-            idx = bisect.bisect_left(arr, prices[j])
-            # idx1 = idx
-            if mark[idx]:
-                idx -= 1
-            # print(j, prices[j], idx, idx1)
-            leftMax[j] = query(idx+1)            
-            update(idx+1, profits[j])            
-        # print(leftMax)
+            #idx = bisect.bisect_left(arr, prices[j])
+            idx = mp[prices[j]]
+            #idx1 = idx
+            # if mark[idx]:
+            idx -= 1
+            if idx == -1:
+                leftMax[j] = 0
+                #idx = 0
+            else:
+                leftMax[j] = query(idx+1)
+         #   print(j, prices[j], idx, idx1, leftMax[j])
+            update(idx+2, profits[j])
+        #print(leftMax)
 
+        
         bit = [0]*(n+1)
         arr = sorted([-p for p in prices])
-        # print(arr)   
-        mark = [False]*(n+1)
+        mp = {}
+        for i,a in enumerate(arr):
+           if a not in mp:
+              mp[a] = i
+        #print(arr)
         for j in range(n-1, -1, -1):
-            idx = bisect.bisect_left(arr, -prices[j])
-            if mark[idx]:
-                idx -= 1
-            rightMax[j] = query(idx+1)            
-            update(idx+1, profits[j])
+            #idx = bisect.bisect_left(arr, -prices[j])
+            idx = mp[-prices[j]]
+          #  idx1 = idx
+            idx -= 1
+            if idx == -1:
+                rightMax[j] = 0
+                #idx = 0
+            else:
+                rightMax[j] = query(idx+1)
+         #   print(j, prices[j], idx, idx1, rightMax[j])
+            update(idx+2, profits[j])
 
-        # print(rightMax)
+        #print(rightMax)
+
         for i in range(n):
             x = profits[i]
             left, right = leftMax[i], rightMax[i]
             if left != 0 and right != 0:
                 ans = max(ans, left + x + right)
+            # print(ans, x, left, right)    
         return ans   
 
 
@@ -145,23 +164,42 @@ if __name__ == "__main__":
     # profits = [23, 98, 68, 16, 71, 82, 59, 64, 41, 9]
     # print(Solution().maxProfit2(prices=prices, profits=profits))
     # print(Solution().maxProfit3(prices=prices, profits=profits))
-    prices  =  [36, 74, 41, 39, 8, 84, 75, 75, 96, 28]
-    profits =  [61, 65, 76, 65, 71, 82, 85, 94, 84, 6]
+    # prices  =  [36, 74, 41, 39, 8, 84, 75, 75, 96, 28]
+    # profits =  [61, 65, 76, 65, 71, 82, 85, 94, 84, 6]
+    # print(Solution().maxProfit2(prices=prices, profits=profits))
+    # print(Solution().maxProfit3(prices=prices, profits=profits))
+
+    # prices  =  [8, 74, 41, 39, 8, 84, 75, 75, 96, 28]
+    # profits =  [61, 65, 76, 65, 71, 82, 85, 94, 84, 6]
+    # print(Solution().maxProfit2(prices=prices, profits=profits))
+    # print(Solution().maxProfit3(prices=prices, profits=profits))
+
+    prices  = [13, 9,   6, 2, 15, 5, 13, 4, 15, 17, 15, 11,  7, 13, 15, 17, 6, 1,  3, 1]
+    profits = [19, 17, 17, 3, 20, 4, 19, 5, 11, 16, 19,  7, 14, 13,  3,  7, 9, 5, 19, 5]
+    print(Solution().maxProfit2(prices=prices, profits=profits))
+    print(Solution().maxProfit3(prices=prices, profits=profits))
+    prices =  [13, 16, 10, 11,  1, 17, 17, 16, 3, 16, 10,  5, 13,  5, 5, 18, 9, 14,  6, 6]
+    profits = [19, 13,  1,  1, 14,  9,  3,  3, 2,  9,  9, 18,  7, 12, 8,  3, 9, 15, 16, 5]
+    print(Solution().maxProfit2(prices=prices, profits=profits))
+    print(Solution().maxProfit3(prices=prices, profits=profits))
+    prices = [8, 1, 6, 12, 15, 3, 15, 17, 16, 12, 7, 6, 10, 6, 7, 15, 8, 13, 8, 18]
+    profits = [6, 4, 19, 14, 7, 8, 7, 19, 15, 3, 12, 6, 8, 19, 4, 16, 13, 13, 14, 19]
     print(Solution().maxProfit2(prices=prices, profits=profits))
     print(Solution().maxProfit3(prices=prices, profits=profits))
 
-
-    N = 10**4
-    M = 10**4
-    prices, profits = [], []
-    for _ in range(N):
+    for _ in range(100):
+      N = 20000
+      M = 20000
+      prices, profits = [], []
+      for _ in range(N):
         prices.append(randint(1, M))
         profits.append(randint(1, M))
-    s1 = Solution().maxProfit3(prices=prices, profits=profits)    
-    print(s1)
-    s2 = Solution().maxProfit2(prices=prices, profits=profits)   
-    print(s2)
-    if s1 != s2:
-        print(s1, s2)
-        print(prices)
-        print(profits)
+      s1 = Solution().maxProfit3(prices=prices, profits=profits)
+      print(s1)
+    #   s2 = Solution().maxProfit2(prices=prices, profits=profits)
+    #   print(s2)
+    #   if s1 != s2:
+    #     print(prices)
+    #     print(profits)
+
+   
