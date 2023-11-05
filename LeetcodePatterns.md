@@ -35,6 +35,12 @@
 
     - [2407. Longest Increasing Subsequence II](https://leetcode.com/problems/longest-increasing-subsequence-ii/)   
 
+- Fenwick Tree
+  
+  - Similar idea to above segment tree. Given some items or tasks in an array, you go through them one by one following the given order. When at *i*-th item, you need to find a max/min/sum over a certain range [x, y], typically [0, y]. Fenwick tree is especially useful in this **point update, range query** case. Initialize a Fenwick tree; within the i-loop, query the range and get the results and then do an update using the information obtained so far. See 
+    - [2926. Maximum Balanced Subsequence Sum](https://leetcode.com/problems/maximum-balanced-subsequence-sum/) 
+        
+
 &nbsp;<br>
 - Subarray Bitwise Product
   
