@@ -62,6 +62,27 @@ from typing import List
 
 class Solution:
     def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
+        n = len(nums1)
+        ans1, ans2 = 0, 1
+        for i in range(n-1):
+            if nums1[i] <= nums1[-1] and nums2[i] <= nums2[-1]:
+                continue
+            elif nums1[i] <= nums2[-1] and nums2[i] <= nums1[-1]:
+                ans1 += 1
+            else:
+                return -1
+        nums1[-1], nums2[-1] =  nums2[-1], nums1[-1]           
+        for i in range(n-1):
+            if nums1[i] <= nums1[-1] and nums2[i] <= nums2[-1]:
+                continue
+            elif nums1[i] <= nums2[-1] and nums2[i] <= nums1[-1]:
+                ans2 += 1
+            else:
+                return -1
+        return min(ans1, ans2)
+               
+
+
 
 
 if __name__ == "__main__":
