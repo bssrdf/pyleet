@@ -87,8 +87,47 @@ class Solution:
             st.append((a[i],i))
         return res
 
+    def leftmostBuildingQueries2(self, heights: List[int], queries: List[List[int]]) -> List[int]:
+        n, m = len(heights), len(queries)
+        a, q = heights, queries
+        st = []
+        res = [-1]*m
+        # rearrange the query, sort by right boarder
+        q = [(q[i][0],q[i][1],i) for i in range(len(q))]
+        q.sort(key=lambda x: max(x[0],x[1]))
+        for i in range(n-1,-1,-1):
+            # process the query with i as the right boarder 
+            while q and max(q[-1][1],q[-1][0])==i:
+                x, y, pos = q.pop()
+                if x > y: x, y = y, x
+                if x == y or a[x] < a[y]: 
+                    res[pos] = y; continue
+                #from here a[x] >= a[y]    
+                lo, hi = 0, len(st)
+                while lo < hi:
+                    md = (lo + hi) // 2
+                    if st[md][0] > a[x]: 
+                        lo = md + 1
+                    else: 
+                        hi = md
+                if lo == 0: continue         
+                res[pos] = st[lo-1][1]
+            # maintain the monotonic stack
+            while st and st[-1][0] <= a[i]:
+                st.pop()
+                # else: break
+            st.append((a[i],i))
+        return res
+    
+
 
 if __name__ == "__main__":
-    # print(Solution().leftmostBuildingQueries(heights = [6,4,8,5,2,7], queries = [[0,1],[0,3],[2,4],[3,4],[2,2]]))   
-    # print(Solution().leftmostBuildingQueries(heights = [5,3,8,2,6,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]]))     
+    print(Solution().leftmostBuildingQueries(heights = [6,4,8,5,2,7], queries = [[0,1],[0,3],[2,4],[3,4],[2,2]]))   
+    print(Solution().leftmostBuildingQueries(heights = [5,3,8,2,6,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]])) 
+    print(Solution().leftmostBuildingQueries(heights = [5,3,8,2,6,4,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]]))     
     print(Solution().leftmostBuildingQueries(heights = [3,4,1,2], queries=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]))
+
+    print(Solution().leftmostBuildingQueries2(heights = [6,4,8,5,2,7], queries = [[0,1],[0,3],[2,4],[3,4],[2,2]]))   
+    print(Solution().leftmostBuildingQueries2(heights = [5,3,8,2,6,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]]))
+    print(Solution().leftmostBuildingQueries(heights = [5,3,8,2,6,4,1,4,6], queries = [[0,7],[3,5],[5,2],[3,0],[1,6]]))      
+    print(Solution().leftmostBuildingQueries2(heights = [3,4,1,2], queries=[[0,0],[0,1],[0,2],[0,3],[1,0],[1,1],[1,2],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,1],[3,2],[3,3]]))

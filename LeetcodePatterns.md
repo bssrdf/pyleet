@@ -89,6 +89,11 @@
     $\%k$ value; or they are multiples of $k$ ($0*k, 1*k, 2*k, ....$) apart. See [2638. Count the Number of K-Free Subsets](https://github.com/doocs/leetcode/blob/main/solution/2600-2699/2638.Count%20the%20Number%20of%20K-Free%20Subsets/README.md) 
 
 
+&nbsp;<br>
+- Binary Search in a Monotonic Stack
+
+  - Some problems require finding the next greater/smaller element over a given range. Often the inquiries come in order, e.g., from greatest to smallest in a sorted order. The inquiries can be done using binary search over a maintained monotonic stack. Starting from the end/start of the array, build a monotonically ascending/decending stack. At the current index, before adding the current element (its value and index) to the stack, binary search the current stack to find the index of the element which is just bigger/smaller than the current element, update the answer, and finally add the current element into the stack, and move on to the next index.  See [2940. Find Building Where Alice and Bob Can Meet](https://leetcode.com/problems/find-building-where-alice-and-bob-can-meet/submissions/)
+
 
 
 
