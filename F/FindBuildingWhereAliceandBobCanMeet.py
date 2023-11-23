@@ -115,7 +115,6 @@ class Solution:
             # maintain the monotonic stack
             while st and st[-1][0] <= a[i]:
                 st.pop()
-                # else: break
             st.append((a[i],i))
         return res
     
