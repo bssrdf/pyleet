@@ -37,7 +37,7 @@ n == nums.length
 
 from typing import List
 
-from math import gcd
+from math import gcd, log
 from itertools import accumulate
 
 class Solution:
@@ -46,6 +46,11 @@ class Solution:
         f = []
         ans = 0
         l = 0
+        # for fixed index i, the value of GCD(i, j) will be decreasing 
+        # as GCD(i, j) >= GCD(i, j + 1). Also, because GCD(i, j + 1) must 
+        # be equal or divisor of GCD(i, j), the number of distinct value X 
+        # of GCD(i, j), GCD(i, j + 1), ..., GCD(i, N) will satisfies 2^X <= A[i].
+        # or X <= log2(A[i])
         for i, v in enumerate(nums):
             g = []
             for j, x in f:
@@ -62,6 +67,7 @@ class Solution:
                 if i - j + 1 >= k:
                     ans = max(ans, (s[i + 1] - s[j]) * x)
         print('max len of f', l,f )            
+        print('k, max(A), idx(max(A)), log2(max(A)', k, max(nums), nums.index(max(nums)), log(max(nums),2))        
         return ans
 
 from random import randint
@@ -72,5 +78,7 @@ if __name__ == "__main__":
     nums = [randint(1, M) for i in range(N)]
     k = randint(1, N)
     print('k= ', k)
+    nums= [99987]+nums
+    k = N
     print(Solution().maxGcdSum(nums = nums, k = k))
 

@@ -15,6 +15,13 @@ def gcd(a, b):
 
 lcm(a, b) = a * b / gcd(a, b)
 
+## Properties of GCD of all numbers starting from A[i] until A[N]
+    for fixed index i, the value of GCD(i, j) will be decreasing 
+    as GCD(i, j) >= GCD(i, j + 1). Also, because GCD(i, j + 1) must 
+    be equal or divisor of GCD(i, j), the number of distinct value X 
+    of GCD(i, j), GCD(i, j + 1), ..., GCD(i, N) will satisfies 2^X <= A[i].
+    or X <= log2(A[i])
+
 
 ## Test whether a number is prime
 
