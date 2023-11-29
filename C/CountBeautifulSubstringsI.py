@@ -67,5 +67,13 @@ class Solution:
                     x += 1
                 y = cnt - x
                 if  x == y and (x*y) % k == 0:
+                    print(s[i:j+1])
                     ans += 1
         return ans
+
+
+if __name__ == "__main__":
+    # print(Solution().beautifulSubstrings(s = "baeyh", k = 2))
+    # print(Solution().beautifulSubstrings(s = "abba", k = 1))
+    # print(Solution().beautifulSubstrings(s = "bcdf", k = 1))
+    print(Solution().beautifulSubstrings(s = "eeebjoxxujuaeoqibd", k = 8))
