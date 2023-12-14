@@ -56,7 +56,6 @@ class Solution:
             if len(cnt[nums[i]]) > k:
                j = max(j, cnt[nums[i]].popleft() + 1)
             ans = max(ans, i-j+1)
-            print(i, j, cnt, ans)
         return ans     
 
             

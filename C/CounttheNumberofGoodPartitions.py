@@ -54,25 +54,17 @@ class Solution:
         for i in range(n-1, -1, -1):
             if nums[i] not in right:
                 right[nums[i]] = i 
-        m = 0
-        i = 0
-        ans = 1
+        m, i = 0, 0
         while i < n:
-            if left[nums[i]] == right[nums[i]]:
-                i += 1
-            else:
+            if left[nums[i]] != right[nums[i]]:
                 j = right[nums[i]]
                 while i < j:
                     if right[nums[i]] > j:
                         j = right[nums[i]]
                     i += 1    
-                i +=1        
-            m += 1
-        # print('parts = ', m)   
-        
-        for i in range(m-1):
-            ans = (ans*2) % MOD 
-        return ans
+            i += 1        
+            m += 1        
+        return pow(2, m-1, MOD)    
  
  
 
