@@ -47,74 +47,91 @@ class Solution:
         m = len(nums1)//2
         t1 = 0
         # while t1 < m:
-            for c in cnt1:
-                if cnt1[c] > 1:
-                    k = cnt1[c] - 1
-                    t1 += min(k, m-t1)
-                    cnt1[c] = 1
-                if t1 == m:
-                    break
+        cnt1c = dict(cnt1)
+        for c in cnt1:
+            if cnt1[c] > 1:
+                k = cnt1[c] - 1
+                d = min(k, m-t1)
+                t1 += d
+                cnt1c[c] = cnt1[c] - d
+            if t1 == m:
+                break
+        cnt1 = cnt1c    
         t2 = 0
-        while t2 < m:
-            for c in cnt2:
-                if cnt2[c] > 1:
-                    k = cnt2[c] - 1
-                    t2 += min(k, m-t2)
-                    cnt2[c] = 1
-                if t2 == m:
-                    break
+        # while t2 < m:
+        cnt2c = dict(cnt2)
+        for c in cnt2:
+            if cnt2[c] > 1:
+                k = cnt2[c] - 1
+                d = min(k, m-t2)
+                t2 += d
+                cnt2c[c] -= cnt2[c] - d
+            if t2 == m:
+                break
+        cnt2 = cnt2c    
+        print(cnt1)
+        print(cnt2)
         if t1 == m and t2 == m:
             return len(cnt1 | cnt2)
         elif t1 == m:
-            while t2 < m:
-                for c in cnt2:
-                    if c in cnt1:                    
-                        t2 += cnt2[c]
-                        cnt2.pop(c)
-                    if t2 == m:
-                        break
+            # while t2 < m:
+            cnt2c = Counter()
+            for c in cnt2:
+                if c in cnt1:                    
+                    t2 += cnt2[c]
+                    # cnt2.pop(c)
+                else:
+                    cnt2c[c] = cnt2[c]    
+                if t2 == m:
+                    break
+            cnt2 = cnt2c    
             if t2 == m:
                 return len(cnt1 | cnt2)
-            while t2 < m:
-                for c in cnt2:
-                    t2 += cnt2[c]
-                    cnt2.pop(c)
-                    if t2 == m:
-                        break
+            cnt2c = dict(cnt2)
+            for c in cnt2:
+                t2 += cnt2[c]
+                cnt2c.pop(c)
+                if t2 == m:
+                    break
+            cnt2 = cnt2c    
             return len(cnt1 | cnt2) 
         elif t2 == m:
-            while t1 < m:
-                for c in cnt1:
-                    if c in cnt2:                    
-                        t2 += cnt1[c]
-                        cnt1.pop(c)
-                    if t1 == m:
-                        break
+            cnt1c = dict(cnt1)
+            for c in cnt1:
+                if c in cnt2:                    
+                    t1 += cnt1[c]
+                    cnt1c.pop(c)
+                if t1 == m:
+                    break
+            cnt1 = cnt1c    
             if t1 == m:
                 return len(cnt1 | cnt2)
-            while t1 < m:
-                for c in cnt1:
-                    t2 += cnt1[c]
-                    cnt1.pop(c)
-                    if t1 == m:
-                        break
+            cnt1c= dict(cnt1)
+            for c in cnt1:
+                t1 += cnt1[c]
+                cnt1c.pop(c)
+                if t1 == m:
+                    break
+            cnt1 = cnt1c    
             return len(cnt1 | cnt2) 
         else:
-            while t1 < m:
-                for c in cnt1:
-                    if c in cnt2:                    
-                        t2 += cnt1[c]
-                        cnt1.pop(c)
-                    if t1 == m:
-                        break
-            while t2 < m:
-                for c in cnt2:
-                    if c in cnt1:                    
-                        t2 += cnt2[c]
-                        cnt2.pop(c)
-                    if t2 == m:
-                        break
+            cnt1c = dict(cnt1)
+            for c in cnt1:
+                if c in cnt2:                    
+                    t1 += cnt1[c]
+                    cnt1c.pop(c)
+                if t1 == m:
+                    break
+            cnt1 = cnt1c    
+            cnt2c = dict(cnt2)
+            for c in cnt2:
+                if c in cnt1:                    
+                    t2 += cnt2[c]
+                    cnt2c.pop(c)
+                if t2 == m:
+                    break
             # if t1 == m and t2 == m:
+            cnt2 = cnt2c
             return len(cnt1 | cnt2)
 
 
