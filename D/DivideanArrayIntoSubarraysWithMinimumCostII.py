@@ -55,7 +55,7 @@ class Solution:
         B.sort()
         mp = {}
         for i in range(n):
-            mp[i] = B[i][1]
+            mp[B[i][1]] = i 
         bits = [0]*(n+1)
         cnts = [0]*(n+1)
         def update(arr, i, x):
@@ -84,9 +84,8 @@ class Solution:
                 else:
                     r = mid 
             return l-1
-        idx = find()
-        ans = A[0] + query(bits, idx)
-        for i in range(2, n-k+1):
+        ans = A[0] + query(bits, find())
+        for i in range(2, n-dist):
             update(bits, mp[i-1]+1, -A[i-1])
             update(cnts, mp[i-1]+1, -1)
             update(bits, mp[i+dist]+1, A[i+dist])
@@ -97,3 +96,6 @@ class Solution:
 
 if __name__ == "__main__":      
     print(Solution().minimumCost(nums = [1,3,2,6,4,2], k = 3, dist = 3))
+    print(Solution().minimumCost(nums = [10,1,2,2,2,1], k = 4, dist = 3))
+    print(Solution().minimumCost(nums = [10,8,18,9], k = 3, dist = 1))
+    print(Solution().minimumCost(nums = [2,6,3,5], k = 3, dist = 1))

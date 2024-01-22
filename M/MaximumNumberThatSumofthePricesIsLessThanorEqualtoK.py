@@ -46,6 +46,12 @@ Constraints:
 
 class Solution:
     def findMaximumNumber(self, k: int, x: int) -> int:
+        n = 1
+        while n//x*(1<<(n-1)) < k:
+            n += 1
+        print(n)
+        return 0     
 
 if __name__ == "__main__":
     print(Solution().findMaximumNumber(k = 7, x = 2))
+    print(Solution().findMaximumNumber(k = 10**14, x = 5))
