@@ -46,11 +46,39 @@ Constraints:
 
 class Solution:
     def findMaximumNumber(self, k: int, x: int) -> int:
-        n = 1
-        while n//x*(1<<(n-1)) < k:
-            n += 1
-        print(n)
-        return 0     
+        def countBits(n):
+            count = 0
+            while n:
+                count += 1
+                n = (n >> 1)
+            return count
+        def calc(n, x): 
+             
+            # get the leftmost bit
+            i = countBits(n);        
+            price = 0         
+
+            # increment n to account 0th row in the count of groups
+            n += 1                
+            while i: 
+                # if current column is valid, calculate the number of 1s in the column
+                if i % x == 0:
+                    price += (n // (1<<i)) * ( 1<<(i - 1)) + max(0, n % (1<<i) - (1<<(i - 1)));
+                
+                # move to the next column           
+                i -= 1
+
+            return price
+        
+        l, r = 1, 10**15
+        while l < r:
+            mid = l + (r-l)//2
+            res = calc(mid, x)
+            if res > k:
+                r = mid
+            else:
+                l = mid + 1
+        return l - 1
 
 if __name__ == "__main__":
     print(Solution().findMaximumNumber(k = 7, x = 2))
